@@ -6,11 +6,12 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="utopia" />
         <module name="Utopia" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="GameEngineV3" target="17" />
+      <module name="utopia" target="17" />
       <module name="Utopia" target="17" />
     </bytecodeTargetLevel>
   </component>
