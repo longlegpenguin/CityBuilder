@@ -39,5 +39,4 @@ public class Coordinate {
         return Objects.hash(x, y);
     }
 
-
 }

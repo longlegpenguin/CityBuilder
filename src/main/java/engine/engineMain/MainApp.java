@@ -10,8 +10,6 @@ public class MainApp {
         while(!glfwWindowShouldClose(DisplayManager.window)) {
             DisplayManager.updateDisplay();
         }
-        System.out.println("Hello, merge");
-        DisplayManager.closeDisplay();;
-
+        DisplayManager.closeDisplay();
     }
 }
