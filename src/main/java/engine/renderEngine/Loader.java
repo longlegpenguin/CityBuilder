@@ -82,6 +82,9 @@ public class Loader {
         for (int vbo: vbos) {
             GL15.glDeleteBuffers(vbo);
         }
+        for (int texture: textures) {
+            GL11.glDeleteTextures(texture);
+        }
     }
 
     /**
