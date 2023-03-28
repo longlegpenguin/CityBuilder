@@ -23,17 +23,18 @@ public class MainApp {
         };
 
         int[] indices = {
-                0,1,3,
-                3,1,2
+                0,1,3,3,1,2
         };
         RawModel model = loader.loadToVAO(vertices,indices);
 
         while(!glfwWindowShouldClose(DisplayManager.window)) {
             GL11.glClearColor(1,0,0,1);
             GL11.glClear(GL11.GL_COLOR_BUFFER_BIT);
+
             GL30.glBindVertexArray(model.getVaoID());
             GL20.glEnableVertexAttribArray(0);
-            GL11.glDrawArrays(GL11.GL_TRIANGLES,0,model.getVertexCount());
+
+            GL11.glDrawElements(GL11.GL_TRIANGLES,model.getVertexCount(),GL11.GL_UNSIGNED_INT,0);
             GL20.glDisableVertexAttribArray(0);
             DisplayManager.updateDisplay();
 
