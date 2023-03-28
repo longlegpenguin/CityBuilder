@@ -1,5 +1,6 @@
 package engine.renderEngine;
 
+import engine.textures.Texture;
 import org.lwjgl.BufferUtils;
 import engine.models.RawModel;
 import org.lwjgl.opengl.GL11;
@@ -15,6 +16,7 @@ import java.util.List;
 public class Loader {
     private List<Integer> vaos = new ArrayList<Integer>();
     private List<Integer> vbos = new ArrayList<Integer>();
+    private List<Integer> textures = new ArrayList<Integer>();
     /**
      * Method used to return RawModel of 3D Object
      * Creates a VAO and then:
@@ -30,12 +32,27 @@ public class Loader {
              * @return the loaded model
      */
 
-    public RawModel loadToVAO(float[] positions, int[] indices) {
+    public RawModel loadToVAO(float[] positions,float[] textureCoords ,int[] indices) {
         int vaoID = createVAO();
         bindIndicesBuffer(indices);
         storeDataInAttributeList(0,3, positions);
+        storeDataInAttributeList(1, 2, textureCoords);
         unbindVAO();
         return new RawModel(vaoID, indices.length);
+    }
+
+    /**
+     * Creates a Texture Object using the input filename of the png texture
+     *
+     * @param fileName  - Name of the file which contains the texture of an object
+     * @return ID of the loaded texture
+     */
+    public int loadTexture(String fileName) {
+        Texture texture = Texture.loadTexture("src/main/resources/textures/" + fileName + ".png");
+
+        int textureID = texture.getTextureID();
+        textures.add(textureID);
+        return textureID;
     }
 
 
@@ -64,6 +81,9 @@ public class Loader {
         }
         for (int vbo: vbos) {
             GL15.glDeleteBuffers(vbo);
+        }
+        for (int texture: textures) {
+            GL11.glDeleteTextures(texture);
         }
     }
 
