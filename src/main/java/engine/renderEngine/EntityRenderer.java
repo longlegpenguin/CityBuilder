@@ -1,14 +1,19 @@
 package engine.renderEngine;
 
 import engine.models.RawModel;
+import engine.shaders.EntityShader;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL20;
 import org.lwjgl.opengl.GL30;
 
 public class EntityRenderer {
 
-    public EntityRenderer() {
+    private EntityShader shader;
 
+    public EntityRenderer(EntityShader shader) {
+        this.shader = shader;
+        shader.start();
+        shader.stop();
     }
 
     public void render(RawModel model) {

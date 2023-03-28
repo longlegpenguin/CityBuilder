@@ -1,6 +1,7 @@
 package engine.renderEngine;
 
 import engine.models.RawModel;
+import engine.shaders.EntityShader;
 import org.lwjgl.opengl.GL11;
 
 public class MasterRenderer {
@@ -10,16 +11,20 @@ public class MasterRenderer {
     private static final float BLUE = 0f;
 
     private EntityRenderer entityRenderer;
+    private EntityShader entityShader = new EntityShader();
 
     public MasterRenderer() {
         GL11.glEnable(GL11.GL_CULL_FACE);
         GL11.glCullFace(GL11.GL_BACK);
-        entityRenderer = new EntityRenderer();
+        entityRenderer = new EntityRenderer(entityShader);
     }
 
     public void render(RawModel model) {
         prepare();
+        entityShader.start();
+
         entityRenderer.render(model);
+        entityShader.stop();
     }
 
     public void prepare() {

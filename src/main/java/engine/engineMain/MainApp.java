@@ -4,9 +4,6 @@ import engine.display.DisplayManager;
 import engine.models.RawModel;
 import engine.renderEngine.Loader;
 import engine.renderEngine.MasterRenderer;
-import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL20;
-import org.lwjgl.opengl.GL30;
 
 import static org.lwjgl.glfw.GLFW.glfwWindowShouldClose;
 
@@ -14,6 +11,13 @@ public class MainApp {
 
     public static void main(String[] args) {
         DisplayManager.createDisplay();
+        Loader loader = new Loader();
+
+        float[] vertices = {
+                -0.5f, 0.5f, 0f,
+                -0.5f, -0.5f,0f,
+                0.5f, -0.5f, 0f,
+                0.5f, 0.5f, 0f
 
 
 
