@@ -1,20 +1,35 @@
 package engine.entities;
 
+import engine.models.TexturedModel;
 import org.joml.Vector3f;
 
 public class Entity {
-
+    private TexturedModel model;
     private Vector3f position;
 
     private float rotX, rotY, rotZ;
     private float scale;
 
-    public Entity(Vector3f position, float rotX, float rotY, float rotZ, float scale) {
+    public Entity(TexturedModel model, Vector3f position, float rotX, float rotY, float rotZ, float scale) {
+        this.model = model;
         this.position = position;
         this.rotX = rotX;
         this.rotY = rotY;
         this.rotZ = rotZ;
         this.scale = scale;
+    }
+    public Entity(Vector3f position) {
+        this.position = position;
+        this.rotX = 0;
+        this.rotY = 0;
+        this.rotZ = 0;
+    }
+    public TexturedModel getModel() {
+        return model;
+    }
+
+    public void setModel(TexturedModel model) {
+        this.model = model;
     }
 
     public Vector3f getPosition() {
