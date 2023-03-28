@@ -85,6 +85,7 @@ public class Loader {
         buffer.put(data);
         buffer.flip();
         return buffer;
+
     }
 
 
@@ -151,5 +152,6 @@ public class Loader {
         GL15.glBindBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER, vboID);
         IntBuffer buffer = storeDataInIntBuffer(indices);
         GL15.glBufferData(GL15.GL_ELEMENT_ARRAY_BUFFER, buffer, GL15.GL_STATIC_DRAW);
+
     }
 }
