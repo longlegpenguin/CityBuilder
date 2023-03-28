@@ -1,7 +1,7 @@
-package engine.engineMain.renderEngine;
+package engine.renderEngine;
 
 import org.lwjgl.BufferUtils;
-import engine.engineMain.models.RawModel;
+import engine.models.RawModel;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL15;
 import org.lwjgl.opengl.GL20;

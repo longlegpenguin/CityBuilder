@@ -1,4 +1,4 @@
-package engine.engineMain.models;
+package engine.models;
 
 public class RawModel {
     private int vaoID;

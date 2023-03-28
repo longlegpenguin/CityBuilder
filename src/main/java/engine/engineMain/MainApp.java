@@ -1,8 +1,8 @@
 package engine.engineMain;
 
 import engine.display.DisplayManager;
-import engine.engineMain.models.RawModel;
-import engine.engineMain.renderEngine.Loader;
+import engine.models.RawModel;
+import engine.renderEngine.Loader;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL20;
 import org.lwjgl.opengl.GL30;
