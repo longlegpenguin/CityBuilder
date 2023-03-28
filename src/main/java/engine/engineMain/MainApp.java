@@ -14,19 +14,8 @@ public class MainApp {
 
     public static void main(String[] args) {
         DisplayManager.createDisplay();
-        Loader loader = new Loader();
-        float[] vertices = {
-                -0.5f, 0.5f, 0f,
-                -0.5f, -0.5f,0f,
-                0.5f, -0.5f, 0f,
-                0.5f, 0.5f, 0f
 
-        };
 
-        int[] indices = {
-                0,1,3,3,1,2
-        };
-        RawModel model = loader.loadToVAO(vertices,indices);
 
         MasterRenderer renderer = new MasterRenderer();
 
@@ -34,7 +23,7 @@ public class MainApp {
             renderer.render(model);
             DisplayManager.updateDisplay();
         }
-        loader.cleanUp();
+
         DisplayManager.closeDisplay();
     }
 
