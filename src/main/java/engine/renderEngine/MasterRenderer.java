@@ -1,6 +1,7 @@
 package engine.renderEngine;
 
 import engine.models.RawModel;
+import engine.models.TexturedModel;
 import engine.shaders.EntityShader;
 import org.lwjgl.opengl.GL11;
 
@@ -19,11 +20,11 @@ public class MasterRenderer {
         entityRenderer = new EntityRenderer(entityShader);
     }
 
-    public void render(RawModel model) {
+    public void render(TexturedModel texturedModel) {
         prepare();
         entityShader.start();
 
-        entityRenderer.render(model);
+        entityRenderer.render(texturedModel);
         entityShader.stop();
     }
 
