@@ -1,9 +1,12 @@
 package engine.renderEngine;
 
+import engine.entities.Entity;
 import engine.models.RawModel;
 import engine.models.TexturedModel;
 import engine.shaders.EntityShader;
 import engine.textures.TextureAttribute;
+import engine.tools.Maths;
+import org.joml.Matrix4f;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL13;
 import org.lwjgl.opengl.GL20;
@@ -13,15 +16,17 @@ public class EntityRenderer {
 
     private EntityShader shader;
 
-    public EntityRenderer(EntityShader shader) {
+    public EntityRenderer(EntityShader shader, Matrix4f projectionMatrix) {
         this.shader = shader;
         shader.start();
+        shader.loadProjectionMatrix(projectionMatrix);
         shader.stop();
     }
 
-    public void render(TexturedModel texturedModel) {
-        prepareModel(texturedModel);
-        GL11.glDrawElements(GL11.GL_TRIANGLES, texturedModel.getRawModel().getVertexCount(), GL11.GL_UNSIGNED_INT, 0);
+    public void render(Entity entity) {
+        prepareModel(entity.getModel());
+        prepareInstance(entity);
+        GL11.glDrawElements(GL11.GL_TRIANGLES, entity.getModel().getRawModel().getVertexCount(), GL11.GL_UNSIGNED_INT, 0);
         unbindModel();
     }
 
@@ -33,7 +38,7 @@ public class EntityRenderer {
 
         TextureAttribute texture = texturedModel.getTexture();
         GL13.glActiveTexture(GL13.GL_TEXTURE0);
-        GL11.glBindTexture(GL11.GL_TEXTURE_2D, texturedModel.getTexture().getTextureID());
+        GL11.glBindTexture(GL11.GL_TEXTURE_2D, texture.getTextureID());
 
     }
 
@@ -43,4 +48,8 @@ public class EntityRenderer {
         GL30.glBindVertexArray(0);
     }
 
+    private void prepareInstance(Entity entity) {
+        Matrix4f transformationMatrix = Maths.createTransformationMatrix(entity.getPosition(), entity.getRotX(), entity.getRotY(), entity.getRotZ(), entity.getScale());
+        shader.loadTransformationMatrix(transformationMatrix);
+    }
 }
