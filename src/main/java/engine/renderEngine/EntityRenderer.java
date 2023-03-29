@@ -16,9 +16,10 @@ public class EntityRenderer {
 
     private EntityShader shader;
 
-    public EntityRenderer(EntityShader shader) {
+    public EntityRenderer(EntityShader shader, Matrix4f projectionMatrix) {
         this.shader = shader;
         shader.start();
+        shader.loadProjectionMatrix(projectionMatrix);
         shader.stop();
     }
 
@@ -37,7 +38,7 @@ public class EntityRenderer {
 
         TextureAttribute texture = texturedModel.getTexture();
         GL13.glActiveTexture(GL13.GL_TEXTURE0);
-        GL11.glBindTexture(GL11.GL_TEXTURE_2D, texturedModel.getTexture().getTextureID());
+        GL11.glBindTexture(GL11.GL_TEXTURE_2D, texture.getTextureID());
 
     }
 
