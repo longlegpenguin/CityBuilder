@@ -28,7 +28,7 @@ public class MainApp {
 
         float[] textureCoords = {};
 
-        RawModel model = loader.loadToVAO(vertices, textureCoords, indices);
+        RawModel model = loader.loadToVAO(vertices, textureCoords ,indices);
 
         MasterRenderer renderer = new MasterRenderer();
 
