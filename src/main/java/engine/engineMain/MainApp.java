@@ -114,8 +114,9 @@ public class MainApp {
                 23,21,22
 
         };
+        float[] normals ={};
 
-        RawModel model = loader.loadToVAO(vertices, textureCoords, indices);
+        RawModel model = loader.loadToVAO(vertices, textureCoords,normals ,indices);
         TextureAttribute texture = new TextureAttribute(loader.loadTexture("spiral"));
         TexturedModel texturedModel = new TexturedModel(model, texture);
 
