@@ -1,9 +1,12 @@
 package engine.renderEngine;
 
+import engine.entities.Entity;
 import engine.models.RawModel;
 import engine.models.TexturedModel;
 import engine.shaders.EntityShader;
 import engine.textures.TextureAttribute;
+import engine.tools.Maths;
+import org.joml.Matrix4f;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL13;
 import org.lwjgl.opengl.GL20;
@@ -19,9 +22,10 @@ public class EntityRenderer {
         shader.stop();
     }
 
-    public void render(TexturedModel texturedModel) {
-        prepareModel(texturedModel);
-        GL11.glDrawElements(GL11.GL_TRIANGLES, texturedModel.getRawModel().getVertexCount(), GL11.GL_UNSIGNED_INT, 0);
+    public void render(Entity entity) {
+        prepareModel(entity.getModel());
+        prepareInstance(entity);
+        GL11.glDrawElements(GL11.GL_TRIANGLES, entity.getModel().getRawModel().getVertexCount(), GL11.GL_UNSIGNED_INT, 0);
         unbindModel();
     }
 
@@ -43,4 +47,8 @@ public class EntityRenderer {
         GL30.glBindVertexArray(0);
     }
 
+    private void prepareInstance(Entity entity) {
+        Matrix4f transformationMatrix = Maths.createTransformationMatrix(entity.getPosition(), entity.getRotX(), entity.getRotY(), entity.getRotZ(), entity.getScale());
+        shader.loadTransformationMatrix(transformationMatrix);
+    }
 }

@@ -1,5 +1,6 @@
 package engine.renderEngine;
 
+import engine.entities.Entity;
 import engine.models.RawModel;
 import engine.models.TexturedModel;
 import engine.shaders.EntityShader;
@@ -20,11 +21,11 @@ public class MasterRenderer {
         entityRenderer = new EntityRenderer(entityShader);
     }
 
-    public void render(TexturedModel texturedModel) {
+    public void render(Entity entity) {
         prepare();
         entityShader.start();
 
-        entityRenderer.render(texturedModel);
+        entityRenderer.render(entity);
         entityShader.stop();
     }
 
