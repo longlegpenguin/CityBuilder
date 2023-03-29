@@ -5,6 +5,7 @@ import engine.models.RawModel;
 import engine.models.TexturedModel;
 import engine.renderEngine.Loader;
 import engine.renderEngine.MasterRenderer;
+import engine.textures.TextureAttribute;
 
 import static org.lwjgl.glfw.GLFW.glfwWindowShouldClose;
 
@@ -26,14 +27,21 @@ public class MainApp {
                 3,1,2
         };
 
-        float[] textureCoords = {};
+        float[] textureCoords = {
+                0,0,
+                0,1,
+                1,1,
+                1,0
+        };
 
-        RawModel model = loader.loadToVAO(vertices, textureCoords ,indices);
+        RawModel model = loader.loadToVAO(vertices, textureCoords, indices);
+        TextureAttribute texture = new TextureAttribute(loader.loadTexture("spiral"));
+        TexturedModel texturedModel = new TexturedModel(model, texture);
 
         MasterRenderer renderer = new MasterRenderer();
 
         while(!glfwWindowShouldClose(DisplayManager.window)) {
-            renderer.render(model);
+            renderer.render(texturedModel);
             DisplayManager.updateDisplay();
         }
 
