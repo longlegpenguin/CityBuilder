@@ -18,9 +18,9 @@ public class EntityRenderer {
 
     public EntityRenderer(EntityShader shader, Matrix4f projectionMatrix) {
         this.shader = shader;
-        shader.start();
-        shader.loadProjectionMatrix(projectionMatrix);
-        shader.stop();
+        this.shader.start();
+        this.shader.loadProjectionMatrix(projectionMatrix);
+        this.shader.stop();
     }
 
     public void render(Entity entity) {
@@ -35,6 +35,7 @@ public class EntityRenderer {
         GL30.glBindVertexArray(rawModel.getVaoID());
         GL20.glEnableVertexAttribArray(0);
         GL20.glEnableVertexAttribArray(1);
+        GL20.glEnableVertexAttribArray(2);
 
         TextureAttribute texture = texturedModel.getTexture();
         GL13.glActiveTexture(GL13.GL_TEXTURE0);
@@ -45,6 +46,7 @@ public class EntityRenderer {
     public void unbindModel() {
         GL20.glDisableVertexAttribArray(0);
         GL20.glDisableVertexAttribArray(1);
+        GL20.glDisableVertexAttribArray(2);
         GL30.glBindVertexArray(0);
     }
 

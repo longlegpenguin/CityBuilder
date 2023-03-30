@@ -1,6 +1,7 @@
 package engine.renderEngine;
 
 import engine.display.DisplayManager;
+import engine.entities.Camera;
 import engine.entities.Entity;
 import engine.shaders.EntityShader;
 import org.joml.Matrix4f;
@@ -10,27 +11,29 @@ public class MasterRenderer {
 
     private static final float FOV = 70;
     private static final float NEAR_PLANE = 0.1f;
-    private static final float FAR_PLANE = 2000;
+    private static final float FAR_PLANE = 2000f;
 
-    private static final float RED = 0f;
-    private static final float GREEN = 0f;
-    private static final float BLUE = 0f;
+    private static final float RED = 1.0f;
+    private static final float GREEN = 1.0f;
+    private static final float BLUE = 1.0f;
 
     private Matrix4f projectionMatrix;
 
-    private EntityRenderer entityRenderer;
     private EntityShader entityShader = new EntityShader();
+    private EntityRenderer entityRenderer;
+
 
     public MasterRenderer() {
-        GL11.glEnable(GL11.GL_CULL_FACE);
-        GL11.glCullFace(GL11.GL_BACK);
+        /*GL11.glEnable(GL11.GL_CULL_FACE);
+        GL11.glCullFace(GL11.GL_BACK);*/
         createProjectionMatrix();
         entityRenderer = new EntityRenderer(entityShader, projectionMatrix);
     }
 
-    public void render(Entity entity) {
+    public void render(Entity entity, Camera camera) {
         prepare();
         entityShader.start();
+        entityShader.loadViewMatrix(camera);
 
         entityRenderer.render(entity);
         entityShader.stop();
@@ -56,19 +59,7 @@ public class MasterRenderer {
                 (float) DisplayManager.getWindowWidth() / (float) DisplayManager.getWindowHeight(),
                 NEAR_PLANE, FAR_PLANE
         );
-
-        /*float aspectRatio = (float) DisplayManager.getWindowWidth() / (float) DisplayManager.getWindowHeight();
-        float y_scale = (float) ((1f / Math.tan(Math.toRadians(FOV / 2f))) * aspectRatio);
-        float x_scale = y_scale / aspectRatio;
-        float frustum_length = FAR_PLANE - NEAR_PLANE;
-
-        projectionMatrix = new Matrix4f();
-        projectionMatrix.m00(x_scale);
-        projectionMatrix.m11(y_scale);
-        projectionMatrix.m22(-((FAR_PLANE + NEAR_PLANE) / frustum_length));
-        projectionMatrix.m23(-1);
-        projectionMatrix.m32(-((2 * NEAR_PLANE * FAR_PLANE) / frustum_length));
-        projectionMatrix.m33(0);*/
+        System.out.println(projectionMatrix.toString());
 
     }
 }
