@@ -11,14 +11,14 @@ import static org.lwjgl.glfw.GLFW.*;
 
         private static final float MOVE_SPEED = 150;
         private static final float ROTATION_SPEED = 30;
-        private static final float MIN_CAMERA_HEIGHT = 0;
+        private static final float MIN_CAMERA_HEIGHT = 20;
         private static final float MAX_CAMERA_HEIGHT= 350;
         private float currentLongitudinalSpeed = 0;
         private float currentLateralSpeed = 0;
         private float currentRotationSpeed = 0;
-        private float pitch = 0;
+        private float pitch = 30;
         private float yaw = 0;
-        private float zoom = 0;
+        private float zoom = 50;
 
         public Camera(Vector3f position) {
             super(position);
@@ -29,6 +29,7 @@ import static org.lwjgl.glfw.GLFW.*;
             calculateZoom();
             calculatePitch();
             calculateRotation();
+            Mouse.update();
 
             super.increaseRotation(0, currentRotationSpeed * DisplayManager.getFrameTimeSeconds(), 0);
             currentRotationSpeed = 0;
@@ -92,18 +93,19 @@ import static org.lwjgl.glfw.GLFW.*;
         }
 
         public void calculateZoom() {
-            zoom -= Mouse.getDWheel() * 0.3f;
-            if (super.getPosition().y < MIN_CAMERA_HEIGHT) {
+            zoom -= Mouse.getDWheel() * 7;
+            if (super.position.y < MIN_CAMERA_HEIGHT) {
                 zoom = 0;
-                super.getPosition().y = MIN_CAMERA_HEIGHT;
-            } else if (super.getPosition().y > MAX_CAMERA_HEIGHT) {
+                super.position.y = MIN_CAMERA_HEIGHT;
+            } else if (super.position.y > MAX_CAMERA_HEIGHT) {
                 zoom = 0;
-                super.getPosition().y = MAX_CAMERA_HEIGHT;
+                super.position.y = MAX_CAMERA_HEIGHT;
             }
         }
 
         public void calculatePitch() {
             if (Mouse.isRightButtonPressed()) {
+                System.out.println(Mouse.getDY() + "\t" + Mouse.getDX());
                 pitch -= Mouse.getDY() * 0.1f;
                 if (pitch > 90) {
                     pitch = 90;
