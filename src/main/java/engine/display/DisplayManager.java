@@ -1,5 +1,7 @@
 package engine.display;
 
+import engine.tools.Keyboard;
+import engine.tools.Mouse;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.Version;
 import org.lwjgl.glfw.GLFWErrorCallback;
@@ -28,6 +30,7 @@ public class DisplayManager {
     //Window ID
     public static long window;
 
+    public static Keyboard keyboard = new Keyboard();
 
     /**
      * Creates a display windows on which the game can be rendered.
@@ -58,6 +61,9 @@ public class DisplayManager {
         if (window == NULL) {
             throw new RuntimeException("Failed to create the GLFW window");
         }
+
+        glfwSetMouseButtonCallback(window, Mouse.createCallbacks());
+        glfwSetKeyCallback(window, keyboard);
 
 
         //Get the thread stack and push a new frame
