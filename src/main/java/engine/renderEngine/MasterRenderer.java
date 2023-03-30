@@ -40,6 +40,8 @@ public class MasterRenderer {
     public void render(Entity entity, Terrain terrain, Camera camera, Light light) {
         prepare();
         entityShader.start();
+        terrainShader.loadLight(light);
+        terrainShader.loadSkyColor(RED, GREEN, BLUE);
         entityShader.loadViewMatrix(camera);
         entityRenderer.render(entity);
         entityShader.stop();
