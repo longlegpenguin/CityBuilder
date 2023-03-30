@@ -3,7 +3,10 @@ package engine.renderEngine;
 import engine.display.DisplayManager;
 import engine.entities.Camera;
 import engine.entities.Entity;
+import engine.entities.Light;
 import engine.shaders.EntityShader;
+import engine.shaders.TerrainShader;
+import engine.terrain.Terrain;
 import org.joml.Matrix4f;
 import org.lwjgl.opengl.GL11;
 
@@ -22,21 +25,32 @@ public class MasterRenderer {
     private EntityShader entityShader = new EntityShader();
     private EntityRenderer entityRenderer;
 
+    TerrainShader terrainShader = new TerrainShader();
+    TerrainRenderer terrainRenderer;
+
 
     public MasterRenderer() {
-        /*GL11.glEnable(GL11.GL_CULL_FACE);
-        GL11.glCullFace(GL11.GL_BACK);*/
+        GL11.glEnable(GL11.GL_CULL_FACE);
+        GL11.glCullFace(GL11.GL_BACK);
         createProjectionMatrix();
         entityRenderer = new EntityRenderer(entityShader, projectionMatrix);
+        terrainRenderer = new TerrainRenderer(terrainShader, projectionMatrix);
     }
 
-    public void render(Entity entity, Camera camera) {
+    public void render(Entity entity, Terrain terrain, Camera camera, Light light) {
         prepare();
         entityShader.start();
         entityShader.loadViewMatrix(camera);
-
         entityRenderer.render(entity);
         entityShader.stop();
+
+        terrainShader.start();
+        terrainShader.loadLight(light);
+        terrainShader.loadSkyColor(RED, GREEN, BLUE);
+        terrainShader.loadViewMatrix(camera);
+        terrainRenderer.render(terrain);
+        terrainShader.stop();
+
     }
 
     public void prepare() {
