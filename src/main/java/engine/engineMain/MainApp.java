@@ -1,6 +1,7 @@
 package engine.engineMain;
 
 import engine.display.DisplayManager;
+import engine.entities.Camera;
 import engine.entities.Entity;
 import engine.models.RawModel;
 import engine.models.TexturedModel;
@@ -121,16 +122,19 @@ public class MainApp {
         TexturedModel texturedModel = new TexturedModel(model, texture);
 
         Entity entity = new Entity(texturedModel, new Vector3f(0,0, -5), 0, 0, 0, 1);
+        Camera camera = new Camera(new Vector3f(0,0,0));
 
         MasterRenderer renderer = new MasterRenderer();
 
         while(!glfwWindowShouldClose(DisplayManager.window)) {
+            camera.move();
             entity.increasePosition(0, 0, -0.02f);
-            renderer.render(entity);
+            renderer.render(entity, camera);
             DisplayManager.updateDisplay();
         }
 
         renderer.cleanUp();
+        loader.cleanUp();
         DisplayManager.closeDisplay();
     }
 
