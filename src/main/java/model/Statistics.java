@@ -16,8 +16,8 @@ public final class Statistics {
     /**
      * Created due to Statistics singleton design pattern.
      *
-     * @param population current population
-     * @param capacity capacity
+     * @param population   current population
+     * @param capacity     capacity
      * @param satisfaction level of satisfaction
      * @return instance of Statistics
      */
