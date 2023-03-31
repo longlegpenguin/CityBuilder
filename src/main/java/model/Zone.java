@@ -1,7 +1,6 @@
 package model;
 
-import model.util.Constants;
-import model.util.Level;
+import model.util.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,6 +11,8 @@ public abstract class Zone implements Buildable {
     private Statistics statistics;
     private List<Citizen> citizens;
     private Date birthday;
+    private Coordinate coordinate;
+    private final Dimension dimension;
 
     public Zone(Level level, int dayToBuild, Statistics statistics, Date birthday) {
         this.level = level;
@@ -19,6 +20,7 @@ public abstract class Zone implements Buildable {
         this.statistics = statistics;
         this.birthday = birthday;
         citizens = new ArrayList<>();
+        this.dimension = new Dimension(1, 1);
     }
 
     public Level getLevel() {
@@ -83,6 +85,16 @@ public abstract class Zone implements Buildable {
             level = Level.values()[level.ordinal() + 1];
             statistics.setCapacity(level.getCapacity());
         }
+    }
+
+    @Override
+    public Coordinate getCoordinate() {
+        return coordinate;
+    }
+
+    @Override
+    public Dimension getDimension() {
+        return dimension;
     }
 
     private int getPopulation() {
