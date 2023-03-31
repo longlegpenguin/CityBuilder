@@ -1,7 +1,7 @@
 package model;
 
+import model.zone.Zone;
 
-// capacity, satisf, pop
 public class CityStatistics {
     private float tax_rate;
     private int nrCommercialZones;
@@ -54,7 +54,7 @@ public class CityStatistics {
         this.budget = budget;
     }
 
-    public void setTaxRate(float tax_rate) {
+    public void setTax_rate(float tax_rate) {
         this.tax_rate = tax_rate;
     }
 

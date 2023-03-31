@@ -1,5 +1,7 @@
 package model;
 
+import model.zone.Zone;
+
 public class Citizen {
     private Zone workplace;
     private Zone livingplace;

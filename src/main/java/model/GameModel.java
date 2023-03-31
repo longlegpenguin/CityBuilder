@@ -1,10 +1,10 @@
 package model;
 
+import model.facility.Facility;
 import model.util.Budget;
 import model.util.Coordinate;
 import model.util.Dimension;
-
-import java.util.zip.ZipEntry;
+import model.zone.Zone;
 
 public class GameModel {
     private final int rows, cols;
