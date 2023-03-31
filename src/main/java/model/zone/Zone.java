@@ -59,6 +59,15 @@ public abstract class Zone implements Buildable {
      */
     public void addCitizen(Citizen citizen) {
         citizens.add(citizen);
+        zoneStatistics.setPopulation(zoneStatistics.getPopulation() + 1);
+    }
+
+    /**
+     * Unregisters citizen from the zone
+     * @param citizen to unregister
+     */
+    public void unregisterCitizen(Citizen citizen){
+        citizens.remove(citizen);
     }
 
     /**
