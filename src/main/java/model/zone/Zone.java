@@ -1,10 +1,10 @@
 package model.zone;
 
-import model.Buildable;
-import model.Citizen;
-import model.Date;
-import model.Statistics;
-import model.util.*;
+import model.*;
+import model.util.Constants;
+import model.util.Coordinate;
+import model.util.Dimension;
+import model.util.Level;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,16 +12,17 @@ import java.util.List;
 public abstract class Zone implements Buildable {
     protected Level level;
     protected int dayToBuild;
-    protected Statistics statistics;
+    protected ZoneStatistics zoneStatistics;
     protected List<Citizen> citizens;
     protected Date birthday;
+
     protected Coordinate coordinate;
     protected final Dimension dimension;
 
-    public Zone(Level level, int dayToBuild, Statistics statistics, Date birthday) {
+    public Zone(Level level, int dayToBuild, ZoneStatistics zoneStatistics, Date birthday) {
         this.level = level;
         this.dayToBuild = dayToBuild;
-        this.statistics = statistics;
+        this.zoneStatistics = zoneStatistics;
         this.birthday = birthday;
         citizens = new ArrayList<>();
         this.dimension = new Dimension(1, 1);
@@ -43,16 +44,12 @@ public abstract class Zone implements Buildable {
         this.dayToBuild = dayToBuild;
     }
 
-    public Statistics getStatistics() {
-        return statistics;
+    public ZoneStatistics getStatistics() {
+        return zoneStatistics;
     }
 
     public Date getBirthday() {
         return birthday;
-    }
-
-    public void setStatistics(Statistics statistics) {
-        this.statistics = statistics;
     }
 
     /**
@@ -69,8 +66,8 @@ public abstract class Zone implements Buildable {
      *
      * @return the satisfaction of the zone
      */
-    public float getSatisfaction() {
-        return statistics.getSatisfaction();
+    public Satisfaction getSatisfaction() {
+        return zoneStatistics.getSatisfaction();
     }
 
     /**
@@ -90,7 +87,7 @@ public abstract class Zone implements Buildable {
     public void LevelUp() {
         if (level != Level.THREE) {
             level = Level.values()[level.ordinal() + 1];
-            statistics.setCapacity(level.getCapacity());
+            zoneStatistics.setCapacity(level.getCapacity());
         }
     }
 
@@ -122,7 +119,7 @@ public abstract class Zone implements Buildable {
         return "Zone{" +
                 "level=" + level +
                 ", dayToBuild=" + dayToBuild +
-                ", statistics=" + statistics +
+                ", zoneStatistics=" + zoneStatistics +
                 ", citizens=" + citizens.size() +
                 ", birthday=" + birthday.toString() +
                 ", coordinate=" + coordinate.toString() +
