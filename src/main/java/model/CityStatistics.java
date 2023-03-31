@@ -8,6 +8,7 @@ public class CityStatistics {
     private int nrIndustrialZones;
     private int nrResidentialZones;
     private Budget budget;
+    private int population;
     private float citizenSatisfaction;
 
     public CityStatistics(float tax_rate, Budget budget){
@@ -39,11 +40,19 @@ public class CityStatistics {
         return tax_rate;
     }
 
+    public int getPopulation(CityRegistry cityRegistry) {
+        int populationCnt = 0;
+        for (Zone z : cityRegistry.getZones()){
+            populationCnt += z.getStatistics().getPopulation();
+        }
+        return populationCnt;
+    }
+
     public void setCitizenSatisfaction(CityRegistry cityRegistry){
         float totalCitizenSatisf = 0;
         int nrZones = 0;
         for (Zone z : cityRegistry.getZones()){
-            totalCitizenSatisf += z.getSatisfaction();
+            totalCitizenSatisf += z.getSatisfaction().getTotalSatisfaction();
             nrZones += 1;
         }
 
