@@ -85,6 +85,10 @@ public class Satisfaction {
         this.citizenAvgEffect = citizenAvgEffect;
     }
 
+    /**
+     *
+     * @return total satisfaction
+     */
     public float getSatisfaction() {
         return policeEffect + taxEffect + zoneBalanceEffect + budgetEffect + freeWorkplaceEffect + stadiumEffect + industrialEffect + citizenAvgEffect;
     }
