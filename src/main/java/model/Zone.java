@@ -43,6 +43,10 @@ public abstract class Zone implements Buildable {
         return statistics;
     }
 
+    public Date getBirthday() {
+        return birthday;
+    }
+
     public void setStatistics(Statistics statistics) {
         this.statistics = statistics;
     }
@@ -87,6 +91,15 @@ public abstract class Zone implements Buildable {
         }
     }
 
+    /**
+     * Gets the cost for assigning/upgrading the zone
+     *
+     * @return the cost
+     */
+    public int getConstructionCost() {
+        return level.getCost();
+    }
+
     @Override
     public Coordinate getCoordinate() {
         return coordinate;
@@ -99,5 +112,19 @@ public abstract class Zone implements Buildable {
 
     private int getPopulation() {
         return citizens.size();
+    }
+
+    @Override
+    public String toString() {
+        return "Zone{" +
+                "level=" + level +
+                ", dayToBuild=" + dayToBuild +
+                ", statistics=" + statistics +
+                ", citizens=" + citizens.size() +
+                ", birthday=" + birthday.toString() +
+                ", coordinate=" + coordinate.toString() +
+                ", dimension=" + dimension +
+                ", type=" + getBuildableType() +
+                '}';
     }
 }
