@@ -69,7 +69,7 @@ public abstract class Zone implements Buildable {
      *
      * @return the satisfaction of the zone
      */
-    public float getSatisfaction() {
+    public double getSatisfaction() {
         return statistics.getSatisfaction();
     }
 

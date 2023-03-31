@@ -1,5 +1,6 @@
 package model;
 
+import model.util.Budget;
 import model.zone.Zone;
 
 public class CityStatistics {
