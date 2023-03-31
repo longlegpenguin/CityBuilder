@@ -3,8 +3,8 @@ package model;
 public class Satisfaction {
     private int policeEffect;
     private int taxEffect;
-    private int zoneBalanceEffect;
-    private int budgetEffect;
+    private float zoneBalanceEffect;
+    private float budgetEffect;
     private int freeWorkplaceEffect;
     private int stadiumEffect;
     private int industrialEffect;
@@ -29,11 +29,11 @@ public class Satisfaction {
         return taxEffect;
     }
 
-    public int getZoneBalanceEffect() {
+    public float getZoneBalanceEffect() {
         return zoneBalanceEffect;
     }
 
-    public int getBudgetEffect() {
+    public float getBudgetEffect() {
         return budgetEffect;
     }
 
@@ -85,7 +85,7 @@ public class Satisfaction {
         this.citizenAvgEffect = citizenAvgEffect;
     }
 
-    public int getSatisfaction() {
+    public float getSatisfaction() {
         return policeEffect + taxEffect + zoneBalanceEffect + budgetEffect + freeWorkplaceEffect + stadiumEffect + industrialEffect + citizenAvgEffect;
     }
 
