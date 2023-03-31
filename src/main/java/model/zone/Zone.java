@@ -3,7 +3,7 @@ package model.zone;
 import model.Buildable;
 import model.Citizen;
 import model.Date;
-import model.Statistics;
+import model.ZoneStatistics;
 import model.util.*;
 
 import java.util.ArrayList;
@@ -12,17 +12,18 @@ import java.util.List;
 public abstract class Zone implements Buildable {
     protected Level level;
     protected int dayToBuild;
-    protected Statistics statistics;
+    protected ZoneStatistics statistics;
     protected List<Citizen> citizens;
     protected Date birthday;
     protected Coordinate coordinate;
     protected final Dimension dimension;
 
-    public Zone(Level level, int dayToBuild, Statistics statistics, Date birthday) {
+    public Zone(Level level, int dayToBuild, ZoneStatistics statistics, Date birthday, Coordinate coordinate) {
         this.level = level;
         this.dayToBuild = dayToBuild;
         this.statistics = statistics;
         this.birthday = birthday;
+        this.coordinate = coordinate;
         citizens = new ArrayList<>();
         this.dimension = new Dimension(1, 1);
     }
@@ -43,7 +44,7 @@ public abstract class Zone implements Buildable {
         this.dayToBuild = dayToBuild;
     }
 
-    public Statistics getStatistics() {
+    public ZoneStatistics getStatistics() {
         return statistics;
     }
 
@@ -51,7 +52,7 @@ public abstract class Zone implements Buildable {
         return birthday;
     }
 
-    public void setStatistics(Statistics statistics) {
+    public void setStatistics(ZoneStatistics statistics) {
         this.statistics = statistics;
     }
 
@@ -70,7 +71,7 @@ public abstract class Zone implements Buildable {
      * @return the satisfaction of the zone
      */
     public double getSatisfaction() {
-        return statistics.getSatisfaction();
+        return statistics.getSatisfaction().getTotalSatisfaction();
     }
 
     /**

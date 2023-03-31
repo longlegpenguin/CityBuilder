@@ -5,6 +5,7 @@ import model.Buildable;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
 
 public class PathFinder {
 
@@ -40,7 +41,6 @@ public class PathFinder {
     public int manhattanDistance(Buildable start, Buildable goal) {
         List<Node> graph = new ArrayList<>();
         Node result = DFS(start, goal, graph);
-
         return result == null ? -1 : result.cost;
     }
 
@@ -62,23 +62,39 @@ public class PathFinder {
         int getCol() {
             return self.getCoordinate().getCol();
         }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            Node node = (Node) o;
+            return self.equals(node.self);
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(self);
+        }
     }
 
     private Node DFS(Buildable start, Buildable goal, List<Node> graph) {
-        List<Node> opens = new LinkedList<>();
+        List<Node> opens = new ArrayList<>();
         Node current;
         Node goalNode = new Node(null, -1, goal);
         opens.add(new Node(null, 0, start));
         while (true) {
-            if (opens.isEmpty()) { return null; }
+            if (opens.isEmpty()) {
+                return null;
+            }
 
-            current = opens.get(1);
+            current = opens.get(0);
             if (isGoal(current, goalNode)) {
                 return current;
             }
-            opens.remove(1);
-            for (Node node : successors(current, goalNode)) {
-                if (node != current.parent && !graph.contains(node)) {
+            opens.remove(0);
+            graph.add(current);
+            for (Node node : successors(current)) {
+                if (!graph.contains(node) && node != current && node != current.parent) {
                     opens.add(node);
                     graph.add(node);
                 }
@@ -94,7 +110,14 @@ public class PathFinder {
      * @return true if reached, otherwise, false
      */
     private boolean isGoal(Node currentItem, Node goal) {
-        return currentItem.self == goal.self;
+        int cRow = currentItem.getRow();
+        int cCol = currentItem.getCol();
+        int gRow = goal.getRow();
+        int gCol = goal.getCol();
+        return (cRow + 1 == gRow && cCol == gCol) ||
+                (cRow - 1 == gRow && cCol == gCol) ||
+                (cRow == gRow && cCol + 1 == gCol) ||
+                (cRow == gRow && cCol - 1 == gCol);
     }
 
     /**
@@ -104,21 +127,21 @@ public class PathFinder {
      * @param current the node to search for neighbours
      * @return the list of neighbours
      */
-    private List<Node> successors(Node current, Node goal) {
+    private List<Node> successors(Node current) {
         ArrayList<Node> successors = new ArrayList<>();
-        for (int i = -1; i < 2; i++) {
-            for (int j = -1; j < 2; j++) {
-                int sRow = current.getRow() + i;
-                int sCol = current.getCol() + j;
-                if (isRoad(sRow, sCol) || isGoal(current, goal)) {
-                    successors.add(
-                            new Node(
-                                    current,
-                                    current.cost + 1,
-                                    map[sRow][sCol]
-                            ));
-                }
-            }
+        int sRow = current.getRow();
+        int sCol = current.getCol();
+        if (isRoad(sRow - 1, sCol)) {
+            successors.add(new Node(current, current.cost + 1, map[sRow - 1][sCol]));
+        }
+        if (isRoad(sRow + 1, sCol)) {
+            successors.add(new Node(current, current.cost + 1, map[sRow + 1][sCol]));
+        }
+        if (isRoad(sRow, sCol - 1)) {
+            successors.add(new Node(current, current.cost + 1, map[sRow][sCol - 1]));
+        }
+        if (isRoad(sRow, sCol + 1)) {
+            successors.add(new Node(current, current.cost + 1, map[sRow][sCol + 1]));
         }
         return successors;
     }
@@ -126,6 +149,7 @@ public class PathFinder {
     private boolean isRoad(int sRow, int sCol) {
         return sRow < map.length && sRow >= 0 &&
                 sCol < map[0].length && sCol >= 0 &&
+                map[sRow][sCol] != null &&
                 map[sRow][sCol].getBuildableType() == BuildableType.ROAD;
     }
 }

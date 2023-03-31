@@ -12,8 +12,8 @@ public class Citizen {
         return 0;
     }
     public float getSatisfaction() {
-        return getDistance() > 5 ? 0 : 1 + (workplace.getSatisfaction().getTotalSatisfaction()
-                                         + livingplace.getSatisfaction().getTotalSatisfaction()) / 2;
+        return getDistance() > 5 ? 0 : 1 + ((float)workplace.getSatisfaction()
+                                         + (float)livingplace.getSatisfaction()) / 2;
     }
 
 }

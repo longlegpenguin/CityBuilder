@@ -1,13 +1,15 @@
 package model;
 
 import model.util.BuildableType;
+import model.util.Coordinate;
 import model.util.Level;
 import model.zone.Zone;
 
 public class IndustrialZone extends Zone implements SideEffect {
 
-    public IndustrialZone(Level level, int dayToBuild, ZoneStatistics statistics, Date birthday) {
-        super(level, dayToBuild, statistics, birthday);
+
+    public IndustrialZone(Level level, int dayToBuild, ZoneStatistics statistics, Date birthday, Coordinate coordinate) {
+        super(level, dayToBuild, statistics, birthday, coordinate);
     }
 
     @Override
