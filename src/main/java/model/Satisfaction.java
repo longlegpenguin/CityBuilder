@@ -7,17 +7,17 @@ public class Satisfaction {
     private float budgetEffect;
     private int freeWorkplaceEffect;
     private int stadiumEffect;
-    private int industrialEffect;
+    private int noIndustrialEffect;
     private int citizenAvgEffect;
 
     public Satisfaction() {
         this.policeEffect = 0;
         this.taxEffect = 0;
-        this.indComZoneBalance = 0;
+        this.indComZoneBalance = 1;
         this.budgetEffect = 0;
         this.freeWorkplaceEffect = 0;
         this.stadiumEffect = 0;
-        this.industrialEffect = 0;
+        this.noIndustrialEffect = 1;
         this.citizenAvgEffect = 0;
     }
 
@@ -46,7 +46,7 @@ public class Satisfaction {
     }
 
     public int getIndustrialEffect() {
-        return industrialEffect;
+        return noIndustrialEffect;
     }
 
     public int getCitizenAvgEffect() {
@@ -77,8 +77,8 @@ public class Satisfaction {
         this.stadiumEffect = stadiumEffect;
     }
 
-    public void setIndustrialEffect(int industrialEffect) {
-        this.industrialEffect = industrialEffect;
+    public void setIndustrialEffect(int noIndustrialEffect) {
+        this.noIndustrialEffect = noIndustrialEffect;
     }
 
     public void setCitizenAvgEffect(int citizenAvgEffect) {
@@ -86,11 +86,21 @@ public class Satisfaction {
     }
 
     /**
-     *
      * @return total satisfaction
      */
-    public float getSatisfaction() {
-        return policeEffect + taxEffect + indComZoneBalance + budgetEffect + freeWorkplaceEffect + stadiumEffect + industrialEffect + citizenAvgEffect;
+    public float getTotalSatisfaction() {
+        return policeEffect + taxEffect + indComZoneBalance + budgetEffect + freeWorkplaceEffect + stadiumEffect + noIndustrialEffect + citizenAvgEffect;
     }
 
+    @Override
+    public String toString() {
+        return "Police effect: " + policeEffect +
+                ", taxEffect: " + taxEffect +
+                ", indComZoneBalance: " + indComZoneBalance +
+                ", budgetEffect: " + budgetEffect +
+                ", freeWorkplaceEffect: " + freeWorkplaceEffect +
+                ", stadiumEffect: " + stadiumEffect +
+                ", noIndustrialEffect: " + noIndustrialEffect +
+                ", citizenAvgEffect: " + citizenAvgEffect;
+    }
 }
