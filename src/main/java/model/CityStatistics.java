@@ -1,5 +1,7 @@
 package model;
 
+import model.zone.Zone;
+
 public class CityStatistics {
     private float tax_rate;
     private int nrCommercialZones;

@@ -1,18 +1,22 @@
-package model;
+package model.zone;
 
+import model.Buildable;
+import model.Citizen;
+import model.Date;
+import model.Statistics;
 import model.util.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public abstract class Zone implements Buildable {
-    private Level level;
-    private int dayToBuild;
-    private Statistics statistics;
-    private List<Citizen> citizens;
-    private Date birthday;
-    private Coordinate coordinate;
-    private final Dimension dimension;
+    protected Level level;
+    protected int dayToBuild;
+    protected Statistics statistics;
+    protected List<Citizen> citizens;
+    protected Date birthday;
+    protected Coordinate coordinate;
+    protected final Dimension dimension;
 
     public Zone(Level level, int dayToBuild, Statistics statistics, Date birthday) {
         this.level = level;
@@ -65,9 +69,8 @@ public abstract class Zone implements Buildable {
      *
      * @return the satisfaction of the zone
      */
-    public Satisfaction getSatisfaction() {
-//        return statistics.getSatisfaction();
-        return new Satisfaction();
+    public float getSatisfaction() {
+        return statistics.getSatisfaction();
     }
 
     /**
