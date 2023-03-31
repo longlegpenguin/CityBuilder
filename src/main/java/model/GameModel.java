@@ -55,7 +55,7 @@ public class GameModel {
      * Gets the satisfaction of the whole city
      * @return satisfaction
      */
-    public Statistics queryCityStatistics() {
+    public CityStatistics queryCityStatistics() {
         // TODO call city registry
         return null;
     }
@@ -65,7 +65,7 @@ public class GameModel {
      * @param zone the zone for which satisfaction should be got
      * @return satisfaction
      */
-    public Statistics queryZoneStatistics(Zone zone) {
+    public ZoneStatistics queryZoneStatistics(Zone zone) {
         // TODO call city registry
         return null;
     }
