@@ -1,7 +1,6 @@
 package model.facility;
 
 import model.Buildable;
-import model.util.BuildableType;
 import model.util.Coordinate;
 import model.util.Dimension;
 

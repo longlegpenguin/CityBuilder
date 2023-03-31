@@ -3,21 +3,21 @@ package model;
 public class Satisfaction {
     private int policeEffect;
     private int taxEffect;
-    private float zoneBalanceEffect;
+    private float indComZoneBalance;
     private float budgetEffect;
     private int freeWorkplaceEffect;
     private int stadiumEffect;
-    private int industrialEffect;
+    private int noIndustrialEffect;
     private int citizenAvgEffect;
 
     public Satisfaction() {
         this.policeEffect = 0;
         this.taxEffect = 0;
-        this.zoneBalanceEffect = 0;
+        this.indComZoneBalance = 1;
         this.budgetEffect = 0;
         this.freeWorkplaceEffect = 0;
         this.stadiumEffect = 0;
-        this.industrialEffect = 0;
+        this.noIndustrialEffect = 1;
         this.citizenAvgEffect = 0;
     }
 
@@ -30,7 +30,7 @@ public class Satisfaction {
     }
 
     public float getZoneBalanceEffect() {
-        return zoneBalanceEffect;
+        return indComZoneBalance;
     }
 
     public float getBudgetEffect() {
@@ -46,7 +46,7 @@ public class Satisfaction {
     }
 
     public int getIndustrialEffect() {
-        return industrialEffect;
+        return noIndustrialEffect;
     }
 
     public int getCitizenAvgEffect() {
@@ -61,8 +61,8 @@ public class Satisfaction {
         this.taxEffect = taxEffect;
     }
 
-    public void setZoneBalanceEffect(int zoneBalanceEffect) {
-        this.zoneBalanceEffect = zoneBalanceEffect;
+    public void setZoneBalanceEffect(int indComZoneBalance) {
+        this.indComZoneBalance = indComZoneBalance;
     }
 
     public void setBudgetEffect(int budgetEffect) {
@@ -77,16 +77,30 @@ public class Satisfaction {
         this.stadiumEffect = stadiumEffect;
     }
 
-    public void setIndustrialEffect(int industrialEffect) {
-        this.industrialEffect = industrialEffect;
+    public void setIndustrialEffect(int noIndustrialEffect) {
+        this.noIndustrialEffect = noIndustrialEffect;
     }
 
     public void setCitizenAvgEffect(int citizenAvgEffect) {
         this.citizenAvgEffect = citizenAvgEffect;
     }
 
-    public float getSatisfaction() {
-        return policeEffect + taxEffect + zoneBalanceEffect + budgetEffect + freeWorkplaceEffect + stadiumEffect + industrialEffect + citizenAvgEffect;
+    /**
+     * @return total satisfaction
+     */
+    public float getTotalSatisfaction() {
+        return policeEffect + taxEffect + indComZoneBalance + budgetEffect + freeWorkplaceEffect + stadiumEffect + noIndustrialEffect + citizenAvgEffect;
     }
 
+    @Override
+    public String toString() {
+        return "Police effect: " + policeEffect +
+                ", taxEffect: " + taxEffect +
+                ", indComZoneBalance: " + indComZoneBalance +
+                ", budgetEffect: " + budgetEffect +
+                ", freeWorkplaceEffect: " + freeWorkplaceEffect +
+                ", stadiumEffect: " + stadiumEffect +
+                ", noIndustrialEffect: " + noIndustrialEffect +
+                ", citizenAvgEffect: " + citizenAvgEffect;
+    }
 }

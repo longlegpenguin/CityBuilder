@@ -8,10 +8,12 @@ public class Citizen {
 
     private float satisfaction;
     public int getDistance() {
-        find(map, livingplace, workplace);
+        //find(map, livingplace, workplace);
+        return 0;
     }
-    public int getSatisfaction() {
-        return getDistance() > 5 ? 0 : 1 + (workplace.getSatisfaction() + livingplace.getSatisfaction()) / 2;
+    public float getSatisfaction() {
+        return getDistance() > 5 ? 0 : 1 + (workplace.getSatisfaction().getTotalSatisfaction()
+                                         + livingplace.getSatisfaction().getTotalSatisfaction()) / 2;
     }
 
 }
