@@ -36,9 +36,6 @@ public class CityRegistry {
         zone.unregisterCitizen(citizen);
     }
 
-    public void updateOnConstruction() {
-    }
-
     public void addTaxRate(double newTax) {
         if (taxRatePast20Years.size() == 20) {
             taxRatePast20Years.addLast(newTax);
