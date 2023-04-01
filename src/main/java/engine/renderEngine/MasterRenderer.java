@@ -4,11 +4,19 @@ import engine.display.DisplayManager;
 import engine.entities.Camera;
 import engine.entities.Entity;
 import engine.entities.Light;
+import engine.models.TexturedModel;
 import engine.shaders.EntityShader;
 import engine.shaders.TerrainShader;
 import engine.terrain.Terrain;
+import engine.textures.TextureAttribute;
+import engine.world.Tile;
 import org.joml.Matrix4f;
 import org.lwjgl.opengl.GL11;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class MasterRenderer {
 
@@ -24,9 +32,11 @@ public class MasterRenderer {
 
     private EntityShader entityShader = new EntityShader();
     private EntityRenderer entityRenderer;
+    private Map<TexturedModel, List<Entity>> entities = new HashMap<TexturedModel, List<Entity>>();
 
-    TerrainShader terrainShader = new TerrainShader();
-    TerrainRenderer terrainRenderer;
+    private TerrainShader terrainShader = new TerrainShader();
+    private TerrainRenderer terrainRenderer;
+    private Map<TextureAttribute, List<Terrain>> terrains = new HashMap<TextureAttribute, List<Terrain>>();
 
 
     public MasterRenderer() {
@@ -37,7 +47,7 @@ public class MasterRenderer {
         terrainRenderer = new TerrainRenderer(terrainShader, projectionMatrix);
     }
 
-    public void render(Entity entity, Terrain terrain, Camera camera, Light light) {
+    public void render(Entity entity, Camera camera, Light light) {
         prepare();
         entityShader.start();
         terrainShader.loadLight(light);
@@ -50,9 +60,21 @@ public class MasterRenderer {
         terrainShader.loadLight(light);
         terrainShader.loadSkyColor(RED, GREEN, BLUE);
         terrainShader.loadViewMatrix(camera);
-        terrainRenderer.render(terrain);
+        terrainRenderer.render(terrains);
         terrainShader.stop();
+        terrains.clear();
+    }
 
+    public void processTerrain(Terrain terrain) {
+        TextureAttribute texture = terrain.getTexture();
+        List<Terrain> batch = terrains.get(texture);
+        if (batch != null) {
+            batch.add(terrain);
+        } else {
+            List<Terrain> newBatch = new ArrayList<Terrain>();
+            newBatch.add(terrain);
+            terrains.put(texture, newBatch);
+        }
     }
 
     public void prepare() {
@@ -75,7 +97,5 @@ public class MasterRenderer {
                 (float) DisplayManager.getWindowWidth() / (float) DisplayManager.getWindowHeight(),
                 NEAR_PLANE, FAR_PLANE
         );
-        System.out.println(projectionMatrix.toString());
-
     }
 }
