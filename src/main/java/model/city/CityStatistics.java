@@ -1,7 +1,4 @@
-package model;
-
-import model.util.Budget;
-import model.zone.Zone;
+package model.city;
 
 public class CityStatistics {
     private float tax_rate;

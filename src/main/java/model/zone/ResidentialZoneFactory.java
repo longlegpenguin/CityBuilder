@@ -1,8 +1,9 @@
 package model.zone;
 
 import model.*;
-import model.util.Coordinate;
+import model.common.Coordinate;
 import model.util.Level;
+import model.common.Satisfaction;
 
 public class ResidentialZoneFactory extends ZoneFactory {
     public ResidentialZoneFactory(GameModel gm) {

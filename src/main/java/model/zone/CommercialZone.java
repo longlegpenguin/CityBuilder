@@ -1,9 +1,9 @@
-package model;
+package model.zone;
 
 import model.util.BuildableType;
-import model.util.Coordinate;
+import model.common.Coordinate;
+import model.common.Date;
 import model.util.Level;
-import model.zone.Zone;
 
 public class CommercialZone extends Zone {
 

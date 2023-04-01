@@ -1,6 +1,7 @@
 package model.util;
 
-import model.Buildable;
+import model.common.Buildable;
+import model.common.Coordinate;
 
 import java.util.ArrayList;
 import java.util.List;

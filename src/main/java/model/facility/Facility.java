@@ -1,8 +1,8 @@
 package model.facility;
 
-import model.Buildable;
-import model.util.Coordinate;
-import model.util.Dimension;
+import model.common.Buildable;
+import model.common.Coordinate;
+import model.common.Dimension;
 
 public abstract class Facility implements Buildable {
     protected int oneTimeCost;

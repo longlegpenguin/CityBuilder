@@ -1,14 +1,14 @@
 package model.util;
 
-import model.Buildable;
+import model.common.Buildable;
 import model.GameModel;
-import model.ResidentialZone;
-import model.Road;
+import model.facility.Road;
+import model.common.Coordinate;
+import model.common.Dimension;
 import model.zone.ResidentialZoneFactory;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.lwjgl.openal.SOFTBformatEx;
 
 import static org.junit.jupiter.api.Assertions.*;
 

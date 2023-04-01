@@ -1,8 +1,8 @@
-package model;
+package model.common;
 
 import model.util.BuildableType;
-import model.util.Coordinate;
-import model.util.Dimension;
+import model.common.Coordinate;
+import model.common.Dimension;
 
 public interface Buildable {
     /**

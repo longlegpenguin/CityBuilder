@@ -1,11 +1,12 @@
 package model;
 
+import model.city.CityRegistry;
+import model.city.CityStatistics;
+import model.common.*;
 import model.facility.Facility;
-import model.util.Budget;
-import model.util.Coordinate;
-import model.util.Dimension;
-import model.util.Month;
+import model.util.*;
 import model.zone.Zone;
+import model.zone.ZoneStatistics;
 
 public class GameModel {
     private final int rows, cols;

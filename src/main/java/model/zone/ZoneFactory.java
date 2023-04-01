@@ -1,7 +1,7 @@
 package model.zone;
 
 import model.GameModel;
-import model.util.Coordinate;
+import model.common.Coordinate;
 
 public abstract class ZoneFactory {
     protected GameModel gm;

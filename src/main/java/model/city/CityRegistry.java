@@ -1,5 +1,6 @@
-package model;
+package model.city;
 
+import model.common.Citizen;
 import model.facility.Facility;
 import model.zone.Zone;
 

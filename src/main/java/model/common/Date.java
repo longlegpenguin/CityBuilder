@@ -1,11 +1,12 @@
-package model;
+package model.common;
+
+import model.util.Month;
 
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Objects;
-import model.util.Month;
 
 public class Date implements Comparable<Date> {
     private final int day;

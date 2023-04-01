@@ -1,12 +1,11 @@
 package model.zone;
 
-import model.Buildable;
-import model.Citizen;
-import model.Date;
-import model.ZoneStatistics;
-import model.util.Constants;
-import model.util.Coordinate;
-import model.util.Dimension;
+import model.common.Buildable;
+import model.common.Citizen;
+import model.common.Date;
+import model.common.Constants;
+import model.common.Coordinate;
+import model.common.Dimension;
 import model.util.Level;
 
 import java.util.ArrayList;
