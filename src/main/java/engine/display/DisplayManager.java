@@ -62,7 +62,8 @@ public class DisplayManager {
             throw new RuntimeException("Failed to create the GLFW window");
         }
 
-        glfwSetMouseButtonCallback(window, Mouse.createCallbacks());
+        glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+        Mouse.createCallbacks();
         glfwSetKeyCallback(window, keyboard);
 
 
