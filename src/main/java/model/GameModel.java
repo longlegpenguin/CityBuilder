@@ -33,7 +33,10 @@ public class GameModel {
      */
     public void addZone(Zone zone) {
         addToMap(zone);
-        // TODO call city registry
+        // TODO integrate the zone into city
+        // TODO deduct money from the budget
+//        cityRegistry.deductBalance(zone.getConstructionCost());
+        // TODO call city registry add zone
     }
     /**
      * Adds the facility to the city.
@@ -41,6 +44,8 @@ public class GameModel {
      */
     public void addFacility(Facility facility) {
         addToMap(facility);
+        // TODO integrate the facility into city
+        // TODO deduct money from the budget
         // TODO call city registry
     }
 
