@@ -3,7 +3,6 @@ package model.util;
 import model.Buildable;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 
@@ -40,7 +39,7 @@ public class PathFinder {
      */
     public int manhattanDistance(Buildable start, Buildable goal) {
         List<Node> graph = new ArrayList<>();
-        Node result = DFS(start, goal, graph);
+        Node result = BFS(start, goal, graph);
         return result == null ? -1 : result.cost;
     }
 
@@ -77,7 +76,7 @@ public class PathFinder {
         }
     }
 
-    private Node DFS(Buildable start, Buildable goal, List<Node> graph) {
+    private Node BFS(Buildable start, Buildable goal, List<Node> graph) {
         List<Node> opens = new ArrayList<>();
         Node current;
         Node goalNode = new Node(null, -1, goal);
