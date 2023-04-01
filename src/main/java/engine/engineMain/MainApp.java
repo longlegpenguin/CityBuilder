@@ -12,8 +12,10 @@ import engine.renderEngine.Loader;
 import engine.renderEngine.MasterRenderer;
 import engine.terrain.Terrain;
 import engine.textures.TextureAttribute;
+import engine.tools.Mouse;
+import engine.tools.MousePicker;
+import engine.world.WorldGrid;
 import org.joml.Vector3f;
-
 import static org.lwjgl.glfw.GLFW.glfwWindowShouldClose;
 
 public class MainApp {
@@ -29,18 +31,28 @@ public class MainApp {
         TexturedModel texturedModel = new TexturedModel(model, texture);
 
         Entity entity = new Entity(texturedModel, new Vector3f(0,0, -5), 0, 0, 0, 1);
-        Terrain terrain = new Terrain(0, 0, loader, new TextureAttribute(loader.loadTexture("grass")));
 
-        Camera camera = new Camera(new Vector3f(0,150,0));
-        Light light = new Light(new Vector3f(2000, 2000, 2000), new Vector3f(1,1,1));
+        WorldGrid worldGrid = new WorldGrid(loader, new TextureAttribute(loader.loadTexture("grass")));
+
+        //Terrain terrain = new Terrain(0, 0, loader, new TextureAttribute(loader.loadTexture("grass")));
+
+        Camera camera = new Camera(new Vector3f(Terrain.getSize() * worldGrid.getWorldSize() / 4,150,Terrain.getSize() * worldGrid.getWorldSize() / 4));
+        Light light = new Light(new Vector3f(Terrain.getSize() * worldGrid.getWorldSize() / 2, 1000, Terrain.getSize() * worldGrid.getWorldSize() / 2), new Vector3f(1,1,1));
 
         MasterRenderer renderer = new MasterRenderer();
 
-
+        MousePicker mousePicker = new MousePicker(camera, renderer.getProjectionMatrix());
 
         while(!glfwWindowShouldClose(DisplayManager.window)) {
             camera.move();
-            renderer.render(entity, terrain, camera, light);
+            mousePicker.update();
+            Mouse.update();
+
+            for (Terrain terrain: worldGrid.getTerrainList()) {
+                renderer.processTerrain(terrain);
+            }
+
+            renderer.render(entity, camera, light);
             DisplayManager.updateDisplay();
         }
 

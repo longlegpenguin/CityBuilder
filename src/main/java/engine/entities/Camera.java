@@ -22,6 +22,7 @@ import static org.lwjgl.glfw.GLFW.*;
 
         public Camera(Vector3f position) {
             super(position);
+            super.increaseRotation(0, 225, 0);
         }
 
         public void move() {
@@ -29,7 +30,7 @@ import static org.lwjgl.glfw.GLFW.*;
             calculateZoom();
             calculatePitch();
             calculateRotation();
-            Mouse.update();
+
 
             super.increaseRotation(0, currentRotationSpeed * DisplayManager.getFrameTimeSeconds(), 0);
             currentRotationSpeed = 0;
@@ -94,18 +95,21 @@ import static org.lwjgl.glfw.GLFW.*;
 
         public void calculateZoom() {
             zoom -= Mouse.getDWheel() * 7;
-            if (super.position.y < MIN_CAMERA_HEIGHT) {
-                zoom = 0;
-                super.position.y = MIN_CAMERA_HEIGHT;
-            } else if (super.position.y > MAX_CAMERA_HEIGHT) {
-                zoom = 0;
-                super.position.y = MAX_CAMERA_HEIGHT;
+            if (super.position.y <= MIN_CAMERA_HEIGHT) {
+                if (zoom < 0) {
+                    zoom = 0;
+                    super.position.y = MIN_CAMERA_HEIGHT;
+                }
+            } else if (super.position.y >= MAX_CAMERA_HEIGHT) {
+                if (zoom > 0) {
+                    zoom = 0;
+                    super.position.y = MAX_CAMERA_HEIGHT;
+                }
             }
         }
 
         public void calculatePitch() {
             if (Mouse.isRightButtonPressed()) {
-                System.out.println(Mouse.getDY() + "\t" + Mouse.getDX());
                 pitch -= Mouse.getDY() * 0.1f;
                 if (pitch > 90) {
                     pitch = 90;
