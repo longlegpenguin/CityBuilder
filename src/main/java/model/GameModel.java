@@ -4,6 +4,7 @@ import model.facility.Facility;
 import model.util.Budget;
 import model.util.Coordinate;
 import model.util.Dimension;
+import model.util.Month;
 import model.zone.Zone;
 
 public class GameModel {
@@ -76,6 +77,10 @@ public class GameModel {
     public Budget queryCityBudget() {
         // TODO call city registry
         return null;
+    }
+
+    public Date getCurrentDate() {
+        return new Date(1, Month.APRIL,21);
     }
 
     // ------------ Helper ---------------------------

@@ -1,7 +1,6 @@
 package model.facility;
 
 import model.SideEffect;
-import model.facility.Facility;
 import model.util.Coordinate;
 import model.util.Dimension;
 

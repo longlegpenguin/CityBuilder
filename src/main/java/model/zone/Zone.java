@@ -1,10 +1,10 @@
 package model.zone;
 
-import model.*;
-import model.util.Constants;
-import model.util.Coordinate;
-import model.util.Dimension;
-import model.util.Level;
+import model.Buildable;
+import model.Citizen;
+import model.Date;
+import model.ZoneStatistics;
+import model.util.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,18 +12,18 @@ import java.util.List;
 public abstract class Zone implements Buildable {
     protected Level level;
     protected int dayToBuild;
-    protected ZoneStatistics zoneStatistics;
+    protected ZoneStatistics statistics;
     protected List<Citizen> citizens;
     protected Date birthday;
-
     protected Coordinate coordinate;
     protected final Dimension dimension;
 
-    public Zone(Level level, int dayToBuild, ZoneStatistics zoneStatistics, Date birthday) {
+    public Zone(Level level, int dayToBuild, ZoneStatistics statistics, Date birthday, Coordinate coordinate) {
         this.level = level;
         this.dayToBuild = dayToBuild;
-        this.zoneStatistics = zoneStatistics;
+        this.statistics = statistics;
         this.birthday = birthday;
+        this.coordinate = coordinate;
         citizens = new ArrayList<>();
         this.dimension = new Dimension(1, 1);
     }
@@ -45,11 +45,15 @@ public abstract class Zone implements Buildable {
     }
 
     public ZoneStatistics getStatistics() {
-        return zoneStatistics;
+        return statistics;
     }
 
     public Date getBirthday() {
         return birthday;
+    }
+
+    public void setStatistics(ZoneStatistics statistics) {
+        this.statistics = statistics;
     }
 
     /**
@@ -59,15 +63,6 @@ public abstract class Zone implements Buildable {
      */
     public void addCitizen(Citizen citizen) {
         citizens.add(citizen);
-        zoneStatistics.setPopulation(zoneStatistics.getPopulation() + 1);
-    }
-
-    /**
-     * Unregisters citizen from the zone
-     * @param citizen to unregister
-     */
-    public void unregisterCitizen(Citizen citizen){
-        citizens.remove(citizen);
     }
 
     /**
@@ -75,8 +70,8 @@ public abstract class Zone implements Buildable {
      *
      * @return the satisfaction of the zone
      */
-    public Satisfaction getSatisfaction() {
-        return zoneStatistics.getSatisfaction();
+    public double getSatisfaction() {
+        return statistics.getSatisfaction().getTotalSatisfaction();
     }
 
     /**
@@ -96,7 +91,7 @@ public abstract class Zone implements Buildable {
     public void LevelUp() {
         if (level != Level.THREE) {
             level = Level.values()[level.ordinal() + 1];
-            zoneStatistics.setCapacity(level.getCapacity());
+            statistics.setCapacity(level.getCapacity());
         }
     }
 
@@ -128,7 +123,7 @@ public abstract class Zone implements Buildable {
         return "Zone{" +
                 "level=" + level +
                 ", dayToBuild=" + dayToBuild +
-                ", zoneStatistics=" + zoneStatistics +
+                ", statistics=" + statistics +
                 ", citizens=" + citizens.size() +
                 ", birthday=" + birthday.toString() +
                 ", coordinate=" + coordinate.toString() +

@@ -1,6 +1,7 @@
 package model;
 
-public final class ZoneStatistics {
+public final class
+ZoneStatistics {
     private int population;
     private int capacity;
     private final Satisfaction satisfaction;
