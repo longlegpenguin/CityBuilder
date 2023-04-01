@@ -4,7 +4,10 @@ import model.Buildable;
 import model.Citizen;
 import model.Date;
 import model.ZoneStatistics;
-import model.util.*;
+import model.util.Constants;
+import model.util.Coordinate;
+import model.util.Dimension;
+import model.util.Level;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -65,6 +68,10 @@ public abstract class Zone implements Buildable {
         citizens.add(citizen);
         this.statistics.setPopulation(statistics.getPopulation() + 1);
         updateCitizenAvgSatisfaction();
+    }
+
+    public void unregisterCitizen(Citizen citizen) {
+        citizens.remove(citizen);
     }
 
     /**
