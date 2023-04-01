@@ -1,23 +1,35 @@
 package engine.tools;
 
 import engine.display.DisplayManager;
+import org.lwjgl.BufferUtils;
 import org.lwjgl.glfw.GLFWCursorPosCallback;
 import org.lwjgl.glfw.GLFWMouseButtonCallback;
 import org.lwjgl.glfw.GLFWScrollCallback;
+
+import java.nio.DoubleBuffer;
+import java.nio.FloatBuffer;
+
+import static org.lwjgl.glfw.GLFW.glfwGetCursorPos;
 
 /**
  * the Mouse class is designed to get the mouse position in the screen
  */
 public class Mouse {
-    private static float mouseX, mouseY, prevMouseX, prevMouseY;
+    private static float mouseX = 0;
+    private static float mouseY = 0;
+    private static float prevMouseX = 0;
+    private static float prevMouseY = 0;
+    private static float deltaX = 0;
+    private static float deltaY = 0;
     private static boolean leftButtonPressed, rightButtonPressed;
     private static float dWheel;
+
 
     /**
      *
      * @return the mouse position
      */
-    public static GLFWMouseButtonCallback createCallbacks() {
+    public static void createCallbacks() {
         GLFWMouseButtonCallback mouseButtonCallback = new GLFWMouseButtonCallback() {
             @Override
             public void invoke(long window, int button, int action, int mods) {
@@ -43,11 +55,14 @@ public class Mouse {
         mouseButtonCallback.set(DisplayManager.window);
         scrollCallback.set(DisplayManager.window);
         cursorPosCallback.set(DisplayManager.window);
-        return mouseButtonCallback;
     }
 
     public static void update() {
         dWheel = 0;
+        deltaX = 0;
+        deltaY = 0;
+        prevMouseX = mouseX;
+        prevMouseY = mouseY;
     }
 
     public static float getX() {
@@ -59,11 +74,13 @@ public class Mouse {
     }
 
     public static float getDX() {
-        return mouseX - prevMouseX;
+        deltaX = mouseX - prevMouseX;
+        return deltaX;
     }
 
     public static float getDY() {
-        return mouseY - prevMouseY;
+        deltaY = mouseY - prevMouseY;
+        return deltaY;
     }
 
     public static boolean isLeftButtonPressed() {

@@ -5,8 +5,8 @@ import engine.renderEngine.Loader;
 import engine.textures.TextureAttribute;
 
 public class Terrain {
-    private static final float SIZE = 800;
-    private static final int VERTEX_COUNT = 128;
+    private static final float SIZE = 10;
+    private static final int VERTEX_COUNT = 4;
 
     private float x;
     private float z;
@@ -18,6 +18,10 @@ public class Terrain {
         this.x = gridX * SIZE;
         this.z = gridZ * SIZE;
         this.model = generateTerrain(loader);
+    }
+
+    public static float getSize() {
+        return SIZE;
     }
 
     public float getX() {
