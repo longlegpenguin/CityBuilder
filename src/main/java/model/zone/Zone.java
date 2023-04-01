@@ -63,6 +63,8 @@ public abstract class Zone implements Buildable {
      */
     public void addCitizen(Citizen citizen) {
         citizens.add(citizen);
+        this.statistics.setPopulation(statistics.getPopulation() + 1);
+        updateCitizenAvgSatisfaction();
     }
 
     /**
@@ -130,5 +132,14 @@ public abstract class Zone implements Buildable {
                 ", dimension=" + dimension +
                 ", type=" + getBuildableType() +
                 '}';
+    }
+
+    private void updateCitizenAvgSatisfaction() {
+        int sum = 0;
+        for (Citizen citizen :
+                citizens) {
+            sum += citizen.getSatisfaction();
+        }
+        statistics.getSatisfaction().setCitizenAvgEffect(sum / getPopulation());
     }
 }
