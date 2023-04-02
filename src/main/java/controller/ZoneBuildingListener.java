@@ -4,7 +4,7 @@ import controller.util.GameMode;
 import controller.util.Property;
 import model.common.Coordinate;
 
-public class ZoneBuildingListener extends ServiceListener{
+public class ZoneBuildingListener extends ServiceListener {
 
 
     public ZoneBuildingListener(Property property) {
@@ -17,5 +17,7 @@ public class ZoneBuildingListener extends ServiceListener{
         GameMode gmo = property.getGameMode();
         System.out.println(gmo);
         // TODO add zone to game model.
+        // TODO call back
+        property.getCallBack().updateGridSystem(null);
     }
 }

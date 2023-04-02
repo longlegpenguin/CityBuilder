@@ -61,7 +61,7 @@ public class Satisfaction {
         this.taxEffect = taxEffect;
     }
 
-    public void setZoneBalanceEffect(int indComZoneBalance) {
+    public void setZoneBalanceEffect(float indComZoneBalance) {
         this.indComZoneBalance = indComZoneBalance;
     }
 

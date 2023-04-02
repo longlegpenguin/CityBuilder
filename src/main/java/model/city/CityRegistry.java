@@ -29,6 +29,14 @@ public class CityRegistry {
         return sumTax / cnt;
     }
 
+    public ArrayList<Facility> getFacilities() {
+        return facilities;
+    }
+
+    public ArrayList<Zone> getZones() {
+        return zones;
+    }
+
     public void registerCitizenToZone(Citizen citizen, Zone zone) {
         zone.addCitizen(citizen);
     }

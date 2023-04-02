@@ -1,5 +1,7 @@
 package engine.engineMain;
 
+import controller.Controller;
+import controller.util.GameMode;
 import engine.display.DisplayManager;
 import engine.entities.Camera;
 import engine.entities.Entity;
@@ -15,6 +17,8 @@ import engine.textures.TextureAttribute;
 import engine.tools.Mouse;
 import engine.tools.MousePicker;
 import engine.world.WorldGrid;
+import model.GameModel;
+import model.common.Coordinate;
 import org.joml.Vector3f;
 import static org.lwjgl.glfw.GLFW.glfwWindowShouldClose;
 
@@ -42,6 +46,25 @@ public class MainApp {
         MasterRenderer renderer = new MasterRenderer();
 
         MousePicker mousePicker = new MousePicker(camera, renderer.getProjectionMatrix());
+
+        /** --------------------------------------------------------------------
+         * Try these methods !
+         *         controller.switchModeRequest(GameMode.COMMERCIAL_MODE); // fot the type of new things
+         *         controller.mouseClickRequest(new Coordinate(3, 3), null); // for new things onto map
+         *         gm.getAllBuildable(); // for a list of buildables
+         *         gm.getCurrentDate();
+         *         gm.queryCityStatistics();
+         *         gm.queryCityBudget();
+         *         gm.queryZoneStatistics(new Coordinate(3,3));
+         *
+         * Try to implement ICallBack interface and pass to mouseClickRequest !
+         * It is an option to update a single cell on grid system, when things happen.
+         */
+        GameModel gm = new GameModel(1000, 1000);
+        Controller controller = new Controller(gm);
+        /**
+         * ----------------------------------------------------------------------
+         */
 
         while(!glfwWindowShouldClose(DisplayManager.window)) {
             camera.move();
