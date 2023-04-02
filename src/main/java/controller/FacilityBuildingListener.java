@@ -5,25 +5,23 @@ import controller.util.Property;
 import model.common.Coordinate;
 import model.exceptions.OperationException;
 import model.facility.Facility;
-import model.zone.Zone;
+import model.facility.Road;
 
-public class ZoneBuildingListener extends ServiceListener {
+public class FacilityBuildingListener extends ServiceListener {
 
-
-    public ZoneBuildingListener(Property property) {
+    public FacilityBuildingListener(Property property) {
         super(property);
     }
 
     @Override
     public void update(Coordinate coordinate) {
-        // TODO create instance of zone according to game mode
+        // TODO create instance of facility according to game mode
         GameMode gmo = property.getGameMode();
         System.out.println(gmo);
-        Zone zone = null;
-
+        Facility facility = null;
         try {
-            // add created zone to game model.
-            property.getGameModel().addZone(zone);
+            // add created facility to game model.
+            property.getGameModel().addFacility(facility);
             // TODO call back
             property.getCallBack().updateGridSystem(null);
         } catch (OperationException e) {
