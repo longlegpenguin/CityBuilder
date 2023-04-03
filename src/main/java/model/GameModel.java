@@ -5,6 +5,7 @@ import model.city.CityStatistics;
 import model.common.*;
 import model.exceptions.OperationException;
 import model.facility.Facility;
+import model.facility.Road;
 import model.util.*;
 import model.zone.Zone;
 import model.zone.ZoneStatistics;
@@ -17,6 +18,7 @@ public class GameModel {
     private Buildable[][] map;
     private CityRegistry cityRegistry;
     private Date dateOfWorld;
+    private Road masterRoad;
 
     public GameModel(int rows, int cols) {
         this.rows = rows;
@@ -24,6 +26,14 @@ public class GameModel {
         map = new Buildable[rows][cols];
         cityRegistry = new CityRegistry();
         dateOfWorld = new Date(1, Month.FEBRUARY, 2020);
+        masterRoad = new Road(0,0,new Coordinate(rows-1, cols/2), new Dimension(1,1));
+    }
+
+    /**
+     * Initializes the settings inside game model.
+     */
+    public void initialize() {
+        addToMap(masterRoad);
     }
 
     /**
@@ -34,6 +44,7 @@ public class GameModel {
         List<Buildable> buildableList = new ArrayList<>();
         buildableList.addAll(cityRegistry.getZones());
         buildableList.addAll(cityRegistry.getFacilities());
+        buildableList.add(masterRoad);
         return buildableList;
     }
 

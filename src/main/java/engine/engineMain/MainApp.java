@@ -61,6 +61,7 @@ public class MainApp {
          * It is an option to update a single cell on grid system, when things happen.
          */
         GameModel gm = new GameModel(1000, 1000);
+        gm.initialize();
         Controller controller = new Controller(gm);
         /**
          * ----------------------------------------------------------------------

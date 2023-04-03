@@ -9,10 +9,11 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class ControllerTest {
 
-    GameModel gm = new GameModel(5, 10);
+    GameModel gm = new GameModel(5, 11);
     Controller controller = new Controller(gm);
     @org.junit.jupiter.api.BeforeEach
     void setUp() {
+        gm.initialize();
     }
 
     @org.junit.jupiter.api.AfterEach
@@ -24,6 +25,6 @@ class ControllerTest {
         controller.switchModeRequest(GameMode.RESIDENTIAL_MODE);
         controller.mouseClickRequest(new Coordinate(1, 1), null);
         System.out.println(gm.printMap());
-        assertEquals(gm.getAllBuildable().size(), 1);
+        assertEquals(gm.getAllBuildable().size(), 2);
     }
 }
