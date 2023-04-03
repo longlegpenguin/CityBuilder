@@ -1,4 +1,4 @@
-package controller;
+package controller.listeners;
 
 import controller.util.Property;
 import model.common.Coordinate;
