@@ -3,7 +3,7 @@ package model.zone;
 import model.common.SideEffect;
 import model.util.BuildableType;
 import model.common.Coordinate;
-import model.common.Date;
+import model.util.Date;
 import model.util.Level;
 
 public class IndustrialZone extends Zone implements SideEffect {
@@ -20,7 +20,13 @@ public class IndustrialZone extends Zone implements SideEffect {
 
     @Override
     public void effect(Zone zone) {
+        // TODO set the free work space for the reachable zones as well.
         zone.getStatistics().getSatisfaction().setIndustrialEffect(0);
+    }
+
+    @Override
+    public void reverseEffect(Zone zone) {
+        zone.getStatistics().getSatisfaction().setIndustrialEffect(1);
     }
 
     @Override

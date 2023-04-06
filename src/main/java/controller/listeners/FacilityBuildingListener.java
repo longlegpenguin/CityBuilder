@@ -28,7 +28,7 @@ public class FacilityBuildingListener extends ServiceListener {
         }
         try {
             gm.addFacility(facility);
-            property.getCallBack().updateGridSystem(facility);
+            property.getCallBack().updateGridSystem(facility.getCoordinate(), facility);
             System.out.println("Created" + facility);
         } catch (OperationException e) {
             System.out.println("ha ha ha ha");

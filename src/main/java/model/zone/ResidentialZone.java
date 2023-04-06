@@ -2,7 +2,7 @@ package model.zone;
 
 import model.util.BuildableType;
 import model.common.Coordinate;
-import model.common.Date;
+import model.util.Date;
 import model.util.Level;
 
 public class ResidentialZone extends Zone {

@@ -34,7 +34,7 @@ public class ZoneBuildingListener extends ServiceListener {
             // add created zone to game model.
             gm.addZone(zone);
             // call back
-            property.getCallBack().updateGridSystem(zone);
+            property.getCallBack().updateGridSystem(zone.getCoordinate(), zone);
         } catch (OperationException e) {
             System.out.println("ha ha ha ha");
         }

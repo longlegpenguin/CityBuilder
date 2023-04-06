@@ -20,4 +20,10 @@ public interface Buildable {
      * @return the type of the buildable
      */
     public BuildableType getBuildableType();
+
+    /**
+     * Every buildable cost some when built.
+     * @return the costs.
+     */
+    public int getConstructionCost();
 }

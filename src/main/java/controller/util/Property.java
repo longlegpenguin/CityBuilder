@@ -4,6 +4,9 @@ import controller.ICallBack;
 import model.GameModel;
 import model.common.Budget;
 import model.common.Buildable;
+import model.common.Coordinate;
+import model.util.Date;
+import model.zone.ZoneStatistics;
 
 public class Property {
     private GameMode gameMode;
@@ -15,12 +18,22 @@ public class Property {
         this.gameModel = gameModel;
         iCallBack = new ICallBack() {
             @Override
-            public void updateGridSystem(Buildable buildable) {
+            public void updateGridSystem(Coordinate coordinate, Buildable buildable) {
                 System.out.println("Default Call back");
             }
 
             @Override
             public void updateBudgetPanel(Budget budget) {
+                System.out.println("Default Call back");
+            }
+
+            @Override
+            public void updateStatisticPanel(ZoneStatistics zoneStatistics) {
+                System.out.println("Default Call back");
+            }
+
+            @Override
+            public void updateDatePanel(Date date) {
                 System.out.println("Default Call back");
             }
         };

@@ -1,5 +1,7 @@
 package controller;
 
+import controller.listeners.DemolishListener;
+import controller.listeners.FacilityBuildingListener;
 import controller.listeners.ZoneBuildingListener;
 import controller.util.Event;
 import controller.util.GameMode;
@@ -31,6 +33,7 @@ public class Controller {
     /**
      * Handles every mouse click (on grid system) from the user
      * @param coordinate the coordinate of the cell the user click in grid sense.
+     * @param callBack will be called after the handle of the request, can be null for defaults.
      */
     public void mouseClickRequest(Coordinate coordinate, ICallBack callBack) {
         if (callBack != null) {
@@ -53,14 +56,8 @@ public class Controller {
      */
     private void registerListeners() {
         service.register(Event.ZONE, new ZoneBuildingListener(property));
+        service.register(Event.FACILITY, new FacilityBuildingListener(property));
+        service.register(Event.DEMOLISH, new DemolishListener(property));
     }
 
 }
-
-/*
- * Handles client request of constructing new zones.
- * @param coordinate the coordinate at where new zone should be created.
- */
-//    public void newZoneRequest(Coordinate coordinate) {
-//        service.notify(Event.ZONE, coordinate);
-//    }

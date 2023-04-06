@@ -1,6 +1,4 @@
-package model.common;
-
-import model.util.Month;
+package model.util;
 
 import java.time.LocalDate;
 import java.time.Period;
@@ -8,6 +6,7 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Objects;
 
+// TODO addDay(int day) method please.
 public class Date implements Comparable<Date> {
     private final int day;
     private final Month month;
@@ -95,5 +94,9 @@ public class Date implements Comparable<Date> {
         else if (this.year > d.year || this.month.getMonthOrder() > d.month.getMonthOrder() || this.day > d.day)
             return 1;
         return 0;
+    }
+
+    // TODO
+    public void addDay(int daysPassed) {
     }
 }

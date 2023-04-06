@@ -2,7 +2,7 @@ package model.zone;
 
 import model.common.Buildable;
 import model.common.Citizen;
-import model.common.Date;
+import model.util.Date;
 import model.common.Constants;
 import model.common.Coordinate;
 import model.common.Dimension;
@@ -64,7 +64,7 @@ public abstract class Zone implements Buildable {
     public void updateTaxEffect(int newValue) {
         statistics.getSatisfaction().setTaxEffect(newValue);
     }
-    public void updateComZoneBalanceEffect(float newValue) {
+    public void updateComZoneBalanceEffect(double newValue) {
         statistics.getSatisfaction().setZoneBalanceEffect(newValue);
     }
     public void updatePoliceEffect(int newValue) {
