@@ -1,6 +1,7 @@
 package model.city;
 
 import model.common.Citizen;
+import model.common.Constants;
 import model.facility.Facility;
 import model.zone.Zone;
 
@@ -18,6 +19,7 @@ public class CityRegistry {
         this.facilities = new ArrayList<>();
         this.zones = new ArrayList<>();
         this.taxRatePast20Years = new LinkedList<>();
+        this.cityStatistics = new CityStatistics((float) 0.3); // TODO ??
     }
 
     public CityStatistics getCityStatistics() {

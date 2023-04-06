@@ -18,7 +18,7 @@ public class GameModel {
     private Buildable[][] map;
     private CityRegistry cityRegistry;
     private Date dateOfWorld;
-    private Road masterRoad;
+    private List<Road> masterRoads;
 
     public GameModel(int rows, int cols) {
         this.rows = rows;
@@ -26,14 +26,16 @@ public class GameModel {
         map = new Buildable[rows][cols];
         cityRegistry = new CityRegistry();
         dateOfWorld = new Date(1, Month.FEBRUARY, 2020);
-        masterRoad = new Road(0,0,new Coordinate(rows-1, cols/2), new Dimension(1,1));
+        masterRoads = new ArrayList<>();
     }
 
     /**
      * Initializes the settings inside game model.
      */
     public void initialize() {
-        addToMap(masterRoad);
+        Road road = new Road(0,0,new Coordinate(rows-1, cols/2), new Dimension(1,1));
+        masterRoads.add(road);
+        addToMap(road);
     }
 
     /**
@@ -44,7 +46,7 @@ public class GameModel {
         List<Buildable> buildableList = new ArrayList<>();
         buildableList.addAll(cityRegistry.getZones());
         buildableList.addAll(cityRegistry.getFacilities());
-        buildableList.add(masterRoad);
+        buildableList.addAll(masterRoads);
         return buildableList;
     }
 
