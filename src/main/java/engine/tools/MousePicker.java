@@ -8,11 +8,16 @@ import org.joml.Vector3f;
 import org.joml.Vector4f;
 
 public class MousePicker {
+
+    private static final int RECURSION_COUNT = 200;
+    private static final float RAY_RANGE = 800;
     private Vector3f currentRay;
 
     private Matrix4f projectionMatrix;
     private Matrix4f viewMatrix;
     private Camera camera;
+
+    private Vector3f currentTerrainPoint;
 
     public MousePicker(Camera camera, Matrix4f projectionMatrix) {
         this.camera = camera;
@@ -46,8 +51,8 @@ public class MousePicker {
     }
 
     private Vector4f toEyeCoords(Vector4f clipCoords) {
-        Matrix4f invertedProjection = projectionMatrix;
-        invertedProjection.invert();
+        Matrix4f invertedProjection = new Matrix4f();
+        projectionMatrix.invert(invertedProjection);
         Vector4f eyeCoords = new Vector4f();
         invertedProjection.transform(clipCoords, eyeCoords);
         return new Vector4f(eyeCoords.x, eyeCoords.y, -1f, 0f);

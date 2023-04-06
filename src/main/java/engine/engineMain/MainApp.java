@@ -47,7 +47,7 @@ public class MainApp {
             camera.move();
             mousePicker.update();
             Mouse.update();
-
+            System.out.println(mousePicker.getCurrentRay());
             for (Terrain terrain: worldGrid.getTerrainList()) {
                 renderer.processTerrain(terrain);
             }
