@@ -20,7 +20,7 @@ class ControllerTest {
     void tearDown() {
     }
 
-    @Test
+    @org.junit.jupiter.api.Test
     void testMouseHandlerBuildZone() {
         controller.switchModeRequest(GameMode.RESIDENTIAL_MODE);
         controller.mouseClickRequest(new Coordinate(1, 1), null);
