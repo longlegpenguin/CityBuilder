@@ -52,4 +52,5 @@ public class CityRegistry {
     public void addFacility(Facility facility) {
         facilities.add(facility);
     }
+
 }
