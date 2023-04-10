@@ -1,8 +1,8 @@
-package model;
+package model.common;
 
 import model.util.BuildableType;
-import model.util.Coordinate;
-import model.util.Dimension;
+import model.common.Coordinate;
+import model.common.Dimension;
 
 public interface Buildable {
     /**
@@ -20,4 +20,10 @@ public interface Buildable {
      * @return the type of the buildable
      */
     public BuildableType getBuildableType();
+
+    /**
+     * Every buildable cost some when built.
+     * @return the costs.
+     */
+    public int getConstructionCost();
 }

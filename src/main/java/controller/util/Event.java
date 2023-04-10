@@ -5,5 +5,7 @@ public enum Event {
     ZONE,
     FACILITY,
     UPGRADE,
-    DEMOLISH
+    DEMOLISH,
+    DEMOLISH_ZONE,
+    DEMOLISH_FACILITY
 }

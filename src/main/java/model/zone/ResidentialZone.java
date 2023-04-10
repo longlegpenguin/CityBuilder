@@ -1,11 +1,9 @@
-package model;
+package model.zone;
 
 import model.util.BuildableType;
-import model.util.Coordinate;
+import model.common.Coordinate;
+import model.util.Date;
 import model.util.Level;
-import model.zone.Zone;
-
-import java.util.Collections;
 
 public class ResidentialZone extends Zone {
 

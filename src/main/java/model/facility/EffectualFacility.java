@@ -1,8 +1,8 @@
 package model.facility;
 
-import model.SideEffect;
-import model.util.Coordinate;
-import model.util.Dimension;
+import model.common.SideEffect;
+import model.common.Coordinate;
+import model.common.Dimension;
 
 public abstract class EffectualFacility extends Facility implements SideEffect {
 

@@ -15,6 +15,7 @@ import org.lwjgl.opengl.GL30;
 
 
 import java.util.List;
+import java.util.Map;
 
 public class TerrainRenderer {
 
@@ -27,17 +28,16 @@ public class TerrainRenderer {
         shader.stop();
     }
 
-    public  void render(/*List<Terrain> terrains*/ Terrain terrain) {
-        /*for(Terrain terrain: terrains) {
-            prepareTerrain(terrain);
-            loadModelMatrix(terrain);
-            GL11.glDrawElements(GL11.GL_TRIANGLES, terrain.getModel().getVertexCount(), GL11.GL_UNSIGNED_INT, 0);
+    public  void render(Map<TextureAttribute, List<Terrain>> terrains) {
+        for(TextureAttribute texture: terrains.keySet()) {
+            List<Terrain> batch = terrains.get(texture);
+            prepareTerrain(batch.get(0));
+            for (Terrain terrain: batch) {
+                prepareInstance(terrain);
+                GL11.glDrawElements(GL11.GL_TRIANGLES, terrain.getModel().getVertexCount(), GL11.GL_UNSIGNED_INT, 0);
+            }
             unbindTexturedModel();
-        }*/
-        prepareTerrain(terrain);
-        loadModelMatrix(terrain);
-        GL11.glDrawElements(GL11.GL_TRIANGLES, terrain.getModel().getVertexCount(), GL11.GL_UNSIGNED_INT, 0);
-        unbindTexturedModel();
+        }
     }
 
     private void prepareTerrain(Terrain terrain) {
@@ -60,7 +60,7 @@ public class TerrainRenderer {
         GL30.glBindVertexArray(0);
     }
 
-    private void loadModelMatrix(Terrain terrain) {
+    private void prepareInstance(Terrain terrain) {
         Matrix4f transformationMatrix = Maths.createTransformationMatrix(new Vector3f(terrain.getX(), 0, terrain.getZ()), 0, 0, 0, 1);
         shader.loadTransformationMatrix(transformationMatrix);
     }

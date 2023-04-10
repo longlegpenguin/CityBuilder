@@ -1,12 +1,11 @@
 package model.zone;
 
-import model.Buildable;
-import model.Citizen;
-import model.Date;
-import model.ZoneStatistics;
-import model.util.Constants;
-import model.util.Coordinate;
-import model.util.Dimension;
+import model.common.Buildable;
+import model.common.Citizen;
+import model.util.Date;
+import model.common.Constants;
+import model.common.Coordinate;
+import model.common.Dimension;
 import model.util.Level;
 
 import java.util.ArrayList;
@@ -59,13 +58,37 @@ public abstract class Zone implements Buildable {
         this.statistics = statistics;
     }
 
+    public void updateBudgetEffect(int newValue) {
+        statistics.getSatisfaction().setBudgetEffect(newValue);
+    }
+    public void updateTaxEffect(int newValue) {
+        statistics.getSatisfaction().setTaxEffect(newValue);
+    }
+    public void updateComZoneBalanceEffect(double newValue) {
+        statistics.getSatisfaction().setZoneBalanceEffect(newValue);
+    }
+    public void updatePoliceEffect(int newValue) {
+        statistics.getSatisfaction().setPoliceEffect(newValue);
+    }
+    public void updateIndustrialEffect(int newValue) {
+        statistics.getSatisfaction().setIndustrialEffect(newValue);
+    }
+    public void updateFreeWorkSpaceEffect(int newValue) {
+        statistics.getSatisfaction().setFreeWorkplaceEffect(newValue);
+    }
+    public void updateStadiumEffect(int newValue) {
+        statistics.getSatisfaction().setStadiumEffect(newValue);
+    }
     /**
      * Adds new citizen to the zone.
+     * Increments the population and updates the citizen avg satisfaction with the new citizen.
      *
      * @param citizen the citizen to be added.
      */
     public void addCitizen(Citizen citizen) {
         citizens.add(citizen);
+        this.statistics.setPopulation(statistics.getPopulation() + 1);
+        updateCitizenAvgSatisfaction();
     }
 
     public void unregisterCitizen(Citizen citizen) {
@@ -110,6 +133,9 @@ public abstract class Zone implements Buildable {
     public int getConstructionCost() {
         return level.getCost();
     }
+    public int getPopulation() {
+        return citizens.size();
+    }
 
     @Override
     public Coordinate getCoordinate() {
@@ -121,9 +147,6 @@ public abstract class Zone implements Buildable {
         return dimension;
     }
 
-    private int getPopulation() {
-        return citizens.size();
-    }
 
     @Override
     public String toString() {
@@ -137,5 +160,14 @@ public abstract class Zone implements Buildable {
                 ", dimension=" + dimension +
                 ", type=" + getBuildableType() +
                 '}';
+    }
+
+    private void updateCitizenAvgSatisfaction() {
+        int sum = 0;
+        for (Citizen citizen :
+                citizens) {
+            sum += citizen.getSatisfaction();
+        }
+        statistics.getSatisfaction().setCitizenAvgEffect(sum / getPopulation());
     }
 }

@@ -1,5 +1,7 @@
-package model;
+package model.city;
 
+import model.common.Citizen;
+import model.common.Constants;
 import model.facility.Facility;
 import model.zone.Zone;
 
@@ -11,11 +13,17 @@ public class CityRegistry {
     private ArrayList<Facility> facilities;
     private ArrayList<Zone> zones;
     private LinkedList<Double> taxRatePast20Years;
+    private CityStatistics cityStatistics; // TODO (I need it to be here for game model)
 
     public CityRegistry() {
         this.facilities = new ArrayList<>();
         this.zones = new ArrayList<>();
         this.taxRatePast20Years = new LinkedList<>();
+        this.cityStatistics = new CityStatistics((float) 0.3); // TODO ??
+    }
+
+    public CityStatistics getCityStatistics() {
+        return cityStatistics;
     }
 
     public double getPast20AvgIncome() {
@@ -26,6 +34,14 @@ public class CityRegistry {
             cnt += 1;
         }
         return sumTax / cnt;
+    }
+
+    public ArrayList<Facility> getFacilities() {
+        return facilities;
+    }
+
+    public ArrayList<Zone> getZones() {
+        return zones;
     }
 
     public void registerCitizenToZone(Citizen citizen, Zone zone) {
@@ -46,11 +62,33 @@ public class CityRegistry {
     }
 
     public void addZone(Zone zone) {
+        // TODO can u updates the nr in city statistics as well?
         zones.add(zone);
+    }
+    public void removeZone(Zone zone) {
+        // TODO can u updates the nr in city statistics as well?
+        zones.remove(zone);
     }
 
     public void addFacility(Facility facility) {
+        // TODO can u updates the nr in city statistics as well?
         facilities.add(facility);
     }
 
+    public void removeFacility(Facility facility) {
+        // TODO can u updates the nr in city statistics as well?
+        facilities.remove(facility);
+    }
+
+    // TODO
+    public void deductBalance(int amount) {
+    }
+
+    // TODO
+    public void addMaintenanceFee(int amount) {
+    }
+
+    // TODO
+    public void addBalance(double v) {
+    }
 }

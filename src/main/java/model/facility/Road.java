@@ -1,9 +1,8 @@
-package model;
+package model.facility;
 
-import model.facility.Facility;
 import model.util.BuildableType;
-import model.util.Coordinate;
-import model.util.Dimension;
+import model.common.Coordinate;
+import model.common.Dimension;
 
 public class Road extends Facility {
 

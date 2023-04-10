@@ -1,7 +1,8 @@
 package controller;
 
+import controller.listeners.ServiceListener;
 import controller.util.Event;
-import model.util.Coordinate;
+import model.common.Coordinate;
 
 import java.util.HashMap;
 import java.util.Map;

@@ -1,7 +1,7 @@
-package controller;
+package controller.listeners;
 
 import controller.util.Property;
-import model.util.Coordinate;
+import model.common.Coordinate;
 
 public abstract class ServiceListener {
 

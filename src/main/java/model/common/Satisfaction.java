@@ -1,9 +1,9 @@
-package model;
+package model.common;
 
 public class Satisfaction {
     private int policeEffect;
     private int taxEffect;
-    private float indComZoneBalance;
+    private double indComZoneBalance;
     private float budgetEffect;
     private int freeWorkplaceEffect;
     private int stadiumEffect;
@@ -29,7 +29,7 @@ public class Satisfaction {
         return taxEffect;
     }
 
-    public float getZoneBalanceEffect() {
+    public double getZoneBalanceEffect() {
         return indComZoneBalance;
     }
 
@@ -61,7 +61,7 @@ public class Satisfaction {
         this.taxEffect = taxEffect;
     }
 
-    public void setZoneBalanceEffect(int indComZoneBalance) {
+    public void setZoneBalanceEffect(double indComZoneBalance) {
         this.indComZoneBalance = indComZoneBalance;
     }
 
@@ -88,7 +88,7 @@ public class Satisfaction {
     /**
      * @return total satisfaction
      */
-    public float getTotalSatisfaction() {
+    public double getTotalSatisfaction() {
         return policeEffect + taxEffect + indComZoneBalance + budgetEffect + freeWorkplaceEffect + stadiumEffect + noIndustrialEffect + citizenAvgEffect;
     }
 

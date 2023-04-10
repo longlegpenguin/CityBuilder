@@ -1,4 +1,4 @@
-package model.util;
+package model.common;
 
 public class Dimension {
     private int width, height;

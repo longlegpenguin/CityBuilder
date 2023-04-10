@@ -1,4 +1,6 @@
-package model;
+package model.zone;
+
+import model.common.Satisfaction;
 
 public final class
 ZoneStatistics {

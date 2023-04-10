@@ -1,39 +1,25 @@
 package controller;
 
+import controller.listeners.DemolishListener;
+import controller.listeners.FacilityBuildingListener;
+import controller.listeners.ZoneBuildingListener;
 import controller.util.Event;
 import controller.util.GameMode;
 import controller.util.Property;
 import model.GameModel;
-import model.util.Coordinate;
+import model.common.Coordinate;
 
 
 public class Controller {
-    private GameModel gameModel;
-    private GameMode gameMode;
+    private Property property;
     private Publisher service;
 
     public Controller(GameModel gameModel) {
-        this.gameModel = gameModel;
-        gameMode = GameMode.SELECTION_MODE;
+        property = new Property(GameMode.SELECTION_MODE, gameModel);
         service = new Publisher();
         registerListeners();
     }
     /// ------------ GETTERS, SETTERS START-----------------
-    public GameModel getGameModel() {
-        return gameModel;
-    }
-
-    public void setGameModel(GameModel gameModel) {
-        this.gameModel = gameModel;
-    }
-
-    public GameMode getGameMode() {
-        return gameMode;
-    }
-
-    public void setGameMode(GameMode gameMode) {
-        this.gameMode = gameMode;
-    }
 
     public Publisher getService() {
         return service;
@@ -47,9 +33,13 @@ public class Controller {
     /**
      * Handles every mouse click (on grid system) from the user
      * @param coordinate the coordinate of the cell the user click in grid sense.
+     * @param callBack will be called after the handle of the request, can be null for defaults.
      */
-    public void mouseClickRequest(Coordinate coordinate) {
-        service.notify(gameMode.getEvent(), coordinate);
+    public void mouseClickRequest(Coordinate coordinate, ICallBack callBack) {
+        if (callBack != null) {
+            property.setCallBack(callBack);
+        }
+        service.notify(property.getGameMode().getEvent(), coordinate);
     }
 
     /**
@@ -57,7 +47,7 @@ public class Controller {
      * @param gameMode the mode to switch to.
      */
     public void switchModeRequest(GameMode gameMode) {
-        this.setGameMode(gameMode);
+        this.property.setGameMode(gameMode);
     }
 
     /**
@@ -65,16 +55,9 @@ public class Controller {
      * There has to be one for each EVENTs.
      */
     private void registerListeners() {
-        Property property = new Property(gameMode, gameModel);
         service.register(Event.ZONE, new ZoneBuildingListener(property));
+        service.register(Event.FACILITY, new FacilityBuildingListener(property));
+        service.register(Event.DEMOLISH, new DemolishListener(property));
     }
 
 }
-
-/*
- * Handles client request of constructing new zones.
- * @param coordinate the coordinate at where new zone should be created.
- */
-//    public void newZoneRequest(Coordinate coordinate) {
-//        service.notify(Event.ZONE, coordinate);
-//    }
