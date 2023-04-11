@@ -1,8 +1,9 @@
 package model.zone;
 
+import model.common.Buildable;
+import model.common.Coordinate;
 import model.common.SideEffect;
 import model.util.BuildableType;
-import model.common.Coordinate;
 import model.util.Date;
 import model.util.Level;
 
@@ -20,17 +21,18 @@ public class CommercialZone extends Zone implements SideEffect {
 
     @Override
     public void effect(Zone zone) {
-        // TODO
+        zone.getStatistics().getSatisfaction().setFreeWorkplaceEffect(1);
     }
 
     @Override
     public void reverseEffect(Zone zone) {
-        // TODO
+        zone.getStatistics().getSatisfaction().setFreeWorkplaceEffect(0);
     }
 
     @Override
-    public boolean condition(Zone zone) {
+    public boolean condition(Zone zone, Buildable[][] map) {
         // TODO
+        //return (new PathFinder(map).manhattanDistance(this, zone) < 5);
         return false;
     }
 }

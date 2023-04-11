@@ -1,8 +1,9 @@
 package model.zone;
 
+import model.common.Buildable;
+import model.common.Coordinate;
 import model.common.SideEffect;
 import model.util.BuildableType;
-import model.common.Coordinate;
 import model.util.Date;
 import model.util.Level;
 
@@ -20,18 +21,20 @@ public class IndustrialZone extends Zone implements SideEffect {
 
     @Override
     public void effect(Zone zone) {
-        // TODO set the free work space for the reachable zones as well.
+        zone.getStatistics().getSatisfaction().setFreeWorkplaceEffect(1);
         zone.getStatistics().getSatisfaction().setIndustrialEffect(0);
     }
 
     @Override
     public void reverseEffect(Zone zone) {
+        zone.getStatistics().getSatisfaction().setFreeWorkplaceEffect(0);
         zone.getStatistics().getSatisfaction().setIndustrialEffect(1);
     }
 
     @Override
-    public boolean condition(Zone zone) {
-        //return find(map, this, zone) < 5;
-        return true;
+    public boolean condition(Zone zone, Buildable[][] map) {
+        //TODO
+        return false;
+//        return new PathFinder(map).euclideanDistance(this, zone) < 5;
     }
 }
