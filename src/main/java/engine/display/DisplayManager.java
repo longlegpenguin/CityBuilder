@@ -31,6 +31,7 @@ public class DisplayManager {
     public static long window;
 
     public static Keyboard keyboard = new Keyboard();
+    public Mouse mouse = new Mouse();
 
     /**
      * Creates a display windows on which the game can be rendered.

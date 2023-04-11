@@ -7,31 +7,32 @@ import engine.textures.TextureAttribute;
 
 public class Tile {
 
-    private static Terrain terrain;
-    private static Entity zone;
-    private static Entity buildable;
+    private Terrain terrain;
+    private Entity zone;
+    private Entity buildable;
 
+    boolean isSelected = false;
     public Tile(int gridX, int gridZ, Loader loader, TextureAttribute texture) {
         this.terrain = new Terrain(gridX, gridZ, loader, texture);
     }
 
-    public static Terrain getTerrain() {
+    public Terrain getTerrain() {
         return terrain;
     }
 
-    public static Entity getZone() {
+    public Entity getZone() {
         return zone;
     }
 
-    public static Entity getBuildable() {
+    public Entity getBuildable() {
         return buildable;
     }
 
-    public static void setZone(Entity zone) {
-        Tile.zone = zone;
+    public void setZone(Entity zone) {
+        this.zone = zone;
     }
 
-    public static void setBuildable(Entity buildable) {
-        Tile.buildable = buildable;
+    public void setBuildable(Entity buildable) {
+        this.buildable = buildable;
     }
 }
