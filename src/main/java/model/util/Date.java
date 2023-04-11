@@ -4,19 +4,23 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.Period;
-import java.util.Calendar;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.Objects;
+import java.util.*;
 
 public class Date implements Comparable<Date> {
     private int day;
     private Month month;
     private int year;
-    private float partial;
 
     public Date(int day, Month month, int year) throws IllegalArgumentException {
+        ArrayList<Integer> months30days = new ArrayList<>(Arrays.asList(4, 6, 9, 11));
         if (day > 31 || day < 0 || year < 0) throw new IllegalArgumentException("Invalid input");
+        if (month == Month.FEBRUARY && year % 4 != 0 && day > 28)
+            throw new IllegalArgumentException("Invalid day nr for February, not a leap year!");
+        if (month == Month.FEBRUARY && year % 4 == 0 && day > 29)
+            throw new IllegalArgumentException("Invalid day nr for February!");
+        if (months30days.contains(month.getMonthOrder()) && day > 30)
+            throw new IllegalArgumentException("Invalid day nr, this month has 30 days!");
+
         this.day = day;
         this.month = month;
         this.year = year;
