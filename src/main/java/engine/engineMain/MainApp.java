@@ -1,11 +1,11 @@
 package engine.engineMain;
 
 import controller.Controller;
-import controller.util.GameMode;
 import engine.display.DisplayManager;
 import engine.entities.Camera;
 import engine.entities.Entity;
 import engine.entities.Light;
+import engine.guis.UiComponent;
 import engine.models.RawModel;
 import engine.models.TexturedModel;
 import engine.objConverter.ModelData;
@@ -15,16 +15,17 @@ import engine.renderEngine.Loader;
 import engine.renderEngine.MasterRenderer;
 import engine.terrain.Selector;
 import engine.terrain.Terrain;
-import engine.textures.GuiTexture;
+import engine.textures.UiButton;
 import engine.textures.TextureAttribute;
+import engine.textures.UiTab;
 import engine.tools.Mouse;
 import engine.tools.MousePicker;
 import engine.world.WorldGrid;
 import model.GameModel;
-import model.common.Coordinate;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
 
+import java.awt.desktop.SystemEventListener;
 import java.util.ArrayList;
 
 import static org.lwjgl.glfw.GLFW.glfwWindowShouldClose;
@@ -54,10 +55,12 @@ public class MainApp {
 
         GuiRenderer guiRenderer = new GuiRenderer((loader));
         MousePicker mousePicker = new MousePicker(camera, renderer.getProjectionMatrix(),worldGrid);
-        ArrayList<GuiTexture> guis = new ArrayList<>();
-        GuiTexture gui = new GuiTexture(loader.loadTexture("grass"),new Vector2f(0f,0f), new Vector2f(0.5f, 0.5f));
-        guis.add(gui);
-
+        //ArrayList<UiTab> guiTabs = new ArrayList<UiComponent>();
+        ArrayList<UiButton>  guiButtons = new ArrayList<UiButton>();
+        //UiTab tab = new UiTab(loader.loadTexture("Tab Background"),new Vector2f(0f,-0.85f), new Vector2f(1f, 0.15f));
+        //guiTabs.add(tab);
+        UiButton button = new UiButton(loader.loadTexture("Button"),new Vector2f(-0.7f,-0.5f), new Vector2f(0.1f, 0.1f));
+        guiButtons.add(button);
         /** --------------------------------------------------------------------
          * Try these methods !
          *         controller.switchModeRequest(GameMode.COMMERCIAL_MODE); // fot the type of new things
@@ -98,7 +101,9 @@ public class MainApp {
             }
 
             renderer.render(entity, selector, camera, light);
-            guiRenderer.render(guis);
+
+            guiRenderer.render(guiButtons);
+            button.isClicked();
             DisplayManager.updateDisplay();
 
         }
