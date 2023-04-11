@@ -2,7 +2,6 @@ package model.facility;
 
 import model.GameModel;
 import model.common.Coordinate;
-import model.common.Dimension;
 
 public abstract class FacilityFactory {
     protected GameModel gm;
@@ -11,6 +10,5 @@ public abstract class FacilityFactory {
         this.gm = gm;
     }
 
-    public abstract Facility createFacility(int oneTimeCost, int maintenanceFee,
-                                            Coordinate coordinate, Dimension dimension);
+    public abstract Facility createFacility(Coordinate coordinate);
 }

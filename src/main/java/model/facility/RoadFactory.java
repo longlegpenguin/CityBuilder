@@ -11,7 +11,7 @@ public class RoadFactory extends FacilityFactory {
     }
 
     @Override
-    public Facility createFacility(int oneTimeCost, int maintenanceFee, Coordinate coordinate, Dimension dimension) {
-        return new Road(oneTimeCost, maintenanceFee, coordinate, dimension);
+    public Facility createFacility(Coordinate coordinate) {
+        return new Road(2000, 1000, coordinate, new Dimension(1, 1));
     }
 }
