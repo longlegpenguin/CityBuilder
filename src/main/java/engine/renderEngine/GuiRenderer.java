@@ -1,8 +1,9 @@
 package engine.renderEngine;
 
+import engine.guis.UiComponent;
 import engine.models.RawModel;
 import engine.shaders.GuiShader;
-import engine.textures.GuiTexture;
+import engine.textures.UiButton;
 import engine.tools.Maths;
 import org.joml.Matrix4f;
 import org.lwjgl.opengl.GL11;
@@ -23,7 +24,7 @@ import java.util.List;
             shader = new GuiShader();
         }
 
-        public void render(List<GuiTexture> guis) {
+        public void render(List<UiButton>guis) {
             shader.start();
             GL30.glBindVertexArray(quad.getVaoID());
             GL20.glEnableVertexAttribArray(0);
@@ -31,7 +32,7 @@ import java.util.List;
             GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
             GL11.glDisable(GL11.GL_DEPTH_TEST);
 
-            for (GuiTexture gui: guis) {
+            for (UiButton gui : guis){
                 GL13.glActiveTexture(GL13.GL_TEXTURE0);
                 GL11.glBindTexture(GL11.GL_TEXTURE_2D, gui.getTexture());
                 Matrix4f matrix = Maths.createTransformationMatrix(gui.getPosition(), gui.getScale());
