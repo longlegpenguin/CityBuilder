@@ -52,7 +52,7 @@ public class GameModel {
 
     /**
      * Updates the city's date
-     * @param daysPassed the date passed since last update
+     * @param daysPassed the days passed since last update
      */
     public void timePassUpdate(int daysPassed) {
         dateOfWorld.addDay(daysPassed);
