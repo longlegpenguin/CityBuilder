@@ -4,21 +4,24 @@ import engine.models.RawModel;
 import engine.renderEngine.Loader;
 import engine.textures.TextureAttribute;
 
-public class Terrain {
+/**
+ * TODO Parent class of this and terrain so that code is not copied
+ */
+public class Selector {
     private static final float SIZE = 10;
     private static final int VERTEX_COUNT = 4;
 
     private float x;
-    private float y = 0;
+    private float y = 0.1f;
     private float z;
     private RawModel model;
     private TextureAttribute texture;
 
-    public Terrain(int gridX, int gridZ, Loader loader, TextureAttribute texture) {
+    public Selector(int gridX, int gridZ, Loader loader, TextureAttribute texture) {
         this.texture = texture;
         this.x = gridX * SIZE;
         this.z = gridZ * SIZE;
-        this.model = generateTerrain(loader);
+        this.model = generateSelector(loader);
     }
 
     public static float getSize() {
@@ -49,7 +52,7 @@ public class Terrain {
         return texture;
     }
 
-    private RawModel generateTerrain(Loader loader){
+    private RawModel generateSelector(Loader loader){
         int count = VERTEX_COUNT * VERTEX_COUNT;
         float[] vertices = new float[count * 3];
         float[] normals = new float[count * 3];
@@ -86,5 +89,4 @@ public class Terrain {
         }
         return loader.loadToVAO(vertices, textureCoords, normals, indices);
     }
-
 }
