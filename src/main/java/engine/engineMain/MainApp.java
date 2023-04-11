@@ -10,6 +10,7 @@ import engine.objConverter.ModelData;
 import engine.objConverter.OBJFileLoader;
 import engine.renderEngine.Loader;
 import engine.renderEngine.MasterRenderer;
+import engine.terrain.Selector;
 import engine.terrain.Terrain;
 import engine.textures.TextureAttribute;
 import engine.tools.Mouse;
@@ -34,25 +35,34 @@ public class MainApp {
 
         WorldGrid worldGrid = new WorldGrid(loader, new TextureAttribute(loader.loadTexture("grass")));
 
-        //Terrain terrain = new Terrain(0, 0, loader, new TextureAttribute(loader.loadTexture("grass")));
+        Selector selector = new Selector(0,0, loader, new TextureAttribute(loader.loadTexture("selector")));
 
         Camera camera = new Camera(new Vector3f(Terrain.getSize() * worldGrid.getWorldSize() / 4,150,Terrain.getSize() * worldGrid.getWorldSize() / 4));
         Light light = new Light(new Vector3f(Terrain.getSize() * worldGrid.getWorldSize() / 2, 1000, Terrain.getSize() * worldGrid.getWorldSize() / 2), new Vector3f(1,1,1));
 
         MasterRenderer renderer = new MasterRenderer();
 
-        MousePicker mousePicker = new MousePicker(camera, renderer.getProjectionMatrix());
+        MousePicker mousePicker = new MousePicker(camera, renderer.getProjectionMatrix(),worldGrid);
 
         while(!glfwWindowShouldClose(DisplayManager.window)) {
             camera.move();
             mousePicker.update();
+
+            if (mousePicker.getCurrentTileCoords() != null) {
+                selector.setX(mousePicker.getCurrentTileCoords().x);
+                selector.setZ(mousePicker.getCurrentTileCoords().y);
+            } else {
+                selector.setX(-100);
+                selector.setZ(-100);
+            }
+
             Mouse.update();
 
             for (Terrain terrain: worldGrid.getTerrainList()) {
                 renderer.processTerrain(terrain);
             }
 
-            renderer.render(entity, camera, light);
+            renderer.render(entity, selector, camera, light);
             DisplayManager.updateDisplay();
         }
 

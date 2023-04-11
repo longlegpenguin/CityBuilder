@@ -23,9 +23,9 @@ public class TerrainRenderer {
 
     public TerrainRenderer(TerrainShader shader, Matrix4f projectionMatrix) {
         this.shader = shader;
-        shader.start();
-        shader.loadProjectionMatrix(projectionMatrix);
-        shader.stop();
+        this.shader.start();
+        this.shader.loadProjectionMatrix(projectionMatrix);
+        this.shader.stop();
     }
 
     public  void render(Map<TextureAttribute, List<Terrain>> terrains) {

@@ -2,7 +2,7 @@ package controller;
 
 import controller.util.GameMode;
 import controller.util.Property;
-import model.util.Coordinate;
+import model.common.Coordinate;
 
 public class ZoneBuildingListener extends ServiceListener{
 

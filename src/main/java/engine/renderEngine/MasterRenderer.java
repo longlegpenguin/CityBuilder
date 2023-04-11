@@ -6,7 +6,9 @@ import engine.entities.Entity;
 import engine.entities.Light;
 import engine.models.TexturedModel;
 import engine.shaders.EntityShader;
+import engine.shaders.SelectorShader;
 import engine.shaders.TerrainShader;
+import engine.terrain.Selector;
 import engine.terrain.Terrain;
 import engine.textures.TextureAttribute;
 import engine.world.Tile;
@@ -38,6 +40,9 @@ public class MasterRenderer {
     private TerrainRenderer terrainRenderer;
     private Map<TextureAttribute, List<Terrain>> terrains = new HashMap<TextureAttribute, List<Terrain>>();
 
+    private SelectorShader selectorShader = new SelectorShader();
+    private SelectorRenderer selectorRenderer;
+
 
     public MasterRenderer() {
         GL11.glEnable(GL11.GL_CULL_FACE);
@@ -45,13 +50,14 @@ public class MasterRenderer {
         createProjectionMatrix();
         entityRenderer = new EntityRenderer(entityShader, projectionMatrix);
         terrainRenderer = new TerrainRenderer(terrainShader, projectionMatrix);
+        selectorRenderer = new SelectorRenderer(selectorShader, projectionMatrix);
     }
 
-    public void render(Entity entity, Camera camera, Light light) {
+    public void render(Entity entity, Selector selector, Camera camera, Light light) {
         prepare();
         entityShader.start();
-        terrainShader.loadLight(light);
-        terrainShader.loadSkyColor(RED, GREEN, BLUE);
+        entityShader.loadLight(light);
+        entityShader.loadSkyColor(RED, GREEN, BLUE);
         entityShader.loadViewMatrix(camera);
         entityRenderer.render(entity);
         entityShader.stop();
@@ -63,6 +69,11 @@ public class MasterRenderer {
         terrainRenderer.render(terrains);
         terrainShader.stop();
         terrains.clear();
+
+        selectorShader.start();
+        selectorShader.loadViewMatrix(camera);
+        selectorRenderer.render(selector);
+        selectorShader.stop();
     }
 
     public void processTerrain(Terrain terrain) {
@@ -85,6 +96,8 @@ public class MasterRenderer {
 
     public void cleanUp() {
         entityShader.cleanUp();
+        terrainShader.cleanUp();
+        selectorShader.cleanUp();
     }
 
     public Matrix4f getProjectionMatrix() {

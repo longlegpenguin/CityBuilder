@@ -4,7 +4,7 @@ import controller.util.Event;
 import controller.util.GameMode;
 import controller.util.Property;
 import model.GameModel;
-import model.util.Coordinate;
+import model.common.Coordinate;
 
 
 public class Controller {
