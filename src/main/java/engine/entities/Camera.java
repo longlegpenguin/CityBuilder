@@ -10,13 +10,13 @@ import static org.lwjgl.glfw.GLFW.*;
     public class Camera extends Entity{
 
         private static final float MOVE_SPEED = 150;
-        private static final float ROTATION_SPEED = 30;
+        private static final float ROTATION_SPEED = 15;
         private static final float MIN_CAMERA_HEIGHT = 20;
         private static final float MAX_CAMERA_HEIGHT= 350;
         private float currentLongitudinalSpeed = 0;
         private float currentLateralSpeed = 0;
         private float currentRotationSpeed = 0;
-        private float pitch = 30;
+        private float pitch = 90;
         private float yaw = 0;
         private float zoom = 50;
 
