@@ -10,17 +10,23 @@ import engine.models.RawModel;
 import engine.models.TexturedModel;
 import engine.objConverter.ModelData;
 import engine.objConverter.OBJFileLoader;
+import engine.renderEngine.GuiRenderer;
 import engine.renderEngine.Loader;
 import engine.renderEngine.MasterRenderer;
 import engine.terrain.Selector;
 import engine.terrain.Terrain;
+import engine.textures.GuiTexture;
 import engine.textures.TextureAttribute;
 import engine.tools.Mouse;
 import engine.tools.MousePicker;
 import engine.world.WorldGrid;
 import model.GameModel;
 import model.common.Coordinate;
+import org.joml.Vector2f;
 import org.joml.Vector3f;
+
+import java.util.ArrayList;
+
 import static org.lwjgl.glfw.GLFW.glfwWindowShouldClose;
 
 public class MainApp {
@@ -46,7 +52,11 @@ public class MainApp {
 
         MasterRenderer renderer = new MasterRenderer();
 
+        GuiRenderer guiRenderer = new GuiRenderer((loader));
         MousePicker mousePicker = new MousePicker(camera, renderer.getProjectionMatrix(),worldGrid);
+        ArrayList<GuiTexture> guis = new ArrayList<>();
+        GuiTexture gui = new GuiTexture(loader.loadTexture("grass"),new Vector2f(0f,0f), new Vector2f(0.5f, 0.5f));
+        guis.add(gui);
 
         /** --------------------------------------------------------------------
          * Try these methods !
@@ -69,6 +79,7 @@ public class MainApp {
          */
 
         while(!glfwWindowShouldClose(DisplayManager.window)) {
+
             camera.move();
             mousePicker.update();
 
@@ -87,7 +98,9 @@ public class MainApp {
             }
 
             renderer.render(entity, selector, camera, light);
+            guiRenderer.render(guis);
             DisplayManager.updateDisplay();
+
         }
 
 
