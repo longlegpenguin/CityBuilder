@@ -1,7 +1,6 @@
 package model.city;
 
 import model.common.Citizen;
-import model.common.Constants;
 import model.facility.Facility;
 import model.zone.Zone;
 
@@ -62,21 +61,20 @@ public class CityRegistry {
     }
 
     public void addZone(Zone zone) {
-        // TODO can u updates the nr in city statistics as well?
         zones.add(zone);
+        cityStatistics.updateNrZones(this);
     }
+
     public void removeZone(Zone zone) {
-        // TODO can u updates the nr in city statistics as well?
         zones.remove(zone);
+        cityStatistics.updateNrZones(this);
     }
 
     public void addFacility(Facility facility) {
-        // TODO can u updates the nr in city statistics as well?
         facilities.add(facility);
     }
 
     public void removeFacility(Facility facility) {
-        // TODO can u updates the nr in city statistics as well?
         facilities.remove(facility);
     }
 
@@ -91,4 +89,5 @@ public class CityRegistry {
     // TODO
     public void addBalance(double v) {
     }
+
 }
