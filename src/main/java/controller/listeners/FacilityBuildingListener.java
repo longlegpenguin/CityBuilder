@@ -8,6 +8,7 @@ import model.common.Dimension;
 import model.exceptions.OperationException;
 import model.facility.Facility;
 import model.facility.Road;
+import model.facility.RoadFactory;
 
 public class FacilityBuildingListener extends ServiceListener {
 
@@ -23,8 +24,7 @@ public class FacilityBuildingListener extends ServiceListener {
         System.out.println(gmo);
         Facility facility = null;
         switch (gmo) {
-            // TODO replace by factory
-            case ROAD_MODE -> facility = new Road(0,0,coordinate, new Dimension(1,1));
+            case ROAD_MODE -> facility = new RoadFactory(gm).createFacility(coordinate);
         }
         try {
             gm.addFacility(facility);

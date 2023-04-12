@@ -24,9 +24,8 @@ public class ZoneBuildingListener extends ServiceListener {
         System.out.println(gmo);
         Zone zone = null;
         switch (gmo) {
-            // TODO replace by factory
-            case COMMERCIAL_MODE -> zone = new CommercialZone(Level.CONSTRUCTING, 0, new ZoneStatistics(0,0,new Satisfaction()), gm.getCurrentDate(), coordinate);
-            case INDUSTRIAL_MODE -> zone = new IndustrialZone(Level.CONSTRUCTING, 0, new ZoneStatistics(0,0,new Satisfaction()), gm.getCurrentDate(), coordinate);
+            case COMMERCIAL_MODE -> zone = new CommercialZoneFactory(gm).createZone(coordinate);
+            case INDUSTRIAL_MODE -> zone = new IndustrialZoneFactory(gm).createZone(coordinate);
             case RESIDENTIAL_MODE -> zone = new ResidentialZoneFactory(gm).createZone(coordinate);
         }
         System.out.println("Created" + zone);
