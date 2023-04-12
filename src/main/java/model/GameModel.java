@@ -16,9 +16,9 @@ import java.util.List;
 public class GameModel {
     private final int rows, cols;
     private Buildable[][] map;
-    private CityRegistry cityRegistry;
+    private final CityRegistry cityRegistry;
     private Date dateOfWorld;
-    private List<Road> masterRoads;
+    private final List<Road> masterRoads;
 
     public GameModel(int rows, int cols) {
         this.rows = rows;
@@ -52,7 +52,7 @@ public class GameModel {
 
     /**
      * Updates the city's date
-     * @param daysPassed the date passed since last update
+     * @param daysPassed the days passed since last update
      */
     public void timePassUpdate(int daysPassed) {
         dateOfWorld.addDay(daysPassed);
@@ -65,42 +65,62 @@ public class GameModel {
      */
     public void addZone(Zone zone) throws OperationException {
 
-        if (map[zone.getCoordinate().getRow()][zone.getCoordinate().getCol()] != null) {
+        if (!isPlotAvailable(zone)) {
             throw new OperationException("Fuck, already has something");
         }
-
         addToMap(zone);
 
-        if (SideEffect.class.isAssignableFrom(zone.getClass())) {
-            SideEffect badZone = (SideEffect)zone;
-            for (Zone z :
-                    cityRegistry.getZones()) {
-                badZone.effect(z);
-            }
-        }
+        effectExists(zone);
+        beEffectedByExisting(zone);
         cityRegistry.deductBalance(zone.getConstructionCost());
         cityRegistry.addZone(zone);
         updateIndustryCommercialBalanceSatisfactionIndex();
     }
+
+    /**
+     * Applies effects on all existing zones if it has side effect
+     * @param buildable the effective buildable
+     */
+    private void effectExists(Buildable buildable) {
+        if (hasSideEffect(buildable)) {
+            SideEffect bad = (SideEffect) buildable;
+            for (Zone z :
+                    cityRegistry.getZones()) {
+                bad.effect(z);
+            }
+        }
+    }
+
+    /**
+     * Applies effects by all existing buildables if there is effect.
+     * @param zone the zone to be effected.
+     */
+    private void beEffectedByExisting(Zone zone) {
+        for (Buildable existingBad :
+                getAllBuildable()) {
+            if (hasSideEffect(existingBad)) {
+                ((SideEffect)existingBad).effect(zone);
+            }
+        }
+    }
+
+    private static boolean hasSideEffect(Buildable buildable) {
+        return SideEffect.class.isAssignableFrom(buildable.getClass());
+    }
+
     /**
      * Adds the facility to the city.
      * @param facility the facility reference to be added
      */
     public void addFacility(Facility facility) throws OperationException {
 
-        if (isPlotAvailable(facility)) {
+        if (!isPlotAvailable(facility)) {
             throw new OperationException("Fuck, already has something");
         }
 
         addToMap(facility);
 
-        if (SideEffect.class.isAssignableFrom(facility.getClass())) {
-            SideEffect badFacility = (SideEffect)facility;
-            for (Zone z :
-                    cityRegistry.getZones()) {
-                badFacility.effect(z);
-            }
-        }
+        effectExists(facility);
         cityRegistry.deductBalance(facility.getOneTimeCost());
         cityRegistry.addMaintenanceFee(facility.getMaintenanceFee());
         cityRegistry.addFacility(facility);
@@ -166,9 +186,7 @@ public class GameModel {
      * @return budget
      */
     public Budget queryCityBudget() {
-        // TODO call city registry
-//        cityRegistry.getBudget();
-        return null;
+        return cityRegistry.getBudget();
     }
 
     /**
@@ -179,7 +197,6 @@ public class GameModel {
         return dateOfWorld;
     }
 
-    // ------------ Helper ---------------------------
     private void addToMap(Buildable buildable) {
         Coordinate coordinate = buildable.getCoordinate();
         Dimension dimension = buildable.getDimension();
@@ -208,7 +225,7 @@ public class GameModel {
     private void updateIndustryCommercialBalanceSatisfactionIndex() {
         CityStatistics cityStatistics = cityRegistry.getCityStatistics();
         int diff = Math.abs(cityStatistics.getNrIndustrialZones() - cityStatistics.getNrCommercialZones());
-        double newVal = + 1.0 / (diff == 0 ? 1.0 : diff);
+        double newVal = 1.0 / (diff == 0 ? 1.0 : diff);
         for (Zone zone :
                 cityRegistry.getZones()) {
             zone.updateComZoneBalanceEffect(newVal);
@@ -235,7 +252,7 @@ public class GameModel {
         return sb.toString();
     }
     private boolean isPlotAvailable(Buildable b) {
-        return map[b.getCoordinate().getRow()][b.getCoordinate().getCol()] != null;
+        return map[b.getCoordinate().getRow()][b.getCoordinate().getCol()] == null;
     }
 }
 

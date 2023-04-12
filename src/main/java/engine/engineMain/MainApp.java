@@ -38,6 +38,7 @@ public class MainApp {
         while(!glfwWindowShouldClose(DisplayManager.window)) {
             handler.render();
             DisplayManager.updateDisplay();
+
         }
 
 

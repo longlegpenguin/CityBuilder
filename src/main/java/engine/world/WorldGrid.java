@@ -10,7 +10,7 @@ import java.util.List;
 
 public class WorldGrid {
 
-    private static final int WORLD_SIZE = 100;
+    private static final int WORLD_SIZE = 10;
     private Tile[][] worldmatrix = new Tile[WORLD_SIZE][WORLD_SIZE];
 
     private List<Terrain> terrains = new ArrayList<Terrain>();

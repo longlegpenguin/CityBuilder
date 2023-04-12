@@ -1,20 +1,26 @@
 package model.util;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.Period;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.Objects;
+import java.util.*;
 
-// TODO addDay(int day) method please.
 public class Date implements Comparable<Date> {
-    private final int day;
-    private final Month month;
-    private final int year;
-    private float partial;
+    private int day;
+    private Month month;
+    private int year;
 
     public Date(int day, Month month, int year) throws IllegalArgumentException {
+        ArrayList<Integer> months30days = new ArrayList<>(Arrays.asList(4, 6, 9, 11));
         if (day > 31 || day < 0 || year < 0) throw new IllegalArgumentException("Invalid input");
+        if (month == Month.FEBRUARY && year % 4 != 0 && day > 28)
+            throw new IllegalArgumentException("Invalid day nr for February, not a leap year!");
+        if (month == Month.FEBRUARY && year % 4 == 0 && day > 29)
+            throw new IllegalArgumentException("Invalid day nr for February!");
+        if (months30days.contains(month.getMonthOrder()) && day > 30)
+            throw new IllegalArgumentException("Invalid day nr, this month has 30 days!");
+
         this.day = day;
         this.month = month;
         this.year = year;
@@ -57,10 +63,10 @@ public class Date implements Comparable<Date> {
 
     @Override
     public String toString() {
-        String strDay = "";
-        String strMonth = "";
-        if ((int) (Math.log10(this.day) + 1) < 2) strDay += "0" + this.day;
-        if ((int) (Math.log10(this.month.getMonthOrder()) + 1) < 2) strMonth += "0" + this.month.getMonthOrder();
+        String strDay = this.day + "";
+        String strMonth = this.month + "";
+        if ((int) (Math.log10(this.day) + 1) < 2) strDay = "0" + this.day;
+        if ((int) (Math.log10(this.month.getMonthOrder()) + 1) < 2) strMonth = "0" + this.month.getMonthOrder();
         return "" + this.year + "/" + strMonth + "/" + strDay;
     }
 
@@ -96,7 +102,25 @@ public class Date implements Comparable<Date> {
         return 0;
     }
 
-    // TODO
+    /**
+     * Updates the date after adding the daysPassed.
+     *
+     * @param daysPassed the days passed since last update
+     */
     public void addDay(int daysPassed) {
+        String dayBefore = this.toString();
+        System.out.println(dayBefore);
+        SimpleDateFormat dayFormat = new SimpleDateFormat("yyyy/MM/dd");
+        Calendar cal = Calendar.getInstance();
+        try {
+            cal.setTime(dayFormat.parse(dayBefore));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        cal.add(Calendar.DAY_OF_MONTH, daysPassed);
+        String dateAfter = dayFormat.format(cal.getTime());
+        this.day = Integer.parseInt(dateAfter.split("/")[2]);
+        this.month = Month.getMonthFromMonthOrder(Integer.parseInt(dateAfter.split("/")[1]));
+        this.year = Integer.parseInt(dateAfter.split("/")[0]);
     }
 }
