@@ -12,6 +12,9 @@ import org.lwjgl.opengl.GL13;
 import org.lwjgl.opengl.GL20;
 import org.lwjgl.opengl.GL30;
 
+import java.util.List;
+import java.util.Map;
+
 public class EntityRenderer {
 
     private EntityShader shader;
@@ -23,11 +26,16 @@ public class EntityRenderer {
         this.shader.stop();
     }
 
-    public void render(Entity entity) {
-        prepareModel(entity.getModel());
-        prepareInstance(entity);
-        GL11.glDrawElements(GL11.GL_TRIANGLES, entity.getModel().getRawModel().getVertexCount(), GL11.GL_UNSIGNED_INT, 0);
-        unbindModel();
+    public void render(Map<TexturedModel, List<Entity>> entities) {
+        for(TexturedModel textureModel: entities.keySet()) {
+            List<Entity> batch = entities.get(textureModel);
+            prepareModel(textureModel);
+            for(Entity entity: batch) {
+                prepareInstance(entity);
+                GL11.glDrawElements(GL11.GL_TRIANGLES, entity.getModel().getRawModel().getVertexCount(), GL11.GL_UNSIGNED_INT, 0);
+            }
+            unbindModel();
+        }
     }
 
     public void prepareModel(TexturedModel texturedModel) {

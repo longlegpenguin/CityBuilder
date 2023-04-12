@@ -4,10 +4,6 @@ import controller.Controller;
 import engine.entities.Camera;
 import engine.entities.Entity;
 import engine.entities.Light;
-import engine.models.RawModel;
-import engine.models.TexturedModel;
-import engine.objConverter.ModelData;
-import engine.objConverter.OBJFileLoader;
 import engine.renderEngine.Loader;
 import engine.renderEngine.MasterRenderer;
 import engine.terrain.Selector;
@@ -54,14 +50,6 @@ public class Handler {
         this.gameModel = new GameModel(worldGrid.getWorldSize(), worldGrid.getWorldSize());
         this.gameModel.initialize();
         this.controller = new Controller(gameModel);
-
-        ModelData data = OBJFileLoader.loadOBJ("cube");
-
-        RawModel model = loader.loadToVAO(data.getVertices(), data.getTextureCoords(), data.getNormals(), data.getIndices());
-        TextureAttribute texture = new TextureAttribute(loader.loadTexture("spiral"));
-        TexturedModel texturedModel = new TexturedModel(model, texture);
-
-        this.entity = new Entity(texturedModel, new Vector3f(0,0, -5), 0, 0, 0, 1);
     }
 
     public void render() {
@@ -75,13 +63,23 @@ public class Handler {
             selector.setZ(-100);
         }
 
+        
+
         Mouse.update();
 
         for (Terrain terrain: worldGrid.getTerrainList()) {
             masterRenderer.processTerrain(terrain);
         }
 
-        masterRenderer.render(entity, selector, camera, light);
+        for (Entity zone: worldGrid.getZoneList()) {
+            masterRenderer.processEntities(zone);
+        }
+
+        for (Entity buildable: worldGrid.getBuildableList()) {
+            masterRenderer.processEntities(buildable);
+        }
+
+        masterRenderer.render(selector, camera, light);
     }
 
     public void cleanUp() {
