@@ -53,13 +53,13 @@ public class MasterRenderer {
         selectorRenderer = new SelectorRenderer(selectorShader, projectionMatrix);
     }
 
-    public void render(Entity entity, Selector selector, Camera camera, Light light) {
+    public void render(Selector selector, Camera camera, Light light) {
         prepare();
         entityShader.start();
         entityShader.loadLight(light);
         entityShader.loadSkyColor(RED, GREEN, BLUE);
         entityShader.loadViewMatrix(camera);
-        entityRenderer.render(entity);
+        entityRenderer.render(entities);
         entityShader.stop();
 
         terrainShader.start();
@@ -74,6 +74,18 @@ public class MasterRenderer {
         selectorShader.loadViewMatrix(camera);
         selectorRenderer.render(selector);
         selectorShader.stop();
+    }
+
+    public void processEntities(Entity entity) {
+        TexturedModel texturedModel = entity.getModel();
+        List<Entity> batch = entities.get(texturedModel);
+        if (batch != null) {
+            batch.add(entity);
+        } else {
+            List<Entity> newBatch = new ArrayList<Entity>();
+            newBatch.add(entity);
+            entities.put(texturedModel, newBatch);
+        }
     }
 
     public void processTerrain(Terrain terrain) {
