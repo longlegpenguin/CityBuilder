@@ -1,5 +1,6 @@
 package model.city;
 
+import model.common.Budget;
 import model.common.Citizen;
 import model.facility.Facility;
 import model.zone.Zone;
@@ -90,4 +91,8 @@ public class CityRegistry {
     public void addBalance(double v) {
     }
 
+    //TODO
+    public Budget getBudget() {
+        return null;
+    }
 }
