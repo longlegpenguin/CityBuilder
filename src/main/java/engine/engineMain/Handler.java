@@ -1,9 +1,14 @@
 package engine.engineMain;
 
 import controller.Controller;
+import controller.util.GameMode;
 import engine.entities.Camera;
 import engine.entities.Entity;
 import engine.entities.Light;
+import engine.models.RawModel;
+import engine.models.TexturedModel;
+import engine.objConverter.ModelData;
+import engine.objConverter.OBJFileLoader;
 import engine.renderEngine.GuiRenderer;
 import engine.renderEngine.Loader;
 import engine.renderEngine.MasterRenderer;
@@ -35,8 +40,12 @@ public class Handler {
     private GameModel gameModel;
     private Controller controller;
 
-    private Entity entity;
+    //private Entity entity;
     ArrayList<UiButton> guiButtons = new ArrayList<UiButton>();;
+
+    ModelData road;
+    RawModel model;
+    TexturedModel roadTexM;
 
 
 
@@ -50,7 +59,7 @@ public class Handler {
 
         float center = Terrain.getSize() * worldGrid.getWorldSize() / 2;
         this.camera = new Camera(new Vector3f(0,100, 0));
-        this.light = new Light(new Vector3f(center, 1000, center), new Vector3f(1,1,1));
+        this.light = new Light(new Vector3f(50, 1000, 50), new Vector3f(1,1,1));
 
         this.guiRenderer = new GuiRenderer(loader);
 
@@ -101,6 +110,11 @@ public class Handler {
         UiButton cellStatsButton = new UiButton(loader.loadTexture(buttonTexture), new Vector2f(0.83f, 0.65f), new Vector2f(0.17f, 0.2f));
         guiButtons.add(cellStatsButton);
 
+        this.road = OBJFileLoader.loadOBJ("road");
+        this.model = loader.loadToVAO(road.getVertices(), road.getTextureCoords(), road.getNormals(), road.getIndices());
+        this.roadTexM = new TexturedModel(model, new TextureAttribute(loader.loadTexture("road")));
+
+
         this.masterRenderer = new MasterRenderer();
         this.mousePicker = new MousePicker(camera, masterRenderer.getProjectionMatrix(), worldGrid);
 
@@ -112,15 +126,24 @@ public class Handler {
     public void render() {
         camera.move();
         mousePicker.update();
+        int coordsX = -1;
+        int coordsY = -1;
         if (mousePicker.getCurrentTileCoords() != null) {
-            selector.setX(mousePicker.getCurrentTileCoords().x);
-            selector.setZ(mousePicker.getCurrentTileCoords().y);
+            coordsX = mousePicker.getCurrentTileCoords().x;
+            coordsY = mousePicker.getCurrentTileCoords().y;
+            selector.setX(coordsX);
+            selector.setZ(coordsY);
         } else {
             selector.setX(-100);
             selector.setZ(-100);
         }
 
-
+        if (Mouse.isLeftButtonPressed()) {
+            if (coordsX < worldGrid.getWorldSize() && coordsX >= 0 && coordsY < worldGrid.getWorldSize() && coordsY >= 0) {
+                Entity road = new Entity(roadTexM, new Vector3f(coordsX * Terrain.getSize(),0,(coordsY + 1) *Terrain.getSize()), 0,0,0,5);
+                worldGrid.addBuildable(mousePicker.getCurrentTileCoords().x, mousePicker.getCurrentTileCoords().y, road);
+            }
+        }
 
 
         Mouse.update();
