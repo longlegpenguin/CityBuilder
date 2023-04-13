@@ -153,6 +153,7 @@ public class GameModel {
             updateIndustryCommercialBalanceSatisfactionIndex();
         } else {
             cityRegistry.removeFacility((Facility) bad);
+            cityRegistry.deductMaintenanceFee(((Facility) bad).getMaintenanceFee());
         }
 
     }

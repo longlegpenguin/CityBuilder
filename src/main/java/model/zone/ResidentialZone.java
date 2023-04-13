@@ -16,4 +16,10 @@ public class ResidentialZone extends Zone {
         return BuildableType.RESIDENTIAL;
     }
 
+    // TODO
+    @Override
+    public boolean isUnderConstruction() {
+        return false;
+    }
+
 }
