@@ -26,12 +26,12 @@ public class Stadium extends EffectualFacility {
 
     @Override
     public void effect(Zone zone, Buildable[][] map) {
-
+        zone.updateStadiumEffect(1);
     }
 
     @Override
     public void reverseEffect(Zone zone, Buildable[][] map) {
-
+        zone.updateStadiumEffect(0);
     }
 
     @Override
