@@ -31,16 +31,11 @@ public abstract class Zone implements Buildable {
         this.coordinate = coordinate;
         citizens = new ArrayList<>();
         this.dimension = new Dimension(1, 1);
-        this.buildableType = BuildableType.UNDER_CONSTRUCTION;
     }
 
     @Override
     public BuildableType getBuildableType() {
         return buildableType;
-    }
-
-    public void setBuildableType(BuildableType buildableType) {
-        this.buildableType = buildableType;
     }
 
     public Level getLevel() {

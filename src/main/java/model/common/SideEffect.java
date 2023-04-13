@@ -10,7 +10,7 @@ public interface SideEffect {
      *
      * @param zone the zone to effect.
      */
-    void effect(Zone zone);
+    void effect(Zone zone, Buildable[][] map);
 
     /**
      * Reverse special effect of the facility on a given zone.
@@ -18,7 +18,7 @@ public interface SideEffect {
      *
      * @param zone the zone to effect.
      */
-    void reverseEffect(Zone zone);
+    void reverseEffect(Zone zone, Buildable[][] map);
 
     /**
      * Evaluates the condition for the facility to have effect on a given zone

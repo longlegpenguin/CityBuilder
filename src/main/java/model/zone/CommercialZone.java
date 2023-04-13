@@ -26,12 +26,12 @@ public class CommercialZone extends Zone implements SideEffect {
     }
 
     @Override
-    public void effect(Zone zone) {
+    public void effect(Zone zone, Buildable[][] map) {
         zone.getStatistics().getSatisfaction().setFreeWorkplaceEffect(1);
     }
 
     @Override
-    public void reverseEffect(Zone zone) {
+    public void reverseEffect(Zone zone, Buildable[][] map) {
         zone.getStatistics().getSatisfaction().setFreeWorkplaceEffect(0);
     }
 

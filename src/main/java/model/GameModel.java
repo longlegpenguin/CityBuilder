@@ -89,7 +89,7 @@ public class GameModel {
             SideEffect bad = (SideEffect) buildable;
             for (Zone z :
                     cityRegistry.getZones()) {
-                bad.effect(z);
+                bad.effect(z, map);
             }
         }
     }
@@ -102,7 +102,7 @@ public class GameModel {
         for (Buildable existingBad :
                 getAllBuildable()) {
             if (hasSideEffect(existingBad)) {
-                ((SideEffect)existingBad).effect(zone);
+                ((SideEffect)existingBad).effect(zone, map);
             }
         }
     }
@@ -146,7 +146,7 @@ public class GameModel {
             SideEffect badBuildable = (SideEffect)bad;
             for (Zone z :
                     cityRegistry.getZones()) {
-                badBuildable.reverseEffect(z);
+                badBuildable.reverseEffect(z, map);
             }
         }
         cityRegistry.addBalance(bad.getConstructionCost() * Constants.RETURN_RATE);
