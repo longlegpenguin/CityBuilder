@@ -18,7 +18,6 @@ public class FacilityBuildingListener extends ServiceListener {
 
     @Override
     public void update(Coordinate coordinate) {
-        // TODO create instance of facility according to game mode
         GameMode gmo = property.getGameMode();
         GameModel gm = property.getGameModel();
         System.out.println(gmo);

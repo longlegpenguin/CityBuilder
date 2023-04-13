@@ -1,6 +1,7 @@
 package engine.engineMain;
 
 import controller.Controller;
+import controller.ICallBack;
 import controller.util.GameMode;
 import engine.entities.Camera;
 import engine.entities.Entity;
@@ -20,12 +21,17 @@ import engine.tools.Mouse;
 import engine.tools.MousePicker;
 import engine.world.WorldGrid;
 import model.GameModel;
+import model.common.Budget;
+import model.common.Buildable;
+import model.common.Coordinate;
+import model.util.Date;
+import model.zone.ZoneStatistics;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
 
 import java.util.ArrayList;
 
-public class Handler {
+public class Handler implements ICallBack {
 
     private String saveFile;
     private Loader loader = new Loader();
@@ -140,8 +146,10 @@ public class Handler {
 
         if (Mouse.isLeftButtonPressed()) {
             if (coordsX < worldGrid.getWorldSize() && coordsX >= 0 && coordsY < worldGrid.getWorldSize() && coordsY >= 0) {
-                Entity road = new Entity(roadTexM, new Vector3f(coordsX * Terrain.getSize(),0,(coordsY + 1) *Terrain.getSize()), 0,0,0,5);
-                worldGrid.addBuildable(mousePicker.getCurrentTileCoords().x, mousePicker.getCurrentTileCoords().y, road);
+                controller.switchModeRequest(GameMode.ROAD_MODE);
+                controller.mouseClickRequest(new Coordinate(coordsX, coordsY), this);
+//                Entity road = new Entity(roadTexM, new Vector3f(coordsX * Terrain.getSize(),0,(coordsY + 1) *Terrain.getSize()), 0,0,0,5);
+//                worldGrid.addBuildable(mousePicker.getCurrentTileCoords().x, mousePicker.getCurrentTileCoords().y, road);
             }
         }
 
@@ -170,4 +178,34 @@ public class Handler {
         loader.cleanUp();
     }
 
+    @Override
+    public void updateGridSystem(Coordinate coordinate, Buildable buildable) {
+        Entity entity = null;
+        switch (buildable.getBuildableType()) {
+            case ROAD -> {
+                entity = new Entity(roadTexM, new Vector3f(coordinate.getRow() * Terrain.getSize(),0,(coordinate.getCol() + 1) *Terrain.getSize()), 0,0,0,5);
+                break;
+            }
+            case COMMERCIAL -> {
+//                entity = new Entity(roadTexM, new Vector3f(coordinate.getRow() * Terrain.getSize(),0,(coordinate.getCol() + 1) *Terrain.getSize()), 0,0,0,5);
+                break;
+            }
+        }
+        worldGrid.addBuildable(mousePicker.getCurrentTileCoords().x, mousePicker.getCurrentTileCoords().y, entity);
+    }
+
+    @Override
+    public void updateBudgetPanel(Budget budget) {
+
+    }
+
+    @Override
+    public void updateStatisticPanel(ZoneStatistics zoneStatistics) {
+
+    }
+
+    @Override
+    public void updateDatePanel(Date date) {
+
+    }
 }
