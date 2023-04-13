@@ -16,7 +16,7 @@ import static org.lwjgl.glfw.GLFW.*;
         private float currentLongitudinalSpeed = 0;
         private float currentLateralSpeed = 0;
         private float currentRotationSpeed = 0;
-        private float pitch = 90;
+        private float pitch = 45;
         private float yaw = 0;
         private float zoom = 50;
 

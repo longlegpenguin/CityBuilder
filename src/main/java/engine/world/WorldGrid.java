@@ -43,7 +43,19 @@ public class WorldGrid {
     }
 
     public List<Entity> getBuildableList() {
+        buildables.clear();
+        for (int i = 0; i < WORLD_SIZE; i++) {
+            for (int j = 0; j < WORLD_SIZE; j++) {
+                if (worldmatrix[i][j].getBuildable() != null) {
+                    buildables.add(worldmatrix[i][j].getBuildable());
+                }
+            }
+        }
         return buildables;
+    }
+
+    public void addBuildable(int x, int z, Entity buildable) {
+        worldmatrix[x][z].setBuildable(buildable);
     }
 
 }
