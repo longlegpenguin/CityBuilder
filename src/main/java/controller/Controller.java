@@ -50,6 +50,9 @@ public class Controller {
         this.property.setGameMode(gameMode);
     }
 
+    public void regularUpdateRequest(int dayPass) {
+        this.property.getGameModel().regularUpdate(dayPass);
+    }
     /**
      * Register all necessary event handlers to publisher.
      * There has to be one for each EVENTs.

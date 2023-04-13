@@ -2,20 +2,6 @@ package controller.util;
 import static controller.util.Event.*;
 public enum GameMode {
 
-//    SELECTION_MODE,
-//    RESIDENTIAL_MODE,
-//    INDUSTRIAL_MODE,
-//    COMMERCIAL_MODE,
-//    ROAD_MODE,
-//    POLICE_MODE,
-//    STADIUM_MODE,
-//    SCHOOL_MODE,
-//    UNIVERSITY_MODE,
-//    FOREST_MODE,
-//    UPGRADE_MODE,
-//    DEMOLISH_MODE
-//    NONE(Event.NONE);
-
     SELECTION_MODE(Event.NONE),
     RESIDENTIAL_MODE(ZONE),
     INDUSTRIAL_MODE(ZONE),

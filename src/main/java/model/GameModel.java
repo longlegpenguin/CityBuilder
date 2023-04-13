@@ -19,6 +19,7 @@ public class GameModel {
     private final CityRegistry cityRegistry;
     private Date dateOfWorld;
     private final List<Road> masterRoads;
+    private List<Zone> underConstructions;
 
     public GameModel(int rows, int cols) {
         this.rows = rows;
@@ -27,6 +28,7 @@ public class GameModel {
         cityRegistry = new CityRegistry();
         dateOfWorld = new Date(1, Month.FEBRUARY, 2020);
         masterRoads = new ArrayList<>();
+        underConstructions = new ArrayList<>();
     }
 
     /**
@@ -75,6 +77,7 @@ public class GameModel {
         cityRegistry.deductBalance(zone.getConstructionCost());
         cityRegistry.addZone(zone);
         updateIndustryCommercialBalanceSatisfactionIndex();
+        underConstructions.add(zone);
     }
 
     /**
@@ -254,6 +257,35 @@ public class GameModel {
     }
     private boolean isPlotAvailable(Buildable b) {
         return map[b.getCoordinate().getRow()][b.getCoordinate().getCol()] == null;
+    }
+
+    /**
+     * TODO
+     * @param dayPass the day passed since last updates
+     */
+    public void regularUpdate(int dayPass) {
+        dateOfWorld.addDay(dayPass);
+        filterConstructed();
+// TODO
+//        update citizens dynamic (use human manufacture)
+//        update city balance (use finical department)
+//        update forest (self container)
+
+    }
+
+    /**
+     * Filter out the already finished constructions and update their level.
+     */
+    private void filterConstructed() {
+        List<Zone> newUnderConstructions = new ArrayList<>();
+        for (Zone zone : underConstructions) {
+            if (zone.getBirthday().dateDifference(dateOfWorld).get("days") > Constants.CONSTRUCTION_DAY) {
+                zone.setLevel(Level.ONE);
+            } else {
+                newUnderConstructions.add(zone);
+            }
+        }
+        underConstructions = newUnderConstructions;
     }
 }
 
