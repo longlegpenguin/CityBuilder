@@ -6,9 +6,7 @@ import model.GameModel;
 import model.common.Coordinate;
 import model.common.Dimension;
 import model.exceptions.OperationException;
-import model.facility.Facility;
-import model.facility.Road;
-import model.facility.RoadFactory;
+import model.facility.*;
 
 public class FacilityBuildingListener extends ServiceListener {
 
@@ -18,13 +16,13 @@ public class FacilityBuildingListener extends ServiceListener {
 
     @Override
     public void update(Coordinate coordinate) {
-        // TODO create instance of facility according to game mode
         GameMode gmo = property.getGameMode();
         GameModel gm = property.getGameModel();
         System.out.println(gmo);
         Facility facility = null;
         switch (gmo) {
             case ROAD_MODE -> facility = new RoadFactory(gm).createFacility(coordinate);
+            case STADIUM_MODE -> facility = new StadiumFactory(gm).createFacility(coordinate);
         }
         try {
             gm.addFacility(facility);

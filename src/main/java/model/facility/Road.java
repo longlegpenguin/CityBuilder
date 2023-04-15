@@ -14,4 +14,10 @@ public class Road extends Facility {
     public BuildableType getBuildableType() {
         return BuildableType.ROAD;
     }
+
+    // TODO
+    @Override
+    public boolean isUnderConstruction() {
+        return false;
+    }
 }

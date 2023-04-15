@@ -24,4 +24,10 @@ public interface Buildable {
      * @return the costs.
      */
     int getConstructionCost();
+
+    /**
+     * Checks if the buildable is under construction
+     * @return boolean
+     */
+    boolean isUnderConstruction();
 }

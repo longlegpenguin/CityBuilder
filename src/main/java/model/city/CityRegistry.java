@@ -95,4 +95,7 @@ public class CityRegistry {
     public Budget getBudget() {
         return null;
     }
+    // TODO
+    public void deductMaintenanceFee(int maintenanceFee) {
+    }
 }

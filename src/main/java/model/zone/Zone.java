@@ -2,6 +2,7 @@ package model.zone;
 
 import model.common.Buildable;
 import model.common.Citizen;
+import model.util.BuildableType;
 import model.util.Date;
 import model.common.Constants;
 import model.common.Coordinate;
@@ -19,6 +20,8 @@ public abstract class Zone implements Buildable {
     protected Date birthday;
     protected Coordinate coordinate;
     protected final Dimension dimension;
+    protected BuildableType buildableType;
+
 
     public Zone(Level level, int dayToBuild, ZoneStatistics statistics, Date birthday, Coordinate coordinate) {
         this.level = level;
@@ -28,6 +31,11 @@ public abstract class Zone implements Buildable {
         this.coordinate = coordinate;
         citizens = new ArrayList<>();
         this.dimension = new Dimension(1, 1);
+    }
+
+    @Override
+    public BuildableType getBuildableType() {
+        return buildableType;
     }
 
     public Level getLevel() {
