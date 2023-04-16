@@ -28,12 +28,14 @@ public class IndustrialZone extends Zone implements SideEffect {
 
     @Override
     public void effect(Zone zone, Buildable[][] map) {
+        zone.getEffectedBy().add(this);
         zone.getStatistics().getSatisfaction().setFreeWorkplaceEffect(1);
         zone.getStatistics().getSatisfaction().setIndustrialEffect(0);
     }
 
     @Override
     public void reverseEffect(Zone zone, Buildable[][] map) {
+        zone.getEffectedBy().remove(this);
         zone.getStatistics().getSatisfaction().setFreeWorkplaceEffect(0);
         zone.getStatistics().getSatisfaction().setIndustrialEffect(1);
     }
