@@ -5,6 +5,7 @@ import model.city.CityStatistics;
 import model.common.*;
 import model.exceptions.OperationException;
 import model.facility.Facility;
+import model.facility.Forest;
 import model.facility.Road;
 import model.util.*;
 import model.zone.Zone;
@@ -20,6 +21,7 @@ public class GameModel {
     private Date dateOfWorld;
     private final List<Road> masterRoads;
     private List<Zone> underConstructions;
+    private List<Forest> youthForest;
 
     public GameModel(int rows, int cols) {
         this.rows = rows;
@@ -29,6 +31,7 @@ public class GameModel {
         dateOfWorld = new Date(1, Month.FEBRUARY, 2020);
         masterRoads = new ArrayList<>();
         underConstructions = new ArrayList<>();
+        youthForest = new ArrayList<>();
     }
 
     /**
@@ -127,6 +130,10 @@ public class GameModel {
         cityRegistry.deductBalance(facility.getOneTimeCost());
         cityRegistry.addMaintenanceFee(facility.getMaintenanceFee());
         cityRegistry.addFacility(facility);
+
+        if (facility.getBuildableType() == BuildableType.FOREST) {
+            youthForest.add((Forest) facility);
+        }
     }
 
     /**
@@ -269,7 +276,19 @@ public class GameModel {
 // TODO
 //        update citizens dynamic (use human manufacture)
 //        update city balance (use finical department)
-//        update forest (self container)
+
+        // update forest (self container)
+        List<Forest> newYouth = new ArrayList<>();
+        for (Forest forest : youthForest) {
+            forest.incAge(dateOfWorld);
+            if (forest.getAge() > 10) {
+                cityRegistry.addMaintenanceFee(-forest.getMaintenanceFee());
+            } else {
+                newYouth.add(forest);
+            }
+            effectExists(forest);
+        }
+        youthForest = newYouth;
 
     }
 

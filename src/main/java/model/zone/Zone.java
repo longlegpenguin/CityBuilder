@@ -21,6 +21,7 @@ public abstract class Zone implements Buildable {
     protected Coordinate coordinate;
     protected final Dimension dimension;
     protected BuildableType buildableType;
+    List<Buildable> effectedBy;
 
 
     public Zone(Level level, int dayToBuild, ZoneStatistics statistics, Date birthday, Coordinate coordinate) {
@@ -31,6 +32,15 @@ public abstract class Zone implements Buildable {
         this.coordinate = coordinate;
         citizens = new ArrayList<>();
         this.dimension = new Dimension(1, 1);
+        effectedBy = new ArrayList<>();
+    }
+
+    public List<Buildable> getEffectedBy() {
+        return effectedBy;
+    }
+
+    public void setEffectedBy(List<Buildable> effectedBy) {
+        this.effectedBy = effectedBy;
     }
 
     @Override
@@ -66,6 +76,20 @@ public abstract class Zone implements Buildable {
         this.statistics = statistics;
     }
 
+    /**
+     * If new is positive, use new value as effect if is greater than the old one.
+     * If is negative, set to zero if abs is the same.
+     * @param newValue double new value
+     */
+    public void updateForestEffect(double newValue) {
+        double oldEffect = statistics.getSatisfaction().getForestEffect();
+        if (newValue >= 0) {
+            oldEffect = Math.max(oldEffect, newValue);
+        } else {
+            oldEffect = (oldEffect == -newValue) ? 0 : oldEffect;
+        }
+        statistics.getSatisfaction().setForestEffect(oldEffect);
+    }
     public void updateBudgetEffect(int newValue) {
         statistics.getSatisfaction().setBudgetEffect(newValue);
     }
@@ -143,6 +167,10 @@ public abstract class Zone implements Buildable {
     }
     public int getPopulation() {
         return citizens.size();
+    }
+
+    public int getIndustrialEffect() {
+        return statistics.getSatisfaction().getIndustrialEffect();
     }
 
     @Override
