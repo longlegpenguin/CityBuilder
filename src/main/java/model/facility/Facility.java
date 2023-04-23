@@ -20,9 +20,11 @@ public abstract class Facility implements Buildable {
     public int getOneTimeCost() {
         return oneTimeCost;
     }
+
     public int getConstructionCost() {
         return getOneTimeCost();
     }
+
     public void setOneTimeCost(int oneTimeCost) {
         this.oneTimeCost = oneTimeCost;
     }

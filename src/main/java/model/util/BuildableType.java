@@ -6,5 +6,7 @@ public enum BuildableType {
     COMMERCIAL,
     ROAD,
     STADIUM,
-    FOREST
+    FOREST,
+    UNIVERSITY,
+    SCHOOL
 }
