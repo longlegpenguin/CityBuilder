@@ -18,7 +18,8 @@ public class GameModel {
     private final int rows, cols;
     private Buildable[][] map;
     private final CityRegistry cityRegistry;
-    private Date dateOfWorld;
+    private final CityStatistics cityStatistics;
+    private final Date dateOfWorld;
     private final List<Road> masterRoads;
     private List<Zone> underConstructions;
     private List<Forest> youthForest;
@@ -28,6 +29,7 @@ public class GameModel {
         this.cols = cols;
         map = new Buildable[rows][cols];
         cityRegistry = new CityRegistry();
+        cityStatistics = new CityStatistics(new Budget(1000000, 0.3));
         dateOfWorld = new Date(1, Month.FEBRUARY, 2020);
         masterRoads = new ArrayList<>();
         underConstructions = new ArrayList<>();
@@ -38,13 +40,14 @@ public class GameModel {
      * Initializes the settings inside game model.
      */
     public void initialize() {
-        Road road = new Road(0,0,new Coordinate(rows-1, cols/2), new Dimension(1,1));
+        Road road = new Road(0, 0, new Coordinate(rows - 1, cols / 2), new Dimension(1, 1));
         masterRoads.add(road);
         addToMap(road);
     }
 
     /**
      * Gets everything on the map.
+     *
      * @return list of buildables.
      */
     public List<Buildable> getAllBuildable() {
@@ -57,6 +60,7 @@ public class GameModel {
 
     /**
      * Updates the city's date
+     *
      * @param daysPassed the days passed since last update
      */
     public void timePassUpdate(int daysPassed) {
@@ -66,6 +70,7 @@ public class GameModel {
     /**
      * Adds the zone to the city.
      * Updates its effect on satisfaction of other zones as well.
+     *
      * @param zone the zone reference to be added
      */
     public void addZone(Zone zone) throws OperationException {
@@ -85,6 +90,7 @@ public class GameModel {
 
     /**
      * Applies effects on all existing zones if it has side effect
+     *
      * @param buildable the effective buildable
      */
     private void effectExists(Buildable buildable) {
@@ -99,13 +105,14 @@ public class GameModel {
 
     /**
      * Applies effects by all existing buildables if there is effect.
+     *
      * @param zone the zone to be effected.
      */
     private void beEffectedByExisting(Zone zone) {
         for (Buildable existingBad :
                 getAllBuildable()) {
             if (hasSideEffect(existingBad)) {
-                ((SideEffect)existingBad).effect(zone, map);
+                ((SideEffect) existingBad).effect(zone, map);
             }
         }
     }
@@ -116,6 +123,7 @@ public class GameModel {
 
     /**
      * Adds the facility to the city.
+     *
      * @param facility the facility reference to be added
      */
     public void addFacility(Facility facility) throws OperationException {
@@ -128,7 +136,7 @@ public class GameModel {
 
         effectExists(facility);
         cityRegistry.deductBalance(facility.getOneTimeCost());
-        cityRegistry.addMaintenanceFee(facility.getMaintenanceFee());
+        cityStatistics.getBudget().addMaintenanceFee(facility.getMaintenanceFee());
         cityRegistry.addFacility(facility);
 
         if (facility.getBuildableType() == BuildableType.FOREST) {
@@ -138,6 +146,7 @@ public class GameModel {
 
     /**
      * removes a buildable completely from the city.
+     *
      * @param coordinate coordinate of the buildable to remove
      * @throws OperationException if removing empty slot.
      */
@@ -150,25 +159,27 @@ public class GameModel {
         removeFromMap(bad);
 
         if (SideEffect.class.isAssignableFrom(bad.getClass())) {
-            SideEffect badBuildable = (SideEffect)bad;
+            SideEffect badBuildable = (SideEffect) bad;
             for (Zone z :
                     cityRegistry.getZones()) {
                 badBuildable.reverseEffect(z, map);
             }
         }
-        cityRegistry.addBalance(bad.getConstructionCost() * Constants.RETURN_RATE);
+        cityStatistics.getBudget().addBalance(bad.getConstructionCost() * Constants.RETURN_RATE);
 
         if (Zone.class.isAssignableFrom(bad.getClass())) {
-            cityRegistry.removeZone((Zone)bad);
+            cityRegistry.removeZone((Zone) bad);
             updateIndustryCommercialBalanceSatisfactionIndex();
         } else {
             cityRegistry.removeFacility((Facility) bad);
-            cityRegistry.deductMaintenanceFee(((Facility) bad).getMaintenanceFee());
+            cityStatistics.getBudget().deductMaintenanceFee(((Facility) bad).getMaintenanceFee());
         }
 
     }
+
     /**
      * Updates city's tax rate
+     *
      * @param newTaxRate the new tax rate
      */
     public void updateTaxRate(double newTaxRate) {
@@ -177,6 +188,7 @@ public class GameModel {
 
     /**
      * Gets the satisfaction of the whole city
+     *
      * @return satisfaction
      */
     public CityStatistics queryCityStatistics() {
@@ -185,23 +197,27 @@ public class GameModel {
 
     /**
      * Gets the satisfaction of a specified zone
+     *
      * @param coordinate the coordinate of the zone for which satisfaction should be got
      * @return satisfaction
      */
     public ZoneStatistics queryZoneStatistics(Coordinate coordinate) {
-        Zone z = (Zone)map[coordinate.getRow()][coordinate.getCol()];
+        Zone z = (Zone) map[coordinate.getRow()][coordinate.getCol()];
         return z.getStatistics();
     }
+
     /**
      * Gets the budget of the whole city
+     *
      * @return budget
      */
     public Budget queryCityBudget() {
-        return cityRegistry.getBudget();
+        return cityStatistics.getBudget();
     }
 
     /**
      * Gets the current date in sense of the world of city.
+     *
      * @return the date.
      */
     public Date getCurrentDate() {
@@ -214,7 +230,7 @@ public class GameModel {
 
         for (int i = 0; i < dimension.getHeight(); i++) { // rows
             for (int j = 0; j < dimension.getWidth(); j++) { // cols
-                map[coordinate.getRow()+i][coordinate.getCol()+j] = buildable;
+                map[coordinate.getRow() + i][coordinate.getCol() + j] = buildable;
             }
         }
     }
@@ -225,7 +241,7 @@ public class GameModel {
 
         for (int i = 0; i < dimension.getHeight(); i++) { // rows
             for (int j = 0; j < dimension.getWidth(); j++) { // cols
-                map[coordinate.getRow()+i][coordinate.getCol()+j] = null;
+                map[coordinate.getRow() + i][coordinate.getCol() + j] = null;
             }
         }
     }
@@ -262,12 +278,14 @@ public class GameModel {
         }
         return sb.toString();
     }
+
     private boolean isPlotAvailable(Buildable b) {
         return map[b.getCoordinate().getRow()][b.getCoordinate().getCol()] == null;
     }
 
     /**
      * TODO
+     *
      * @param dayPass the day passed since last updates
      */
     public void regularUpdate(int dayPass) {
@@ -282,7 +300,7 @@ public class GameModel {
         for (Forest forest : youthForest) {
             forest.incAge(dateOfWorld);
             if (forest.getAge() > 10) {
-                cityRegistry.addMaintenanceFee(-forest.getMaintenanceFee());
+                cityStatistics.getBudget().addMaintenanceFee(-forest.getMaintenanceFee());
             } else {
                 newYouth.add(forest);
             }
@@ -309,9 +327,9 @@ public class GameModel {
 }
 
 
-
 /**
  * Removes the zone from the city.
+ *
  * @param coordinate the coordinate of zone reference to be removed.
  */
 //    public void removeZone(Coordinate coordinate) throws OperationException {
