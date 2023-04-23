@@ -293,6 +293,7 @@ public class GameModel {
 // TODO
 //        update citizens dynamic (use human manufacture)
 //        update city balance (use finical department)
+//        keep track of budget and tax
 
         // update forest (self container)
         List<Forest> newYouth = new ArrayList<>();
