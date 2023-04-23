@@ -10,7 +10,7 @@ public class CityStatistics {
     private int nrCommercialZones;
     private int nrIndustrialZones;
     private int nrResidentialZones;
-    private Budget budget;
+    private final Budget budget;
     private int population;
     private float citizenSatisfaction;
 
