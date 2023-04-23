@@ -28,8 +28,8 @@ public class GameModel {
         this.rows = rows;
         this.cols = cols;
         map = new Buildable[rows][cols];
-        cityRegistry = new CityRegistry();
         cityStatistics = new CityStatistics(new Budget(1000000, 0.3));
+        cityRegistry = new CityRegistry(cityStatistics);
         dateOfWorld = new Date(1, Month.FEBRUARY, 2020);
         masterRoads = new ArrayList<>();
         underConstructions = new ArrayList<>();
@@ -82,7 +82,7 @@ public class GameModel {
 
         effectExists(zone);
         beEffectedByExisting(zone);
-        cityRegistry.deductBalance(zone.getConstructionCost());
+        cityStatistics.getBudget().deductBalance(zone.getConstructionCost());
         cityRegistry.addZone(zone);
         updateIndustryCommercialBalanceSatisfactionIndex();
         underConstructions.add(zone);
@@ -135,7 +135,7 @@ public class GameModel {
         addToMap(facility);
 
         effectExists(facility);
-        cityRegistry.deductBalance(facility.getOneTimeCost());
+        cityStatistics.getBudget().deductBalance(facility.getOneTimeCost());
         cityStatistics.getBudget().addMaintenanceFee(facility.getMaintenanceFee());
         cityRegistry.addFacility(facility);
 
@@ -192,7 +192,7 @@ public class GameModel {
      * @return satisfaction
      */
     public CityStatistics queryCityStatistics() {
-        return cityRegistry.getCityStatistics();
+        return cityStatistics;
     }
 
     /**
@@ -250,7 +250,6 @@ public class GameModel {
      * Updates all zones in city, as result of new industry commercial balance.
      */
     private void updateIndustryCommercialBalanceSatisfactionIndex() {
-        CityStatistics cityStatistics = cityRegistry.getCityStatistics();
         int diff = Math.abs(cityStatistics.getNrIndustrialZones() - cityStatistics.getNrCommercialZones());
         double newVal = 1.0 / (diff == 0 ? 1.0 : diff);
         for (Zone zone :
@@ -325,7 +324,6 @@ public class GameModel {
         underConstructions = newUnderConstructions;
     }
 }
-
 
 /**
  * Removes the zone from the city.
