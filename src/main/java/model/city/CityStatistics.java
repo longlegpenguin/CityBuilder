@@ -1,26 +1,29 @@
 package model.city;
 
+import model.common.Budget;
 import model.zone.CommercialZone;
 import model.zone.IndustrialZone;
 import model.zone.ResidentialZone;
 import model.zone.Zone;
 
 public class CityStatistics {
-    private float tax_rate;
     private int nrCommercialZones;
     private int nrIndustrialZones;
     private int nrResidentialZones;
-    //    private Budget budget;
+    private Budget budget;
     private int population;
     private float citizenSatisfaction;
 
-    public CityStatistics(float tax_rate) { // Budget budget as param here
-        this.tax_rate = tax_rate;
-//        this.budget = budget;
+    public CityStatistics(Budget budget) {
+        this.budget = budget;
         this.nrCommercialZones = 0;
         this.nrIndustrialZones = 0;
         this.nrResidentialZones = 0;
         this.citizenSatisfaction = 0;
+    }
+
+    public Budget getBudget() {
+        return budget;
     }
 
     public int getNrCommercialZones() {
@@ -33,14 +36,6 @@ public class CityStatistics {
 
     public int getNrResidentialZones() {
         return nrResidentialZones;
-    }
-
-//    public Budget getBudget() {
-//        return budget;
-//    }
-
-    public float getTaxRate() {
-        return tax_rate;
     }
 
     public int getPopulation(CityRegistry cityRegistry) {
@@ -60,14 +55,6 @@ public class CityStatistics {
         }
 
         this.citizenSatisfaction = totalCitizenSatisf / nrZones;
-    }
-
-//    public void updateBudget(double amount) {
-//        this.budget = budget.balance + amount;
-//    }
-
-    public void setTaxRate(float tax_rate) {
-        this.tax_rate = tax_rate;
     }
 
     public void updateNrZones(CityRegistry cityRegistry) {
