@@ -1,12 +1,8 @@
 package model.zone;
 
-import model.common.Buildable;
-import model.common.Citizen;
+import model.common.*;
 import model.util.BuildableType;
 import model.util.Date;
-import model.common.Constants;
-import model.common.Coordinate;
-import model.common.Dimension;
 import model.util.Level;
 
 import java.util.ArrayList;
@@ -79,6 +75,7 @@ public abstract class Zone implements Buildable {
     /**
      * If new is positive, use new value as effect if is greater than the old one.
      * If is negative, set to zero if abs is the same.
+     *
      * @param newValue double new value
      */
     public void updateForestEffect(double newValue) {
@@ -90,27 +87,35 @@ public abstract class Zone implements Buildable {
         }
         statistics.getSatisfaction().setForestEffect(oldEffect);
     }
+
     public void updateBudgetEffect(int newValue) {
         statistics.getSatisfaction().setBudgetEffect(newValue);
     }
+
     public void updateTaxEffect(int newValue) {
         statistics.getSatisfaction().setTaxEffect(newValue);
     }
+
     public void updateComZoneBalanceEffect(double newValue) {
         statistics.getSatisfaction().setZoneBalanceEffect(newValue);
     }
+
     public void updatePoliceEffect(int newValue) {
         statistics.getSatisfaction().setPoliceEffect(newValue);
     }
+
     public void updateIndustrialEffect(int newValue) {
         statistics.getSatisfaction().setIndustrialEffect(newValue);
     }
+
     public void updateFreeWorkSpaceEffect(int newValue) {
         statistics.getSatisfaction().setFreeWorkplaceEffect(newValue);
     }
+
     public void updateStadiumEffect(int newValue) {
         statistics.getSatisfaction().setStadiumEffect(newValue);
     }
+
     /**
      * Adds new citizen to the zone.
      * Increments the population and updates the citizen avg satisfaction with the new citizen.
@@ -165,6 +170,7 @@ public abstract class Zone implements Buildable {
     public int getConstructionCost() {
         return level.getCost();
     }
+
     public int getPopulation() {
         return citizens.size();
     }
