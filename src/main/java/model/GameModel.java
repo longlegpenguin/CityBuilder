@@ -16,7 +16,7 @@ import java.util.List;
 
 public class GameModel {
     private final int rows, cols;
-    private Buildable[][] map;
+    public static Buildable[][] map;
     private final CityRegistry cityRegistry;
     private final CityStatistics cityStatistics;
     private final Date dateOfWorld;
