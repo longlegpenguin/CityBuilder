@@ -97,9 +97,11 @@ public class PathFinder {
     private boolean notBadInView(Coordinate current, Coordinate goalCoordinate) {
         return (isGoalCoordinate(current, goalCoordinate) || isEmpty(current.getRow(), current.getCol()));
     }
+
     private boolean isInMapCoordinate(Coordinate coordinate) {
         return isInMap(coordinate.getRow(), coordinate.getCol());
     }
+
     private boolean isGoalCoordinate(Coordinate current, Coordinate goalCoordinate) {
         return current.equals(goalCoordinate);
     }
@@ -107,7 +109,7 @@ public class PathFinder {
     private boolean isInSquare(Buildable center, Buildable candidate, int radius) {
         return
                 Math.abs(center.getCoordinate().getRow() - candidate.getCoordinate().getRow()) <= radius &
-                Math.abs(center.getCoordinate().getCol() - candidate.getCoordinate().getCol()) <= radius;
+                        Math.abs(center.getCoordinate().getCol() - candidate.getCoordinate().getCol()) <= radius;
     }
 
     class Node {
@@ -218,9 +220,11 @@ public class PathFinder {
                 map[sRow][sCol] != null &&
                 map[sRow][sCol].getBuildableType() == BuildableType.ROAD;
     }
+
     private boolean isEmpty(int sRow, int sCol) {
         return map[sRow][sCol] == null;
     }
+
     private boolean isInMap(int sRow, int sCol) {
         return sRow < map.length && sRow >= 0 &&
                 sCol < map[0].length && sCol >= 0;
