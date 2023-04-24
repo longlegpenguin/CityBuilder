@@ -16,7 +16,7 @@ import engine.renderEngine.MasterRenderer;
 import engine.terrain.Selector;
 import engine.terrain.Terrain;
 import engine.textures.TextureAttribute;
-import engine.textures.UiButton;
+import engine.guis.UiButton;
 import engine.tools.Mouse;
 import engine.tools.MousePicker;
 import engine.world.WorldGrid;
