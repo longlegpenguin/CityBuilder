@@ -5,6 +5,9 @@ import engine.display.DisplayManager;
 import engine.entities.Camera;
 import engine.entities.Entity;
 import engine.entities.Light;
+import engine.fontMeshCreator.FontType;
+import engine.fontMeshCreator.GUIText;
+import engine.fontRendering.TextMaster;
 import engine.guis.UiComponent;
 import engine.models.RawModel;
 import engine.models.TexturedModel;
@@ -25,7 +28,9 @@ import model.GameModel;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
 
+import java.awt.*;
 import java.awt.desktop.SystemEventListener;
+import java.io.File;
 import java.util.ArrayList;
 
 import static org.lwjgl.glfw.GLFW.glfwWindowShouldClose;
@@ -35,6 +40,10 @@ public class MainApp {
     public static void main(String[] args) {
         DisplayManager.createDisplay();
         Loader loader = new Loader();
+        TextMaster.init(loader);
+        FontType font = new FontType(loader.loadFontTexture("tahoma"),new File("src/main/resources/textures/tahoma.fnt"));
+        GUIText text = new GUIText("AB",1,font,new Vector2f(1f,1f),1f,true);
+        text.setColour(0,0,1);
 
         ModelData data = OBJFileLoader.loadOBJ("cube");
 
@@ -61,6 +70,7 @@ public class MainApp {
         //guiTabs.add(tab);
         UiButton button = new UiButton(loader.loadTexture("Button"),new Vector2f(-0.7f,-0.5f), new Vector2f(0.1f, 0.1f));
         guiButtons.add(button);
+
         /** --------------------------------------------------------------------
          * Try these methods !
          *         controller.switchModeRequest(GameMode.COMMERCIAL_MODE); // fot the type of new things
@@ -104,11 +114,13 @@ public class MainApp {
 
             guiRenderer.render(guiButtons);
             button.isClicked();
+            TextMaster.render();
+
             DisplayManager.updateDisplay();
 
         }
 
-
+        TextMaster.cleanUp();
         renderer.cleanUp();
         loader.cleanUp();
         DisplayManager.closeDisplay();
