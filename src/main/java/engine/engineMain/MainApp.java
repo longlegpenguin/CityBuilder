@@ -42,7 +42,7 @@ public class MainApp {
         Loader loader = new Loader();
         TextMaster.init(loader);
         FontType font = new FontType(loader.loadFontTexture("tahoma"),new File("src/main/resources/textures/tahoma.fnt"));
-        GUIText text = new GUIText("AB",1,font,new Vector2f(1f,1f),1f,true);
+        GUIText text = new GUIText("UTOPIA",1,font,new Vector2f(1f,1f),1f,true);
         text.setColour(0,0,1);
 
         ModelData data = OBJFileLoader.loadOBJ("cube");

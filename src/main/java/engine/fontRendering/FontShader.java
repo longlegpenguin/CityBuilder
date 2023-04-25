@@ -15,12 +15,13 @@ public class FontShader extends ShaderProgram {
 	
 	public FontShader() {
 		super(VERTEX_FILE, FRAGMENT_FILE);
-		location_colour = super.getUniformLocation("colour");
-		location_translation = super.getUniformLocation("translation");
+
 	}
 
 	@Override
 	protected void getAllUniformLocations() {
+		location_colour = super.getUniformLocation("colour");
+		location_translation = super.getUniformLocation("translation");
 		
 	}
 
