@@ -1,4 +1,4 @@
-package engine.textures;
+package engine.guis;
 
 import engine.display.DisplayManager;
 import engine.guis.UiComponent;
