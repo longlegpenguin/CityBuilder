@@ -1,6 +1,5 @@
 package engine.guis;
 
-import engine.guis.UiComponent;
 import org.joml.Vector2f;
 
 public class UiTab extends UiComponent {
