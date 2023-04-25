@@ -49,12 +49,6 @@ public class Handler implements ICallBack {
     //private Entity entity;
     ArrayList<UiButton> guiButtons = new ArrayList<UiButton>();;
 
-    ModelData road;
-    RawModel model;
-    TexturedModel roadTexM;
-
-
-
     public Handler(String saveFile) {
 
         this.saveFile = saveFile;
@@ -116,9 +110,6 @@ public class Handler implements ICallBack {
         UiButton cellStatsButton = new UiButton(loader.loadTexture(buttonTexture), new Vector2f(0.83f, 0.65f), new Vector2f(0.17f, 0.2f));
         guiButtons.add(cellStatsButton);
 
-        this.road = OBJFileLoader.loadOBJ("road");
-        this.model = loader.loadToVAO(road.getVertices(), road.getTextureCoords(), road.getNormals(), road.getIndices());
-        this.roadTexM = new TexturedModel(model, new TextureAttribute(loader.loadTexture("road")));
 
 
         this.masterRenderer = new MasterRenderer();
@@ -183,7 +174,7 @@ public class Handler implements ICallBack {
         Entity entity = null;
         switch (buildable.getBuildableType()) {
             case ROAD -> {
-                entity = new Entity(roadTexM, new Vector3f(coordinate.getRow() * Terrain.getSize(),0,(coordinate.getCol() + 1) *Terrain.getSize()), 0,0,0,5);
+                entity = new Entity(assets.getRoad(), new Vector3f(coordinate.getRow() * Terrain.getSize(),0,(coordinate.getCol() + 1) *Terrain.getSize()), 0,0,0,5);
                 break;
             }
             case COMMERCIAL -> {
