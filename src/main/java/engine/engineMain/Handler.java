@@ -3,9 +3,13 @@ package engine.engineMain;
 import controller.Controller;
 import controller.ICallBack;
 import controller.util.GameMode;
+import engine.display.DisplayManager;
 import engine.entities.Camera;
 import engine.entities.Entity;
 import engine.entities.Light;
+import engine.fontMeshCreator.FontType;
+import engine.fontMeshCreator.GUIText;
+import engine.fontRendering.TextMaster;
 import engine.models.RawModel;
 import engine.models.TexturedModel;
 import engine.objConverter.ModelData;
@@ -28,7 +32,9 @@ import model.util.Date;
 import model.zone.ZoneStatistics;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
+import org.w3c.dom.Text;
 
+import java.io.File;
 import java.util.ArrayList;
 
 public class Handler implements ICallBack {
@@ -45,6 +51,15 @@ public class Handler implements ICallBack {
     private MasterRenderer masterRenderer;
     private GameModel gameModel;
     private Controller controller;
+
+    private FontType font;
+    private GUIText text;
+
+    private int counter = 0;
+
+    private float timer = 0;
+    private float multiplier = 1;
+    private String date = "";
 
     //private Entity entity;
     ArrayList<UiButton> guiButtons = new ArrayList<UiButton>();;
@@ -118,11 +133,27 @@ public class Handler implements ICallBack {
         this.gameModel = new GameModel(worldGrid.getWorldSize(), worldGrid.getWorldSize());
         this.gameModel.initialize();
         this.controller = new Controller(gameModel);
+
+        TextMaster.init(loader);
+        font = new FontType(loader.loadFontTexture("tahoma"),new File("src/main/resources/textures/tahoma.fnt"));
+
+
     }
 
     public void render() {
+
+
+
+        if (timer >= 3f / multiplier) {
+            gameModel.timePassUpdate(1);
+            timer -= 3f/multiplier;
+        }
+
+
+
         camera.move();
         mousePicker.update();
+
         int coordsX = -1;
         int coordsY = -1;
         if (mousePicker.getCurrentTileCoords() != null) {
@@ -162,11 +193,21 @@ public class Handler implements ICallBack {
 
         masterRenderer.render(selector, camera, light);
         guiRenderer.render(guiButtons);
+        date = gameModel.DateAsString();
+        text = new GUIText(date,1,font,new Vector2f(10f,10f),1f,true);
+        text.setColour(0,0,1);
+
+        TextMaster.render();
+        TextMaster.removeText(text);
+        timer += DisplayManager.getFrameTimeSeconds();
+
     }
 
     public void cleanUp() {
         masterRenderer.cleanUp();
+        TextMaster.cleanUp();
         loader.cleanUp();
+
     }
 
     @Override

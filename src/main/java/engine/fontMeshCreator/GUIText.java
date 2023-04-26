@@ -184,4 +184,7 @@ public class GUIText {
 		return textString;
 	}
 
+	public void setTextString(String textString) {
+		this.textString = textString;
+	}
 }
