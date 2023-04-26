@@ -147,8 +147,8 @@ public abstract class Zone implements Buildable {
      * @param taxRate the tax rate of the city.
      * @return the sum of tax paid by citizens located in the zone
      */
-    public int collectTax(int taxRate) {
-        return taxRate * Constants.BASE_TAX * getPopulation();
+    public int collectTax(double taxRate) {
+        return (int)(taxRate * Constants.BASE_TAX * getPopulation());
     }
 
     /**

@@ -4,6 +4,7 @@ import model.city.CityRegistry;
 import model.city.CityStatistics;
 import model.common.*;
 import model.exceptions.OperationException;
+import model.facility.Education;
 import model.facility.Facility;
 import model.facility.Forest;
 import model.facility.Road;
@@ -23,6 +24,7 @@ public class GameModel {
     private final List<Road> masterRoads;
     private List<Zone> underConstructions;
     private List<Forest> youthForest;
+    private List<Education> educations;
 
     public GameModel(int rows, int cols) {
         this.rows = rows;
@@ -34,6 +36,7 @@ public class GameModel {
         masterRoads = new ArrayList<>();
         underConstructions = new ArrayList<>();
         youthForest = new ArrayList<>();
+        educations = new ArrayList<>();
     }
 
     /**
@@ -142,6 +145,10 @@ public class GameModel {
         if (facility.getBuildableType() == BuildableType.FOREST) {
             youthForest.add((Forest) facility);
         }
+        if (facility.getBuildableType() == BuildableType.SCHOOL ||
+            facility.getBuildableType() == BuildableType.UNIVERSITY) {
+            educations.add((Education) facility);
+        }
     }
 
     /**
@@ -179,11 +186,10 @@ public class GameModel {
 
     /**
      * Updates city's tax rate
-     *
      * @param newTaxRate the new tax rate
      */
     public void updateTaxRate(double newTaxRate) {
-        // TODO call city registry
+        cityRegistry.updateTaxRate(newTaxRate);
     }
 
     /**
@@ -292,10 +298,31 @@ public class GameModel {
         filterConstructed();
 // TODO
 //        update citizens dynamic (use human manufacture)
-//        update city balance (use finical department)
-//        keep track of budget and tax
+        updateCityBalance();
+        updateForests();
 
-        // update forest (self container)
+    }
+
+    /**
+     * Collects tax and pays the maintenance fee
+     */
+    private void updateCityBalance() {
+        int revenue = 0;
+        for (Zone zone:
+                cityRegistry.getZones()) {
+            revenue += zone.collectTax(cityRegistry.getCityStatistics().getBudget().getTaxRate());
+        }
+        for (Education education: educations) {
+            revenue += education.getAdditionalValue();
+        }
+        int spend = 0;
+        for (Facility facility: cityRegistry.getFacilities()) {
+            spend += facility.getMaintenanceFee();
+        }
+        cityRegistry.updateBalance(revenue-spend);
+    }
+
+    private void updateForests() {
         List<Forest> newYouth = new ArrayList<>();
         for (Forest forest : youthForest) {
             forest.incAge(dateOfWorld);
@@ -307,7 +334,6 @@ public class GameModel {
             effectExists(forest);
         }
         youthForest = newYouth;
-
     }
 
     /**
