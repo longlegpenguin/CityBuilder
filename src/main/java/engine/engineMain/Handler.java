@@ -65,7 +65,7 @@ public class Handler implements ICallBack {
 
         String buttonTexture = "Button";
 
-        UiButton resZoneButton = new UiButton(loader.loadTexture(buttonTexture), new Vector2f(-0.9f, -0.85f), new Vector2f(0.05f, 0.05f));
+        /*UiButton resZoneButton = new UiButton(loader.loadTexture(buttonTexture), new Vector2f(-0.9f, -0.85f), new Vector2f(0.05f, 0.05f));
         guiButtons.add(resZoneButton);
         UiButton comZoneButton = new UiButton(loader.loadTexture(buttonTexture), new Vector2f(-0.75f, -0.85f), new Vector2f(0.05f, 0.05f));
         guiButtons.add(comZoneButton);
@@ -108,7 +108,7 @@ public class Handler implements ICallBack {
         UiButton cityStatsButton = new UiButton(loader.loadTexture(buttonTexture), new Vector2f(0.83f, 0.93f), new Vector2f(0.17f, 0.07f));
         guiButtons.add(cityStatsButton);
         UiButton cellStatsButton = new UiButton(loader.loadTexture(buttonTexture), new Vector2f(0.83f, 0.65f), new Vector2f(0.17f, 0.2f));
-        guiButtons.add(cellStatsButton);
+        guiButtons.add(cellStatsButton);*/
 
 
 
@@ -136,6 +136,7 @@ public class Handler implements ICallBack {
         }
 
         if (Mouse.isLeftButtonPressed()) {
+
             if (coordsX < worldGrid.getWorldSize() && coordsX >= 0 && coordsY < worldGrid.getWorldSize() && coordsY >= 0) {
                 controller.switchModeRequest(GameMode.ROAD_MODE);
                 controller.mouseClickRequest(new Coordinate(coordsX, coordsY), this);

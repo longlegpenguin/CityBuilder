@@ -7,14 +7,21 @@ import org.joml.Vector2f;
 
 public class UiButton extends UiComponent {
 
-    public UiButton(int texture, Vector2f position, Vector2f scale) {
+    private ButtonEnum buttonEnum;
+
+    public UiButton(int texture, Vector2f position, Vector2f scale, ButtonEnum buttonEnum) {
         super(texture, position, scale);
+        this.buttonEnum = buttonEnum;
         this.isClickable = true;
 
     }
 
     public int getTexture() {
         return texture;
+    }
+
+    public ButtonEnum getButtonEnum() {
+        return buttonEnum;
     }
 
     public boolean isClicked() {
