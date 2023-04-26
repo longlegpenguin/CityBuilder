@@ -3,6 +3,7 @@ package engine.engineMain;
 import controller.Controller;
 import controller.ICallBack;
 import controller.util.GameMode;
+import engine.display.DisplayManager;
 import engine.entities.Camera;
 import engine.entities.Entity;
 import engine.entities.Light;
@@ -28,6 +29,7 @@ import model.util.Date;
 import model.zone.ZoneStatistics;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
+import view.ViewModel;
 
 import java.util.ArrayList;
 
@@ -45,9 +47,10 @@ public class Handler implements ICallBack {
     private MasterRenderer masterRenderer;
     private GameModel gameModel;
     private Controller controller;
+    private ViewModel viewModel;
 
-    //private Entity entity;
-    ArrayList<UiButton> guiButtons = new ArrayList<UiButton>();;
+    private float mouseDelay = 0f;
+
 
     public Handler(String saveFile) {
 
@@ -63,61 +66,14 @@ public class Handler implements ICallBack {
 
         this.guiRenderer = new GuiRenderer(loader);
 
-        String buttonTexture = "Button";
-
-        /*UiButton resZoneButton = new UiButton(loader.loadTexture(buttonTexture), new Vector2f(-0.9f, -0.85f), new Vector2f(0.05f, 0.05f));
-        guiButtons.add(resZoneButton);
-        UiButton comZoneButton = new UiButton(loader.loadTexture(buttonTexture), new Vector2f(-0.75f, -0.85f), new Vector2f(0.05f, 0.05f));
-        guiButtons.add(comZoneButton);
-        UiButton indZoneButton = new UiButton(loader.loadTexture(buttonTexture), new Vector2f(-0.60f, -0.85f), new Vector2f(0.05f, 0.05f));
-        guiButtons.add(indZoneButton);
-        UiButton deZoneButton = new UiButton(loader.loadTexture(buttonTexture), new Vector2f(-0.45f, -0.85f), new Vector2f(0.05f, 0.05f));
-        guiButtons.add(deZoneButton);
-
-        UiButton roadButton = new UiButton(loader.loadTexture(buttonTexture), new Vector2f(-0.2f, -0.85f), new Vector2f(0.05f, 0.05f));
-        guiButtons.add(roadButton);
-        UiButton policeButton = new UiButton(loader.loadTexture(buttonTexture), new Vector2f(-0.05f, -0.85f), new Vector2f(0.05f, 0.05f));
-        guiButtons.add(policeButton);
-        UiButton stadiumButton = new UiButton(loader.loadTexture(buttonTexture), new Vector2f(0.1f, -0.85f), new Vector2f(0.05f, 0.05f));
-        guiButtons.add(stadiumButton);
-        UiButton schoolButton = new UiButton(loader.loadTexture(buttonTexture), new Vector2f(0.25f, -0.85f), new Vector2f(0.05f, 0.05f));
-        guiButtons.add(schoolButton);
-        UiButton universityButton = new UiButton(loader.loadTexture(buttonTexture), new Vector2f(0.4f, -0.85f), new Vector2f(0.05f, 0.05f));
-        guiButtons.add(universityButton);
-        UiButton forestsButton = new UiButton(loader.loadTexture(buttonTexture), new Vector2f(0.55f, -0.85f), new Vector2f(0.05f, 0.05f));
-        guiButtons.add(forestsButton);
-
-        UiButton destroyButton = new UiButton(loader.loadTexture(buttonTexture), new Vector2f(0.9f, -0.85f), new Vector2f(0.05f, 0.05f));
-        guiButtons.add(destroyButton);
-
-        UiButton timePauseButton = new UiButton(loader.loadTexture(buttonTexture), new Vector2f(-0.74f, -0.7f), new Vector2f(0.03f, 0.03f));
-        guiButtons.add(timePauseButton);
-        UiButton timeOneButton = new UiButton(loader.loadTexture(buttonTexture), new Vector2f(-0.66f, -0.7f), new Vector2f(0.03f, 0.03f));
-        guiButtons.add(timeOneButton);
-        UiButton timeTwoButton = new UiButton(loader.loadTexture(buttonTexture), new Vector2f(-0.58f, -0.7f), new Vector2f(0.03f, 0.03f));
-        guiButtons.add(timeTwoButton);
-        UiButton timeThreeButton = new UiButton(loader.loadTexture(buttonTexture), new Vector2f(-0.50f, -0.7f), new Vector2f(0.03f, 0.03f));
-        guiButtons.add(timeThreeButton);
-
-        UiButton moneyButton = new UiButton(loader.loadTexture(buttonTexture), new Vector2f(0.87f, -0.7f), new Vector2f(0.08f, 0.03f));
-        guiButtons.add(moneyButton);
-
-        UiButton dateButton = new UiButton(loader.loadTexture(buttonTexture), new Vector2f(-0.87f, -0.7f), new Vector2f(0.08f, 0.03f));
-        guiButtons.add(dateButton);
-
-        UiButton cityStatsButton = new UiButton(loader.loadTexture(buttonTexture), new Vector2f(0.83f, 0.93f), new Vector2f(0.17f, 0.07f));
-        guiButtons.add(cityStatsButton);
-        UiButton cellStatsButton = new UiButton(loader.loadTexture(buttonTexture), new Vector2f(0.83f, 0.65f), new Vector2f(0.17f, 0.2f));
-        guiButtons.add(cellStatsButton);*/
-
-
-
         this.masterRenderer = new MasterRenderer();
         this.mousePicker = new MousePicker(camera, masterRenderer.getProjectionMatrix(), worldGrid);
 
         this.gameModel = new GameModel(worldGrid.getWorldSize(), worldGrid.getWorldSize());
         this.gameModel.initialize();
         this.controller = new Controller(gameModel);
+
+        viewModel = new ViewModel(controller);
     }
 
     public void render() {
@@ -135,13 +91,33 @@ public class Handler implements ICallBack {
             selector.setZ(-100);
         }
 
-        if (Mouse.isLeftButtonPressed()) {
-
+        if (mouseDelay == 0f && Mouse.isLeftButtonPressed()) {
+            mouseDelay = 0.1f;
+            for (UiButton button: viewModel.getButtons()) {
+                if (button.isClicked()) {
+                    switch (button.getButtonEnum()) {
+                        case RESIDENTIAL_ZONE -> viewModel.getBottomMenuBar().resZoneButtonAction();
+                        case COMMERICAL_ZONE -> viewModel.getBottomMenuBar().comZoneButtonAction();
+                        case INDUSTRIAL_ZONE -> viewModel.getBottomMenuBar().indZoneButtonAction();
+                        case DE_ZONE -> viewModel.getBottomMenuBar().deZoneButtonAction();
+                        case ROAD -> viewModel.getBottomMenuBar().roadButtonAction();
+                        case FOREST -> viewModel.getBottomMenuBar().forestButtonAction();
+                        case POLICE -> viewModel.getBottomMenuBar().policeButtonAction();
+                        case SCHOOL -> viewModel.getBottomMenuBar().schoolButtonAction();
+                        case UNIVERSITY -> viewModel.getBottomMenuBar().universityButton();
+                        case DESTROY -> viewModel.getBottomMenuBar().destroyButtonAction();
+                    }
+                }
+            }
             if (coordsX < worldGrid.getWorldSize() && coordsX >= 0 && coordsY < worldGrid.getWorldSize() && coordsY >= 0) {
-                controller.switchModeRequest(GameMode.ROAD_MODE);
                 controller.mouseClickRequest(new Coordinate(coordsX, coordsY), this);
 //                Entity road = new Entity(roadTexM, new Vector3f(coordsX * Terrain.getSize(),0,(coordsY + 1) *Terrain.getSize()), 0,0,0,5);
 //                worldGrid.addBuildable(mousePicker.getCurrentTileCoords().x, mousePicker.getCurrentTileCoords().y, road);
+            }
+        } else {
+            mouseDelay -= DisplayManager.getFrameTimeSeconds();
+            if (mouseDelay < 0f) {
+                mouseDelay = 0f;
             }
         }
 
@@ -162,7 +138,7 @@ public class Handler implements ICallBack {
 
 
         masterRenderer.render(selector, camera, light);
-        guiRenderer.render(guiButtons);
+        guiRenderer.render(viewModel.getButtons());
     }
 
     public void cleanUp() {

@@ -58,6 +58,8 @@ public class GameModel {
         return buildableList;
     }
 
+    
+
     /**
      * Updates the city's date
      *

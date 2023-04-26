@@ -8,12 +8,13 @@ import org.joml.Vector2f;
 public class UiButton extends UiComponent {
 
     private ButtonEnum buttonEnum;
+    private boolean enabled;
 
     public UiButton(int texture, Vector2f position, Vector2f scale, ButtonEnum buttonEnum) {
         super(texture, position, scale);
         this.buttonEnum = buttonEnum;
         this.isClickable = true;
-
+        this.enabled = false;
     }
 
     public int getTexture() {
@@ -22,6 +23,14 @@ public class UiButton extends UiComponent {
 
     public ButtonEnum getButtonEnum() {
         return buttonEnum;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
+
+    public boolean isEnabled() {
+        return enabled;
     }
 
     public boolean isClicked() {

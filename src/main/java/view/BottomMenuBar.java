@@ -1,5 +1,7 @@
 package view;
 
+import controller.Controller;
+import controller.util.GameMode;
 import engine.guis.ButtonEnum;
 import engine.guis.UiButton;
 import engine.renderEngine.Loader;
@@ -27,8 +29,8 @@ public class BottomMenuBar extends Menu{
 
     private String buttonTexture = "Button";
 
-    public BottomMenuBar() {
-        super();
+    public BottomMenuBar(Controller controller) {
+        super(controller);
         loadComponents();
     }
 
@@ -72,6 +74,47 @@ public class BottomMenuBar extends Menu{
         super.buttons.add(moneyButton);
     }
 
+    public void resZoneButtonAction() {
+        buttonAction(resZoneButton, GameMode.RESIDENTIAL_MODE);
+    }
 
+    public void comZoneButtonAction() {
+        buttonAction(comZoneButton, GameMode.COMMERCIAL_MODE);
+    }
 
+    public void indZoneButtonAction() {
+        buttonAction(indZoneButton, GameMode.INDUSTRIAL_MODE);
+    }
+
+    public void deZoneButtonAction() {
+        buttonAction(deZoneButton, GameMode.DEMOLISH_MODE);
+    }
+
+    public void roadButtonAction() {
+        buttonAction(roadButton, GameMode.ROAD_MODE);
+    }
+
+    public void forestButtonAction() {
+        buttonAction(forestButton, GameMode.FOREST_MODE);
+    }
+
+    public void policeButtonAction() {
+        buttonAction(policeButton, GameMode.POLICE_MODE);
+    }
+
+    public void stadiumButtonAction() {
+        buttonAction(stadiumButton, GameMode.STADIUM_MODE);
+    }
+
+    public void schoolButtonAction() {
+        buttonAction(schoolButton, GameMode.SCHOOL_MODE);
+    }
+
+    public void universityButton() {
+        buttonAction(universityButton, GameMode.UNIVERSITY_MODE);
+    }
+
+    public void destroyButtonAction() {
+        buttonAction(destroyButton, GameMode.DEMOLISH_MODE);
+    }
 }
