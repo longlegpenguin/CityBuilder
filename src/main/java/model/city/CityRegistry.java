@@ -72,11 +72,4 @@ public class CityRegistry {
         cityStatistics.getBudget().addTaxRate(newTaxRate);
     }
 
-    /**
-     * Records the tax collected in the year.
-     * @param total
-     */
-    public void appendTaxRecord(int total) {
-        cityStatistics.getBudget().addTaxRate(total);
-    }
 }

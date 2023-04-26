@@ -128,6 +128,17 @@ public abstract class Zone implements Buildable {
         updateCitizenAvgSatisfaction();
     }
 
+    /**
+     * Removes new citizen to the zone.
+     * Increments the population and updates the citizen avg satisfaction with the new citizen.
+     *
+     * @param citizen the citizen to be added.
+     */
+    public void removeCitizen(Citizen citizen) {
+        citizens.remove(citizen);
+        this.statistics.setPopulation(statistics.getPopulation() - 1);
+        updateCitizenAvgSatisfaction();
+    }
     public void unregisterCitizen(Citizen citizen) {
         citizens.remove(citizen);
     }
