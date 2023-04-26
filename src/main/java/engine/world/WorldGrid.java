@@ -1,5 +1,6 @@
 package engine.world;
 
+import engine.entities.Entity;
 import engine.renderEngine.Loader;
 import engine.terrain.Terrain;
 import engine.textures.TextureAttribute;
@@ -13,6 +14,8 @@ public class WorldGrid {
     private Tile[][] worldmatrix = new Tile[WORLD_SIZE][WORLD_SIZE];
 
     private List<Terrain> terrains = new ArrayList<Terrain>();
+    private List<Entity> zones = new ArrayList<Entity>();
+    private List<Entity> buildables = new ArrayList<Entity>();
     public WorldGrid(Loader loader, TextureAttribute texture) {
         for (int i = 0; i < WORLD_SIZE; i++) {
             for (int j = 0; j < WORLD_SIZE; j++) {
@@ -33,6 +36,26 @@ public class WorldGrid {
 
     public List<Terrain> getTerrainList() {
         return terrains;
+    }
+
+    public List<Entity> getZoneList() {
+        return zones;
+    }
+
+    public List<Entity> getBuildableList() {
+        buildables.clear();
+        for (int i = 0; i < WORLD_SIZE; i++) {
+            for (int j = 0; j < WORLD_SIZE; j++) {
+                if (worldmatrix[i][j].getBuildable() != null) {
+                    buildables.add(worldmatrix[i][j].getBuildable());
+                }
+            }
+        }
+        return buildables;
+    }
+
+    public void addBuildable(int x, int z, Entity buildable) {
+        worldmatrix[x][z].setBuildable(buildable);
     }
 
 }

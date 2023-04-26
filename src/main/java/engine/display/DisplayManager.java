@@ -22,7 +22,7 @@ import static org.lwjgl.system.MemoryUtil.NULL;
 public class DisplayManager {
     private static final int WIDTH = 1280;
     private static final int HEIGHT = 720;
-    private static final String TITLE = "Game Engine Demo V2";
+    private static final String TITLE = "Utopia";
 
     private static long lastFrameTime;
     private static float delta;

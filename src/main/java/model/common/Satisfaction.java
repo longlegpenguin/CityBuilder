@@ -9,6 +9,7 @@ public class Satisfaction {
     private int stadiumEffect;
     private int noIndustrialEffect;
     private int citizenAvgEffect;
+    private double forestEffect;
 
     public Satisfaction() {
         this.policeEffect = 0;
@@ -19,6 +20,15 @@ public class Satisfaction {
         this.stadiumEffect = 0;
         this.noIndustrialEffect = 1;
         this.citizenAvgEffect = 0;
+        this.forestEffect = 0;
+    }
+
+    public double getForestEffect() {
+        return forestEffect;
+    }
+
+    public void setForestEffect(double forestEffect) {
+        this.forestEffect = forestEffect;
     }
 
     public int getPoliceEffect() {

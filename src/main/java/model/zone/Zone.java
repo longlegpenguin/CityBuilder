@@ -1,11 +1,8 @@
 package model.zone;
 
-import model.common.Buildable;
-import model.common.Citizen;
+import model.common.*;
+import model.util.BuildableType;
 import model.util.Date;
-import model.common.Constants;
-import model.common.Coordinate;
-import model.common.Dimension;
 import model.util.Level;
 
 import java.util.ArrayList;
@@ -19,6 +16,9 @@ public abstract class Zone implements Buildable {
     protected Date birthday;
     protected Coordinate coordinate;
     protected final Dimension dimension;
+    protected BuildableType buildableType;
+    List<Buildable> effectedBy;
+
 
     public Zone(Level level, int dayToBuild, ZoneStatistics statistics, Date birthday, Coordinate coordinate) {
         this.level = level;
@@ -28,6 +28,20 @@ public abstract class Zone implements Buildable {
         this.coordinate = coordinate;
         citizens = new ArrayList<>();
         this.dimension = new Dimension(1, 1);
+        effectedBy = new ArrayList<>();
+    }
+
+    public List<Buildable> getEffectedBy() {
+        return effectedBy;
+    }
+
+    public void setEffectedBy(List<Buildable> effectedBy) {
+        this.effectedBy = effectedBy;
+    }
+
+    @Override
+    public BuildableType getBuildableType() {
+        return buildableType;
     }
 
     public Level getLevel() {
@@ -58,27 +72,50 @@ public abstract class Zone implements Buildable {
         this.statistics = statistics;
     }
 
+    /**
+     * If new is positive, use new value as effect if is greater than the old one.
+     * If is negative, set to zero if abs is the same.
+     *
+     * @param newValue double new value
+     */
+    public void updateForestEffect(double newValue) {
+        double oldEffect = statistics.getSatisfaction().getForestEffect();
+        if (newValue >= 0) {
+            oldEffect = Math.max(oldEffect, newValue);
+        } else {
+            oldEffect = (oldEffect == -newValue) ? 0 : oldEffect;
+        }
+        statistics.getSatisfaction().setForestEffect(oldEffect);
+    }
+
     public void updateBudgetEffect(int newValue) {
         statistics.getSatisfaction().setBudgetEffect(newValue);
     }
+
     public void updateTaxEffect(int newValue) {
         statistics.getSatisfaction().setTaxEffect(newValue);
     }
+
     public void updateComZoneBalanceEffect(double newValue) {
         statistics.getSatisfaction().setZoneBalanceEffect(newValue);
     }
+
     public void updatePoliceEffect(int newValue) {
         statistics.getSatisfaction().setPoliceEffect(newValue);
     }
+
     public void updateIndustrialEffect(int newValue) {
         statistics.getSatisfaction().setIndustrialEffect(newValue);
     }
+
     public void updateFreeWorkSpaceEffect(int newValue) {
         statistics.getSatisfaction().setFreeWorkplaceEffect(newValue);
     }
+
     public void updateStadiumEffect(int newValue) {
         statistics.getSatisfaction().setStadiumEffect(newValue);
     }
+
     /**
      * Adds new citizen to the zone.
      * Increments the population and updates the citizen avg satisfaction with the new citizen.
@@ -133,8 +170,13 @@ public abstract class Zone implements Buildable {
     public int getConstructionCost() {
         return level.getCost();
     }
+
     public int getPopulation() {
         return citizens.size();
+    }
+
+    public int getIndustrialEffect() {
+        return statistics.getSatisfaction().getIndustrialEffect();
     }
 
     @Override

@@ -1,4 +1,4 @@
-package engine.textures;
+package engine.guis;
 
 import engine.guis.UiComponent;
 import org.joml.Vector2f;

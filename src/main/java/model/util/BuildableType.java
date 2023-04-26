@@ -4,5 +4,9 @@ public enum BuildableType {
     RESIDENTIAL,
     INDUSTRIAL,
     COMMERCIAL,
-    ROAD
+    ROAD,
+    STADIUM,
+    FOREST,
+    UNIVERSITY,
+    SCHOOL
 }

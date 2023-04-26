@@ -5,15 +5,15 @@ import model.common.Coordinate;
 import model.common.Satisfaction;
 import model.util.Level;
 
-public class ResidentialZoneFactory extends ZoneFactory {
+public class CommercialZoneFactory extends ZoneFactory {
 
-    public ResidentialZoneFactory(GameModel gm) {
+    public CommercialZoneFactory(GameModel gm) {
         super(gm);
     }
 
     @Override
     public Zone createZone(Coordinate coordinate) {
-        return new ResidentialZone(
+        return new IndustrialZone(
                 Level.CONSTRUCTING,
                 1,
                 new ZoneStatistics(0, Level.CONSTRUCTING.getCapacity(), new Satisfaction()),
