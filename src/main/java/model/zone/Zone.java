@@ -128,6 +128,17 @@ public abstract class Zone implements Buildable {
         updateCitizenAvgSatisfaction();
     }
 
+    /**
+     * Removes new citizen to the zone.
+     * Increments the population and updates the citizen avg satisfaction with the new citizen.
+     *
+     * @param citizen the citizen to be added.
+     */
+    public void removeCitizen(Citizen citizen) {
+        citizens.remove(citizen);
+        this.statistics.setPopulation(statistics.getPopulation() - 1);
+        updateCitizenAvgSatisfaction();
+    }
     public void unregisterCitizen(Citizen citizen) {
         citizens.remove(citizen);
     }
@@ -147,8 +158,8 @@ public abstract class Zone implements Buildable {
      * @param taxRate the tax rate of the city.
      * @return the sum of tax paid by citizens located in the zone
      */
-    public int collectTax(int taxRate) {
-        return taxRate * Constants.BASE_TAX * getPopulation();
+    public int collectTax(double taxRate) {
+        return (int)(taxRate * Constants.BASE_TAX * getPopulation());
     }
 
     /**
