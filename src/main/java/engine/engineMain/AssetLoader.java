@@ -29,7 +29,7 @@ public class AssetLoader {
      */
     public AssetLoader() {
         this.road = loadAsset(Assets.ROAD.getOBJFilename(), Assets.ROAD.getTextureFileName());
-        this.residentialBuilding = loadAsset(Assets.RESEDENTIAL.getOBJFilename(), Assets.RESEDENTIAL.getTextureFileName());
+        this.residentialBuilding = loadAsset(Assets.RESIDENTIAL.getOBJFilename(), Assets.RESIDENTIAL.getTextureFileName());
         this.commercialBuilding = loadAsset(Assets.COMMERCIAL.getOBJFilename(), Assets.COMMERCIAL.getTextureFileName());
         this.industrialBuilding = loadAsset(Assets.INDUSTRIAL.getOBJFilename(), Assets.INDUSTRIAL.getTextureFileName());
         this.police = loadAsset(Assets.POLICE.getOBJFilename(), Assets.POLICE.getTextureFileName());

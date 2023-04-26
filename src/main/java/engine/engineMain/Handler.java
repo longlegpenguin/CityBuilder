@@ -109,7 +109,7 @@ public class Handler implements ICallBack {
                     }
                 }
             }
-            if (coordsX < worldGrid.getWorldSize() && coordsX >= 0 && coordsY < worldGrid.getWorldSize() && coordsY >= 0) {
+            if (coordsX < worldGrid.getWorldSize() && coordsX >= 0 && coordsY < worldGrid.getWorldSize() && coordsY >= 0 && controller.getGameMode() != GameMode.SELECTION_MODE) {
                 controller.mouseClickRequest(new Coordinate(coordsX, coordsY), this);
 //                Entity road = new Entity(roadTexM, new Vector3f(coordsX * Terrain.getSize(),0,(coordsY + 1) *Terrain.getSize()), 0,0,0,5);
 //                worldGrid.addBuildable(mousePicker.getCurrentTileCoords().x, mousePicker.getCurrentTileCoords().y, road);
@@ -150,12 +150,40 @@ public class Handler implements ICallBack {
     public void updateGridSystem(Coordinate coordinate, Buildable buildable) {
         Entity entity = null;
         switch (buildable.getBuildableType()) {
+            case RESIDENTIAL -> {
+                entity = new Entity(assets.getResidentialBuilding(), new Vector3f(coordinate.getRow() * Terrain.getSize(),0,(coordinate.getCol() + 1) *Terrain.getSize()), 0,0,0,5);
+                break;
+            }
+            case COMMERCIAL -> {
+                entity = new Entity(assets.getCommercialBuilding(), new Vector3f(coordinate.getRow() * Terrain.getSize(),0,(coordinate.getCol() + 1) *Terrain.getSize()), 0,0,0,5);
+                break;
+            }
+            case INDUSTRIAL -> {
+                entity = new Entity(assets.getIndustrialBuilding(), new Vector3f(coordinate.getRow() * Terrain.getSize(),0,(coordinate.getCol() + 1) *Terrain.getSize()), 0,0,0,5);
+                break;
+            }
             case ROAD -> {
                 entity = new Entity(assets.getRoad(), new Vector3f(coordinate.getRow() * Terrain.getSize(),0,(coordinate.getCol() + 1) *Terrain.getSize()), 0,0,0,5);
                 break;
             }
-            case COMMERCIAL -> {
-//                entity = new Entity(roadTexM, new Vector3f(coordinate.getRow() * Terrain.getSize(),0,(coordinate.getCol() + 1) *Terrain.getSize()), 0,0,0,5);
+            case FOREST -> {
+                entity = new Entity(assets.getForest(), new Vector3f(coordinate.getRow() * Terrain.getSize(),0,(coordinate.getCol() + 1) *Terrain.getSize()), 0,0,0,5);
+                break;
+            }
+            case POLICE -> {
+                entity = new Entity(assets.getPolice(), new Vector3f(coordinate.getRow() * Terrain.getSize(),0,(coordinate.getCol() + 1) *Terrain.getSize()), 0,0,0,5);
+                break;
+            }
+            case STADIUM -> {
+                entity = new Entity(assets.getStadium(), new Vector3f(coordinate.getRow() * Terrain.getSize(),0,(coordinate.getCol() + 1) *Terrain.getSize()), 0,0,0,5);
+                break;
+            }
+            case SCHOOL -> {
+                entity = new Entity(assets.getSchool(), new Vector3f(coordinate.getRow() * Terrain.getSize(),0,(coordinate.getCol() + 1) *Terrain.getSize()), 0,0,0,5);
+                break;
+            }
+            case UNIVERSITY -> {
+                entity = new Entity(assets.getUniversity(), new Vector3f(coordinate.getRow() * Terrain.getSize(),0,(coordinate.getCol() + 1) *Terrain.getSize()), 0,0,0,5);
                 break;
             }
         }
