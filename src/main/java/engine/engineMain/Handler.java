@@ -7,6 +7,9 @@ import engine.display.DisplayManager;
 import engine.entities.Camera;
 import engine.entities.Entity;
 import engine.entities.Light;
+import engine.fontMeshCreator.FontType;
+import engine.fontMeshCreator.GUIText;
+import engine.fontRendering.TextMaster;
 import engine.models.RawModel;
 import engine.models.TexturedModel;
 import engine.objConverter.ModelData;
@@ -30,7 +33,9 @@ import model.zone.ZoneStatistics;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
 import view.ViewModel;
+import org.w3c.dom.Text;
 
+import java.io.File;
 import java.util.ArrayList;
 
 public class Handler implements ICallBack {
@@ -49,8 +54,17 @@ public class Handler implements ICallBack {
     private Controller controller;
     private ViewModel viewModel;
 
-    private float mouseDelay = 0f;
+    private FontType font;
+    private GUIText text;
 
+    private int counter = 0;
+
+    private float mouseDelay = 0f;
+    private float timer = 0;
+    private float multiplier = 1;
+    private String date = "";
+
+    ArrayList<UiButton> guiButtons = new ArrayList<UiButton>();
 
     public Handler(String saveFile) {
 
@@ -73,12 +87,28 @@ public class Handler implements ICallBack {
         this.gameModel.initialize();
         this.controller = new Controller(gameModel);
 
+
         viewModel = new ViewModel(controller);
+
+        TextMaster.init(loader);
+        font = new FontType(loader.loadFontTexture("tahoma"),new File("src/main/resources/textures/tahoma.fnt"));
+
     }
 
     public void render() {
+
+
+
+        if (timer >= 3f / multiplier) {
+            gameModel.timePassUpdate(1);
+            timer -= 3f/multiplier;
+        }
+
+
+
         camera.move();
         mousePicker.update();
+
         int coordsX = -1;
         int coordsY = -1;
         if (mousePicker.getCurrentTileCoords() != null) {
@@ -139,11 +169,21 @@ public class Handler implements ICallBack {
 
         masterRenderer.render(selector, camera, light);
         guiRenderer.render(viewModel.getButtons());
+        date = gameModel.DateAsString();
+        text = new GUIText(date,1,font,new Vector2f(10f,10f),1f,true);
+        text.setColour(0,0,1);
+
+        TextMaster.render();
+        TextMaster.removeText(text);
+        timer += DisplayManager.getFrameTimeSeconds();
+
     }
 
     public void cleanUp() {
         masterRenderer.cleanUp();
+        TextMaster.cleanUp();
         loader.cleanUp();
+
     }
 
     @Override

@@ -2,8 +2,10 @@ package model;
 
 import model.city.CityRegistry;
 import model.city.CityStatistics;
+import model.city.SocialSecurity;
 import model.common.*;
 import model.exceptions.OperationException;
+import model.facility.Education;
 import model.facility.Facility;
 import model.facility.Forest;
 import model.facility.Road;
@@ -23,6 +25,9 @@ public class GameModel {
     private final List<Road> masterRoads;
     private List<Zone> underConstructions;
     private List<Forest> youthForest;
+    private final List<Education> educations;
+    private Date lastTaxDate;
+    private SocialSecurity socialSecurity;
 
     public GameModel(int rows, int cols) {
         this.rows = rows;
@@ -30,10 +35,12 @@ public class GameModel {
         map = new Buildable[rows][cols];
         cityStatistics = new CityStatistics(new Budget(1000000, 0.3));
         cityRegistry = new CityRegistry(cityStatistics);
-        dateOfWorld = new Date(1, Month.FEBRUARY, 2020);
+        dateOfWorld = new Date(1, Month.JANUARY, 2020);
         masterRoads = new ArrayList<>();
         underConstructions = new ArrayList<>();
         youthForest = new ArrayList<>();
+        educations = new ArrayList<>();
+        socialSecurity = new SocialSecurity(cityStatistics);
     }
 
     /**
@@ -43,6 +50,10 @@ public class GameModel {
         Road road = new Road(0, 0, new Coordinate(rows - 1, cols / 2), new Dimension(1, 1));
         masterRoads.add(road);
         addToMap(road);
+    }
+    public String DateAsString()
+    {
+        return dateOfWorld.toString();
     }
 
     /**
@@ -155,6 +166,10 @@ public class GameModel {
         if (facility.getBuildableType() == BuildableType.FOREST) {
             youthForest.add((Forest) facility);
         }
+        if (facility.getBuildableType() == BuildableType.SCHOOL ||
+            facility.getBuildableType() == BuildableType.UNIVERSITY) {
+            educations.add((Education) facility);
+        }
     }
 
     /**
@@ -192,11 +207,10 @@ public class GameModel {
 
     /**
      * Updates city's tax rate
-     *
      * @param newTaxRate the new tax rate
      */
     public void updateTaxRate(double newTaxRate) {
-        // TODO call city registry
+        cityRegistry.updateTaxRate(newTaxRate);
     }
 
     /**
@@ -304,11 +318,48 @@ public class GameModel {
         dateOfWorld.addDay(dayPass);
         filterConstructed();
 // TODO
-//        update citizens dynamic (use human manufacture)
-//        update city balance (use finical department)
-//        keep track of budget and tax
+//        add new guys (use human manufacture)
+        socialSecurity.census();
+        if (lastTaxDate.dateDifference(dateOfWorld).get("year") >= 1) {
+            updateCityBalance();
+            lastTaxDate = dateOfWorld;
+        }
+        updateForests();
+    }
 
-        // update forest (self container)
+    /**
+     * Collects tax and pays the maintenance fee as well as pension
+     * Records the tax rate.
+     */
+    private void updateCityBalance() {
+        int revenue = calculateRevenue();
+        int spend = calculateSpend();
+        cityRegistry.updateBalance(revenue-spend);
+        socialSecurity.appendTaxRecord();
+    }
+
+    private int calculateSpend() {
+        int spend = 0;
+        for (Facility facility: cityRegistry.getFacilities()) {
+            spend += facility.getMaintenanceFee();
+        }
+        spend += socialSecurity.payPension();
+        return spend;
+    }
+
+    private int calculateRevenue() {
+        int revenue = 0;
+        for (Zone zone:
+                cityRegistry.getZones()) {
+            revenue += zone.collectTax(cityStatistics.getBudget().getTaxRate());
+        }
+        for (Education education: educations) {
+            revenue += education.getAdditionalValue();
+        }
+        return revenue;
+    }
+
+    private void updateForests() {
         List<Forest> newYouth = new ArrayList<>();
         for (Forest forest : youthForest) {
             forest.incAge(dateOfWorld);
@@ -320,7 +371,6 @@ public class GameModel {
             effectExists(forest);
         }
         youthForest = newYouth;
-
     }
 
     /**
@@ -338,31 +388,3 @@ public class GameModel {
         underConstructions = newUnderConstructions;
     }
 }
-
-/**
- * Removes the zone from the city.
- *
- * @param coordinate the coordinate of zone reference to be removed.
- */
-//    public void removeZone(Coordinate coordinate) throws OperationException {
-//        Buildable bad = map[coordinate.getRow()][coordinate.getCol()];
-//        if (bad == null) {
-//            throw new OperationException("Removing empty");
-//        }
-//        Zone zone = (Zone)bad;
-//        removeFromMap(zone);
-//        // TODO integrate the zone into city
-//        if (zone.getBuildableType() == BuildableType.INDUSTRIAL ||
-//                zone.getBuildableType() == BuildableType.COMMERCIAL) {
-//            SideEffect badZone = (SideEffect)zone;
-//            for (Zone z :
-//                    cityRegistry.getZones()) {
-//                badZone.reverseEffect(z);
-//            }
-//        }
-//        // TODO deduct money from the budget
-////        cityRegistry.addBalance(zone.getConstructionCost() * Constants.RETURN_RATE);
-//        // TODO call city registry remove zone
-//        cityRegistry.removeZone(zone);
-//    }
-

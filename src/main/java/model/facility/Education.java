@@ -1,15 +1,20 @@
 package model.facility;
 
+import model.common.Citizen;
 import model.common.Coordinate;
 import model.common.Dimension;
 import model.util.LevelOfEducation;
 
-abstract class Education extends Facility{
+import java.util.ArrayList;
+import java.util.List;
+
+public abstract class Education extends Facility{
 
     protected int capacity;
     protected int yearsToGraduate;
 
     protected LevelOfEducation levelOfEducation;
+    protected List<Citizen> students;
 
     public Education(int oneTimeCost, int maintenanceFee, Coordinate coordinate, Dimension dimension, int capacity,
                      int yearsToGraduate, LevelOfEducation levelOfEducation) {
@@ -17,6 +22,7 @@ abstract class Education extends Facility{
         this.capacity = capacity;
         this.yearsToGraduate = yearsToGraduate;
         this.levelOfEducation = levelOfEducation;
+        students = new ArrayList<>();
     }
 
     public int getCapacity() {
@@ -25,5 +31,9 @@ abstract class Education extends Facility{
 
     public int getYearsToGraduate() {
         return yearsToGraduate;
+    }
+
+    public int getAdditionalValue() {
+        return students.size() * levelOfEducation.getAdditionalValue();
     }
 }
