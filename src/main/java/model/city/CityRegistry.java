@@ -56,4 +56,20 @@ public class CityRegistry {
         facilities.remove(facility);
     }
 
+    /**
+     * Add given amount to budget
+     * @param amount int
+     */
+    public void updateBalance(int amount) {
+        cityStatistics.getBudget().addBalance(amount);
+    }
+
+    /**
+     * Set new tax rate
+     * @param newTaxRate double
+     */
+    public void updateTaxRate(double newTaxRate) {
+        cityStatistics.getBudget().addTaxRate(newTaxRate);
+    }
+
 }
