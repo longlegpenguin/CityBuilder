@@ -69,6 +69,19 @@ public class GameModel {
         return buildableList;
     }
 
+    public List<Buildable> getZoneBuildables() {
+        List<Buildable> buildableList = new ArrayList<>();
+        buildableList.addAll(cityRegistry.getZones());
+        return buildableList;
+    }
+
+    public List<Buildable> getFacilityBuildables() {
+        List<Buildable> buildableList = new ArrayList<>();
+        buildableList.addAll(cityRegistry.getFacilities());
+        buildableList.addAll(masterRoads);
+        return buildableList;
+    }
+
     /**
      * Updates the city's date
      *

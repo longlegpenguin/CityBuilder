@@ -5,6 +5,7 @@ public enum BuildableType {
     INDUSTRIAL,
     COMMERCIAL,
     ROAD,
+    POLICE,
     STADIUM,
     FOREST,
     UNIVERSITY,

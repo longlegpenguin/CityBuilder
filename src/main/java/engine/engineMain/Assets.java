@@ -6,7 +6,7 @@ package engine.engineMain;
  */
 public enum Assets {
     ROAD ("road", "road", 5),
-    RESEDENTIAL("cube", "Residential", 5),
+    RESIDENTIAL("cube", "Residential", 5),
     COMMERCIAL("cube", "Commercial", 5),
     INDUSTRIAL("cube", "Industrial", 5),
     POLICE("cube", "Police", 5),

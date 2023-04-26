@@ -50,6 +50,10 @@ public class Controller {
         this.property.setGameMode(gameMode);
     }
 
+    public GameMode getGameMode() {
+        return this.property.getGameMode();
+    }
+
     public void regularUpdateRequest(int dayPass) {
         this.property.getGameModel().regularUpdate(dayPass);
     }
