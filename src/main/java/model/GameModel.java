@@ -25,6 +25,7 @@ public class GameModel {
     private List<Zone> underConstructions;
     private List<Forest> youthForest;
     private List<Education> educations;
+    private Date lastTaxDate;
 
     public GameModel(int rows, int cols) {
         this.rows = rows;
@@ -33,6 +34,7 @@ public class GameModel {
         cityStatistics = new CityStatistics(new Budget(1000000, 0.3));
         cityRegistry = new CityRegistry(cityStatistics);
         dateOfWorld = new Date(1, Month.FEBRUARY, 2020);
+        lastTaxDate = dateOfWorld;
         masterRoads = new ArrayList<>();
         underConstructions = new ArrayList<>();
         youthForest = new ArrayList<>();
@@ -298,13 +300,16 @@ public class GameModel {
         filterConstructed();
 // TODO
 //        update citizens dynamic (use human manufacture)
-        updateCityBalance();
+        if (lastTaxDate.dateDifference(dateOfWorld).get("year") >= 1) {
+            updateCityBalance();
+        }
         updateForests();
 
     }
 
     /**
      * Collects tax and pays the maintenance fee
+     * Records the tax rate.
      */
     private void updateCityBalance() {
         int revenue = 0;
@@ -320,6 +325,7 @@ public class GameModel {
             spend += facility.getMaintenanceFee();
         }
         cityRegistry.updateBalance(revenue-spend);
+        cityRegistry.appendTaxRecord(revenue);
     }
 
     private void updateForests() {
