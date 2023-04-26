@@ -25,7 +25,7 @@ public class GameModel {
     private final List<Road> masterRoads;
     private List<Zone> underConstructions;
     private List<Forest> youthForest;
-    private List<Education> educations;
+    private final List<Education> educations;
     private Date lastTaxDate;
     private SocialSecurity socialSecurity;
 
@@ -306,9 +306,9 @@ public class GameModel {
         socialSecurity.census();
         if (lastTaxDate.dateDifference(dateOfWorld).get("year") >= 1) {
             updateCityBalance();
+            lastTaxDate = dateOfWorld;
         }
         updateForests();
-
     }
 
     /**
