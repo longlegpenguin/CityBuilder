@@ -6,10 +6,6 @@ import controller.util.GameMode;
 import engine.entities.Camera;
 import engine.entities.Entity;
 import engine.entities.Light;
-import engine.models.RawModel;
-import engine.models.TexturedModel;
-import engine.objConverter.ModelData;
-import engine.objConverter.OBJFileLoader;
 import engine.renderEngine.GuiRenderer;
 import engine.renderEngine.Loader;
 import engine.renderEngine.MasterRenderer;
@@ -138,7 +134,7 @@ public class Handler implements ICallBack {
 
         if (Mouse.isLeftButtonPressed()) {
             if (coordsX < worldGrid.getWorldSize() && coordsX >= 0 && coordsY < worldGrid.getWorldSize() && coordsY >= 0) {
-                controller.switchModeRequest(GameMode.ROAD_MODE);
+                controller.switchGameModeRequest(GameMode.ROAD_MODE);
                 controller.mouseClickRequest(new Coordinate(coordsX, coordsY), this);
 //                Entity road = new Entity(roadTexM, new Vector3f(coordsX * Terrain.getSize(),0,(coordsY + 1) *Terrain.getSize()), 0,0,0,5);
 //                worldGrid.addBuildable(mousePicker.getCurrentTileCoords().x, mousePicker.getCurrentTileCoords().y, road);

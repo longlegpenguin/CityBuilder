@@ -3,15 +3,16 @@ Please read through.
 
 ## Initialization
 + A controller take in a game model for instantiation.  
-```java
+```
 Controller c = new Controller(gm);
 ```
 
 ## API
-+ The methods which are public to be used in view are as following. 
++ The methods which are public to be used in view are as following.
++ Caller does not need to do any consideration, just call with necessary parameters.
 
 ### 1
-```java
+```
 public void mouseClickRequest(Coordinate coordinate, ICallBack callBack);
 ```
 > For any click on the world grid, send this request to the game model.
@@ -25,7 +26,7 @@ public void mouseClickRequest(Coordinate coordinate, ICallBack callBack);
 > but nothing is required from the caller side.
 
 ### 2
-```java
+```
 public void switchModeRequest(GameMode gameMode);
 ```
 > This is to be called in order to change the game mode,
@@ -45,7 +46,7 @@ public void switchModeRequest(GameMode gameMode);
      DEMOLISH_MODE
 
 ### 3
-```java
+```
 public void regularUpdateRequest(int dayPass, ICallBack callBack);
 ```
 > This is to be called by the timer, to update every internal 
@@ -53,3 +54,11 @@ public void regularUpdateRequest(int dayPass, ICallBack callBack);
 > 
 > The call back is used, again to update changes to view.
 > i.e. City statistics & world date.
+
+### 4
+```
+public void switchTimeModeRequest(TimeMode timeMode);
+```
+> This is used in order to change the time mode,
+> which is used in regular update, for a customed speed
+> of passing of time.
