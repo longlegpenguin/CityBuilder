@@ -86,5 +86,7 @@ public class Controller {
         service.register(Event.DEMOLISH, new DemolishListener(property));
         service.register(Event.SELECTION, new SelectionListener(property));
     }
-
+    public GameMode getGameMode() {
+        return property.getGameMode();
+    }
 }
