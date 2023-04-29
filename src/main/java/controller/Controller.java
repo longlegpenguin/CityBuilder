@@ -76,6 +76,9 @@ public class Controller {
                 dayPass * property.getTimeMode().getMultiplier(),
                 property.getCallBack()
         );
+    
+    public GameMode getGameMode() {
+        return this.property.getGameMode();
     }
 
     /**

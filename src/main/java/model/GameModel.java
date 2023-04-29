@@ -38,8 +38,7 @@ public class GameModel {
         map = new Buildable[rows][cols];
         cityStatistics = new CityStatistics(new Budget(1000000, 0.3));
         cityRegistry = new CityRegistry(cityStatistics);
-        dateOfWorld = new Date(1, Month.FEBRUARY, 2020);
-        lastTaxDate = dateOfWorld;
+        dateOfWorld = new Date(1, Month.JANUARY, 2020);
         masterRoads = new ArrayList<>();
         underConstructions = new ArrayList<>();
         youthForest = new ArrayList<>();
@@ -55,6 +54,10 @@ public class GameModel {
         masterRoads.add(road);
         addToMap(road);
     }
+    public String DateAsString()
+    {
+        return dateOfWorld.toString();
+    }
 
     /**
      * Gets everything on the map.
@@ -64,6 +67,19 @@ public class GameModel {
     public List<Buildable> getAllBuildable() {
         List<Buildable> buildableList = new ArrayList<>();
         buildableList.addAll(cityRegistry.getZones());
+        buildableList.addAll(cityRegistry.getFacilities());
+        buildableList.addAll(masterRoads);
+        return buildableList;
+    }
+
+    public List<Buildable> getZoneBuildables() {
+        List<Buildable> buildableList = new ArrayList<>();
+        buildableList.addAll(cityRegistry.getZones());
+        return buildableList;
+    }
+
+    public List<Buildable> getFacilityBuildables() {
+        List<Buildable> buildableList = new ArrayList<>();
         buildableList.addAll(cityRegistry.getFacilities());
         buildableList.addAll(masterRoads);
         return buildableList;

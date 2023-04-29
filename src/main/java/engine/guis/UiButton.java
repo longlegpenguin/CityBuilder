@@ -1,39 +1,45 @@
 package engine.guis;
 
 import engine.display.DisplayManager;
-import engine.guis.UiComponent;
 import engine.tools.Mouse;
 import org.joml.Vector2f;
 
 
 public class UiButton extends UiComponent {
 
+    private ButtonEnum buttonEnum;
+    private boolean enabled;
 
-    private boolean isClicked;
-
-    public UiButton(int texture, Vector2f position, Vector2f scale) {
+    public UiButton(int texture, Vector2f position, Vector2f scale, ButtonEnum buttonEnum) {
         super(texture, position, scale);
+        this.buttonEnum = buttonEnum;
         this.isClickable = true;
-
+        this.enabled = false;
     }
 
     public int getTexture() {
         return texture;
     }
 
-    public void setClicked(boolean clicked) {
-        isClicked = clicked;
+    public ButtonEnum getButtonEnum() {
+        return buttonEnum;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
+
+    public boolean isEnabled() {
+        return enabled;
     }
 
     public boolean isClicked() {
         double mouseX =  (2f * Mouse.getX()) / DisplayManager.getWindowWidth() - 1f;
         double mouseY = (2f * Mouse.getY() ) / DisplayManager.getWindowHeight() - 1f;
-        if (Mouse.isLeftButtonPressed() && mouseX >= position.x - scale.x && mouseX <= position.x  + scale.x && mouseY >=  position.y - scale.y && mouseY <= position.y + scale.y) {
-            System.out.println("Clicked");
-            isClicked = true;
+        if (mouseX >= position.x - scale.x && mouseX <= position.x  + scale.x && mouseY >=  position.y - scale.y && mouseY <= position.y + scale.y) {
             return true;
         }
-
-        else return false;
+        else
+            return false;
     }
 }
