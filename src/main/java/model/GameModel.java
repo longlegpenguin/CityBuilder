@@ -170,6 +170,10 @@ public class GameModel {
         Buildable bad = map[coordinate.getRow()][coordinate.getCol()];
         if (bad == null) {
             throw new OperationException("Removing fails, plot is empty.");
+        } else if (!underConstructions.contains(bad)) {
+            throw new OperationException("Removing fails, zone with assets cannot be removed.");
+        } else if (masterRoads.contains(bad)) {
+            throw new OperationException("Removing fails, master roads cannot be removed.");
         }
         removeFromMap(bad);
 
