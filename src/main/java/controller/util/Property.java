@@ -2,6 +2,7 @@ package controller.util;
 
 import controller.ICallBack;
 import model.GameModel;
+import model.city.CityStatistics;
 import model.common.Budget;
 import model.common.Buildable;
 import model.common.Coordinate;
@@ -34,6 +35,11 @@ public class Property {
 
             @Override
             public void updateDatePanel(Date date) {
+                System.out.println("Default Call back");
+            }
+
+            @Override
+            public void updateCityStatisticPanel(CityStatistics cityStatistics) {
                 System.out.println("Default Call back");
             }
         };

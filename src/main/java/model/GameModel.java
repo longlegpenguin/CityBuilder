@@ -1,5 +1,6 @@
 package model;
 
+import controller.ICallBack;
 import model.city.CityRegistry;
 import model.city.CityStatistics;
 import model.city.SocialSecurity;
@@ -15,6 +16,8 @@ import model.zone.ZoneStatistics;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static model.util.BuildableType.*;
 
 public class GameModel {
     private final int rows, cols;
@@ -211,10 +214,22 @@ public class GameModel {
      *
      * @param coordinate the coordinate of the zone for which satisfaction should be got
      * @return satisfaction
+     * @throws OperationException when no zone is on the coordinate.
      */
-    public ZoneStatistics queryZoneStatistics(Coordinate coordinate) {
-        Zone z = (Zone) map[coordinate.getRow()][coordinate.getCol()];
+    public ZoneStatistics queryZoneStatistics(Coordinate coordinate) throws OperationException {
+        Buildable b = map[coordinate.getRow()][coordinate.getCol()];
+        if (isPlotAvailable(b) || !isZone(b)) {
+            throw new OperationException("No zone on the selected field");
+        }
+        Zone z = (Zone) b;
         return z.getStatistics();
+    }
+
+    private boolean isZone(Buildable buildable) {
+        BuildableType buildableType = buildable.getBuildableType();
+        return buildableType == COMMERCIAL ||
+                buildableType == INDUSTRIAL ||
+                buildableType == RESIDENTIAL;
     }
 
     /**
@@ -294,11 +309,12 @@ public class GameModel {
     }
 
     /**
-     * TODO
-     *
-     * @param dayPass the day passed since last updates
+     * Regular updating of the world.
+     * @param dayPass the day passed since last updates.
+     * @param callBack a call back function, called after the updating,
+     *                 to synchronize the change to the view.
      */
-    public void regularUpdate(int dayPass) {
+    public void regularUpdate(int dayPass, ICallBack callBack) {
         dateOfWorld.addDay(dayPass);
         filterConstructed();
 // TODO
@@ -309,6 +325,9 @@ public class GameModel {
             lastTaxDate = dateOfWorld;
         }
         updateForests();
+
+        callBack.updateDatePanel(dateOfWorld);
+        callBack.updateCityStatisticPanel(cityStatistics);
     }
 
     /**

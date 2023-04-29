@@ -1,7 +1,7 @@
 package controller.util;
 
 public enum Event {
-    NONE,
+    SELECTION,
     ZONE,
     FACILITY,
     UPGRADE,

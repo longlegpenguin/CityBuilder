@@ -2,6 +2,7 @@ package controller;
 
 import controller.listeners.DemolishListener;
 import controller.listeners.FacilityBuildingListener;
+import controller.listeners.SelectionListener;
 import controller.listeners.ZoneBuildingListener;
 import controller.util.Event;
 import controller.util.GameMode;
@@ -50,9 +51,14 @@ public class Controller {
         this.property.setGameMode(gameMode);
     }
 
+    /**
+     * Update the game model regularly with calculated time pass.
+     * @param dayPass the pass of time in the unit of day.
+     */
     public void regularUpdateRequest(int dayPass) {
-        this.property.getGameModel().regularUpdate(dayPass);
+        this.property.getGameModel().regularUpdate(dayPass, property.getCallBack());
     }
+
     /**
      * Register all necessary event handlers to publisher.
      * There has to be one for each EVENTs.
@@ -61,6 +67,7 @@ public class Controller {
         service.register(Event.ZONE, new ZoneBuildingListener(property));
         service.register(Event.FACILITY, new FacilityBuildingListener(property));
         service.register(Event.DEMOLISH, new DemolishListener(property));
+        service.register(Event.SELECTION, new SelectionListener(property));
     }
 
 }
