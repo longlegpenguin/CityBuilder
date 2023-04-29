@@ -25,6 +25,7 @@ import engine.tools.Mouse;
 import engine.tools.MousePicker;
 import engine.world.WorldGrid;
 import model.GameModel;
+import model.city.CityStatistics;
 import model.common.Budget;
 import model.common.Buildable;
 import model.common.Coordinate;
@@ -242,6 +243,11 @@ public class Handler implements ICallBack {
 
     @Override
     public void updateDatePanel(Date date) {
+
+    }
+
+    @Override
+    public void updateCityStatisticPanel(CityStatistics cityStatistics) {
 
     }
 }
