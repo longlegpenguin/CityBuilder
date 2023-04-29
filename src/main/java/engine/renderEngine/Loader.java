@@ -3,10 +3,7 @@ package engine.renderEngine;
 import engine.textures.Texture;
 import org.lwjgl.BufferUtils;
 import engine.models.RawModel;
-import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL15;
-import org.lwjgl.opengl.GL20;
-import org.lwjgl.opengl.GL30;
+import org.lwjgl.opengl.*;
 
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
@@ -48,6 +45,15 @@ public class Loader {
         unbindVAO();
         return new RawModel(vaoID, positions.length/2);
     }
+    public int loadToVAO(float[] positions,float[] textureCoords) {
+        int vaoID = createVAO();
+
+        storeDataInAttributeList(0,2, positions);
+        storeDataInAttributeList(1, 2, textureCoords);
+
+        unbindVAO();
+        return vaoID;
+    }
 
     /**
      * Creates a Texture Object using the input filename of the png texture
@@ -58,6 +64,13 @@ public class Loader {
     public int loadTexture(String fileName) {
         Texture texture = Texture.loadTexture("src/main/resources/textures/" + fileName + ".png");
 
+        int textureID = texture.getTextureID();
+        textures.add(textureID);
+        return textureID;
+    }
+    public int loadFontTexture(String fileName) {
+        Texture texture = Texture.loadTexture("src/main/resources/textures/" + fileName + ".png");
+        GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL14.GL_TEXTURE_LOD_BIAS,0);
         int textureID = texture.getTextureID();
         textures.add(textureID);
         return textureID;
