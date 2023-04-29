@@ -325,7 +325,25 @@ public class GameModel {
     }
 
     private boolean isPlotAvailable(Buildable b) {
-        return map[b.getCoordinate().getRow()][b.getCoordinate().getCol()] == null;
+        Coordinate coordinate = b.getCoordinate();
+        Dimension dimension = b.getDimension();
+        int topRow = coordinate.getRow();
+        int leftestCol = coordinate.getCol();
+        int rightestCol = leftestCol + dimension.getWidth();
+        int bottomRow = topRow + dimension.getHeight();
+
+        if (bottomRow > rows || rightestCol > cols) {
+            return false;
+        }
+
+        for (int row = topRow; row < bottomRow; row++) {
+            for (int col = leftestCol; col < rightestCol; col++) {
+                if (map[row][col] != null) {
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 
     /**
