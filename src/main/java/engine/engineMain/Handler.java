@@ -133,6 +133,7 @@ public class Handler implements ICallBack {
                         case DE_ZONE -> viewModel.getBottomMenuBar().deZoneButtonAction();
                         case ROAD -> viewModel.getBottomMenuBar().roadButtonAction();
                         case FOREST -> viewModel.getBottomMenuBar().forestButtonAction();
+                        case STADIUM -> viewModel.getBottomMenuBar().stadiumButtonAction();
                         case POLICE -> viewModel.getBottomMenuBar().policeButtonAction();
                         case SCHOOL -> viewModel.getBottomMenuBar().schoolButtonAction();
                         case UNIVERSITY -> viewModel.getBottomMenuBar().universityButton();
