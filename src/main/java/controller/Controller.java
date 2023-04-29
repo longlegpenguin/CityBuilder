@@ -54,8 +54,12 @@ public class Controller {
     /**
      * Update the game model regularly with calculated time pass.
      * @param dayPass the pass of time in the unit of day.
+     * @param callBack will be called after the handle of the request, can be null for defaults.
      */
-    public void regularUpdateRequest(int dayPass) {
+    public void regularUpdateRequest(int dayPass, ICallBack callBack) {
+        if (callBack != null) {
+            property.setCallBack(callBack);
+        }
         this.property.getGameModel().regularUpdate(dayPass, property.getCallBack());
     }
 
