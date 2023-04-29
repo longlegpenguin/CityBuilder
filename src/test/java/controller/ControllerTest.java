@@ -3,7 +3,6 @@ package controller;
 import controller.util.GameMode;
 import model.GameModel;
 import model.common.Coordinate;
-import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -22,7 +21,7 @@ class ControllerTest {
 
     @org.junit.jupiter.api.Test
     void testMouseHandlerBuildZone() {
-        controller.switchModeRequest(GameMode.RESIDENTIAL_MODE);
+        controller.switchGameModeRequest(GameMode.RESIDENTIAL_MODE);
         controller.mouseClickRequest(new Coordinate(1, 1), null);
         System.out.println(gm.printMap());
         assertEquals(gm.getAllBuildable().size(), 2);

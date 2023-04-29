@@ -2,10 +2,14 @@ package controller;
 
 import controller.listeners.DemolishListener;
 import controller.listeners.FacilityBuildingListener;
+import controller.listeners.SelectionListener;
 import controller.listeners.ZoneBuildingListener;
 import controller.util.Event;
 import controller.util.GameMode;
 import controller.util.Property;
+import static controller.util.TimeMode.*;
+
+import controller.util.TimeMode;
 import model.GameModel;
 import model.common.Coordinate;
 
@@ -15,11 +19,10 @@ public class Controller {
     private Publisher service;
 
     public Controller(GameModel gameModel) {
-        property = new Property(GameMode.SELECTION_MODE, gameModel);
+        property = new Property(GameMode.SELECTION_MODE, gameModel, DAILY);
         service = new Publisher();
         registerListeners();
     }
-    /// ------------ GETTERS, SETTERS START-----------------
 
     public Publisher getService() {
         return service;
@@ -28,7 +31,6 @@ public class Controller {
     public void setService(Publisher service) {
         this.service = service;
     }
-    /// ------------ GETTERS, SETTERS END -----------------
 
     /**
      * Handles every mouse click (on grid system) from the user
@@ -46,17 +48,34 @@ public class Controller {
      * Handles client request of mode switching (Button click)
      * @param gameMode the mode to switch to.
      */
-    public void switchModeRequest(GameMode gameMode) {
+    public void switchGameModeRequest(GameMode gameMode) {
         this.property.setGameMode(gameMode);
     }
 
-    public GameMode getGameMode() {
-        return this.property.getGameMode();
+    /**
+     * Handles client request of time mode switching (Button click)
+     * @param timeMode the time mode to switch to
+     */
+    public void switchTimeModeRequest(TimeMode timeMode) {
+        this.property.setTimeMode(timeMode);
     }
 
-    public void regularUpdateRequest(int dayPass) {
-        this.property.getGameModel().regularUpdate(dayPass);
+    /**
+     * Update the game model regularly with calculated time pass.
+     * The actual day pass will be according to the time mode.
+     * @param dayPass the pass of time in the unit of day.
+     * @param callBack will be called after the handle of the request, can be null for defaults.
+     */
+    public void regularUpdateRequest(int dayPass, ICallBack callBack) {
+        if (callBack != null) {
+            property.setCallBack(callBack);
+        }
+        this.property.getGameModel().regularUpdate(
+                dayPass * property.getTimeMode().getMultiplier(),
+                property.getCallBack()
+        );
     }
+
     /**
      * Register all necessary event handlers to publisher.
      * There has to be one for each EVENTs.
@@ -65,6 +84,9 @@ public class Controller {
         service.register(Event.ZONE, new ZoneBuildingListener(property));
         service.register(Event.FACILITY, new FacilityBuildingListener(property));
         service.register(Event.DEMOLISH, new DemolishListener(property));
+        service.register(Event.SELECTION, new SelectionListener(property));
     }
-
+    public GameMode getGameMode() {
+        return property.getGameMode();
+    }
 }

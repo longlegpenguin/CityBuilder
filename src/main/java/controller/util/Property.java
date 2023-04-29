@@ -2,6 +2,7 @@ package controller.util;
 
 import controller.ICallBack;
 import model.GameModel;
+import model.city.CityStatistics;
 import model.common.Budget;
 import model.common.Buildable;
 import model.common.Coordinate;
@@ -12,10 +13,11 @@ public class Property {
     private GameMode gameMode;
     private GameModel gameModel;
     private ICallBack iCallBack;
-
-    public Property(GameMode gameMode, GameModel gameModel) {
+    private TimeMode timeMode;
+    public Property(GameMode gameMode, GameModel gameModel, TimeMode timeMode) {
         this.gameMode = gameMode;
         this.gameModel = gameModel;
+        this.timeMode = timeMode;
         iCallBack = new ICallBack() {
             @Override
             public void updateGridSystem(Coordinate coordinate, Buildable buildable) {
@@ -36,7 +38,20 @@ public class Property {
             public void updateDatePanel(Date date) {
                 System.out.println("Default Call back");
             }
+
+            @Override
+            public void updateCityStatisticPanel(CityStatistics cityStatistics) {
+                System.out.println("Default Call back");
+            }
         };
+    }
+
+    public TimeMode getTimeMode() {
+        return timeMode;
+    }
+
+    public void setTimeMode(TimeMode timeMode) {
+        this.timeMode = timeMode;
     }
 
     public ICallBack getCallBack() {

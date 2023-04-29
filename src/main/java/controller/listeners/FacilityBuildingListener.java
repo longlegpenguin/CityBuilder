@@ -27,10 +27,11 @@ public class FacilityBuildingListener extends ServiceListener {
         }
         try {
             gm.addFacility(facility);
+            assert facility != null;
             property.getCallBack().updateGridSystem(facility.getCoordinate(), facility);
             System.out.println("Created" + facility);
         } catch (OperationException e) {
-            System.out.println("ha ha ha ha");
+            System.out.println(e.getMessage());
         }
     }
 }

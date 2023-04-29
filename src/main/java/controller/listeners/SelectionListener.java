@@ -3,18 +3,20 @@ package controller.listeners;
 import controller.util.Property;
 import model.common.Coordinate;
 import model.exceptions.OperationException;
+import model.zone.ZoneStatistics;
 
-public class DemolishListener extends ServiceListener {
+public class SelectionListener extends ServiceListener {
 
-    public DemolishListener(Property property) {
+
+    public SelectionListener(Property property) {
         super(property);
     }
 
     @Override
     public void update(Coordinate coordinate) {
         try {
-            property.getGameModel().removeBuildable(coordinate);
-            property.getCallBack().updateGridSystem(coordinate, null);
+            ZoneStatistics zoneStatistics = property.getGameModel().queryZoneStatistics(coordinate);
+            property.getCallBack().updateStatisticPanel(zoneStatistics);
         } catch (OperationException e) {
             System.out.println(e.getMessage());
         }

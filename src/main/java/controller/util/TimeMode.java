@@ -1,0 +1,17 @@
+package controller.util;
+
+public enum TimeMode {
+    DAILY(1),
+    WEEKLY(7),
+    MONTHLY(30);
+
+    private final int multiplier;
+
+    private TimeMode(int multiplier) {
+        this.multiplier = multiplier;
+    }
+
+    public int getMultiplier() {
+        return multiplier;
+    }
+}

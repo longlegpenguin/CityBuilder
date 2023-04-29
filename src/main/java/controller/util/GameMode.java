@@ -2,7 +2,7 @@ package controller.util;
 import static controller.util.Event.*;
 public enum GameMode {
 
-    SELECTION_MODE(Event.NONE),
+    SELECTION_MODE(SELECTION),
     RESIDENTIAL_MODE(ZONE),
     INDUSTRIAL_MODE(ZONE),
     COMMERCIAL_MODE(ZONE),

@@ -19,9 +19,9 @@ public abstract class Menu {
 
     public void buttonAction(UiButton button,GameMode gameMode) {
         if (!button.isEnabled()) {
-            controller.switchModeRequest(gameMode);
+            controller.switchGameModeRequest(gameMode);
         } else {
-            controller.switchModeRequest(GameMode.SELECTION_MODE);
+            controller.switchGameModeRequest(GameMode.SELECTION_MODE);
         }
     }
 
