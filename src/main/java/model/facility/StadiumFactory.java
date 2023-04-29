@@ -18,7 +18,7 @@ public class StadiumFactory extends FacilityFactory {
                 Constants.STADIUM_MAINTENANCE_FEE,
                 coordinate,
                 new Dimension(2, 2),
-                5
+                Constants.STADIUM_EFFECT_RADIUS
         );
     }
 }
