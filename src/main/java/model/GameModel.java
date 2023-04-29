@@ -87,7 +87,7 @@ public class GameModel {
     public void addZone(Zone zone) throws OperationException {
 
         if (!isPlotAvailable(zone)) {
-            throw new OperationException("Fuck, already has something");
+            throw new OperationException("Add zone failed, no available plot.");
         }
         addToMap(zone);
 
@@ -140,7 +140,7 @@ public class GameModel {
     public void addFacility(Facility facility) throws OperationException {
 
         if (!isPlotAvailable(facility)) {
-            throw new OperationException("Fuck, already has something");
+            throw new OperationException("Add facility failed, no available slot");
         }
 
         addToMap(facility);
@@ -169,7 +169,7 @@ public class GameModel {
 
         Buildable bad = map[coordinate.getRow()][coordinate.getCol()];
         if (bad == null) {
-            throw new OperationException("Removing empty");
+            throw new OperationException("Removing fails, plot is empty.");
         }
         removeFromMap(bad);
 

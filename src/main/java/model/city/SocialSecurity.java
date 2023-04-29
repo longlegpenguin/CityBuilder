@@ -4,7 +4,6 @@ import model.common.Citizen;
 import model.common.Constants;
 import model.util.ProbabilitySelector;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 

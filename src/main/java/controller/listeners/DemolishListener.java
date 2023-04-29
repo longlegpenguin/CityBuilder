@@ -16,7 +16,7 @@ public class DemolishListener extends ServiceListener {
             property.getGameModel().removeBuildable(coordinate);
             property.getCallBack().updateGridSystem(coordinate, null);
         } catch (OperationException e) {
-            System.out.println("ha ha ha");
+            System.out.println(e.getMessage());
         }
     }
 }
