@@ -19,12 +19,6 @@ public class IndustrialZone extends Zone implements SideEffect {
         return BuildableType.INDUSTRIAL;
     }
 
-    // TODO
-    @Override
-    public boolean isUnderConstruction() {
-        return false;
-    }
-
 
     @Override
     public void effect(Zone zone, Buildable[][] map) {

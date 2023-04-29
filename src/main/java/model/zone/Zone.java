@@ -18,6 +18,7 @@ public abstract class Zone implements Buildable {
     protected final Dimension dimension;
     protected BuildableType buildableType;
     List<Buildable> effectedBy;
+    protected Boolean isUnderConstruction;
 
 
     public Zone(Level level, int dayToBuild, ZoneStatistics statistics, Date birthday, Coordinate coordinate) {
@@ -29,6 +30,11 @@ public abstract class Zone implements Buildable {
         citizens = new ArrayList<>();
         this.dimension = new Dimension(1, 1);
         effectedBy = new ArrayList<>();
+        isUnderConstruction = true;
+    }
+
+    public void setUnderConstruction(Boolean underConstruction) {
+        isUnderConstruction = underConstruction;
     }
 
     public List<Buildable> getEffectedBy() {
@@ -180,6 +186,11 @@ public abstract class Zone implements Buildable {
      */
     public int getConstructionCost() {
         return level.getCost();
+    }
+
+    @Override
+    public boolean isUnderConstruction() {
+        return isUnderConstruction;
     }
 
     public int getPopulation() {
