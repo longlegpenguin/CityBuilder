@@ -23,7 +23,6 @@ public class Controller {
         service = new Publisher();
         registerListeners();
     }
-    /// ------------ GETTERS, SETTERS START-----------------
 
     public Publisher getService() {
         return service;
@@ -32,7 +31,6 @@ public class Controller {
     public void setService(Publisher service) {
         this.service = service;
     }
-    /// ------------ GETTERS, SETTERS END -----------------
 
     /**
      * Handles every mouse click (on grid system) from the user
