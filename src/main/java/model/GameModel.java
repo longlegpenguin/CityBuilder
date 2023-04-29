@@ -388,6 +388,7 @@ public class GameModel {
         for (Zone zone : underConstructions) {
             if (zone.getBirthday().dateDifference(dateOfWorld).get("days") > Constants.CONSTRUCTION_DAY) {
                 zone.setLevel(Level.ONE);
+                zone.setUnderConstruction(false);
             } else {
                 newUnderConstructions.add(zone);
             }
