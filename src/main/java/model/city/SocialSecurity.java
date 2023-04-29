@@ -33,8 +33,9 @@ public class SocialSecurity {
         for (Citizen retire : retires) {
             retire.incAge();
             if (ProbabilitySelector.decision(retire.getAge()/100.0)) {
-                retire.getWorkplace().removeCitizen(retire);
-                retire.getLivingplace().removeCitizen(retire);
+                try {
+                    die(retire);
+                } catch (NullPointerException e) {}
                 // TODO ask human manufacture to add a yong guy
             } else {
                 newRetire.add(retire);
@@ -48,6 +49,11 @@ public class SocialSecurity {
             }
         }
     }
+    private void die(Citizen dead) throws NullPointerException {
+        dead.getWorkplace().removeCitizen(dead);
+        dead.getLivingplace().removeCitizen(dead);
+    }
+
     public void addRetire(Citizen citizen) {
         calculatePension(citizen);
         retires.add(citizen);
