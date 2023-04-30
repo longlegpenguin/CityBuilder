@@ -1,6 +1,6 @@
 package model.facility;
 
-import model.common.Buildable;
+import model.GameModel;
 import model.common.Coordinate;
 import model.common.Dimension;
 import model.util.BuildableType;
@@ -24,17 +24,17 @@ public class Police extends EffectualFacility {
     }
 
     @Override
-    public void effect(Zone zone, Buildable[][] map) {
-        zone.updatePoliceEffect(1);
+    public void effect(Zone zone, GameModel gm) {
+        zone.updatePoliceEffect(zone.getStatistics().getSatisfaction().getPoliceEffect() + 1);
     }
 
     @Override
-    public void reverseEffect(Zone zone, Buildable[][] map) {
-        zone.updatePoliceEffect(0);
+    public void reverseEffect(Zone zone, GameModel gm) {
+        zone.updatePoliceEffect(zone.getStatistics().getSatisfaction().getPoliceEffect() - 1);
     }
 
     @Override
-    public boolean condition(Zone zone, Buildable[][] map) {
-        return new PathFinder(map).manhattanDistance(zone, this) <= influenceRadius;
+    public boolean condition(Zone zone, GameModel gm) {
+        return new PathFinder(gm.getMap()).manhattanDistance(zone, this) <= influenceRadius;
     }
 }
