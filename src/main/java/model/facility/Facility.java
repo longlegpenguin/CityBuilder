@@ -25,16 +25,8 @@ public abstract class Facility implements Buildable {
         return getOneTimeCost();
     }
 
-    public void setOneTimeCost(int oneTimeCost) {
-        this.oneTimeCost = oneTimeCost;
-    }
-
     public int getMaintenanceFee() {
         return maintenanceFee;
-    }
-
-    public void setMaintenanceFee(int maintenanceFee) {
-        this.maintenanceFee = maintenanceFee;
     }
 
     @Override
@@ -45,6 +37,14 @@ public abstract class Facility implements Buildable {
     @Override
     public Dimension getDimension() {
         return dimension;
+    }
+
+    public void setOneTimeCost(int oneTimeCost) {
+        this.oneTimeCost = oneTimeCost;
+    }
+
+    public void setMaintenanceFee(int maintenanceFee) {
+        this.maintenanceFee = maintenanceFee;
     }
 
     @Override

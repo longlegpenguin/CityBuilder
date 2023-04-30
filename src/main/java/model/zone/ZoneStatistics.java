@@ -1,14 +1,13 @@
 package model.zone;
 
-import model.common.Satisfaction;
+import model.common.ZoneSatisfaction;
 
-public final class
-ZoneStatistics {
+public final class ZoneStatistics {
     private int population;
     private int capacity;
-    private final Satisfaction satisfaction;
+    private final ZoneSatisfaction satisfaction;
 
-    public ZoneStatistics(int population, int capacity, Satisfaction satisfaction) {
+    public ZoneStatistics(int population, int capacity, ZoneSatisfaction satisfaction) {
         this.population = population;
         this.capacity = capacity;
         this.satisfaction = satisfaction;
@@ -22,7 +21,7 @@ ZoneStatistics {
         return capacity;
     }
 
-    public Satisfaction getSatisfaction() {
+    public ZoneSatisfaction getSatisfaction() {
         return satisfaction;
     }
 

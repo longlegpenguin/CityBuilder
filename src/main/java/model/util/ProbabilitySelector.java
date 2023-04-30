@@ -10,6 +10,7 @@ public class ProbabilitySelector {
 
     /**
      * Makes a decision: YES or NO, according to the given probability (0-1)
+     *
      * @param prob probability of YES.
      * @return True if decision is yes, otherwise false.
      */
@@ -17,7 +18,7 @@ public class ProbabilitySelector {
         if (prob > 1 || prob < 0) {
             throw new IllegalArgumentException("Probability out of bounds");
         }
-        int luck =  random.nextInt(100);
+        int luck = random.nextInt(100);
         return luck < prob * 100;
     }
 }

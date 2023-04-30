@@ -17,5 +17,7 @@ public class School extends Education {
     }
 
     @Override
-    public boolean isUnderConstruction() { return false; }
+    public boolean isUnderConstruction() {
+        return false;
+    }
 }
