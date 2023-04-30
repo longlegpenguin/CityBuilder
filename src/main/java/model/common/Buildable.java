@@ -15,18 +15,21 @@ public interface Buildable {
 
     /**
      * A type can be:
+     *
      * @return the type of the buildable
      */
     BuildableType getBuildableType();
 
     /**
      * Every buildable cost some when built.
+     *
      * @return the costs.
      */
     int getConstructionCost();
 
     /**
      * Checks if the buildable is under construction
+     *
      * @return boolean
      */
     boolean isUnderConstruction();
