@@ -171,7 +171,7 @@ public class Handler implements ICallBack {
 
         masterRenderer.render(selector, camera, light);
         guiRenderer.render(viewModel.getButtons());
-        date = gameModel.DateAsString();
+        date = gameModel.getCurrentDate().toString();
         text = new GUIText(date,1,font,new Vector2f(10f,10f),1f,true);
         text.setColour(0,0,1);
 
