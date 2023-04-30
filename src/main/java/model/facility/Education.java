@@ -8,11 +8,10 @@ import model.util.LevelOfEducation;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class Education extends Facility{
+public abstract class Education extends Facility {
 
     protected int capacity;
     protected int yearsToGraduate;
-
     protected LevelOfEducation levelOfEducation;
     protected List<Citizen> students;
 
@@ -33,6 +32,15 @@ public abstract class Education extends Facility{
         return yearsToGraduate;
     }
 
+    public LevelOfEducation getLevelOfEducation() {
+        return levelOfEducation;
+    }
+
+    /**
+     * Getting the additional amount added later to tax, for citizens who have secondary/higher education.
+     *
+     * @return
+     */
     public int getAdditionalValue() {
         return students.size() * levelOfEducation.getAdditionalValue();
     }
