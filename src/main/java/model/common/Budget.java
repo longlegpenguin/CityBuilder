@@ -55,6 +55,10 @@ public class Budget {
         totalMaintenanceFee -= maintenanceFee;
     }
 
+    /**
+     *
+     * @return average income of the last 20 years.
+     */
     public double getPast20AvgIncome() {
         double sumTax = 0;
         int cnt = 0;

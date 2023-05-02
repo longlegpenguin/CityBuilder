@@ -8,9 +8,9 @@ import java.util.ArrayList;
 
 public class CityRegistry {
 
-    private ArrayList<Facility> facilities;
-    private ArrayList<Zone> zones;
-    private CityStatistics cityStatistics;
+    private final ArrayList<Facility> facilities;
+    private final ArrayList<Zone> zones;
+    private final CityStatistics cityStatistics;
 
     public CityRegistry(CityStatistics cityStatistics) {
         this.facilities = new ArrayList<>();
@@ -26,38 +26,58 @@ public class CityRegistry {
         return zones;
     }
 
-    public CityStatistics getCityStatistics() {
-        return cityStatistics;
+    /**
+     * @return list of all citizens from the city.
+     */
+    public ArrayList<Citizen> getAllCitizens() {
+        ArrayList<Citizen> citizens = new ArrayList<>();
+        for (Zone zone : getZones()) {
+            citizens.addAll(zone.getCitizens());
+        }
+        return citizens;
     }
 
-    public void registerCitizenToZone(Citizen citizen, Zone zone) {
-        zone.addCitizen(citizen);
-    }
-
-    public void deregisterCitizen(Citizen citizen, Zone zone) {
-        zone.unregisterCitizen(citizen);
-    }
-
+    /**
+     * Adding a zone to the collection and updating the nr of zones of this type in cityStatistics.
+     *
+     * @param zone to be added
+     */
     public void addZone(Zone zone) {
         zones.add(zone);
         cityStatistics.updateNrZones(this);
     }
 
+    /**
+     * Removing a zone from the collection and updating the nr of zones of this type in cityStatistics.
+     *
+     * @param zone to be removed
+     */
     public void removeZone(Zone zone) {
         zones.remove(zone);
         cityStatistics.updateNrZones(this);
     }
 
+    /**
+     * Adding a facility to the collection.
+     *
+     * @param facility to be added
+     */
     public void addFacility(Facility facility) {
         facilities.add(facility);
     }
 
+    /**
+     * Removing facility from the collection.
+     *
+     * @param facility to be removed
+     */
     public void removeFacility(Facility facility) {
         facilities.remove(facility);
     }
 
     /**
      * Add given amount to budget
+     *
      * @param amount int
      */
     public void updateBalance(int amount) {
@@ -66,6 +86,7 @@ public class CityRegistry {
 
     /**
      * Set new tax rate
+     *
      * @param newTaxRate double
      */
     public void updateTaxRate(double newTaxRate) {

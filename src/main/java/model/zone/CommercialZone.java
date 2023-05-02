@@ -1,11 +1,12 @@
 package model.zone;
 
-import model.common.Buildable;
+import model.GameModel;
 import model.common.Coordinate;
 import model.common.SideEffect;
 import model.util.BuildableType;
 import model.util.Date;
 import model.util.Level;
+import model.util.PathFinder;
 
 public class CommercialZone extends Zone implements SideEffect {
 
@@ -21,19 +22,19 @@ public class CommercialZone extends Zone implements SideEffect {
 
 
     @Override
-    public void effect(Zone zone, Buildable[][] map) {
-        zone.getStatistics().getSatisfaction().setFreeWorkplaceEffect(1);
+    public void effect(Zone zone, GameModel gm) {
+        zone.getStatistics().getSatisfaction().setFreeWorkplaceEffect(
+                zone.getStatistics().getSatisfaction().getFreeWorkplaceEffect() + 1);
     }
 
     @Override
-    public void reverseEffect(Zone zone, Buildable[][] map) {
-        zone.getStatistics().getSatisfaction().setFreeWorkplaceEffect(0);
+    public void reverseEffect(Zone zone, GameModel gm) {
+        zone.getStatistics().getSatisfaction().setFreeWorkplaceEffect(
+                zone.getStatistics().getSatisfaction().getFreeWorkplaceEffect() - 1);
     }
 
     @Override
-    public boolean condition(Zone zone, Buildable[][] map) {
-        // TODO
-        //return (new PathFinder(map).manhattanDistance(this, zone) < 5);
-        return false;
+    public boolean condition(Zone zone, GameModel gm) {
+        return (new PathFinder(gm.getMap()).manhattanDistance(this, zone) < 5);
     }
 }

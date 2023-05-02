@@ -4,9 +4,7 @@ import controller.util.GameMode;
 import controller.util.Property;
 import model.GameModel;
 import model.common.Coordinate;
-import model.common.Satisfaction;
 import model.exceptions.OperationException;
-import model.util.Level;
 import model.zone.*;
 
 public class ZoneBuildingListener extends ServiceListener {

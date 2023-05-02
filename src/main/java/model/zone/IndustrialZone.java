@@ -1,11 +1,12 @@
 package model.zone;
 
-import model.common.Buildable;
+import model.GameModel;
 import model.common.Coordinate;
 import model.common.SideEffect;
 import model.util.BuildableType;
 import model.util.Date;
 import model.util.Level;
+import model.util.PathFinder;
 
 public class IndustrialZone extends Zone implements SideEffect {
 
@@ -21,23 +22,21 @@ public class IndustrialZone extends Zone implements SideEffect {
 
 
     @Override
-    public void effect(Zone zone, Buildable[][] map) {
+    public void effect(Zone zone, GameModel gm) {
         zone.getEffectedBy().add(this);
-        zone.getStatistics().getSatisfaction().setFreeWorkplaceEffect(1);
-        zone.getStatistics().getSatisfaction().setIndustrialEffect(0);
+        zone.getStatistics().getSatisfaction().setFreeWorkplaceEffect(zone.getStatistics().getSatisfaction().getFreeWorkplaceEffect() + 1);
+        zone.getStatistics().getSatisfaction().setIndustrialEffect(zone.getStatistics().getSatisfaction().getIndustrialEffect() - 1);
     }
 
     @Override
-    public void reverseEffect(Zone zone, Buildable[][] map) {
+    public void reverseEffect(Zone zone, GameModel gm) {
         zone.getEffectedBy().remove(this);
-        zone.getStatistics().getSatisfaction().setFreeWorkplaceEffect(0);
-        zone.getStatistics().getSatisfaction().setIndustrialEffect(1);
+        zone.getStatistics().getSatisfaction().setFreeWorkplaceEffect(zone.getStatistics().getSatisfaction().getFreeWorkplaceEffect() - 1);
+        zone.getStatistics().getSatisfaction().setIndustrialEffect(zone.getStatistics().getSatisfaction().getIndustrialEffect() + 1);
     }
 
     @Override
-    public boolean condition(Zone zone, Buildable[][] map) {
-        //TODO
-        return false;
-//        return new PathFinder(map).euclideanDistance(this, zone) < 5;
+    public boolean condition(Zone zone, GameModel gm) {
+        return new PathFinder(gm.getMap()).euclideanDistance(this, zone) < 5;
     }
 }

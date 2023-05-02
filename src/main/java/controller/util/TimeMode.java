@@ -1,6 +1,7 @@
 package controller.util;
 
 public enum TimeMode {
+    PAUSE(0),
     DAILY(1),
     WEEKLY(7),
     MONTHLY(30);

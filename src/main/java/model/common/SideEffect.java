@@ -1,5 +1,6 @@
 package model.common;
 
+import model.GameModel;
 import model.zone.Zone;
 
 public interface SideEffect {
@@ -10,7 +11,7 @@ public interface SideEffect {
      *
      * @param zone the zone to effect.
      */
-    void effect(Zone zone, Buildable[][] map);
+    void effect(Zone zone, GameModel gm);
 
     /**
      * Reverse special effect of the facility on a given zone.
@@ -18,7 +19,7 @@ public interface SideEffect {
      *
      * @param zone the zone to effect.
      */
-    void reverseEffect(Zone zone, Buildable[][] map);
+    void reverseEffect(Zone zone, GameModel gm);
 
     /**
      * Evaluates the condition for the facility to have effect on a given zone
@@ -26,5 +27,5 @@ public interface SideEffect {
      * @param zone the zone to check
      * @return true if condition is satisfied, otherwise, false
      */
-    boolean condition(Zone zone, Buildable[][] map);
+    boolean condition(Zone zone, GameModel gm);
 }

@@ -1,6 +1,7 @@
 package model.util;
 
 public enum LevelOfEducation {
+    PRIMARY(0),
     SCHOOL(300),
     UNIVERSITY(400);
 
@@ -10,7 +11,7 @@ public enum LevelOfEducation {
         return additionalValue;
     }
 
-    private LevelOfEducation(int additionalValue) {
+    LevelOfEducation(int additionalValue) {
         this.additionalValue = additionalValue;
     }
 }

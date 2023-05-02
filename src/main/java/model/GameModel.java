@@ -16,12 +16,13 @@ import model.zone.ZoneStatistics;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import static model.util.BuildableType.*;
 
 public class GameModel {
     private final int rows, cols;
-    public static Buildable[][] map;
+    private final Buildable[][] map;
     private final CityRegistry cityRegistry;
     private final CityStatistics cityStatistics;
     private final Date dateOfWorld;
@@ -30,7 +31,7 @@ public class GameModel {
     private List<Forest> youthForest;
     private final List<Education> educations;
     private Date lastTaxDate;
-    private SocialSecurity socialSecurity;
+    private final SocialSecurity socialSecurity;
 
     public GameModel(int rows, int cols) {
         this.rows = rows;
@@ -54,9 +55,9 @@ public class GameModel {
         masterRoads.add(road);
         addToMap(road);
     }
-    public String DateAsString()
-    {
-        return dateOfWorld.toString();
+
+    public Buildable[][] getMap() {
+        return map;
     }
 
     /**
@@ -72,13 +73,17 @@ public class GameModel {
         return buildableList;
     }
 
-    public List<Buildable> getZoneBuildables() {
+    public List<Buildable> getZoneBuildable() {
         List<Buildable> buildableList = new ArrayList<>();
         buildableList.addAll(cityRegistry.getZones());
         return buildableList;
     }
 
-    public List<Buildable> getFacilityBuildables() {
+    public CityRegistry getCityRegistry() {
+        return cityRegistry;
+    }
+
+    public List<Buildable> getFacilityBuildable() {
         List<Buildable> buildableList = new ArrayList<>();
         buildableList.addAll(cityRegistry.getFacilities());
         buildableList.addAll(masterRoads);
@@ -125,7 +130,7 @@ public class GameModel {
             SideEffect bad = (SideEffect) buildable;
             for (Zone z :
                     cityRegistry.getZones()) {
-                bad.effect(z, map);
+                bad.effect(z, this);
             }
         }
     }
@@ -139,7 +144,7 @@ public class GameModel {
         for (Buildable existingBad :
                 getAllBuildable()) {
             if (hasSideEffect(existingBad)) {
-                ((SideEffect) existingBad).effect(zone, map);
+                ((SideEffect) existingBad).effect(zone, this);
             }
         }
     }
@@ -170,7 +175,7 @@ public class GameModel {
             youthForest.add((Forest) facility);
         }
         if (facility.getBuildableType() == BuildableType.SCHOOL ||
-            facility.getBuildableType() == BuildableType.UNIVERSITY) {
+                facility.getBuildableType() == BuildableType.UNIVERSITY) {
             educations.add((Education) facility);
         }
     }
@@ -197,7 +202,7 @@ public class GameModel {
             SideEffect badBuildable = (SideEffect) bad;
             for (Zone z :
                     cityRegistry.getZones()) {
-                badBuildable.reverseEffect(z, map);
+                badBuildable.reverseEffect(z, this);
             }
         }
         cityStatistics.getBudget().addBalance(bad.getConstructionCost() * Constants.RETURN_RATE);
@@ -214,6 +219,7 @@ public class GameModel {
 
     /**
      * Updates city's tax rate
+     *
      * @param newTaxRate the new tax rate
      */
     public void updateTaxRate(double newTaxRate) {
@@ -221,19 +227,19 @@ public class GameModel {
     }
 
     /**
-     * Gets the satisfaction of the whole city
+     * Gets the statistics of the whole city
      *
-     * @return satisfaction
+     * @return statistics
      */
-    public CityStatistics queryCityStatistics() {
+    public CityStatistics getCityStatistics() {
         return cityStatistics;
     }
 
     /**
-     * Gets the satisfaction of a specified zone
+     * Gets the statistics of a specified zone
      *
-     * @param coordinate the coordinate of the zone for which satisfaction should be got
-     * @return satisfaction
+     * @param coordinate the coordinate of the zone for which statistics should be got
+     * @return statistics
      * @throws OperationException when no zone is on the coordinate.
      */
     public ZoneStatistics queryZoneStatistics(Coordinate coordinate) throws OperationException {
@@ -298,10 +304,7 @@ public class GameModel {
     private void updateIndustryCommercialBalanceSatisfactionIndex() {
         int diff = Math.abs(cityStatistics.getNrIndustrialZones() - cityStatistics.getNrCommercialZones());
         double newVal = 1.0 / (diff == 0 ? 1.0 : diff);
-        for (Zone zone :
-                cityRegistry.getZones()) {
-            zone.updateComZoneBalanceEffect(newVal);
-        }
+        cityStatistics.setZoneBalanceEffect(newVal);
     }
 
     /**
@@ -325,27 +328,55 @@ public class GameModel {
     }
 
     private boolean isPlotAvailable(Buildable b) {
-        return map[b.getCoordinate().getRow()][b.getCoordinate().getCol()] == null;
+        Coordinate coordinate = b.getCoordinate();
+        Dimension dimension = b.getDimension();
+        int topRow = coordinate.getRow();
+        int leftestCol = coordinate.getCol();
+        int rightestCol = leftestCol + dimension.getWidth();
+        int bottomRow = topRow + dimension.getHeight();
+
+        if (bottomRow > rows || rightestCol > cols) {
+            return false;
+        }
+
+        for (int row = topRow; row < bottomRow; row++) {
+            for (int col = leftestCol; col < rightestCol; col++) {
+                if (map[row][col] != null) {
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 
     /**
      * Regular updating of the world.
-     * @param dayPass the day passed since last updates.
+     *
+     * @param dayPass  the day passed since last updates.
      * @param callBack a call back function, called after the updating,
      *                 to synchronize the change to the view.
      */
     public void regularUpdate(int dayPass, ICallBack callBack) {
         dateOfWorld.addDay(dayPass);
         filterConstructed();
-// TODO
-//        add new guys (use human manufacture)
-        socialSecurity.census();
+        cityStatistics.setCitySatisfaction(this);
+        if (cityStatistics.getPopulation(cityRegistry) < HumanManufacture.startingNrCitizens)
+            for (int i = 0; i < new Random().nextInt(HumanManufacture.startingNrCitizens); i++) {
+                HumanManufacture.createYoungCitizen(this);
+            }
+        Zone possibleLivingZone = HumanManufacture.getLivingPlace(this);
+        Zone possibleWorkingZone = HumanManufacture.getWorkingPlace(this, possibleLivingZone);
+        if (possibleLivingZone != null && ProbabilitySelector.decision(cityStatistics.getCitySatisfaction() +
+                possibleLivingZone.getStatistics().getSatisfaction().getFreeWorkplaceEffect() +
+                possibleLivingZone.getStatistics().getSatisfaction().getIndustrialEffect() / 3.0)) {
+            HumanManufacture.createYoungCitizen(this, possibleWorkingZone, possibleLivingZone);
+        }
+        socialSecurity.census(this);
         if (lastTaxDate.dateDifference(dateOfWorld).get("year") >= 1) {
             updateCityBalance();
             lastTaxDate = dateOfWorld;
         }
         updateForests();
-
         callBack.updateDatePanel(dateOfWorld);
         callBack.updateCityStatisticPanel(cityStatistics);
     }
@@ -357,26 +388,36 @@ public class GameModel {
     private void updateCityBalance() {
         int revenue = calculateRevenue();
         int spend = calculateSpend();
-        cityRegistry.updateBalance(revenue-spend);
+        cityRegistry.updateBalance(revenue - spend);
         socialSecurity.appendTaxRecord();
     }
 
+    /**
+     * Getting the total expenses of the city.
+     *
+     * @return
+     */
     private int calculateSpend() {
         int spend = 0;
-        for (Facility facility: cityRegistry.getFacilities()) {
+        for (Facility facility : cityRegistry.getFacilities()) {
             spend += facility.getMaintenanceFee();
         }
         spend += socialSecurity.payPension();
         return spend;
     }
 
+    /**
+     * Getting the revenue of the city.
+     *
+     * @return
+     */
     private int calculateRevenue() {
         int revenue = 0;
-        for (Zone zone:
+        for (Zone zone :
                 cityRegistry.getZones()) {
             revenue += zone.collectTax(cityStatistics.getBudget().getTaxRate());
         }
-        for (Education education: educations) {
+        for (Education education : educations) {
             revenue += education.getAdditionalValue();
         }
         return revenue;
@@ -387,7 +428,7 @@ public class GameModel {
         for (Forest forest : youthForest) {
             forest.incAge(dateOfWorld);
             if (forest.getAge() > 10) {
-                cityStatistics.getBudget().addMaintenanceFee(-forest.getMaintenanceFee());
+                cityStatistics.getBudget().addMaintenanceFee((-1) * forest.getMaintenanceFee());
             } else {
                 newYouth.add(forest);
             }

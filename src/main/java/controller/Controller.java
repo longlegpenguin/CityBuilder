@@ -86,6 +86,20 @@ public class Controller {
         service.register(Event.DEMOLISH, new DemolishListener(property));
         service.register(Event.SELECTION, new SelectionListener(property));
     }
+
+    /**
+     * Updates the tax rate.
+     * @param newTaxRate the new rate.
+     * @param callBack will be called after the handle of the request, can be null for defaults.
+     */
+    public void updateTaxRate(int newTaxRate, ICallBack callBack) {
+        if (callBack != null) {
+            property.setCallBack(callBack);
+        }
+        property.getGameModel().updateTaxRate(newTaxRate);
+        assert callBack != null;
+        callBack.updateBudgetPanel(property.getGameModel().queryCityBudget());
+    }
     public GameMode getGameMode() {
         return property.getGameMode();
     }
