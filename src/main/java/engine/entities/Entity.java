@@ -6,7 +6,7 @@ import org.joml.Vector3f;
 /**
  * Represents any 3D entity's textured model, position and rotation within the 3D world.
  *
- * Camera and light extend this class by having position and rotation, but no textured model.
+ * Camera extends this class by having position and rotation, but no textured model.
  */
 public class Entity {
     private TexturedModel model;
