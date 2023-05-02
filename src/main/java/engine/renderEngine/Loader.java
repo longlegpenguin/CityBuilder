@@ -50,7 +50,6 @@ public class Loader {
 
         storeDataInAttributeList(0,2, positions);
         storeDataInAttributeList(1, 2, textureCoords);
-
         unbindVAO();
         return vaoID;
     }
