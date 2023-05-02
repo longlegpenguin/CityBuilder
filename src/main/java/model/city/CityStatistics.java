@@ -53,7 +53,7 @@ public class CityStatistics {
      * @return number of citizens.
      */
     public int getPopulation(CityRegistry cityRegistry) {
-        int populationCnt = 0;
+        int populationCnt = 500;
         for (Zone z : cityRegistry.getZones()) {
             populationCnt += z.getStatistics().getPopulation();
         }

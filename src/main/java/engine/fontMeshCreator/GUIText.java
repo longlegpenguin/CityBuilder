@@ -2,8 +2,11 @@ package engine.fontMeshCreator;
 
 
 import engine.fontRendering.TextMaster;
+import engine.renderEngine.Loader;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
+
+import java.io.File;
 
 /**
  * Represents a piece of text in the game.
@@ -15,6 +18,7 @@ public class GUIText {
 
 	private String textString;
 	private float fontSize;
+	private Loader loader = new Loader();
 
 	private int textMeshVao;
 	private int vertexCount;
@@ -24,7 +28,7 @@ public class GUIText {
 	private float lineMaxSize;
 	private int numberOfLines;
 
-	private FontType font;
+	private FontType font = new FontType(loader.loadFontTexture("tahoma"),new File("src/main/resources/textures/tahoma.fnt"));;
 
 	private boolean centerText = false;
 
@@ -37,8 +41,7 @@ public class GUIText {
 	 * @param fontSize
 	 *            - the font size of the text, where a font size of 1 is the
 	 *            default size.
-	 * @param font
-	 *            - the font that this text should use.
+
 	 * @param position
 	 *            - the position on the screen where the top left corner of the
 	 *            text should be rendered. The top left corner of the screen is
@@ -53,11 +56,10 @@ public class GUIText {
 	 * @param centered
 	 *            - whether the text should be centered or not.
 	 */
-	public GUIText(String text, float fontSize, FontType font, Vector2f position, float maxLineLength,
+	public GUIText(String text, float fontSize, Vector2f position, float maxLineLength,
 			boolean centered) {
 		this.textString = text;
 		this.fontSize = fontSize;
-		this.font = font;
 		this.position = position;
 		this.lineMaxSize = maxLineLength;
 		this.centerText = centered;

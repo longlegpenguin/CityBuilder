@@ -55,7 +55,7 @@ public class Handler implements ICallBack {
     private Controller controller;
     private ViewModel viewModel;
 
-    private FontType font;
+
     private GUIText text;
 
     private int counter = 0;
@@ -88,11 +88,11 @@ public class Handler implements ICallBack {
         this.gameModel.initialize();
         this.controller = new Controller(gameModel);
 
-
-        viewModel = new ViewModel(controller);
-
         TextMaster.init(loader);
-        font = new FontType(loader.loadFontTexture("tahoma"),new File("src/main/resources/textures/tahoma.fnt"));
+        viewModel = new ViewModel(controller,gameModel);
+
+
+
 
     }
 
@@ -170,9 +170,9 @@ public class Handler implements ICallBack {
 
 
         masterRenderer.render(selector, camera, light);
-        guiRenderer.render(viewModel.getButtons());
+        guiRenderer.render(viewModel.getButtons(),viewModel.getTabs());
         date = gameModel.getCurrentDate().toString();
-        text = new GUIText(date,1,font,new Vector2f(10f,10f),1f,true);
+        text = new GUIText(date,1,new Vector2f(10f,10f),1f,true);
         text.setColour(0,0,1);
 
         TextMaster.render();
