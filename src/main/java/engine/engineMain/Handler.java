@@ -102,6 +102,7 @@ public class Handler implements ICallBack {
 
         if (timer >= 3f / multiplier) {
             gameModel.timePassUpdate(1);
+
             timer -= 3f/multiplier;
         }
 
@@ -172,7 +173,7 @@ public class Handler implements ICallBack {
         masterRenderer.render(selector, camera, light);
         guiRenderer.render(viewModel.getButtons(),viewModel.getTabs());
         date = gameModel.getCurrentDate().toString();
-        text = new GUIText(date,1,new Vector2f(10f,10f),1f,true);
+        text = new GUIText(date,1,new Vector2f(0f,0f),1f,true);
         text.setColour(0,0,1);
 
         TextMaster.render();
