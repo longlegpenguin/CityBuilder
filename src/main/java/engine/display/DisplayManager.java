@@ -114,7 +114,6 @@ public class DisplayManager {
     }
 
     /**
-     *
      * @return window width
      */
     public static int getWindowWidth() {
@@ -124,7 +123,6 @@ public class DisplayManager {
     }
 
     /**
-     *
      * @return window height
      */
     public static int getWindowHeight() {
@@ -147,16 +145,14 @@ public class DisplayManager {
     }
 
     /**
-     *
-     * @return
+     * @return long value of the current time in seconds.
      */
     private static long getCurrentTime() {
         return (long) (glfwGetTime() * 1000);
     }
 
     /**
-     *
-     * @return delta
+     * @return delta - time in between frames in seconds.
      */
     public static float getFrameTimeSeconds() {
         return delta;

@@ -91,9 +91,7 @@ public class Handler implements ICallBack {
         TextMaster.init(loader);
         viewModel = new ViewModel(controller,gameModel);
 
-
-
-
+        this.date = gameModel.getCurrentDate().toString();
     }
 
     public void render() {
@@ -101,9 +99,12 @@ public class Handler implements ICallBack {
 
 
         if (timer >= 3f / multiplier) {
-            gameModel.timePassUpdate(1);
-
+            //gameModel.timePassUpdate(1);
+            controller.regularUpdateRequest(1, this);
             timer -= 3f/multiplier;
+        } else {
+            text = new GUIText(this.date,1,new Vector2f(0f,0f),1f,true);
+            text.setColour(0,0,1);
         }
 
 
@@ -172,9 +173,6 @@ public class Handler implements ICallBack {
 
         masterRenderer.render(selector, camera, light);
         guiRenderer.render(viewModel.getButtons(),viewModel.getTabs());
-        date = gameModel.getCurrentDate().toString();
-        text = new GUIText(date,1,new Vector2f(0f,0f),1f,true);
-        text.setColour(0,0,1);
 
         TextMaster.render();
         TextMaster.removeText(text);
@@ -245,7 +243,9 @@ public class Handler implements ICallBack {
 
     @Override
     public void updateDatePanel(Date date) {
-
+        this.date = date.toString();
+        text = new GUIText(this.date,1,new Vector2f(0f,0f),1f,true);
+        text.setColour(0,0,1);
     }
 
     @Override
