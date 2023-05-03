@@ -35,11 +35,13 @@ class ForestTest {
     void setUp() {
 
         map = new Buildable[5][10];
+        map = gm.getMap();
         map[2][6] = new ResidentialZoneFactory(gm).createZone(new Coordinate(2,6));
         map[2][5] = new ResidentialZoneFactory(gm).createZone(new Coordinate(2,5));
         map[2][3] = new ResidentialZoneFactory(gm).createZone(new Coordinate(2,3));
         map[0][4] = new ResidentialZoneFactory(gm).createZone(new Coordinate(0,4));
         map[4][5] = new ResidentialZoneFactory(gm).createZone(new Coordinate(4, 5));
+
     }
 
     @AfterEach
@@ -64,6 +66,7 @@ class ForestTest {
     }
     @Test
     void condition_HasBetween() {
+        System.out.println(gm.printMap());
         assertFalse(forest.condition((Zone)map[2][6], gm));
     }
     @Test
