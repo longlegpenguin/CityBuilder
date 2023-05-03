@@ -5,6 +5,7 @@ import engine.fontMeshCreator.GUIText;
 import engine.guis.UiButton;
 import engine.guis.UiTab;
 import model.GameModel;
+import model.city.CityStatistics;
 
 import java.util.ArrayList;
 
@@ -21,9 +22,18 @@ public class ViewModel {
         this.controller = controller;
         this.bottomMenuBar = new BottomMenuBar(controller);
         this.buttons.addAll(bottomMenuBar.getButtons());
+
         this.statisticsMenu = new StatisticsMenu(controller,gameModel);
-        this.tabs.add(this.statisticsMenu.getTab());
+        this.tabs.addAll(this.statisticsMenu.getTabs());
         this.texts.addAll(statisticsMenu.getTexts());
+    }
+
+    public void init(GameModel gameModel, CityStatistics cityStatistics) {
+        texts.clear();
+        statisticsMenu.clearText();
+
+        statisticsMenu.initTexts(gameModel, cityStatistics);
+        texts.addAll(statisticsMenu.getTexts());
     }
 
     public ArrayList<UiButton> getButtons() {

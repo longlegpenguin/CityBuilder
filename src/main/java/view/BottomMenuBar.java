@@ -5,6 +5,7 @@ import controller.util.GameMode;
 import engine.guis.ButtonEnum;
 import engine.guis.UiButton;
 import engine.renderEngine.Loader;
+import model.GameModel;
 import org.joml.Vector2f;
 
 public class BottomMenuBar extends Menu{
@@ -36,6 +37,8 @@ public class BottomMenuBar extends Menu{
 
     @Override
     protected void loadComponents() {
+
+
         resZoneButton = new UiButton(loader.loadTexture(buttonTexture), new Vector2f(-0.9f, -0.85f), new Vector2f(0.05f, 0.05f), ButtonEnum.RESIDENTIAL_ZONE);
         super.buttons.add(resZoneButton);
         comZoneButton = new UiButton(loader.loadTexture(buttonTexture), new Vector2f(-0.75f, -0.85f), new Vector2f(0.05f, 0.05f), ButtonEnum.COMMERICAL_ZONE);
@@ -72,6 +75,11 @@ public class BottomMenuBar extends Menu{
 
         moneyButton = new UiButton(loader.loadTexture(buttonTexture), new Vector2f(-0.87f, -0.7f), new Vector2f(0.08f, 0.03f), ButtonEnum.MONEY);
         super.buttons.add(moneyButton);
+    }
+
+    @Override
+    public void initText(GameModel gameModel) {
+
     }
 
     public void resZoneButtonAction() {

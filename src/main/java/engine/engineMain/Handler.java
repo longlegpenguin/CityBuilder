@@ -42,7 +42,7 @@ import java.util.ArrayList;
 public class Handler implements ICallBack {
 
     private String saveFile;
-    private Loader loader = new Loader();
+    private Loader loader;
     private AssetLoader assets;
     private WorldGrid worldGrid;
     private Selector selector;
@@ -61,8 +61,8 @@ public class Handler implements ICallBack {
     private int counter = 0;
 
     private float mouseDelay = 0f;
-    private float timer = 0;
     private float multiplier = 1;
+    private float timer = 0;
     private String date = "";
 
     ArrayList<UiButton> guiButtons = new ArrayList<UiButton>();
@@ -92,6 +92,10 @@ public class Handler implements ICallBack {
         viewModel = new ViewModel(controller,gameModel);
 
         this.date = gameModel.getCurrentDate().toString();
+
+        text = new GUIText(this.date,1,new Vector2f(0f,0f),1f,true);
+        text.setColour(0,0,1);
+
     }
 
     public void render() {
@@ -99,14 +103,18 @@ public class Handler implements ICallBack {
 
 
         if (timer >= 3f / multiplier) {
-            //gameModel.timePassUpdate(1);
+            TextMaster.removeText(text);
+
+            for (GUIText t: viewModel.getTexts()) {
+                TextMaster.removeText(t);
+            }
             controller.regularUpdateRequest(1, this);
             timer -= 3f/multiplier;
         } else {
-            text = new GUIText(this.date,1,new Vector2f(0f,0f),1f,true);
-            text.setColour(0,0,1);
+            //text = new GUIText(this.date,1,new Vector2f(0f,0f),1f,true);
+            //text.setColour(0,0,1);
+            //controller.regularUpdateRequest(0, this);
         }
-
 
 
         camera.move();
@@ -175,7 +183,8 @@ public class Handler implements ICallBack {
         guiRenderer.render(viewModel.getButtons(),viewModel.getTabs());
 
         TextMaster.render();
-        TextMaster.removeText(text);
+
+
         timer += DisplayManager.getFrameTimeSeconds();
 
     }
@@ -250,6 +259,6 @@ public class Handler implements ICallBack {
 
     @Override
     public void updateCityStatisticPanel(CityStatistics cityStatistics) {
-
+        viewModel.init(gameModel, cityStatistics);
     }
 }

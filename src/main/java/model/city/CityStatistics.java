@@ -84,7 +84,7 @@ public class CityStatistics {
         for (Zone zone : gm.getCityRegistry().getZones()) {
             sumZoneSatisfaction += zone.getSatisfaction();
         }
-        float avgZonesSatisfaction = (float) sumZoneSatisfaction / gm.getCityRegistry().getZones().size();
+        float avgZonesSatisfaction = (float) sumZoneSatisfaction / (gm.getCityRegistry().getZones().size() == 0 ? 1 : gm.getCityRegistry().getZones().size()) ;
         float avgCommonZoneSatisfaction = (float) (taxEffect + indComZoneBalance + budgetEffect) / 3;
         this.citySatisfaction = avgZonesSatisfaction + avgCommonZoneSatisfaction;
 

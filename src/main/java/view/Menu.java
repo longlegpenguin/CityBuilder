@@ -5,6 +5,7 @@ import controller.util.GameMode;
 import engine.fontMeshCreator.GUIText;
 import engine.guis.UiButton;
 import engine.guis.UiTab;
+import model.GameModel;
 
 import java.util.ArrayList;
 
@@ -29,6 +30,8 @@ public abstract class Menu {
 
     protected abstract void loadComponents();
 
+    public abstract void initText(GameModel gameModel);
+
     public ArrayList<UiButton> getButtons() {
         return buttons;
     }
@@ -39,5 +42,9 @@ public abstract class Menu {
 
     public ArrayList<UiTab> getTabs() {
         return tabs;
+    }
+
+    public void clearText() {
+        this.texts.clear();
     }
 }
