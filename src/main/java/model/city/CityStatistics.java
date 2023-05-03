@@ -53,7 +53,7 @@ public class CityStatistics {
      * @return number of citizens.
      */
     public int getPopulation(CityRegistry cityRegistry) {
-        int populationCnt = 0;
+        int populationCnt = 500;
         for (Zone z : cityRegistry.getZones()) {
             populationCnt += z.getStatistics().getPopulation();
         }
@@ -87,6 +87,7 @@ public class CityStatistics {
         float avgZonesSatisfaction = (float) sumZoneSatisfaction / gm.getCityRegistry().getZones().size();
         float avgCommonZoneSatisfaction = (float) (taxEffect + indComZoneBalance + budgetEffect) / 3;
         this.citySatisfaction = avgZonesSatisfaction + avgCommonZoneSatisfaction;
+
     }
 
     /**
