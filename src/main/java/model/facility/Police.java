@@ -7,15 +7,15 @@ import model.util.BuildableType;
 import model.util.PathFinder;
 import model.zone.Zone;
 
-public class Stadium extends EffectualFacility {
+public class Police extends EffectualFacility {
 
-    public Stadium(int oneTimeCost, int maintenanceFee, Coordinate coordinate, Dimension dimension, float influenceRadius) {
+    public Police(int oneTimeCost, int maintenanceFee, Coordinate coordinate, Dimension dimension, float influenceRadius) {
         super(oneTimeCost, maintenanceFee, coordinate, dimension, influenceRadius);
     }
 
     @Override
     public BuildableType getBuildableType() {
-        return BuildableType.STADIUM;
+        return BuildableType.POLICE;
     }
 
     @Override
@@ -25,12 +25,12 @@ public class Stadium extends EffectualFacility {
 
     @Override
     public void effect(Zone zone, GameModel gm) {
-        zone.updateStadiumEffect(1);
+        zone.updatePoliceEffect(zone.getStatistics().getSatisfaction().getPoliceEffect() + 1);
     }
 
     @Override
     public void reverseEffect(Zone zone, GameModel gm) {
-        zone.updateStadiumEffect(0);
+        zone.updatePoliceEffect(zone.getStatistics().getSatisfaction().getPoliceEffect() - 1);
     }
 
     @Override

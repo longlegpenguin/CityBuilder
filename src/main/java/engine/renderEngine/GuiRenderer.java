@@ -1,5 +1,6 @@
 package engine.renderEngine;
 
+import engine.guis.UiTab;
 import engine.models.RawModel;
 import engine.shaders.GuiShader;
 import engine.guis.UiButton;
@@ -23,7 +24,7 @@ import java.util.List;
             shader = new GuiShader();
         }
 
-        public void render(List<UiButton>guis) {
+        public void render(List<UiButton>buttons, List<UiTab>tabs) {
             shader.start();
             GL30.glBindVertexArray(quad.getVaoID());
             GL20.glEnableVertexAttribArray(0);
@@ -31,10 +32,17 @@ import java.util.List;
             GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
             GL11.glDisable(GL11.GL_DEPTH_TEST);
 
-            for (UiButton gui : guis){
+            for (UiButton button : buttons){
                 GL13.glActiveTexture(GL13.GL_TEXTURE0);
-                GL11.glBindTexture(GL11.GL_TEXTURE_2D, gui.getTexture());
-                Matrix4f matrix = Maths.createTransformationMatrix(gui.getPosition(), gui.getScale());
+                GL11.glBindTexture(GL11.GL_TEXTURE_2D, button.getTexture());
+                Matrix4f matrix = Maths.createTransformationMatrix(button.getPosition(), button.getScale());
+                shader.loadTransformation(matrix);
+                GL11.glDrawArrays(GL11.GL_TRIANGLE_STRIP, 0, quad.getVertexCount());
+            }
+            for (UiTab tab : tabs){
+                GL13.glActiveTexture(GL13.GL_TEXTURE0);
+                GL11.glBindTexture(GL11.GL_TEXTURE_2D, tab.getTexture());
+                Matrix4f matrix = Maths.createTransformationMatrix(tab.getPosition(), tab.getScale());
                 shader.loadTransformation(matrix);
                 GL11.glDrawArrays(GL11.GL_TRIANGLE_STRIP, 0, quad.getVertexCount());
             }

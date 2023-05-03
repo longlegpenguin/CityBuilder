@@ -2,6 +2,7 @@ package view;
 
 import controller.Controller;
 import controller.util.GameMode;
+import engine.fontMeshCreator.GUIText;
 import engine.guis.UiButton;
 import engine.guis.UiTab;
 
@@ -12,6 +13,7 @@ public abstract class Menu {
     protected Controller controller;
     protected ArrayList<UiButton> buttons = new ArrayList<UiButton>();
     protected ArrayList<UiTab> tabs = new ArrayList<UiTab>();
+    protected ArrayList<GUIText> texts = new ArrayList<GUIText>();
 
     public Menu(Controller controller) {
         this.controller = controller;
@@ -29,6 +31,10 @@ public abstract class Menu {
 
     public ArrayList<UiButton> getButtons() {
         return buttons;
+    }
+
+    public ArrayList<GUIText> getTexts() {
+        return texts;
     }
 
     public ArrayList<UiTab> getTabs() {

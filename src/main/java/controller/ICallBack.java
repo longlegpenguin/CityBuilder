@@ -8,10 +8,13 @@ import model.util.Date;
 import model.zone.ZoneStatistics;
 
 public interface ICallBack {
-    public void updateGridSystem(Coordinate coordinate, Buildable buildable);
-    public void updateBudgetPanel(Budget budget);
-    public void updateStatisticPanel(ZoneStatistics zoneStatistics);
-    public void updateDatePanel(Date date);
+    void updateGridSystem(Coordinate coordinate, Buildable buildable);
 
-    public void updateCityStatisticPanel(CityStatistics cityStatistics);
+    void updateBudgetPanel(Budget budget);
+
+    void updateStatisticPanel(ZoneStatistics zoneStatistics);
+
+    void updateDatePanel(Date date);
+
+    void updateCityStatisticPanel(CityStatistics cityStatistics);
 }

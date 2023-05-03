@@ -56,18 +56,18 @@ class ForestTest {
 
     @Test
     void condition_Neighbour() {
-        assertTrue(forest.condition((Zone)map[2][3],map));
+        assertTrue(forest.condition((Zone)map[2][3], gm));
     }
     @Test
     void condition_OneAway() {
-        assertTrue(forest.condition((Zone)map[0][4],map));
+        assertTrue(forest.condition((Zone)map[0][4], gm));
     }
     @Test
     void condition_HasBetween() {
-        assertFalse(forest.condition((Zone)map[2][6],map));
+        assertFalse(forest.condition((Zone)map[2][6], gm));
     }
     @Test
     void condition_NotInLine() {
-        assertFalse(forest.condition((Zone)map[4][5],map));
+        assertFalse(forest.condition((Zone)map[4][5], gm));
     }
 }

@@ -1,8 +1,10 @@
 package model.facility;
 
+import model.GameModel;
 import model.common.SideEffect;
 import model.common.Coordinate;
 import model.common.Dimension;
+import model.zone.Zone;
 
 public abstract class EffectualFacility extends Facility implements SideEffect {
 
@@ -24,4 +26,6 @@ public abstract class EffectualFacility extends Facility implements SideEffect {
                 "influenceRadius=" + influenceRadius +
                 '}';
     }
+
+    public abstract boolean condition(Zone zone, GameModel gm);
 }

@@ -1,5 +1,6 @@
 package model.zone;
 
+import model.GameModel;
 import model.common.*;
 import model.util.BuildableType;
 import model.util.Date;
@@ -12,9 +13,9 @@ public abstract class Zone implements Buildable {
     protected Level level;
     protected int dayToBuild;
     protected ZoneStatistics statistics;
-    protected List<Citizen> citizens;
     protected Date birthday;
     protected Coordinate coordinate;
+    protected List<Citizen> citizens;
     protected final Dimension dimension;
     protected BuildableType buildableType;
     List<Buildable> effectedBy;
@@ -33,12 +34,42 @@ public abstract class Zone implements Buildable {
         isUnderConstruction = true;
     }
 
-    public void setUnderConstruction(Boolean underConstruction) {
-        isUnderConstruction = underConstruction;
+    public Level getLevel() {
+        return level;
+    }
+
+    public int getDayToBuild() {
+        return dayToBuild;
+    }
+
+    public ZoneStatistics getStatistics() {
+        return statistics;
     }
 
     public List<Buildable> getEffectedBy() {
         return effectedBy;
+    }
+
+    public Date getBirthday() {
+        return birthday;
+    }
+
+    @Override
+    public Coordinate getCoordinate() {
+        return coordinate;
+    }
+
+    @Override
+    public Dimension getDimension() {
+        return dimension;
+    }
+
+    public Boolean getUnderConstruction() {
+        return isUnderConstruction;
+    }
+
+    public List<Citizen> getCitizens() {
+        return citizens;
     }
 
     public void setEffectedBy(List<Buildable> effectedBy) {
@@ -50,28 +81,16 @@ public abstract class Zone implements Buildable {
         return buildableType;
     }
 
-    public Level getLevel() {
-        return level;
+    public void setUnderConstruction(Boolean underConstruction) {
+        isUnderConstruction = underConstruction;
     }
 
     public void setLevel(Level level) {
         this.level = level;
     }
 
-    public int getDayToBuild() {
-        return dayToBuild;
-    }
-
     public void setDayToBuild(int dayToBuild) {
         this.dayToBuild = dayToBuild;
-    }
-
-    public ZoneStatistics getStatistics() {
-        return statistics;
-    }
-
-    public Date getBirthday() {
-        return birthday;
     }
 
     public void setStatistics(ZoneStatistics statistics) {
@@ -92,18 +111,6 @@ public abstract class Zone implements Buildable {
             oldEffect = (oldEffect == -newValue) ? 0 : oldEffect;
         }
         statistics.getSatisfaction().setForestEffect(oldEffect);
-    }
-
-    public void updateBudgetEffect(int newValue) {
-        statistics.getSatisfaction().setBudgetEffect(newValue);
-    }
-
-    public void updateTaxEffect(int newValue) {
-        statistics.getSatisfaction().setTaxEffect(newValue);
-    }
-
-    public void updateComZoneBalanceEffect(double newValue) {
-        statistics.getSatisfaction().setZoneBalanceEffect(newValue);
     }
 
     public void updatePoliceEffect(int newValue) {
@@ -128,10 +135,10 @@ public abstract class Zone implements Buildable {
      *
      * @param citizen the citizen to be added.
      */
-    public void addCitizen(Citizen citizen) {
+    public void addCitizen(Citizen citizen, GameModel gm) {
         citizens.add(citizen);
         this.statistics.setPopulation(statistics.getPopulation() + 1);
-        updateCitizenAvgSatisfaction();
+        gm.getCityStatistics().setCitySatisfaction(gm);
     }
 
     /**
@@ -140,13 +147,10 @@ public abstract class Zone implements Buildable {
      *
      * @param citizen the citizen to be added.
      */
-    public void removeCitizen(Citizen citizen) {
+    public void removeCitizen(Citizen citizen, GameModel gm) {
         citizens.remove(citizen);
         this.statistics.setPopulation(statistics.getPopulation() - 1);
-        updateCitizenAvgSatisfaction();
-    }
-    public void unregisterCitizen(Citizen citizen) {
-        citizens.remove(citizen);
+        gm.getCityStatistics().setCitySatisfaction(gm);
     }
 
     /**
@@ -165,7 +169,7 @@ public abstract class Zone implements Buildable {
      * @return the sum of tax paid by citizens located in the zone
      */
     public int collectTax(double taxRate) {
-        return (int)(taxRate * Constants.BASE_TAX * getPopulation());
+        return (int) (taxRate * Constants.BASE_TAX * getPopulation());
     }
 
     /**
@@ -197,21 +201,6 @@ public abstract class Zone implements Buildable {
         return citizens.size();
     }
 
-    public int getIndustrialEffect() {
-        return statistics.getSatisfaction().getIndustrialEffect();
-    }
-
-    @Override
-    public Coordinate getCoordinate() {
-        return coordinate;
-    }
-
-    @Override
-    public Dimension getDimension() {
-        return dimension;
-    }
-
-
     @Override
     public String toString() {
         return "Zone{" +
@@ -226,12 +215,4 @@ public abstract class Zone implements Buildable {
                 '}';
     }
 
-    private void updateCitizenAvgSatisfaction() {
-        int sum = 0;
-        for (Citizen citizen :
-                citizens) {
-            sum += citizen.getSatisfaction();
-        }
-        statistics.getSatisfaction().setCitizenAvgEffect(sum / getPopulation());
-    }
 }

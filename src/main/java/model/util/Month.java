@@ -16,7 +16,7 @@ public enum Month {
     /**
      * Getting the month based on the month order.
      *
-     * @param  monthOrder month order
+     * @param monthOrder month order
      * @return month
      * @throws IllegalArgumentException "There is no month with such month order"
      */

@@ -6,38 +6,51 @@ import model.util.PathFinder;
 import model.zone.Zone;
 
 public class Citizen {
-    private Zone workplace;
-    private Zone livingplace;
-    private float satisfaction;
-    private LevelOfEducation levelOfEducation;
+    private final Zone workplace;
+    private final Zone livingPlace;
+    private final LevelOfEducation levelOfEducation;
+    private int pension;
     private int age;
 
-
-    private int pension;
-
-    public Citizen(Zone workplace, Zone livingplace, LevelOfEducation levelOfEducation) {
+    public Citizen(Zone workplace, Zone livingPlace, LevelOfEducation levelOfEducation) {
         this.workplace = workplace;
-        this.livingplace = livingplace;
+        this.livingPlace = livingPlace;
         this.levelOfEducation = levelOfEducation;
         pension = 0;
-        age = 0;
+        age = 18;
     }
 
-    public int getDistanceLiveWork() {
-        return new PathFinder(GameModel.map).manhattanDistance(livingplace, workplace);
+    /**
+     * Getting distance between living place and working place.
+     *
+     * @param gm
+     * @param livingPlace
+     * @param workplace
+     * @return
+     */
+    public static int getDistanceLiveWork(GameModel gm, Zone livingPlace, Zone workplace) {
+        return new PathFinder(gm.getMap()).manhattanDistance(livingPlace, workplace);
     }
 
-    public double getSatisfaction() {
-        return getDistanceLiveWork() > 5 ? 0 : 1 + (workplace.getSatisfaction()
-                + livingplace.getSatisfaction()) / 2;
-    }
 
     public Zone getWorkplace() {
         return workplace;
     }
 
     public Zone getLivingplace() {
-        return livingplace;
+        return livingPlace;
+    }
+
+    public LevelOfEducation getLevelOfEducation() {
+        return levelOfEducation;
+    }
+
+    public int getPension() {
+        return pension;
+    }
+
+    public boolean isEmployed() {
+        return workplace != null;
     }
 
     public int getAge() {
@@ -51,12 +64,8 @@ public class Citizen {
     public void incAge() {
         age++;
     }
+
     public void setPension(int pension) {
         this.pension = pension;
     }
-
-    public int getPension() {
-        return pension;
-    }
-
 }

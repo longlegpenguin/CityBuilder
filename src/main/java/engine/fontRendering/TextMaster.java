@@ -38,6 +38,7 @@ public class TextMaster {
     public static void render()
     {
         renderer.render(texts);
+
     }
     public static void removeText(GUIText text ){
         List<GUIText> textBatch  = texts.get(text.getFont());

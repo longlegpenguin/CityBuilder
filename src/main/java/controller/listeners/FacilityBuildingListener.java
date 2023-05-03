@@ -24,6 +24,9 @@ public class FacilityBuildingListener extends ServiceListener {
             case ROAD_MODE -> facility = new RoadFactory(gm).createFacility(coordinate);
             case STADIUM_MODE -> facility = new StadiumFactory(gm).createFacility(coordinate);
             case FOREST_MODE -> facility = new ForestFactory(gm).createFacility(coordinate);
+            case SCHOOL_MODE -> facility = new SchoolFactory(gm).createFacility(coordinate);
+            case UNIVERSITY_MODE -> facility = new UniversityFactory(gm).createFacility(coordinate);
+            case POLICE_MODE -> facility = new PoliceFactory(gm).createFacility(coordinate);
         }
         try {
             gm.addFacility(facility);

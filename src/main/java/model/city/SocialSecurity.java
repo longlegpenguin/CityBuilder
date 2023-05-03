@@ -1,7 +1,9 @@
 package model.city;
 
+import model.GameModel;
 import model.common.Citizen;
 import model.common.Constants;
+import model.common.HumanManufacture;
 import model.util.ProbabilitySelector;
 
 import java.util.LinkedList;
@@ -26,21 +28,22 @@ public class SocialSecurity {
     /**
      * Clean up existing citizens and aging them.
      */
-    public void census() {
+    public void census(GameModel gm) {
         List<Citizen> newWorkForces = new LinkedList<>();
         List<Citizen> newRetire = new LinkedList<>();
         for (Citizen retire : retires) {
             retire.incAge();
             if (ProbabilitySelector.decision(retire.getAge()/100.0)) {
                 try {
-                    die(retire);
+                    die(retire, gm);
                 } catch (NullPointerException e) {}
-                // TODO ask human manufacture to add a yong guy
+                newWorkForces.add(HumanManufacture.createYoungCitizen(gm));
             } else {
                 newRetire.add(retire);
             }
         }
         retires = newRetire;
+        workForces = newWorkForces;
         for (Citizen worker: workForces) {
             worker.incAge();
             if (worker.getAge() >= 80) {
@@ -48,9 +51,9 @@ public class SocialSecurity {
             }
         }
     }
-    private void die(Citizen dead) throws NullPointerException {
-        dead.getWorkplace().removeCitizen(dead);
-        dead.getLivingplace().removeCitizen(dead);
+    private void die(Citizen dead, GameModel gm) throws NullPointerException {
+        dead.getWorkplace().removeCitizen(dead, gm);
+        dead.getLivingplace().removeCitizen(dead, gm);
     }
 
     public void addRetire(Citizen citizen) {

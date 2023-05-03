@@ -1,5 +1,6 @@
 package model.facility;
 
+import model.GameModel;
 import model.common.Buildable;
 import model.common.Coordinate;
 import model.common.Dimension;
@@ -46,36 +47,36 @@ public class Forest extends EffectualFacility {
     }
 
     @Override
-    public void effect(Zone zone, Buildable[][] map) {
-        if (condition(zone, map)) {
+    public void effect(Zone zone, GameModel gm) {
+        if (condition(zone, gm)) {
             zone.getEffectedBy().add(this);
             zone.updateForestEffect(getPositiveEffect());
             for(Buildable bad: zone.getEffectedBy()) {
                 if (bad.getBuildableType() == BuildableType.INDUSTRIAL &&
                         isInBetween(zone.getCoordinate(), this.getCoordinate(), bad.getCoordinate())) {
-                    ((SideEffect)bad).reverseEffect(zone, map);
+                    ((SideEffect)bad).reverseEffect(zone, gm);
                 }
             }
         }
     }
 
     @Override
-    public void reverseEffect(Zone zone, Buildable[][] map) {
-        if (condition(zone, map)) {
+    public void reverseEffect(Zone zone, GameModel gm) {
+        if (condition(zone, gm)) {
             zone.getEffectedBy().remove(this);
             zone.updateForestEffect(-getPositiveEffect());
             for(Buildable bad: zone.getEffectedBy()) {
                 if (bad.getBuildableType() == BuildableType.INDUSTRIAL &&
                         isInBetween(zone.getCoordinate(), this.getCoordinate(), bad.getCoordinate())) {
-                    ((SideEffect)bad).effect(zone, map);
+                    ((SideEffect)bad).effect(zone, gm);
                 }
             }
         }
     }
 
     @Override
-    public boolean condition(Zone zone, Buildable[][] map) {
-        return (hasDirectView(zone, map));
+    public boolean condition(Zone zone, GameModel gm) {
+        return (hasDirectView(zone, gm.getMap()));
     }
 
     private double getPositiveEffect() {
