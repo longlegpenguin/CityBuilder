@@ -25,12 +25,13 @@ public class Stadium extends EffectualFacility {
 
     @Override
     public void effect(Zone zone, GameModel gm) {
-        zone.updateStadiumEffect(1);
+        zone.updateStadiumEffect(zone.getStatistics().getSatisfaction().getStadiumEffect() + 1);
     }
 
     @Override
     public void reverseEffect(Zone zone, GameModel gm) {
-        zone.updateStadiumEffect(0);
+        zone.updateStadiumEffect(zone.getStatistics().getSatisfaction().getStadiumEffect() - 1);
+
     }
 
     @Override

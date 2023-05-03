@@ -16,7 +16,6 @@ import model.zone.ZoneStatistics;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 import static model.util.BuildableType.*;
 
@@ -274,7 +273,7 @@ public class GameModel {
      * @return the date.
      */
     public Date getCurrentDate() {
-        return dateOfWorld;
+        return new Date(dateOfWorld.getDay(), dateOfWorld.getMonth(), dateOfWorld.getYear());
     }
 
     private void addToMap(Buildable buildable) {
@@ -350,6 +349,35 @@ public class GameModel {
         return true;
     }
 
+    private boolean existFreeResidentialZones() {
+        for (Buildable buildable : getZoneBuildable()) {
+            Zone zone = (Zone) buildable;
+            if (zone.getBuildableType() == BuildableType.RESIDENTIAL &&
+                    zone.getStatistics().getPopulation() < zone.getLevel().getCapacity())
+                return true;
+        }
+        return false;
+    }
+
+    private boolean existFreeWorkingZones() {
+        for (Buildable buildable : getZoneBuildable()) {
+            Zone zone = (Zone) buildable;
+            if ((zone.getBuildableType() == BuildableType.INDUSTRIAL || zone.getBuildableType() == BuildableType.COMMERCIAL) &&
+                    zone.getStatistics().getPopulation() < zone.getStatistics().getCapacity()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private void updateUnemployedStatusForCitizens() {
+        for (Citizen citizen : cityRegistry.getAllCitizens()) {
+            if (citizen.isUnemployed())
+                citizen.setWorkplace(HumanManufacture.getWorkingPlace(this, citizen.getLivingplace()));
+            citizen.setIsUnemployed(false);
+        }
+    }
+
     /**
      * Regular updating of the world.
      *
@@ -360,25 +388,27 @@ public class GameModel {
     public void regularUpdate(int dayPass, ICallBack callBack) {
         dateOfWorld.addDay(dayPass);
         filterConstructed();
-
+        if (existFreeWorkingZones()) updateUnemployedStatusForCitizens();
         try {
             cityStatistics.setCitySatisfaction(this);
-            if (cityStatistics.getPopulation(cityRegistry) < HumanManufacture.startingNrCitizens)
-                for (int i = 0; i < new Random().nextInt(HumanManufacture.startingNrCitizens); i++) {
+            if (existFreeResidentialZones()) {
+                if (cityStatistics.getPopulation(cityRegistry) < HumanManufacture.startingNrCitizens) {
                     HumanManufacture.createYoungCitizen(this);
+                } else {
+                    Zone possibleLivingZone = HumanManufacture.getLivingPlace(this);
+                    Zone possibleWorkingZone = HumanManufacture.getWorkingPlace(this, possibleLivingZone);
+                    if (
+                            possibleLivingZone != null && ProbabilitySelector.decision(
+                                    cityStatistics.getCitySatisfaction() / 100)
+                    ) {
+                        HumanManufacture.createYoungCitizen(this, possibleWorkingZone, possibleLivingZone);
+                    }
                 }
-            Zone possibleLivingZone = HumanManufacture.getLivingPlace(this);
-            System.out.println("possible living " + possibleLivingZone); // null
-            Zone possibleWorkingZone = HumanManufacture.getWorkingPlace(this, possibleLivingZone);
-            if (possibleLivingZone != null && ProbabilitySelector.decision(cityStatistics.getCitySatisfaction() +
-                    possibleLivingZone.getStatistics().getSatisfaction().getFreeWorkplaceEffect() +
-                    possibleLivingZone.getStatistics().getSatisfaction().getIndustrialEffect() / 3.0)) {
-                HumanManufacture.createYoungCitizen(this, possibleWorkingZone, possibleLivingZone);
+
             }
         } catch (NullPointerException e) {
             System.out.println(e.getMessage());
         }
-
 
         socialSecurity.census(this);
         if (lastTaxDate.dateDifference(dateOfWorld).get("years") >= 1) {
