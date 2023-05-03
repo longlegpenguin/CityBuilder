@@ -59,7 +59,7 @@ public class ZoneSatisfaction {
      * @return total satisfaction for a zone
      */
     public double getTotalSatisfaction() {
-        return policeEffect + freeWorkplaceEffect + stadiumEffect + noIndustrialEffect;
+        return policeEffect + freeWorkplaceEffect + stadiumEffect + noIndustrialEffect + forestEffect;
     }
 
     @Override

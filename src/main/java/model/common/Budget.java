@@ -12,6 +12,7 @@ public class Budget {
         this.balance = balance;
         this.taxRate = taxRate;
         this.totalMaintenanceFee = 0;
+        taxRatePast20Years = new LinkedList<>();
     }
 
     public double getBalance() {

@@ -32,6 +32,8 @@ public class FacilityBuildingListener extends ServiceListener {
             gm.addFacility(facility);
             assert facility != null;
             property.getCallBack().updateGridSystem(facility.getCoordinate(), facility);
+//            property.getCallBack().updateCityStatisticPanel(gm.getCityStatistics());
+//            property.getCallBack().updateBudgetPanel(gm.queryCityBudget());
             System.out.println("Created" + facility);
         } catch (OperationException e) {
             System.out.println(e.getMessage());

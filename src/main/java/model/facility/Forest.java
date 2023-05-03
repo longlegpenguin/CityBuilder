@@ -7,19 +7,26 @@ import model.common.Dimension;
 import model.common.SideEffect;
 import model.util.BuildableType;
 import model.util.Date;
+import model.zone.IndustrialZone;
 import model.zone.Zone;
+
+import java.util.LinkedList;
 
 public class Forest extends EffectualFacility {
 
     private int age;
     private final Date birthday;
     private Date lastUpdate;
+    private int totalEffectCnt;
+    private boolean grew;
 
     public Forest(int oneTimeCost, int maintenanceFee, Coordinate coordinate, Dimension dimension, float influenceRadius, Date birthday) {
         super(oneTimeCost, maintenanceFee, coordinate, dimension, influenceRadius);
-        age = 0;
+        age = 1;
         this.birthday = birthday;
         this.lastUpdate = birthday;
+        totalEffectCnt = 0;
+        grew = true;
     }
 
     public int getAge() {
@@ -33,7 +40,10 @@ public class Forest extends EffectualFacility {
     public void incAge(Date now) {
         if (now.dateDifference(lastUpdate).get("years") > 1) {
             lastUpdate = now;
-            age += 1;
+            if (age < 10) {
+                age += 1;
+                grew = true;
+            }
         }
     }
 
@@ -47,17 +57,40 @@ public class Forest extends EffectualFacility {
         return false;
     }
 
-    @Override
-    public void effect(Zone zone, GameModel gm) {
-        if (condition(zone, gm)) {
-            zone.getEffectedBy().add(this);
-            zone.updateForestEffect(getPositiveEffect());
-            for (Buildable bad : zone.getEffectedBy()) {
-                if (bad.getBuildableType() == BuildableType.INDUSTRIAL &&
-                        isInBetween(zone.getCoordinate(), this.getCoordinate(), bad.getCoordinate())) {
-                    ((SideEffect) bad).reverseEffect(zone, gm);
+    public LinkedList<SideEffect> getBadEffectIndustrial(Zone zone, GameModel gm) {
+        LinkedList<SideEffect> iz = new LinkedList<>();
+        for (Buildable buildable :
+                gm.getZoneBuildable()) {
+            if (buildable.getBuildableType() == BuildableType.INDUSTRIAL) {
+                SideEffect z = (SideEffect) buildable;
+                if (z.condition(zone, gm)) {
+                    iz.add(z);
                 }
             }
+        }
+        return iz;
+    }
+
+    @Override
+    public void effect(Zone zone, GameModel gm) {
+        if (condition(zone, gm) && grew) {
+//            System.out.println("Forest grows");
+//            System.out.println(zone.getStatistics().getSatisfaction().getForestEffect() + getPositiveEffect());
+            zone.updateForestEffect(zone.getStatistics().getSatisfaction().getForestEffect() + getPositiveEffect());
+//            System.out.println("Forest effect: " + zone.getStatistics().getSatisfaction().getForestEffect());
+            if (age == 1) {
+//                System.out.println("Bad effects removed by Forest...");
+                for (SideEffect s :
+                        getBadEffectIndustrial(zone, gm)) {
+                    Buildable bad = (Buildable) s;
+                    if (isInBetween(zone.getCoordinate(), this.getCoordinate(), bad.getCoordinate())) {
+                        s.reverseEffect(zone, gm);
+                        System.out.println("Bad effects removed by Forest...");
+                    }
+                }
+            }
+            totalEffectCnt++;
+            grew = false;
         }
     }
 
@@ -65,11 +98,12 @@ public class Forest extends EffectualFacility {
     public void reverseEffect(Zone zone, GameModel gm) {
         if (condition(zone, gm)) {
             zone.getEffectedBy().remove(this);
-            zone.updateForestEffect(-getPositiveEffect());
-            for (Buildable bad : zone.getEffectedBy()) {
-                if (bad.getBuildableType() == BuildableType.INDUSTRIAL &&
-                        isInBetween(zone.getCoordinate(), this.getCoordinate(), bad.getCoordinate())) {
-                    ((SideEffect) bad).effect(zone, gm);
+            zone.updateForestEffect(zone.getStatistics().getSatisfaction().getForestEffect() - totalEffectCnt);
+            for (SideEffect s :
+                    getBadEffectIndustrial(zone, gm)) {
+                Buildable bad = (Buildable) s;
+                if (isInBetween(zone.getCoordinate(), this.getCoordinate(), bad.getCoordinate())) {
+                    s.effect(zone, gm);
                 }
             }
         }
@@ -81,7 +115,8 @@ public class Forest extends EffectualFacility {
     }
 
     private double getPositiveEffect() {
-        return age / 10.0;
+//        return age / 10.0;
+        return 1.0;
     }
 
     private boolean hasDirectView(Zone zone, Buildable[][] map) {

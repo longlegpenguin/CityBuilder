@@ -104,13 +104,13 @@ public abstract class Zone implements Buildable {
      * @param newValue double new value
      */
     public void updateForestEffect(double newValue) {
-        double oldEffect = statistics.getSatisfaction().getForestEffect();
-        if (newValue >= 0) {
-            oldEffect = Math.max(oldEffect, newValue);
-        } else {
-            oldEffect = (oldEffect == -newValue) ? 0 : oldEffect;
-        }
-        statistics.getSatisfaction().setForestEffect(oldEffect);
+//        double oldEffect = statistics.getSatisfaction().getForestEffect();
+//        if (newValue >= 0) {
+//            oldEffect = Math.max(oldEffect, newValue);
+//        } else {
+//            oldEffect = (oldEffect == -newValue) ? 0 : oldEffect;
+//        }
+        statistics.getSatisfaction().setForestEffect(newValue);
     }
 
     public void updatePoliceEffect(int newValue) {

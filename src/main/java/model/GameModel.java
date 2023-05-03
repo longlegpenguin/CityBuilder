@@ -411,13 +411,15 @@ public class GameModel {
         }
 
         socialSecurity.census(this);
-        if (lastTaxDate.dateDifference(dateOfWorld).get("years") >= 1) {
+        if (lastTaxDate.dateDifference(dateOfWorld).get("days") >= 1) {
             updateCityBalance();
-            lastTaxDate = dateOfWorld;
+            lastTaxDate = getCurrentDate();
         }
         updateForests();
-        callBack.updateDatePanel(dateOfWorld);
+        callBack.updateDatePanel(getCurrentDate());
         callBack.updateCityStatisticPanel(cityStatistics);
+        System.out.println("Balance: " + cityStatistics.getBudget().getBalance());
+        System.out.println("Tax rate: "+ cityStatistics.getBudget().getTaxRate());
     }
 
     /**
@@ -465,7 +467,7 @@ public class GameModel {
     private void updateForests() {
         List<Forest> newYouth = new ArrayList<>();
         for (Forest forest : youthForest) {
-            forest.incAge(dateOfWorld);
+            forest.incAge(getCurrentDate());
             if (forest.getAge() > 10) {
                 cityStatistics.getBudget().addMaintenanceFee((-1) * forest.getMaintenanceFee());
             } else {
@@ -482,7 +484,7 @@ public class GameModel {
     private void filterConstructed() {
         List<Zone> newUnderConstructions = new ArrayList<>();
         for (Zone zone : underConstructions) {
-            if (zone.getBirthday().dateDifference(dateOfWorld).get("days") > Constants.CONSTRUCTION_DAY) {
+            if (zone.getBirthday().dateDifference(getCurrentDate()).get("days") > Constants.CONSTRUCTION_DAY) {
                 zone.setLevel(Level.ONE);
                 zone.setUnderConstruction(false);
             } else {
