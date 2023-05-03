@@ -360,19 +360,26 @@ public class GameModel {
     public void regularUpdate(int dayPass, ICallBack callBack) {
         dateOfWorld.addDay(dayPass);
         filterConstructed();
-        cityStatistics.setCitySatisfaction(this);
-        if (cityStatistics.getPopulation(cityRegistry) < HumanManufacture.startingNrCitizens)
-            for (int i = 0; i < new Random().nextInt(HumanManufacture.startingNrCitizens); i++) {
-                HumanManufacture.createYoungCitizen(this);
+
+        try {
+            cityStatistics.setCitySatisfaction(this);
+            if (cityStatistics.getPopulation(cityRegistry) < HumanManufacture.startingNrCitizens)
+                for (int i = 0; i < new Random().nextInt(HumanManufacture.startingNrCitizens); i++) {
+                    HumanManufacture.createYoungCitizen(this);
+                }
+            Zone possibleLivingZone = HumanManufacture.getLivingPlace(this);
+            System.out.println("possible living " + possibleLivingZone); // null
+            Zone possibleWorkingZone = HumanManufacture.getWorkingPlace(this, possibleLivingZone);
+            if (possibleLivingZone != null && ProbabilitySelector.decision(cityStatistics.getCitySatisfaction() +
+                    possibleLivingZone.getStatistics().getSatisfaction().getFreeWorkplaceEffect() +
+                    possibleLivingZone.getStatistics().getSatisfaction().getIndustrialEffect() / 3.0)) {
+                HumanManufacture.createYoungCitizen(this, possibleWorkingZone, possibleLivingZone);
             }
-        Zone possibleLivingZone = HumanManufacture.getLivingPlace(this);
-        System.out.println("possible living" + possibleLivingZone);
-        Zone possibleWorkingZone = HumanManufacture.getWorkingPlace(this, possibleLivingZone);
-        if (possibleLivingZone != null && ProbabilitySelector.decision(cityStatistics.getCitySatisfaction() +
-                possibleLivingZone.getStatistics().getSatisfaction().getFreeWorkplaceEffect() +
-                possibleLivingZone.getStatistics().getSatisfaction().getIndustrialEffect() / 3.0)) {
-            HumanManufacture.createYoungCitizen(this, possibleWorkingZone, possibleLivingZone);
+        } catch (NullPointerException e) {
+            System.out.println(e.getMessage());
         }
+
+
         socialSecurity.census(this);
         if (lastTaxDate.dateDifference(dateOfWorld).get("years") >= 1) {
             updateCityBalance();
