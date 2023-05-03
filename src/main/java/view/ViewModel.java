@@ -25,6 +25,7 @@ public class ViewModel {
 
         this.statisticsMenu = new StatisticsMenu(controller,gameModel);
         this.tabs.addAll(this.statisticsMenu.getTabs());
+        this.tabs.addAll(this.bottomMenuBar.getTabs());
         this.texts.addAll(statisticsMenu.getTexts());
     }
 

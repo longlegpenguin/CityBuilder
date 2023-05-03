@@ -11,7 +11,7 @@ import org.joml.Vector2f;
 public class StatisticsMenu extends Menu {
     private UiTab tab;
     private Loader  loader = new Loader();
-    private String tabTexture = "Tab";
+    private String tabTexture = "Test";
     private GUIText cityPopulation;
     private GUIText citizenSatisfaction;
     private GameModel gameModel;
