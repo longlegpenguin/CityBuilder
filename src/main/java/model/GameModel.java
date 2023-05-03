@@ -40,6 +40,7 @@ public class GameModel {
         cityStatistics = new CityStatistics(new Budget(1000000, 0.3));
         cityRegistry = new CityRegistry(cityStatistics);
         dateOfWorld = new Date(1, Month.JANUARY, 2020);
+        lastTaxDate = new Date(1, Month.JANUARY, 2020);
         masterRoads = new ArrayList<>();
         underConstructions = new ArrayList<>();
         youthForest = new ArrayList<>();
@@ -372,7 +373,7 @@ public class GameModel {
             HumanManufacture.createYoungCitizen(this, possibleWorkingZone, possibleLivingZone);
         }
         socialSecurity.census(this);
-        if (lastTaxDate.dateDifference(dateOfWorld).get("year") >= 1) {
+        if (lastTaxDate.dateDifference(dateOfWorld).get("years") >= 1) {
             updateCityBalance();
             lastTaxDate = dateOfWorld;
         }
