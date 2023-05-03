@@ -366,6 +366,7 @@ public class GameModel {
                 HumanManufacture.createYoungCitizen(this);
             }
         Zone possibleLivingZone = HumanManufacture.getLivingPlace(this);
+        System.out.println("possible living" + possibleLivingZone);
         Zone possibleWorkingZone = HumanManufacture.getWorkingPlace(this, possibleLivingZone);
         if (possibleLivingZone != null && ProbabilitySelector.decision(cityStatistics.getCitySatisfaction() +
                 possibleLivingZone.getStatistics().getSatisfaction().getFreeWorkplaceEffect() +
