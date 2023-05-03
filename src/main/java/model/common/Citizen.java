@@ -6,11 +6,12 @@ import model.util.PathFinder;
 import model.zone.Zone;
 
 public class Citizen {
-    private final Zone workplace;
+    private Zone workplace;
     private final Zone livingPlace;
     private final LevelOfEducation levelOfEducation;
     private int pension;
     private int age;
+    private boolean isUnemployed;
 
     public Citizen(Zone workplace, Zone livingPlace, LevelOfEducation levelOfEducation) {
         this.workplace = workplace;
@@ -18,6 +19,7 @@ public class Citizen {
         this.levelOfEducation = levelOfEducation;
         pension = 0;
         age = 18;
+        isUnemployed = workplace == null;
     }
 
     /**
@@ -31,7 +33,6 @@ public class Citizen {
     public static int getDistanceLiveWork(GameModel gm, Zone livingPlace, Zone workplace) {
         return new PathFinder(gm.getMap()).manhattanDistance(livingPlace, workplace);
     }
-
 
     public Zone getWorkplace() {
         return workplace;
@@ -49,10 +50,6 @@ public class Citizen {
         return pension;
     }
 
-    public boolean isEmployed() {
-        return workplace != null;
-    }
-
     public int getAge() {
         return age;
     }
@@ -61,11 +58,23 @@ public class Citizen {
         this.age = age;
     }
 
+    public void setWorkplace(Zone workplace) {
+        this.workplace = workplace;
+    }
+
+    public void setIsUnemployed(boolean isUnemployed) {
+        this.isUnemployed = isUnemployed;
+    }
+
     public void incAge() {
         age++;
     }
 
     public void setPension(int pension) {
         this.pension = pension;
+    }
+
+    public boolean isUnemployed() {
+        return this.isUnemployed;
     }
 }
