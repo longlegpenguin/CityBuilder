@@ -31,6 +31,8 @@ public class ZoneBuildingListener extends ServiceListener {
             gm.addZone(zone);
             assert zone != null;
             property.getCallBack().updateGridSystem(zone.getCoordinate(), zone);
+//            property.getCallBack().updateCityStatisticPanel(gm.getCityStatistics());
+//            property.getCallBack().updateBudgetPanel(gm.queryCityBudget());
         } catch (OperationException e) {
             System.out.println(e.getMessage());
         }
