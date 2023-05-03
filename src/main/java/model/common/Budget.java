@@ -4,7 +4,7 @@ import java.util.LinkedList;
 
 public class Budget {
     private double balance;
-    private double taxRate;
+    private final double taxRate;
     private double totalMaintenanceFee;
     private LinkedList<Double> taxRatePast20Years;
 
@@ -56,7 +56,6 @@ public class Budget {
     }
 
     /**
-     *
      * @return average income of the last 20 years.
      */
     public double getPast20AvgIncome() {

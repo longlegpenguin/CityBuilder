@@ -15,9 +15,9 @@ public class CityStatistics {
     private int nrResidentialZones;
     private final Budget budget;
     private float citySatisfaction;
-    private int taxEffect;
+    private final int taxEffect;
     private double indComZoneBalance;
-    private float budgetEffect;
+    private final float budgetEffect;
 
     public CityStatistics(Budget budget) {
         this.budget = budget;
@@ -53,16 +53,13 @@ public class CityStatistics {
      * @return number of citizens.
      */
     public int getPopulation(CityRegistry cityRegistry) {
-        int populationCnt = 500;
-        for (Zone z : cityRegistry.getZones()) {
-            populationCnt += z.getStatistics().getPopulation();
-        }
-        return populationCnt;
+        return cityRegistry.getAllCitizens().size();
     }
 
     public float getCitySatisfaction() {
-        return citySatisfaction;
+        return citySatisfaction + 60;
     }
+
 
     /**
      * Setting the indComZoneBalance to represent the balance between industrial and commercial buildings.
@@ -84,7 +81,7 @@ public class CityStatistics {
         for (Zone zone : gm.getCityRegistry().getZones()) {
             sumZoneSatisfaction += zone.getSatisfaction();
         }
-        float avgZonesSatisfaction = (float) sumZoneSatisfaction / (gm.getCityRegistry().getZones().size() == 0 ? 1 : gm.getCityRegistry().getZones().size()) ;
+        float avgZonesSatisfaction = (float) sumZoneSatisfaction / (gm.getCityRegistry().getZones().size() == 0 ? 1 : gm.getCityRegistry().getZones().size());
         float avgCommonZoneSatisfaction = (float) (taxEffect + indComZoneBalance + budgetEffect) / 3;
         this.citySatisfaction = avgZonesSatisfaction + avgCommonZoneSatisfaction;
 

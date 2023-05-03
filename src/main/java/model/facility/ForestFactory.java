@@ -17,7 +17,7 @@ public class ForestFactory extends FacilityFactory {
                 Constants.FOREST_ONE_TIME_COST,
                 Constants.FOREST_MAINTENANCE_FEE,
                 coordinate,
-                new Dimension(1,1),
+                new Dimension(1, 1),
                 3,
                 gm.getCurrentDate());
     }

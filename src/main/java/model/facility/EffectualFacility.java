@@ -1,9 +1,9 @@
 package model.facility;
 
 import model.GameModel;
-import model.common.SideEffect;
 import model.common.Coordinate;
 import model.common.Dimension;
+import model.common.SideEffect;
 import model.zone.Zone;
 
 public abstract class EffectualFacility extends Facility implements SideEffect {

@@ -9,7 +9,7 @@ import java.util.Objects;
 
 public class PathFinder {
 
-    private Buildable[][] map;
+    private final Buildable[][] map;
 
     public PathFinder(Buildable[][] map) {
         this.map = map;
@@ -21,7 +21,7 @@ public class PathFinder {
      * @param start the starting buildable
      * @param goal  the goal buildable
      * @return the euclidean distance
-     * @exception NullPointerException if one of the parameter is null.
+     * @throws NullPointerException if one of the parameter is null.
      */
     public double euclideanDistance(Buildable start, Buildable goal) throws NullPointerException {
         if (start == null || goal == null) {

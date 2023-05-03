@@ -2,6 +2,7 @@ package model.city;
 
 import model.common.Citizen;
 import model.facility.Facility;
+import model.util.BuildableType;
 import model.zone.Zone;
 
 import java.util.ArrayList;
@@ -32,7 +33,9 @@ public class CityRegistry {
     public ArrayList<Citizen> getAllCitizens() {
         ArrayList<Citizen> citizens = new ArrayList<>();
         for (Zone zone : getZones()) {
-            citizens.addAll(zone.getCitizens());
+            if (zone.getBuildableType() == BuildableType.RESIDENTIAL) {
+                citizens.addAll(zone.getCitizens());
+            }
         }
         return citizens;
     }

@@ -33,7 +33,7 @@ public class SocialSecurity {
         List<Citizen> newRetire = new LinkedList<>();
         for (Citizen retire : retires) {
             retire.incAge();
-            if (ProbabilitySelector.decision(retire.getAge()/100.0)) {
+            if (ProbabilitySelector.decision(retire.getAge() / 100.0)) {
                 try {
                     die(retire, gm);
                 } catch (NullPointerException e) {}
@@ -44,13 +44,14 @@ public class SocialSecurity {
         }
         retires = newRetire;
         workForces = newWorkForces;
-        for (Citizen worker: workForces) {
+        for (Citizen worker : workForces) {
             worker.incAge();
             if (worker.getAge() >= 80) {
                 addRetire(worker);
             }
         }
     }
+
     private void die(Citizen dead, GameModel gm) throws NullPointerException {
         dead.getWorkplace().removeCitizen(dead, gm);
         dead.getLivingplace().removeCitizen(dead, gm);
@@ -69,6 +70,7 @@ public class SocialSecurity {
     public void removeWorkForce(Citizen citizen) {
         workForces.remove(citizen);
     }
+
     private void calculatePension(Citizen citizen) {
         int pension = 0;
         for (double rate :
@@ -84,6 +86,7 @@ public class SocialSecurity {
 
     /**
      * Calculates the spend of pension
+     *
      * @return the total amount of pension to be paid by city.
      */
     public int payPension() {

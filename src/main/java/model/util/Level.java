@@ -9,8 +9,7 @@ public enum Level {
     final int capacity;
     final int cost;
 
-
-    private Level(int capacity, int cost) {
+    Level(int capacity, int cost) {
         this.capacity = capacity;
         this.cost = cost;
     }

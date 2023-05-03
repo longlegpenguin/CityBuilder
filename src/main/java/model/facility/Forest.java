@@ -12,7 +12,7 @@ import model.zone.Zone;
 public class Forest extends EffectualFacility {
 
     private int age;
-    private Date birthday;
+    private final Date birthday;
     private Date lastUpdate;
 
     public Forest(int oneTimeCost, int maintenanceFee, Coordinate coordinate, Dimension dimension, float influenceRadius, Date birthday) {
@@ -29,6 +29,7 @@ public class Forest extends EffectualFacility {
     public void setAge(int age) {
         this.age = age;
     }
+
     public void incAge(Date now) {
         if (now.dateDifference(lastUpdate).get("years") > 1) {
             lastUpdate = now;
@@ -51,10 +52,10 @@ public class Forest extends EffectualFacility {
         if (condition(zone, gm)) {
             zone.getEffectedBy().add(this);
             zone.updateForestEffect(getPositiveEffect());
-            for(Buildable bad: zone.getEffectedBy()) {
+            for (Buildable bad : zone.getEffectedBy()) {
                 if (bad.getBuildableType() == BuildableType.INDUSTRIAL &&
                         isInBetween(zone.getCoordinate(), this.getCoordinate(), bad.getCoordinate())) {
-                    ((SideEffect)bad).reverseEffect(zone, gm);
+                    ((SideEffect) bad).reverseEffect(zone, gm);
                 }
             }
         }
@@ -65,10 +66,10 @@ public class Forest extends EffectualFacility {
         if (condition(zone, gm)) {
             zone.getEffectedBy().remove(this);
             zone.updateForestEffect(-getPositiveEffect());
-            for(Buildable bad: zone.getEffectedBy()) {
+            for (Buildable bad : zone.getEffectedBy()) {
                 if (bad.getBuildableType() == BuildableType.INDUSTRIAL &&
                         isInBetween(zone.getCoordinate(), this.getCoordinate(), bad.getCoordinate())) {
-                    ((SideEffect)bad).effect(zone, gm);
+                    ((SideEffect) bad).effect(zone, gm);
                 }
             }
         }
@@ -89,32 +90,36 @@ public class Forest extends EffectualFacility {
         // check horizontally
         if (zC.getRow() == self.getRow()) {
             int diff = self.getCol() - zC.getCol();
-            if (diff > 3) {return false;}
+            if (diff > 3) {
+                return false;
+            }
             if (diff < 0) { // self在左边
                 for (int i = 1; i < -diff; i++) {
-                    if (map[self.getRow()][self.getCol()+i] != null) {
+                    if (map[self.getRow()][self.getCol() + i] != null) {
                         return false;
                     }
                 }
             } else {
                 for (int i = 1; i < diff; i++) {
-                    if (map[self.getRow()][self.getCol()-i] != null) {
+                    if (map[self.getRow()][self.getCol() - i] != null) {
                         return false;
                     }
                 }
             }
         } else if (zC.getCol() == self.getCol()) {
             int diff = self.getRow() - zC.getRow();
-            if (diff > 3) {return false;}
+            if (diff > 3) {
+                return false;
+            }
             if (diff < 0) { // self上边
                 for (int i = 1; i < -diff; i++) {
-                    if (map[self.getRow()+i][self.getCol()] != null) {
+                    if (map[self.getRow() + i][self.getCol()] != null) {
                         return false;
                     }
                 }
             } else {
                 for (int i = 1; i < diff; i++) {
-                    if (map[self.getRow()-i][self.getCol()] != null) {
+                    if (map[self.getRow() - i][self.getCol()] != null) {
                         return false;
                     }
                 }
@@ -139,23 +144,26 @@ public class Forest extends EffectualFacility {
     private boolean isInOneLine(Buildable a, Buildable b, Buildable c) {
         return (a.getCoordinate().getRow() == b.getCoordinate().getRow() &&
                 b.getCoordinate().getRow() == c.getCoordinate().getRow() &&
-                (a.getCoordinate().getCol() - b.getCoordinate().getCol())==1 &&
-                (c.getCoordinate().getCol() - b.getCoordinate().getCol())==1) ||
+                (a.getCoordinate().getCol() - b.getCoordinate().getCol()) == 1 &&
+                (c.getCoordinate().getCol() - b.getCoordinate().getCol()) == 1) ||
                 (a.getCoordinate().getCol() == b.getCoordinate().getCol() &&
-                b.getCoordinate().getCol() == c.getCoordinate().getCol() &&
-                Math.abs(a.getCoordinate().getRow() - b.getCoordinate().getRow())==1 &&
-                Math.abs(c.getCoordinate().getRow() - b.getCoordinate().getRow())==1);
+                        b.getCoordinate().getCol() == c.getCoordinate().getCol() &&
+                        Math.abs(a.getCoordinate().getRow() - b.getCoordinate().getRow()) == 1 &&
+                        Math.abs(c.getCoordinate().getRow() - b.getCoordinate().getRow()) == 1);
     }
 
     private boolean isInMapCoordinate(Coordinate coordinate, Buildable[][] map) {
         return isInMap(coordinate.getRow(), coordinate.getCol(), map);
     }
+
     private boolean isGoalCoordinate(Coordinate current, Coordinate goalCoordinate) {
         return current.equals(goalCoordinate);
     }
+
     private boolean isEmpty(int sRow, int sCol, Buildable[][] map) {
         return map[sRow][sCol] == null;
     }
+
     private boolean isInMap(int sRow, int sCol, Buildable[][] map) {
         return sRow < map.length && sRow >= 0 &&
                 sCol < map[0].length && sCol >= 0;
