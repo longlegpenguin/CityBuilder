@@ -21,8 +21,12 @@ public class PathFinder {
      * @param start the starting buildable
      * @param goal  the goal buildable
      * @return the euclidean distance
+     * @exception NullPointerException if one of the parameter is null.
      */
-    public double euclideanDistance(Buildable start, Buildable goal) {
+    public double euclideanDistance(Buildable start, Buildable goal) throws NullPointerException {
+        if (start == null || goal == null) {
+            throw new NullPointerException("Distance cannot be calculate if the place is null!");
+        }
         Coordinate star = start.getCoordinate();
         Coordinate goa = goal.getCoordinate();
         return Math.sqrt(
