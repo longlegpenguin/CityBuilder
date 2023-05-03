@@ -32,7 +32,7 @@ public class ViewModel {
         texts.clear();
         statisticsMenu.clearText();
 
-        statisticsMenu.initTexts(gameModel, cityStatistics);
+        statisticsMenu.initText(gameModel);
         texts.addAll(statisticsMenu.getTexts());
     }
 
