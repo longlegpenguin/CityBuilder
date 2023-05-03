@@ -37,7 +37,6 @@ class GameModelTest {
         } catch (OperationException e) {
             throw new RuntimeException(e);
         }
-        System.out.println("Hello");
         System.out.println(gm.printMap());
         assertEquals(1, gm.getAllBuildable().size());
     }

@@ -6,7 +6,7 @@ import java.util.Random;
  * This is a utility to make a decision: YES or NO, according to the given probability (0-1)
  */
 public class ProbabilitySelector {
-    private static Random random = new Random();
+    private static final Random random = new Random();
 
     /**
      * Makes a decision: YES or NO, according to the given probability (0-1)

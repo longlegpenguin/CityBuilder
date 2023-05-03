@@ -13,7 +13,7 @@ public abstract class Zone implements Buildable {
     protected Level level;
     protected int dayToBuild;
     protected ZoneStatistics statistics;
-    protected Date birthday;
+    protected final Date birthday;
     protected Coordinate coordinate;
     protected List<Citizen> citizens;
     protected final Dimension dimension;
@@ -182,6 +182,7 @@ public abstract class Zone implements Buildable {
             statistics.setCapacity(level.getCapacity());
         }
     }
+
 
     /**
      * Gets the cost for assigning/upgrading the zone

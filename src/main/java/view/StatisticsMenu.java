@@ -25,26 +25,13 @@ public class StatisticsMenu extends Menu {
     protected void loadComponents() {
         tab = new UiTab(loader.loadTexture(tabTexture),new Vector2f(0.95f,0.95f),new Vector2f(0.3f,0.1f));
         super.tabs.add(tab);
-        cityPopulation = new GUIText("Population: "+ String.valueOf(gameModel.getCityStatistics().getPopulation(gameModel.getCityRegistry())),
-                1,new Vector2f(0.83f,0f),1,false);
 
-        cityPopulation.setColour(0,0,0);
-        citizenSatisfaction = new GUIText("Satifaction: "+ String.valueOf(gameModel.getCityStatistics().getCitySatisfaction()),
-                1,new Vector2f(0.83f,0.04f),1f,false);
-        citizenSatisfaction.setColour(0, 0, 0);
-
-        System.out.println("Test");
-        super.texts.add(cityPopulation);
-        super.texts.add(citizenSatisfaction);
+        initText(gameModel);
     }
 
     @Override
     public void initText(GameModel gameModel) {
-
-    }
-
-    public void initTexts(GameModel gameModel, CityStatistics cityStatistics) {
-        cityPopulation = new GUIText("Population: "+ String.valueOf(cityStatistics.getPopulation(gameModel.getCityRegistry())),
+        cityPopulation = new GUIText("Population: "+ String.valueOf(gameModel.getCityStatistics().getPopulation(gameModel.getCityRegistry())),
                 1,new Vector2f(0.83f,0f),1,false);
 
         cityPopulation.setColour(0,0,0);
