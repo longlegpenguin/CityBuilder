@@ -38,6 +38,7 @@ import org.w3c.dom.Text;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.List;
 
 public class Handler implements ICallBack {
 
@@ -93,9 +94,10 @@ public class Handler implements ICallBack {
 
         this.date = gameModel.getCurrentDate().toString();
 
-        text = new GUIText(this.date,1,new Vector2f(0f,0f),1f,true);
-        text.setColour(0,0,1);
+        text = new GUIText(this.date,1,new Vector2f(0.025f,0.885f),1f,false);
+        text.setColour(0,0,0);
 
+        setWorldGrid();
     }
 
     public void render() {
@@ -132,10 +134,12 @@ public class Handler implements ICallBack {
             selector.setZ(-100);
         }
 
+        boolean buttonPressed = false;
         if (mouseDelay == 0f && Mouse.isLeftButtonPressed()) {
             mouseDelay = 0.1f;
             for (UiButton button: viewModel.getButtons()) {
                 if (button.isClicked()) {
+                    buttonPressed = true;
                     switch (button.getButtonEnum()) {
                         case RESIDENTIAL_ZONE -> viewModel.getBottomMenuBar().resZoneButtonAction();
                         case COMMERICAL_ZONE -> viewModel.getBottomMenuBar().comZoneButtonAction();
@@ -151,7 +155,7 @@ public class Handler implements ICallBack {
                     }
                 }
             }
-            if (coordsX < worldGrid.getWorldSize() && coordsX >= 0 && coordsY < worldGrid.getWorldSize() && coordsY >= 0 && controller.getGameMode() != GameMode.SELECTION_MODE) {
+            if (buttonPressed == false && coordsX < worldGrid.getWorldSize() && coordsX >= 0 && coordsY < worldGrid.getWorldSize() && coordsY >= 0 && controller.getGameMode() != GameMode.SELECTION_MODE) {
                 controller.mouseClickRequest(new Coordinate(coordsX, coordsY), this);
 //                Entity road = new Entity(roadTexM, new Vector3f(coordsX * Terrain.getSize(),0,(coordsY + 1) *Terrain.getSize()), 0,0,0,5);
 //                worldGrid.addBuildable(mousePicker.getCurrentTileCoords().x, mousePicker.getCurrentTileCoords().y, road);
@@ -196,9 +200,71 @@ public class Handler implements ICallBack {
 
     }
 
+    public void setWorldGrid() {
+        worldGrid.clearGrid();
+        addBuildablesWorldGrid(gameModel.getFacilityBuildable());
+        addZonesWorldGrid(gameModel.getZoneBuildable());
+    }
+
+    private void addBuildablesWorldGrid(List<Buildable> gameModelBuildables) {
+        for (Buildable b: gameModelBuildables) {
+            worldGrid.addBuildable(b.getCoordinate().getRow(), b.getCoordinate().getCol(), getGridEntity(b));
+        }
+    }
+
+    private void addZonesWorldGrid(List<Buildable> gameModelZones) {
+        for (Buildable b: gameModelZones) {
+            worldGrid.addBuildable(b.getCoordinate().getRow(), b.getCoordinate().getCol(), getGridEntity(b));
+        }
+    }
+
+    private Entity getGridEntity(Buildable buildable) {
+        Entity entity = null;
+        switch (buildable.getBuildableType()) {
+            case RESIDENTIAL -> {
+                entity = new Entity(assets.getResidentialBuilding(), new Vector3f(buildable.getCoordinate().getRow() * Terrain.getSize(),0,(buildable.getCoordinate().getCol() + 1) *Terrain.getSize()), 0,0,0,5);
+                break;
+            }
+            case COMMERCIAL -> {
+                entity = new Entity(assets.getCommercialBuilding(), new Vector3f(buildable.getCoordinate().getRow() * Terrain.getSize(),0,(buildable.getCoordinate().getCol() + 1) *Terrain.getSize()), 0,0,0,5);
+                break;
+            }
+            case INDUSTRIAL -> {
+                entity = new Entity(assets.getIndustrialBuilding(), new Vector3f(buildable.getCoordinate().getRow() * Terrain.getSize(),0,(buildable.getCoordinate().getCol() + 1) *Terrain.getSize()), 0,0,0,5);
+                break;
+            }
+            case ROAD -> {
+                entity = new Entity(assets.getRoad(), new Vector3f(buildable.getCoordinate().getRow() * Terrain.getSize(),0,(buildable.getCoordinate().getCol() + 1) *Terrain.getSize()), 0,0,0,5);
+                break;
+            }
+            case FOREST -> {
+                entity = new Entity(assets.getForest(), new Vector3f(buildable.getCoordinate().getRow() * Terrain.getSize(),0,(buildable.getCoordinate().getCol() + 1) *Terrain.getSize()), 0,0,0,5);
+                break;
+            }
+            case POLICE -> {
+                entity = new Entity(assets.getPolice(), new Vector3f(buildable.getCoordinate().getRow() * Terrain.getSize(),0,(buildable.getCoordinate().getCol() + 1) *Terrain.getSize()), 0,0,0,5);
+                break;
+            }
+            case STADIUM -> {
+                entity = new Entity(assets.getStadium(), new Vector3f(buildable.getCoordinate().getRow() * Terrain.getSize(),0,(buildable.getCoordinate().getCol() + 2) *Terrain.getSize()), 0,0,0,5*2);
+                break;
+            }
+            case SCHOOL -> {
+                entity = new Entity(assets.getSchool(), new Vector3f(buildable.getCoordinate().getRow() * Terrain.getSize(),0,(buildable.getCoordinate().getCol() + 1) *Terrain.getSize()), 0,0,0,5);
+                break;
+            }
+            case UNIVERSITY -> {
+                entity = new Entity(assets.getUniversity(), new Vector3f(buildable.getCoordinate().getRow() * Terrain.getSize(),0,(buildable.getCoordinate().getCol() + 1) *Terrain.getSize()), 0,0,0,5);
+                break;
+            }
+        }
+        return entity;
+    }
+
     @Override
     public void updateGridSystem(Coordinate coordinate, Buildable buildable) {
-        Entity entity = null;
+        setWorldGrid();
+        /*Entity entity = null;
         switch (buildable.getBuildableType()) {
             case RESIDENTIAL -> {
                 entity = new Entity(assets.getResidentialBuilding(), new Vector3f(coordinate.getRow() * Terrain.getSize(),0,(coordinate.getCol() + 1) *Terrain.getSize()), 0,0,0,5);
@@ -237,7 +303,7 @@ public class Handler implements ICallBack {
                 break;
             }
         }
-        worldGrid.addBuildable(mousePicker.getCurrentTileCoords().x, mousePicker.getCurrentTileCoords().y, entity);
+        worldGrid.addBuildable(mousePicker.getCurrentTileCoords().x, mousePicker.getCurrentTileCoords().y, entity);*/
     }
 
     @Override
@@ -253,8 +319,8 @@ public class Handler implements ICallBack {
     @Override
     public void updateDatePanel(Date date) {
         this.date = date.toString();
-        text = new GUIText(this.date,1,new Vector2f(0f,0f),1f,true);
-        text.setColour(0,0,1);
+        text = new GUIText(this.date,1,new Vector2f(0.025f,0.885f),1f,false);
+        text.setColour(0,0,0);
     }
 
     @Override
