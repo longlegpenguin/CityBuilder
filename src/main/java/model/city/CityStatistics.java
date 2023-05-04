@@ -60,6 +60,17 @@ public class CityStatistics {
         return citySatisfaction + 60;
     }
 
+    public int getTaxEffect() {
+        return taxEffect;
+    }
+
+    public double getIndComZoneBalance() {
+        return indComZoneBalance;
+    }
+
+    public float getBudgetEffect() {
+        return budgetEffect;
+    }
 
     /**
      * Setting the indComZoneBalance to represent the balance between industrial and commercial buildings.
@@ -79,11 +90,10 @@ public class CityStatistics {
     public void setCitySatisfaction(GameModel gm) {
         int sumZoneSatisfaction = 0;
         for (Zone zone : gm.getCityRegistry().getZones()) {
-            sumZoneSatisfaction += zone.getSatisfaction();
+            sumZoneSatisfaction += zone.getZoneSatisfaction(gm);
         }
         float avgZonesSatisfaction = (float) sumZoneSatisfaction / (gm.getCityRegistry().getZones().size() == 0 ? 1 : gm.getCityRegistry().getZones().size());
-        float avgCommonZoneSatisfaction = (float) (taxEffect + indComZoneBalance + budgetEffect) / 3;
-        this.citySatisfaction = avgZonesSatisfaction + avgCommonZoneSatisfaction;
+        this.citySatisfaction = avgZonesSatisfaction;
 
     }
 

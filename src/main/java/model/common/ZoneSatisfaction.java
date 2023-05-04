@@ -1,5 +1,7 @@
 package model.common;
 
+import model.GameModel;
+
 public class ZoneSatisfaction {
     private int policeEffect;
     private int freeWorkplaceEffect;
@@ -58,8 +60,11 @@ public class ZoneSatisfaction {
     /**
      * @return total satisfaction for a zone
      */
-    public double getTotalZoneSatisfaction() {
-        return policeEffect + freeWorkplaceEffect + stadiumEffect + noIndustrialEffect + forestEffect;
+    public double getTotalZoneSatisfaction(GameModel gm) {
+        return policeEffect + freeWorkplaceEffect + stadiumEffect + noIndustrialEffect + forestEffect
+                + (gm.getCityStatistics().getTaxEffect()
+                + gm.getCityStatistics().getIndComZoneBalance()
+                + gm.getCityStatistics().getBudgetEffect()) / 3;
     }
 
     @Override
