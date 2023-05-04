@@ -15,7 +15,7 @@ class GameModelTest {
     GameModel gm = new GameModel(5, 10);
     @BeforeEach
     void setUp() {
-        gm.initialize();
+//        gm.initialize();
     }
     @Test
     void addUniqueZone() {
