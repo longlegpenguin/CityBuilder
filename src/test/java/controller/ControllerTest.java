@@ -124,4 +124,10 @@ class ControllerTest {
         double afterBalance = gm.getCityStatistics().getBudget().getBalance();
         assertEquals(0, afterBalance - beforeBalance);
     }
+
+    @org.junit.jupiter.api.Test
+    void testSetTaxRate() {
+        controller.updateTaxRate(0.4, null);
+        assertEquals(0.4, gm.getCityStatistics().getBudget().getTaxRate());
+    }
 }

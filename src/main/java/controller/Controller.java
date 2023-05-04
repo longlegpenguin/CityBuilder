@@ -96,9 +96,11 @@ public class Controller {
      * @param newTaxRate the new rate.
      * @param callBack will be called after the handle of the request, can be null for defaults.
      */
-    public void updateTaxRate(int newTaxRate, ICallBack callBack) {
+    public void updateTaxRate(double newTaxRate, ICallBack callBack) {
         if (callBack != null) {
             property.setCallBack(callBack);
+        } else {
+            callBack = property.getCallBack();
         }
         property.getGameModel().updateTaxRate(newTaxRate);
         assert callBack != null;

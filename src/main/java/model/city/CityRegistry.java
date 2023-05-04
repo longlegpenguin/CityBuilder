@@ -97,7 +97,7 @@ public class CityRegistry implements java.io.Serializable {
      * @param newTaxRate double
      */
     public void updateTaxRate(double newTaxRate) {
-        cityStatistics.getBudget().addTaxRate(newTaxRate);
+        cityStatistics.getBudget().setTaxRate(newTaxRate);
     }
 
 }

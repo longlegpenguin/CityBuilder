@@ -4,7 +4,7 @@ import java.util.LinkedList;
 
 public class Budget implements java.io.Serializable {
     private double balance;
-    private final double taxRate;
+    private double taxRate;
     private double totalMaintenanceFee;
     private LinkedList<Double> taxRatePast20Years;
 
@@ -29,6 +29,10 @@ public class Budget implements java.io.Serializable {
 
     public LinkedList<Double> getTaxRatePast20Years() {
         return taxRatePast20Years;
+    }
+
+    public void setTaxRate(double taxRate) {
+        this.taxRate = taxRate;
     }
 
     public void addBalance(double amount) {
