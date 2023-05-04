@@ -29,7 +29,6 @@ public class GameModel implements java.io.Serializable {
     private final List<Road> masterRoads;
     private List<Zone> underConstructions;
     private List<Forest> youthForest;
-    private final List<Education> educations;
     private Date lastTaxDate;
     private final SocialSecurity socialSecurity;
 
@@ -44,8 +43,7 @@ public class GameModel implements java.io.Serializable {
         masterRoads = new ArrayList<>();
         underConstructions = new ArrayList<>();
         youthForest = new ArrayList<>();
-        educations = new ArrayList<>();
-        socialSecurity = new SocialSecurity(cityStatistics);
+        socialSecurity = new SocialSecurity(cityRegistry);
     }
 
     /**
@@ -174,10 +172,6 @@ public class GameModel implements java.io.Serializable {
 
         if (facility.getBuildableType() == BuildableType.FOREST) {
             youthForest.add((Forest) facility);
-        }
-        if (facility.getBuildableType() == BuildableType.SCHOOL ||
-                facility.getBuildableType() == BuildableType.UNIVERSITY) {
-            educations.add((Education) facility);
         }
     }
 
@@ -444,6 +438,10 @@ public class GameModel implements java.io.Serializable {
         updateForests();
         System.out.println("Balance: " + cityStatistics.getBudget().getBalance());
         System.out.println("Tax rate: "+ cityStatistics.getBudget().getTaxRate());
+        for (Citizen c :
+                cityRegistry.getAllCitizens()) {
+            System.out.println(c);
+        }
     }
 
     /**

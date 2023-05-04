@@ -15,21 +15,8 @@ class GameModelTest {
     GameModel gm = new GameModel(5, 10);
     @BeforeEach
     void setUp() {
-//        gm.initialize();
+        gm.initialize();
     }
-
-    @AfterEach
-    void tearDown() {
-    }
-
-    @Test
-    void getAllBuildables() {
-    }
-
-    @Test
-    void timePassUpdate() {
-    }
-
     @Test
     void addUniqueZone() {
         try {
@@ -53,14 +40,6 @@ class GameModelTest {
 
     @Test
     void updateTaxRate() {
-    }
-
-    @Test
-    void queryCityStatistics() {
-    }
-
-    @Test
-    void queryZoneStatistics() {
     }
 
     @Test

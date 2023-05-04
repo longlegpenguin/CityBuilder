@@ -6,83 +6,62 @@ import model.common.Constants;
 import model.common.HumanManufacture;
 import model.util.ProbabilitySelector;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
 public class SocialSecurity implements java.io.Serializable {
-    List<Citizen> retires;
-    List<Citizen> workForces;
-    CityStatistics cityStatistics;
 
-    public SocialSecurity(List<Citizen> retires, CityStatistics cityStatistics) {
-        this.retires = retires;
-        this.cityStatistics = cityStatistics;
-    }
+    CityRegistry cityRegistry;
 
-    public SocialSecurity(CityStatistics cityStatistics) {
-        this.retires = new LinkedList<>();
-        this.cityStatistics = cityStatistics;
-        this.workForces = new LinkedList<>();
+    public SocialSecurity(CityRegistry cityRegistry) {
+        this.cityRegistry = cityRegistry;
     }
 
     /**
-     * Clean up existing citizens and aging them.
+     * Dies existing citizens and aging them.
      */
     public void census(GameModel gm) {
-        List<Citizen> newWorkForces = new LinkedList<>();
-        List<Citizen> newRetire = new LinkedList<>();
-        for (Citizen retire : retires) {
-            retire.incAge();
+
+        for (Citizen c : cityRegistry.getAllCitizens()) {
+            c.incAge();
+        }
+
+        for (Citizen retire : getListOfRetired()) {
             if (ProbabilitySelector.decision(retire.getAge() / 100.0)) {
                 try {
                     die(retire, gm);
                 } catch (NullPointerException e) {}
-                newWorkForces.add(HumanManufacture.createYoungCitizen(gm));
-            } else {
-                newRetire.add(retire);
+                HumanManufacture.createYoungCitizen(gm);
             }
         }
-        retires = newRetire;
-        workForces = newWorkForces;
-        for (Citizen worker : workForces) {
-            worker.incAge();
-            if (worker.getAge() >= 80) {
-                addRetire(worker);
+    }
+
+    private List<Citizen> getListOfRetired() {
+        List<Citizen> retired = new LinkedList<>();
+        for (Citizen citizen : cityRegistry.getAllCitizens()) {
+            if (citizen.getAge() > 80) {
+                retired.add(citizen);
             }
         }
+        return retired;
+    }
+
+    private List<Citizen> getListOfWorkForce() {
+        List<Citizen> workForce = new LinkedList<>();
+        for (Citizen citizen : cityRegistry.getAllCitizens()) {
+            if (citizen.getAge() <= 80) {
+                workForce.add(citizen);
+            }
+        }
+        return workForce;
     }
 
     private void die(Citizen dead, GameModel gm) throws NullPointerException {
-        dead.getWorkplace().removeCitizen(dead, gm);
         dead.getLivingplace().removeCitizen(dead, gm);
+        dead.getWorkplace().removeCitizen(dead, gm);
     }
 
-    public void addRetire(Citizen citizen) {
-        calculatePension(citizen);
-        retires.add(citizen);
-        workForces.remove(citizen);
-    }
-
-    public void addWorkForce(Citizen citizen) {
-        workForces.add(citizen);
-    }
-
-    public void removeWorkForce(Citizen citizen) {
-        workForces.remove(citizen);
-    }
-
-    private void calculatePension(Citizen citizen) {
-        int pension = 0;
-        for (double rate :
-                cityStatistics.getBudget().getTaxRatePast20Years()) {
-            pension += rate * Constants.BASE_TAX;
-        }
-        citizen.setPension(pension / 20);
-    }
-
-    public void removeRetire(Citizen citizen) {
-        retires.remove(citizen);
-    }
 
     /**
      * Calculates the spend of pension
@@ -92,16 +71,21 @@ public class SocialSecurity implements java.io.Serializable {
     public int payPension() {
         int total = 0;
         for (Citizen retire :
-                retires) {
+                getListOfRetired()) {
             total += retire.getPension();
         }
         return total;
     }
 
     /**
-     * Records the tax rate of the year.
+     * Records the tax rate of the year for every citizen
      */
     public void appendTaxRecord() {
-        cityStatistics.getBudget().addTaxRate(cityStatistics.getBudget().getTaxRate());
+        for (Citizen c : getListOfWorkForce()) {
+            c.addPaidTax(
+                    Constants.BASE_TAX * cityRegistry.getCityStatistics().getBudget().getTaxRate() +
+                    c.getLevelOfEducation().getAdditionalValue()
+            );
+        }
     }
 }

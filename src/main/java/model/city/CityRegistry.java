@@ -19,6 +19,10 @@ public class CityRegistry implements java.io.Serializable {
         this.cityStatistics = cityStatistics;
     }
 
+    public CityStatistics getCityStatistics() {
+        return cityStatistics;
+    }
+
     public ArrayList<Facility> getFacilities() {
         return facilities;
     }
