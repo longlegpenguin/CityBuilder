@@ -7,6 +7,8 @@ import model.util.BuildableType;
 import model.util.PathFinder;
 import model.zone.Zone;
 
+import static model.common.Constants.STADIUM_BASE_EFFECT;
+
 public class Stadium extends EffectualFacility {
 
     public Stadium(int oneTimeCost, int maintenanceFee, Coordinate coordinate, Dimension dimension, float influenceRadius) {
@@ -25,12 +27,12 @@ public class Stadium extends EffectualFacility {
 
     @Override
     public void effect(Zone zone, GameModel gm) {
-        zone.updateStadiumEffect(zone.getStatistics().getSatisfaction().getStadiumEffect() + 1);
+        zone.updateStadiumEffect(zone.getStatistics().getSatisfaction().getStadiumEffect() + STADIUM_BASE_EFFECT);
     }
 
     @Override
     public void reverseEffect(Zone zone, GameModel gm) {
-        zone.updateStadiumEffect(zone.getStatistics().getSatisfaction().getStadiumEffect() - 1);
+        zone.updateStadiumEffect(zone.getStatistics().getSatisfaction().getStadiumEffect() - STADIUM_BASE_EFFECT);
 
     }
 

@@ -13,7 +13,7 @@ public class ZoneSatisfaction implements java.io.Serializable {
         this.policeEffect = 0;
         this.freeWorkplaceEffect = 0;
         this.stadiumEffect = 0;
-        this.noIndustrialEffect = 1;
+        this.noIndustrialEffect = 0;
         this.forestEffect = 0;
     }
 
@@ -65,6 +65,12 @@ public class ZoneSatisfaction implements java.io.Serializable {
                 + (gm.getCityStatistics().getTaxEffect()
                 + gm.getCityStatistics().getIndComZoneBalance()
                 + gm.getCityStatistics().getBudgetEffect()) / 3;
+    }
+    /**
+     * @return related satisfaction for a zone
+     */
+    public double getZoneRelatedSatisfaction() {
+        return policeEffect + freeWorkplaceEffect + stadiumEffect + noIndustrialEffect + forestEffect;
     }
 
     @Override

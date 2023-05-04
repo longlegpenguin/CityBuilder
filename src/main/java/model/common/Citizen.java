@@ -5,6 +5,8 @@ import model.util.LevelOfEducation;
 import model.util.PathFinder;
 import model.zone.Zone;
 
+import java.util.LinkedList;
+
 public class Citizen implements java.io.Serializable {
     private Zone workplace;
     private final Zone livingPlace;
@@ -13,6 +15,8 @@ public class Citizen implements java.io.Serializable {
     private int age;
     private boolean isUnemployed;
 
+    private LinkedList<Double> taxPaidPast20Years;
+
     public Citizen(Zone workplace, Zone livingPlace, LevelOfEducation levelOfEducation) {
         this.workplace = workplace;
         this.livingPlace = livingPlace;
@@ -20,6 +24,7 @@ public class Citizen implements java.io.Serializable {
         pension = 0;
         age = 18;
         isUnemployed = workplace == null;
+        taxPaidPast20Years = new LinkedList<>();
     }
 
     /**
@@ -76,5 +81,44 @@ public class Citizen implements java.io.Serializable {
 
     public boolean isUnemployed() {
         return this.isUnemployed;
+    }
+
+    public void retire() {
+        pension = (int)getPast20AvgIncome();
+    }
+
+    public void addPaidTax(double newTax) {
+        if (taxPaidPast20Years.size() == 20) {
+            taxPaidPast20Years.addLast(newTax);
+            taxPaidPast20Years.removeFirst();
+        } else {
+            taxPaidPast20Years.addLast(newTax);
+        }
+    }
+
+    /**
+     * @return average income of the last 20 years.
+     */
+    public double getPast20AvgIncome() {
+        double sumTax = 0;
+        int cnt = 0;
+        for (Double taxRatePast20Year : taxPaidPast20Years) {
+            sumTax += taxRatePast20Year;
+            cnt += 1;
+        }
+        return sumTax / cnt;
+    }
+
+    @Override
+    public String toString() {
+        return "Citizen{" +
+                "workplace=" + workplace +
+                ", livingPlace=" + livingPlace +
+                ", levelOfEducation=" + levelOfEducation +
+                ", pension=" + pension +
+                ", age=" + age +
+                ", isUnemployed=" + isUnemployed +
+                ", taxPaidPast20Years=" + getPast20AvgIncome() +
+                '}';
     }
 }

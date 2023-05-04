@@ -23,15 +23,17 @@ public class IndustrialZone extends Zone implements SideEffect {
 
     @Override
     public void effect(Zone zone, GameModel gm) {
-        zone.getEffectedBy().add(this);
-        zone.getStatistics().getSatisfaction().setFreeWorkplaceEffect(zone.getStatistics().getSatisfaction().getFreeWorkplaceEffect() + 1);
+        if (new PathFinder(gm.getMap()).manhattanDistance(zone, gm.getMasterRoads().get(0)) != -1 && zone.getCitizens().size() < 10) {
+            zone.getStatistics().getSatisfaction().setFreeWorkplaceEffect(zone.getStatistics().getSatisfaction().getFreeWorkplaceEffect() + 1);
+        }
         zone.getStatistics().getSatisfaction().setIndustrialEffect(zone.getStatistics().getSatisfaction().getIndustrialEffect() - 1);
     }
 
     @Override
     public void reverseEffect(Zone zone, GameModel gm) {
-        zone.getEffectedBy().remove(this);
-        zone.getStatistics().getSatisfaction().setFreeWorkplaceEffect(zone.getStatistics().getSatisfaction().getFreeWorkplaceEffect() - 1);
+        if (new PathFinder(gm.getMap()).manhattanDistance(zone, gm.getMasterRoads().get(0)) != -1 && zone.getCitizens().size() < 10) {
+            zone.getStatistics().getSatisfaction().setFreeWorkplaceEffect(zone.getStatistics().getSatisfaction().getFreeWorkplaceEffect() - 1);
+        }
         zone.getStatistics().getSatisfaction().setIndustrialEffect(zone.getStatistics().getSatisfaction().getIndustrialEffect() + 1);
     }
 

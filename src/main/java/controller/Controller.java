@@ -12,6 +12,7 @@ import static controller.util.TimeMode.*;
 import controller.util.TimeMode;
 import model.GameModel;
 import model.common.Coordinate;
+import model.exceptions.OperationException;
 
 
 public class Controller {
@@ -96,11 +97,17 @@ public class Controller {
      * @param newTaxRate the new rate.
      * @param callBack will be called after the handle of the request, can be null for defaults.
      */
-    public void updateTaxRate(int newTaxRate, ICallBack callBack) {
+    public void updateTaxRate(double newTaxRate, ICallBack callBack) {
         if (callBack != null) {
             property.setCallBack(callBack);
+        } else {
+            callBack = property.getCallBack();
         }
-        property.getGameModel().updateTaxRate(newTaxRate);
+        try {
+            property.getGameModel().updateTaxRate(newTaxRate);
+        } catch (OperationException e) {
+            System.out.println(e.getMessage());
+        }
         assert callBack != null;
         callBack.updateBudgetPanel(property.getGameModel().queryCityBudget());
     }

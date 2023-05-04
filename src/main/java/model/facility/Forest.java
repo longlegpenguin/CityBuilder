@@ -1,10 +1,7 @@
 package model.facility;
 
 import model.GameModel;
-import model.common.Buildable;
-import model.common.Coordinate;
-import model.common.Dimension;
-import model.common.SideEffect;
+import model.common.*;
 import model.util.BuildableType;
 import model.util.Date;
 import model.zone.IndustrialZone;
@@ -17,7 +14,7 @@ public class Forest extends EffectualFacility {
     private int age;
     private final Date birthday;
     private Date lastUpdate;
-    private int totalEffectCnt;
+    private double totalEffectCnt;
     private boolean grew;
 
     public Forest(int oneTimeCost, int maintenanceFee, Coordinate coordinate, Dimension dimension, float influenceRadius, Date birthday) {
@@ -77,9 +74,8 @@ public class Forest extends EffectualFacility {
 //            System.out.println("Forest grows");
 //            System.out.println(zone.getStatistics().getSatisfaction().getForestEffect() + getPositiveEffect());
             zone.updateForestEffect(zone.getStatistics().getSatisfaction().getForestEffect() + getPositiveEffect());
-//            System.out.println("Forest effect: " + zone.getStatistics().getSatisfaction().getForestEffect());
+            System.out.println("Forest effect: " + zone.getStatistics().getSatisfaction().getForestEffect());
             if (age == 1) {
-//                System.out.println("Bad effects removed by Forest...");
                 for (SideEffect s :
                         getBadEffectIndustrial(zone, gm)) {
                     Buildable bad = (Buildable) s;
@@ -89,7 +85,7 @@ public class Forest extends EffectualFacility {
                     }
                 }
             }
-            totalEffectCnt++;
+            totalEffectCnt += getPositiveEffect();
             grew = false;
         }
     }
@@ -115,8 +111,7 @@ public class Forest extends EffectualFacility {
     }
 
     private double getPositiveEffect() {
-//        return age / 10.0;
-        return 1.0;
+        return Constants.FOREST_BASE_EFFECT ;
     }
 
     private boolean hasDirectView(Zone zone, Buildable[][] map) {

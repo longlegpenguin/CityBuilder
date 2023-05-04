@@ -18,6 +18,7 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
+import static model.common.Constants.INITIAL_CITY_BALANCE;
 import static model.util.BuildableType.*;
 
 public class GameModel implements java.io.Serializable {
@@ -29,7 +30,6 @@ public class GameModel implements java.io.Serializable {
     private final List<Road> masterRoads;
     private List<Zone> underConstructions;
     private List<Forest> youthForest;
-    private final List<Education> educations;
     private Date lastTaxDate;
     private final SocialSecurity socialSecurity;
 
@@ -37,15 +37,14 @@ public class GameModel implements java.io.Serializable {
         this.rows = rows;
         this.cols = cols;
         map = new Buildable[rows][cols];
-        cityStatistics = new CityStatistics(new Budget(1000000, 0.3));
+        cityStatistics = new CityStatistics(new Budget(INITIAL_CITY_BALANCE, 0.3));
         cityRegistry = new CityRegistry(cityStatistics);
         dateOfWorld = new Date(1, Month.JANUARY, 2020);
         lastTaxDate = new Date(1, Month.JANUARY, 2020);
         masterRoads = new ArrayList<>();
         underConstructions = new ArrayList<>();
         youthForest = new ArrayList<>();
-        educations = new ArrayList<>();
-        socialSecurity = new SocialSecurity(cityStatistics);
+        socialSecurity = new SocialSecurity(cityRegistry);
     }
 
     /**
@@ -72,6 +71,10 @@ public class GameModel implements java.io.Serializable {
         buildableList.addAll(cityRegistry.getFacilities());
         buildableList.addAll(masterRoads);
         return buildableList;
+    }
+
+    public List<Road> getMasterRoads() {
+        return masterRoads;
     }
 
     public List<Buildable> getZoneBuildable() {
@@ -175,10 +178,6 @@ public class GameModel implements java.io.Serializable {
         if (facility.getBuildableType() == BuildableType.FOREST) {
             youthForest.add((Forest) facility);
         }
-        if (facility.getBuildableType() == BuildableType.SCHOOL ||
-                facility.getBuildableType() == BuildableType.UNIVERSITY) {
-            educations.add((Education) facility);
-        }
     }
 
     /**
@@ -238,7 +237,10 @@ public class GameModel implements java.io.Serializable {
      *
      * @param newTaxRate the new tax rate
      */
-    public void updateTaxRate(double newTaxRate) {
+    public void updateTaxRate(double newTaxRate) throws OperationException {
+        if (newTaxRate < 0 || newTaxRate > 1) {
+            throw new OperationException("Tax rate must between 0..1");
+        }
         cityRegistry.updateTaxRate(newTaxRate);
     }
 
@@ -255,16 +257,16 @@ public class GameModel implements java.io.Serializable {
      * Gets the statistics of a specified zone
      *
      * @param coordinate the coordinate of the zone for which statistics should be got
-     * @return statistics
+     * @return Zone
      * @throws OperationException when no zone is on the coordinate.
      */
-    public ZoneStatistics queryZoneStatistics(Coordinate coordinate) throws OperationException {
+    public Zone queryZoneStatistics(Coordinate coordinate) throws OperationException {
         Buildable b = map[coordinate.getRow()][coordinate.getCol()];
         if (isPlotAvailable(b) || !isZone(b)) {
             throw new OperationException("No zone on the selected field");
         }
         Zone z = (Zone) b;
-        return z.getStatistics();
+        return z;
     }
 
     private boolean isZone(Buildable buildable) {
@@ -444,6 +446,10 @@ public class GameModel implements java.io.Serializable {
         updateForests();
         System.out.println("Balance: " + cityStatistics.getBudget().getBalance());
         System.out.println("Tax rate: "+ cityStatistics.getBudget().getTaxRate());
+        for (Citizen c :
+                cityRegistry.getAllCitizens()) {
+            System.out.println(c);
+        }
     }
 
     /**
@@ -464,7 +470,7 @@ public class GameModel implements java.io.Serializable {
      *
      * @return
      */
-    private int calculateSpend() {
+    public int calculateSpend() {
         int spend = 0;
         for (Facility facility : cityRegistry.getFacilities()) {
             spend += facility.getMaintenanceFee();
