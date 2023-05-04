@@ -2,7 +2,7 @@ package model.zone;
 
 import model.common.ZoneSatisfaction;
 
-public final class ZoneStatistics {
+public final class ZoneStatistics implements java.io.Serializable {
     private int population;
     private int capacity;
     private final ZoneSatisfaction satisfaction;

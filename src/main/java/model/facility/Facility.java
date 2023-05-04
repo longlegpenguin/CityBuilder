@@ -4,7 +4,7 @@ import model.common.Buildable;
 import model.common.Coordinate;
 import model.common.Dimension;
 
-public abstract class Facility implements Buildable {
+public abstract class Facility implements Buildable , java.io.Serializable {
     protected int oneTimeCost;
     protected int maintenanceFee;
     protected Coordinate coordinate;

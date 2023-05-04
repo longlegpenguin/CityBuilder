@@ -19,7 +19,7 @@ import java.util.List;
 
 import static model.util.BuildableType.*;
 
-public class GameModel {
+public class GameModel implements java.io.Serializable {
     private final int rows, cols;
     private final Buildable[][] map;
     private final CityRegistry cityRegistry;

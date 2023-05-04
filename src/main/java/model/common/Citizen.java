@@ -5,7 +5,7 @@ import model.util.LevelOfEducation;
 import model.util.PathFinder;
 import model.zone.Zone;
 
-public class Citizen {
+public class Citizen implements java.io.Serializable {
     private Zone workplace;
     private final Zone livingPlace;
     private final LevelOfEducation levelOfEducation;
