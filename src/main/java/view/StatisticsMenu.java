@@ -14,6 +14,7 @@ public class StatisticsMenu extends Menu {
     private String tabTexture = "Test";
     private GUIText cityPopulation;
     private GUIText citizenSatisfaction;
+    private GUIText money;
     private GameModel gameModel;
     public StatisticsMenu(Controller controller, GameModel gameModel) {
         super(controller);
@@ -39,9 +40,13 @@ public class StatisticsMenu extends Menu {
                 1,new Vector2f(0.83f,0.04f),1f,false);
         citizenSatisfaction.setColour(0, 0, 0);
 
+        money = new GUIText(String.valueOf(gameModel.getCityStatistics().getBudget().getBalance()), 1, new Vector2f(0.9f, 0.885f), 1f, false);
+        money.setColour(0,0,0);
+
         System.out.println("Test");
         super.texts.add(cityPopulation);
         super.texts.add(citizenSatisfaction);
+        super.texts.add(money);
     }
 
 }

@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="bb5dc201-431f-4192-bc44-55930ed91751" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/utopia.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/utopia.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/controller/listeners/FacilityBuildingListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/controller/listeners/FacilityBuildingListener.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engine/engineMain/Handler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engine/engineMain/Handler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engine/renderEngine/EntityRenderer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engine/renderEngine/EntityRenderer.java" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+        <option value="Enum" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="master" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectId" id="2Ne7oCHGiVKTBqMzCXjwwVZtTv2" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/rendr/OneDrive/Elte/Semester 4/Software Technology Practice/SHIFT-F10/utopia/src/main/resources/textures&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  }
+}</component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\rendr\OneDrive\Elte\Semester 4\Software Technology Practice\SHIFT-F10\utopia\src\main\resources\textures" />
+    </key>
+    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="engine.guis" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration name="MainApp" type="Application" factoryName="Application" nameIsGenerated="true">
+      <option name="ALTERNATIVE_JRE_PATH" value="17" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
+      <option name="MAIN_CLASS_NAME" value="engine.engineMain.MainApp" />
+      <module name="utopia" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="JetRunConfigurationType">
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType">
+      <option name="filePath" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="bb5dc201-431f-4192-bc44-55930ed91751" name="Changes" comment="" />
+      <created>1680012866232</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1680012866232</updated>
+      <workItem from="1680012867404" duration="398000" />
+      <workItem from="1680013297625" duration="3431000" />
+      <workItem from="1680016747388" duration="273000" />
+      <workItem from="1680017092602" duration="2521000" />
+      <workItem from="1680024364141" duration="6497000" />
+      <workItem from="1680105690957" duration="4106000" />
+      <workItem from="1680116581346" duration="4295000" />
+      <workItem from="1680121553377" duration="1138000" />
+      <workItem from="1680158004918" duration="4096000" />
+      <workItem from="1680163467381" duration="2228000" />
+      <workItem from="1680166550291" duration="124000" />
+      <workItem from="1680172627003" duration="1451000" />
+      <workItem from="1680203798878" duration="4108000" />
+      <workItem from="1680254011902" duration="11150000" />
+      <workItem from="1680340106088" duration="3118000" />
+      <workItem from="1680519697149" duration="333000" />
+      <workItem from="1680555404963" duration="244000" />
+      <workItem from="1680555667191" duration="704000" />
+      <workItem from="1680593577012" duration="753000" />
+      <workItem from="1680635583273" duration="5456000" />
+      <workItem from="1680718233178" duration="6397000" />
+      <workItem from="1680762718168" duration="3924000" />
+      <workItem from="1680819611624" duration="989000" />
+      <workItem from="1680984857031" duration="564000" />
+      <workItem from="1681048899706" duration="1059000" />
+      <workItem from="1681119546636" duration="17115000" />
+      <workItem from="1681201898007" duration="12280000" />
+      <workItem from="1681235156387" duration="83000" />
+      <workItem from="1681238014604" duration="10364000" />
+      <workItem from="1681323045407" duration="6223000" />
+      <workItem from="1681367852081" duration="1883000" />
+      <workItem from="1681375611624" duration="51000" />
+      <workItem from="1681411172332" duration="141000" />
+      <workItem from="1681812725297" duration="1721000" />
+      <workItem from="1681972534918" duration="1337000" />
+      <workItem from="1681974567332" duration="1550000" />
+      <workItem from="1682264104139" duration="688000" />
+      <workItem from="1682335998037" duration="1492000" />
+      <workItem from="1682354964251" duration="601000" />
+      <workItem from="1682410794128" duration="6469000" />
+      <workItem from="1682446918499" duration="7443000" />
+      <workItem from="1682577442634" duration="82000" />
+      <workItem from="1682577538885" duration="1388000" />
+      <workItem from="1682707978825" duration="3775000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="master" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="RECENT_FILTERS">
+      <map>
+        <entry key="Branch">
+          <value>
+            <list>
+              <RecentGroup>
+                <option name="FILTER_VALUES">
+                  <option value="master" />
+                </option>
+              </RecentGroup>
+              <RecentGroup>
+                <option name="FILTER_VALUES">
+                  <option value="game-engine" />
+                </option>
+              </RecentGroup>
+              <RecentGroup>
+                <option name="FILTER_VALUES">
+                  <option value="origin/master" />
+                </option>
+              </RecentGroup>
+              <RecentGroup>
+                <option name="FILTER_VALUES">
+                  <option value="HEAD" />
+                </option>
+              </RecentGroup>
+            </list>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+</project>
