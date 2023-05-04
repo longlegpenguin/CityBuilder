@@ -69,6 +69,8 @@ public class Controller {
     public void regularUpdateRequest(int dayPass, ICallBack callBack) {
         if (callBack != null) {
             property.setCallBack(callBack);
+        } else {
+            callBack = property.getCallBack();
         }
         this.property.getGameModel().regularUpdate(
                 dayPass * property.getTimeMode().getMultiplier(),
