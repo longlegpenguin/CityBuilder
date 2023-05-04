@@ -429,6 +429,8 @@ public class GameModel {
     private void updateCityBalance() {
         int revenue = calculateRevenue();
         int spend = calculateSpend();
+        System.out.println("Revenue: " + revenue);
+        System.out.println("spend: " + spend);
         cityRegistry.updateBalance(revenue - spend);
         socialSecurity.appendTaxRecord();
     }
