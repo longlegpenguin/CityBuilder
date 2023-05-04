@@ -18,6 +18,7 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
+import static model.common.Constants.INITIAL_CITY_BALANCE;
 import static model.util.BuildableType.*;
 
 public class GameModel implements java.io.Serializable {
@@ -36,7 +37,7 @@ public class GameModel implements java.io.Serializable {
         this.rows = rows;
         this.cols = cols;
         map = new Buildable[rows][cols];
-        cityStatistics = new CityStatistics(new Budget(1000000, 0.3));
+        cityStatistics = new CityStatistics(new Budget(INITIAL_CITY_BALANCE, 0.3));
         cityRegistry = new CityRegistry(cityStatistics);
         dateOfWorld = new Date(1, Month.JANUARY, 2020);
         lastTaxDate = new Date(1, Month.JANUARY, 2020);
@@ -462,7 +463,7 @@ public class GameModel implements java.io.Serializable {
      *
      * @return
      */
-    private int calculateSpend() {
+    public int calculateSpend() {
         int spend = 0;
         for (Facility facility : cityRegistry.getFacilities()) {
             spend += facility.getMaintenanceFee();
