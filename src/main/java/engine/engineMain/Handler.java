@@ -94,8 +94,8 @@ public class Handler implements ICallBack {
 
         this.date = gameModel.getCurrentDate().toString();
 
-        text = new GUIText(this.date,1,new Vector2f(0f,0f),1f,true);
-        text.setColour(0,0,1);
+        text = new GUIText(this.date,1,new Vector2f(0.025f,0.885f),1f,false);
+        text.setColour(0,0,0);
 
         setWorldGrid();
     }
@@ -134,10 +134,12 @@ public class Handler implements ICallBack {
             selector.setZ(-100);
         }
 
+        boolean buttonPressed = false;
         if (mouseDelay == 0f && Mouse.isLeftButtonPressed()) {
             mouseDelay = 0.1f;
             for (UiButton button: viewModel.getButtons()) {
                 if (button.isClicked()) {
+                    buttonPressed = true;
                     switch (button.getButtonEnum()) {
                         case RESIDENTIAL_ZONE -> viewModel.getBottomMenuBar().resZoneButtonAction();
                         case COMMERICAL_ZONE -> viewModel.getBottomMenuBar().comZoneButtonAction();
@@ -153,7 +155,7 @@ public class Handler implements ICallBack {
                     }
                 }
             }
-            if (coordsX < worldGrid.getWorldSize() && coordsX >= 0 && coordsY < worldGrid.getWorldSize() && coordsY >= 0 && controller.getGameMode() != GameMode.SELECTION_MODE) {
+            if (buttonPressed == false && coordsX < worldGrid.getWorldSize() && coordsX >= 0 && coordsY < worldGrid.getWorldSize() && coordsY >= 0 && controller.getGameMode() != GameMode.SELECTION_MODE) {
                 controller.mouseClickRequest(new Coordinate(coordsX, coordsY), this);
 //                Entity road = new Entity(roadTexM, new Vector3f(coordsX * Terrain.getSize(),0,(coordsY + 1) *Terrain.getSize()), 0,0,0,5);
 //                worldGrid.addBuildable(mousePicker.getCurrentTileCoords().x, mousePicker.getCurrentTileCoords().y, road);
@@ -244,7 +246,7 @@ public class Handler implements ICallBack {
                 break;
             }
             case STADIUM -> {
-                entity = new Entity(assets.getStadium(), new Vector3f(buildable.getCoordinate().getRow() * Terrain.getSize(),0,(buildable.getCoordinate().getCol() + 1) *Terrain.getSize()), 0,0,0,5);
+                entity = new Entity(assets.getStadium(), new Vector3f(buildable.getCoordinate().getRow() * Terrain.getSize(),0,(buildable.getCoordinate().getCol() + 2) *Terrain.getSize()), 0,0,0,5*2);
                 break;
             }
             case SCHOOL -> {
@@ -317,8 +319,8 @@ public class Handler implements ICallBack {
     @Override
     public void updateDatePanel(Date date) {
         this.date = date.toString();
-        text = new GUIText(this.date,1,new Vector2f(0f,0f),1f,true);
-        text.setColour(0,0,1);
+        text = new GUIText(this.date,1,new Vector2f(0.025f,0.885f),1f,false);
+        text.setColour(0,0,0);
     }
 
     @Override
