@@ -192,7 +192,9 @@ public class GameModel implements java.io.Serializable {
         Buildable bad = map[coordinate.getRow()][coordinate.getCol()];
         if (bad == null) {
             throw new OperationException("Removing fails, plot is empty.");
-        } else if (!underConstructions.contains(bad)) {
+        } else if (bad.getBuildableType() == ROAD && roadIsEssentialForConnection((Road) bad)) {
+            throw new OperationException("Removing fails, the selected road will break connections on remove.");
+        } else if (isZone(bad) && !underConstructions.contains(bad)) {
             throw new OperationException("Removing fails, zone with assets cannot be removed.");
         } else if (masterRoads.contains(bad)) {
             throw new OperationException("Removing fails, master roads cannot be removed.");
@@ -215,7 +217,20 @@ public class GameModel implements java.io.Serializable {
             cityRegistry.removeFacility((Facility) bad);
             cityStatistics.getBudget().deductMaintenanceFee(((Facility) bad).getMaintenanceFee());
         }
-
+        System.out.println("Remove Success");
+    }
+    
+    public boolean roadIsEssentialForConnection(Road road) {
+        removeFromMap(road);
+        for (Buildable b :
+                getAllBuildable()) {
+            if (new PathFinder(map).manhattanDistance(masterRoads.get(0), b) == -1) {
+                addToMap(road);
+                return true;
+            }
+        }
+        addToMap(road);
+        return false;
     }
 
     /**
