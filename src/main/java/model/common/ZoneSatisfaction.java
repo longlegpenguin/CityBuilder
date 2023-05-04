@@ -1,8 +1,8 @@
 package model.common;
-
 import model.GameModel;
 
-public class ZoneSatisfaction {
+public class ZoneSatisfaction implements java.io.Serializable {
+
     private int policeEffect;
     private int freeWorkplaceEffect;
     private int stadiumEffect;

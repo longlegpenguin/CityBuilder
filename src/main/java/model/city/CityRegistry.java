@@ -7,7 +7,7 @@ import model.zone.Zone;
 
 import java.util.ArrayList;
 
-public class CityRegistry {
+public class CityRegistry implements java.io.Serializable {
 
     private final ArrayList<Facility> facilities;
     private final ArrayList<Zone> zones;

@@ -9,7 +9,7 @@ import model.zone.IndustrialZone;
 import model.zone.ResidentialZone;
 import model.zone.Zone;
 
-public class CityStatistics {
+public class CityStatistics implements java.io.Serializable {
     private int nrCommercialZones;
     private int nrIndustrialZones;
     private int nrResidentialZones;

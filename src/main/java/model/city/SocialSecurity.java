@@ -9,7 +9,7 @@ import model.util.ProbabilitySelector;
 import java.util.LinkedList;
 import java.util.List;
 
-public class SocialSecurity {
+public class SocialSecurity implements java.io.Serializable {
     List<Citizen> retires;
     List<Citizen> workForces;
     CityStatistics cityStatistics;

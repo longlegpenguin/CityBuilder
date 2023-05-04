@@ -13,7 +13,6 @@ public abstract class Education extends Facility {
     protected int capacity;
     protected int yearsToGraduate;
     protected LevelOfEducation levelOfEducation;
-    protected List<Citizen> students;
 
     public Education(int oneTimeCost, int maintenanceFee, Coordinate coordinate, Dimension dimension, int capacity,
                      int yearsToGraduate, LevelOfEducation levelOfEducation) {
@@ -21,7 +20,6 @@ public abstract class Education extends Facility {
         this.capacity = capacity;
         this.yearsToGraduate = yearsToGraduate;
         this.levelOfEducation = levelOfEducation;
-        students = new ArrayList<>();
     }
 
     public int getCapacity() {
@@ -34,14 +32,5 @@ public abstract class Education extends Facility {
 
     public LevelOfEducation getLevelOfEducation() {
         return levelOfEducation;
-    }
-
-    /**
-     * Getting the additional amount added later to tax, for citizens who have secondary/higher education.
-     *
-     * @return
-     */
-    public int getAdditionalValue() {
-        return students.size() * levelOfEducation.getAdditionalValue();
     }
 }

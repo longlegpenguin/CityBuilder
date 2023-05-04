@@ -20,7 +20,7 @@ import java.util.List;
 
 import static model.util.BuildableType.*;
 
-public class GameModel {
+public class GameModel implements java.io.Serializable {
     private final int rows, cols;
     private final Buildable[][] map;
     private final CityRegistry cityRegistry;
@@ -427,8 +427,6 @@ public class GameModel {
             lastTaxDate = getCurrentDate();
         }
         updateForests();
-        callBack.updateDatePanel(getCurrentDate());
-        callBack.updateCityStatisticPanel(cityStatistics);
         System.out.println("Balance: " + cityStatistics.getBudget().getBalance());
         System.out.println("Tax rate: "+ cityStatistics.getBudget().getTaxRate());
     }
@@ -471,8 +469,8 @@ public class GameModel {
                 cityRegistry.getZones()) {
             revenue += zone.collectTax(cityStatistics.getBudget().getTaxRate());
         }
-        for (Education education : educations) {
-            revenue += education.getAdditionalValue();
+        for (Citizen c : cityRegistry.getAllCitizens()) {
+            revenue += c.getLevelOfEducation().getAdditionalValue();
         }
         return revenue;
     }

@@ -55,4 +55,12 @@ class ControllerTest {
         Date after = gm.getCurrentDate();
         assertEquals(30, after.dateDifference(before).get("days"));
     }
+
+    @org.junit.jupiter.api.Test
+    void testBuildResidentialZone() {
+        controller.switchGameModeRequest(GameMode.RESIDENTIAL_MODE);
+        controller.mouseClickRequest(new Coordinate(1, 1), null);
+        System.out.println(gm.printMap());
+        assertEquals(gm.getAllBuildable().size(), 2);
+    }
 }

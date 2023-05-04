@@ -1,6 +1,6 @@
 package model.common;
 
-public class Dimension {
+public class Dimension implements java.io.Serializable {
     private int width, height;
 
     public Dimension(int width, int height) {

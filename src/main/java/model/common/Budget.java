@@ -2,7 +2,7 @@ package model.common;
 
 import java.util.LinkedList;
 
-public class Budget {
+public class Budget implements java.io.Serializable {
     private double balance;
     private final double taxRate;
     private double totalMaintenanceFee;

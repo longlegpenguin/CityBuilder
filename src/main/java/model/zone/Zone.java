@@ -9,7 +9,7 @@ import model.util.Level;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class Zone implements Buildable {
+public abstract class Zone implements Buildable, java.io.Serializable {
     protected Level level;
     protected int dayToBuild;
     protected ZoneStatistics statistics;

@@ -2,7 +2,7 @@ package model.common;
 
 import java.util.Objects;
 
-public class Coordinate {
+public class Coordinate implements java.io.Serializable {
     private int row, col;
 
     public Coordinate(int row, int col) {
