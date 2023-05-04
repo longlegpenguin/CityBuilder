@@ -460,8 +460,8 @@ public class GameModel {
                 cityRegistry.getZones()) {
             revenue += zone.collectTax(cityStatistics.getBudget().getTaxRate());
         }
-        for (Education education : educations) {
-            revenue += education.getAdditionalValue();
+        for (Citizen c : cityRegistry.getAllCitizens()) {
+            revenue += c.getLevelOfEducation().getAdditionalValue();
         }
         return revenue;
     }
