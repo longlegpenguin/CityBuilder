@@ -14,6 +14,7 @@ import model.util.*;
 import model.zone.Zone;
 import model.zone.ZoneStatistics;
 
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -349,11 +350,21 @@ public class GameModel implements java.io.Serializable {
         return true;
     }
 
+    private boolean atLeastOneRoadConnected(Zone zone){
+        for (Road road : masterRoads){
+            if (new PathFinder(map).manhattanDistance(road, zone) != -1){
+                return true;
+            }
+        }
+        return false;
+    }
+
     private boolean existFreeResidentialZones() {
         for (Buildable buildable : getZoneBuildable()) {
             Zone zone = (Zone) buildable;
             if (zone.getBuildableType() == BuildableType.RESIDENTIAL &&
-                    zone.getStatistics().getPopulation() < zone.getLevel().getCapacity())
+                    zone.getStatistics().getPopulation() < zone.getLevel().getCapacity() &&
+                    atLeastOneRoadConnected(zone))
                 return true;
         }
         return false;
