@@ -416,8 +416,6 @@ public class GameModel implements java.io.Serializable {
             lastTaxDate = getCurrentDate();
         }
         updateForests();
-        callBack.updateDatePanel(getCurrentDate());
-        callBack.updateCityStatisticPanel(cityStatistics);
         System.out.println("Balance: " + cityStatistics.getBudget().getBalance());
         System.out.println("Tax rate: "+ cityStatistics.getBudget().getTaxRate());
     }

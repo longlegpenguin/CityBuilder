@@ -74,6 +74,8 @@ public class Controller {
                 dayPass * property.getTimeMode().getMultiplier(),
                 property.getCallBack()
         );
+        callBack.updateDatePanel(property.getGameModel().getCurrentDate());
+        callBack.updateCityStatisticPanel(property.getGameModel().getCityStatistics());
     }
 
     /**

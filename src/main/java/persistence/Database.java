@@ -14,7 +14,7 @@ public class Database {
             out.writeObject(gameModel);
             out.close();
             fileOut.close();
-            System.out.printf("Serialized data is saved in data.ser");
+            System.out.println("Serialized data is saved in data.ser");
         } catch (IOException i) {
             i.printStackTrace();
         }
@@ -33,10 +33,11 @@ public class Database {
             i.printStackTrace();
             return null;
         } catch (ClassNotFoundException c) {
-            System.out.println("Employee class not found");
+            System.out.println("Game model class not found");
             c.printStackTrace();
             return null;
         }
+        System.out.println("Serialized data is read from data.ser");
         return gameModel;
     }
 
