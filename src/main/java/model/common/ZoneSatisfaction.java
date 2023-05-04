@@ -1,6 +1,8 @@
 package model.common;
+import model.GameModel;
 
 public class ZoneSatisfaction implements java.io.Serializable {
+
     private int policeEffect;
     private int freeWorkplaceEffect;
     private int stadiumEffect;
@@ -58,8 +60,11 @@ public class ZoneSatisfaction implements java.io.Serializable {
     /**
      * @return total satisfaction for a zone
      */
-    public double getTotalSatisfaction() {
-        return policeEffect + freeWorkplaceEffect + stadiumEffect + noIndustrialEffect + forestEffect;
+    public double getTotalZoneSatisfaction(GameModel gm) {
+        return policeEffect + freeWorkplaceEffect + stadiumEffect + noIndustrialEffect + forestEffect
+                + (gm.getCityStatistics().getTaxEffect()
+                + gm.getCityStatistics().getIndComZoneBalance()
+                + gm.getCityStatistics().getBudgetEffect()) / 3;
     }
 
     @Override
