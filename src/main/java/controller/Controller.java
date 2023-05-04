@@ -12,6 +12,7 @@ import static controller.util.TimeMode.*;
 import controller.util.TimeMode;
 import model.GameModel;
 import model.common.Coordinate;
+import model.exceptions.OperationException;
 
 
 public class Controller {
@@ -102,7 +103,11 @@ public class Controller {
         } else {
             callBack = property.getCallBack();
         }
-        property.getGameModel().updateTaxRate(newTaxRate);
+        try {
+            property.getGameModel().updateTaxRate(newTaxRate);
+        } catch (OperationException e) {
+            System.out.println(e.getMessage());
+        }
         assert callBack != null;
         callBack.updateBudgetPanel(property.getGameModel().queryCityBudget());
     }

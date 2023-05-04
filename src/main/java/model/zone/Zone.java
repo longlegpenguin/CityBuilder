@@ -163,6 +163,15 @@ public abstract class Zone implements Buildable, java.io.Serializable {
     }
 
     /**
+     * Gets the satisfaction of the zone
+     *
+     * @return the satisfaction of the zone
+     */
+    public double getZonRelatedSatisfaction() {
+        return statistics.getSatisfaction().getZoneRelatedSatisfaction();
+    }
+
+    /**
      * Collects the base tax from each citizen
      *
      * @param taxRate the tax rate of the city.

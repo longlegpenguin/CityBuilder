@@ -130,4 +130,9 @@ class ControllerTest {
         controller.updateTaxRate(0.4, null);
         assertEquals(0.4, gm.getCityStatistics().getBudget().getTaxRate());
     }
+    @org.junit.jupiter.api.Test
+    void testSetBadTaxRate() {
+        controller.updateTaxRate(4, null);
+        assertEquals(0.3, gm.getCityStatistics().getBudget().getTaxRate());
+    }
 }

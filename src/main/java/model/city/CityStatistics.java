@@ -25,7 +25,7 @@ public class CityStatistics implements java.io.Serializable {
         this.nrIndustrialZones = 0;
         this.nrResidentialZones = 0;
         this.taxEffect = 0;
-        this.indComZoneBalance = 1;
+        this.indComZoneBalance = 0;
         this.budgetEffect = 0;
         this.citySatisfaction = 0;
     }

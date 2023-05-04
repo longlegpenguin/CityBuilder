@@ -73,6 +73,10 @@ public class GameModel implements java.io.Serializable {
         return buildableList;
     }
 
+    public List<Road> getMasterRoads() {
+        return masterRoads;
+    }
+
     public List<Buildable> getZoneBuildable() {
         List<Buildable> buildableList = new ArrayList<>();
         buildableList.addAll(cityRegistry.getZones());
@@ -233,7 +237,10 @@ public class GameModel implements java.io.Serializable {
      *
      * @param newTaxRate the new tax rate
      */
-    public void updateTaxRate(double newTaxRate) {
+    public void updateTaxRate(double newTaxRate) throws OperationException {
+        if (newTaxRate < 0 || newTaxRate > 1) {
+            throw new OperationException("Tax rate must between 0..1");
+        }
         cityRegistry.updateTaxRate(newTaxRate);
     }
 
