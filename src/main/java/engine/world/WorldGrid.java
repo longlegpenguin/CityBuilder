@@ -39,6 +39,14 @@ public class WorldGrid {
     }
 
     public List<Entity> getZoneList() {
+        zones.clear();
+        for (int i = 0; i < WORLD_SIZE; i++) {
+            for (int j = 0; j < WORLD_SIZE; j++) {
+                if (worldmatrix[i][j].getZone() != null) {
+                    zones.add(worldmatrix[i][j].getBuildable());
+                }
+            }
+        }
         return zones;
     }
 
@@ -56,6 +64,15 @@ public class WorldGrid {
 
     public void addBuildable(int x, int z, Entity buildable) {
         worldmatrix[x][z].setBuildable(buildable);
+    }
+
+    public void clearGrid() {
+        for (int i = 0; i < WORLD_SIZE; i++) {
+            for (int j = 0; j < WORLD_SIZE; j++) {
+                worldmatrix[i][j].setZone(null);
+                worldmatrix[i][j].setBuildable(null);
+            }
+        }
     }
 
 }

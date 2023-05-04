@@ -38,6 +38,7 @@ import org.w3c.dom.Text;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.List;
 
 public class Handler implements ICallBack {
 
@@ -96,6 +97,7 @@ public class Handler implements ICallBack {
         text = new GUIText(this.date,1,new Vector2f(0f,0f),1f,true);
         text.setColour(0,0,1);
 
+        setWorldGrid();
     }
 
     public void render() {
@@ -196,9 +198,71 @@ public class Handler implements ICallBack {
 
     }
 
+    public void setWorldGrid() {
+        worldGrid.clearGrid();
+        addBuildablesWorldGrid(gameModel.getFacilityBuildable());
+        addZonesWorldGrid(gameModel.getZoneBuildable());
+    }
+
+    private void addBuildablesWorldGrid(List<Buildable> gameModelBuildables) {
+        for (Buildable b: gameModelBuildables) {
+            worldGrid.addBuildable(b.getCoordinate().getRow(), b.getCoordinate().getCol(), getGridEntity(b));
+        }
+    }
+
+    private void addZonesWorldGrid(List<Buildable> gameModelZones) {
+        for (Buildable b: gameModelZones) {
+            worldGrid.addBuildable(b.getCoordinate().getRow(), b.getCoordinate().getCol(), getGridEntity(b));
+        }
+    }
+
+    private Entity getGridEntity(Buildable buildable) {
+        Entity entity = null;
+        switch (buildable.getBuildableType()) {
+            case RESIDENTIAL -> {
+                entity = new Entity(assets.getResidentialBuilding(), new Vector3f(buildable.getCoordinate().getRow() * Terrain.getSize(),0,(buildable.getCoordinate().getCol() + 1) *Terrain.getSize()), 0,0,0,5);
+                break;
+            }
+            case COMMERCIAL -> {
+                entity = new Entity(assets.getCommercialBuilding(), new Vector3f(buildable.getCoordinate().getRow() * Terrain.getSize(),0,(buildable.getCoordinate().getCol() + 1) *Terrain.getSize()), 0,0,0,5);
+                break;
+            }
+            case INDUSTRIAL -> {
+                entity = new Entity(assets.getIndustrialBuilding(), new Vector3f(buildable.getCoordinate().getRow() * Terrain.getSize(),0,(buildable.getCoordinate().getCol() + 1) *Terrain.getSize()), 0,0,0,5);
+                break;
+            }
+            case ROAD -> {
+                entity = new Entity(assets.getRoad(), new Vector3f(buildable.getCoordinate().getRow() * Terrain.getSize(),0,(buildable.getCoordinate().getCol() + 1) *Terrain.getSize()), 0,0,0,5);
+                break;
+            }
+            case FOREST -> {
+                entity = new Entity(assets.getForest(), new Vector3f(buildable.getCoordinate().getRow() * Terrain.getSize(),0,(buildable.getCoordinate().getCol() + 1) *Terrain.getSize()), 0,0,0,5);
+                break;
+            }
+            case POLICE -> {
+                entity = new Entity(assets.getPolice(), new Vector3f(buildable.getCoordinate().getRow() * Terrain.getSize(),0,(buildable.getCoordinate().getCol() + 1) *Terrain.getSize()), 0,0,0,5);
+                break;
+            }
+            case STADIUM -> {
+                entity = new Entity(assets.getStadium(), new Vector3f(buildable.getCoordinate().getRow() * Terrain.getSize(),0,(buildable.getCoordinate().getCol() + 1) *Terrain.getSize()), 0,0,0,5);
+                break;
+            }
+            case SCHOOL -> {
+                entity = new Entity(assets.getSchool(), new Vector3f(buildable.getCoordinate().getRow() * Terrain.getSize(),0,(buildable.getCoordinate().getCol() + 1) *Terrain.getSize()), 0,0,0,5);
+                break;
+            }
+            case UNIVERSITY -> {
+                entity = new Entity(assets.getUniversity(), new Vector3f(buildable.getCoordinate().getRow() * Terrain.getSize(),0,(buildable.getCoordinate().getCol() + 1) *Terrain.getSize()), 0,0,0,5);
+                break;
+            }
+        }
+        return entity;
+    }
+
     @Override
     public void updateGridSystem(Coordinate coordinate, Buildable buildable) {
-        Entity entity = null;
+        setWorldGrid();
+        /*Entity entity = null;
         switch (buildable.getBuildableType()) {
             case RESIDENTIAL -> {
                 entity = new Entity(assets.getResidentialBuilding(), new Vector3f(coordinate.getRow() * Terrain.getSize(),0,(coordinate.getCol() + 1) *Terrain.getSize()), 0,0,0,5);
@@ -237,7 +301,7 @@ public class Handler implements ICallBack {
                 break;
             }
         }
-        worldGrid.addBuildable(mousePicker.getCurrentTileCoords().x, mousePicker.getCurrentTileCoords().y, entity);
+        worldGrid.addBuildable(mousePicker.getCurrentTileCoords().x, mousePicker.getCurrentTileCoords().y, entity);*/
     }
 
     @Override
