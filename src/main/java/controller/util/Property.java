@@ -5,9 +5,13 @@ import model.GameModel;
 import model.city.CityStatistics;
 import model.common.Budget;
 import model.common.Buildable;
+import model.common.Citizen;
 import model.common.Coordinate;
 import model.util.Date;
+import model.zone.Zone;
 import model.zone.ZoneStatistics;
+
+import java.util.List;
 
 public class Property {
     private GameMode gameMode;
@@ -27,11 +31,27 @@ public class Property {
             @Override
             public void updateBudgetPanel(Budget budget) {
                 System.out.println("Default Call back");
+                System.out.println("________Callback Inform Budget_________");
+                System.out.println("Tax rate: " + budget.getTaxRate());
+                System.out.println("Balance: " + budget.getBalance());
+                System.out.println("---------------------------------------");
             }
 
             @Override
-            public void updateStatisticPanel(ZoneStatistics zoneStatistics) {
+            public void updateStatisticPanel(Zone zone) {
                 System.out.println("Default Call back");
+                ZoneStatistics zoneStatistics = zone.getStatistics();
+                System.out.println("________Callback Inform Zone Statistic_________");
+                System.out.println("Selected Zone population: " + zoneStatistics.getPopulation());
+                System.out.println("Selected Zone capacity: " + zoneStatistics.getCapacity());
+                System.out.println("Selected Zone satisfaction: " + zoneStatistics.getSatisfaction());
+                System.out.println("Selected Zone citizens: ");
+                List<Citizen> citizens = zone.getCitizens();
+                for (Citizen c :
+                        citizens) {
+                    System.out.println(c);
+                }
+                System.out.println("-----------------------------------------------");
             }
 
             @Override
@@ -42,6 +62,10 @@ public class Property {
             @Override
             public void updateCityStatisticPanel(CityStatistics cityStatistics) {
                 System.out.println("Default Call back");
+                System.out.println("________Callback Inform City Statistic_________");
+                System.out.println("City population: " + cityStatistics.getPopulation(gameModel.getCityRegistry()));
+                System.out.println("City satisfaction: " + cityStatistics.getCitySatisfaction());
+                System.out.println("-----------------------------------------------");
             }
         };
     }

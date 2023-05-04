@@ -3,6 +3,7 @@ package controller.listeners;
 import controller.util.Property;
 import model.common.Coordinate;
 import model.exceptions.OperationException;
+import model.zone.Zone;
 import model.zone.ZoneStatistics;
 
 public class SelectionListener extends ServiceListener {
@@ -15,8 +16,8 @@ public class SelectionListener extends ServiceListener {
     @Override
     public void update(Coordinate coordinate) {
         try {
-            ZoneStatistics zoneStatistics = property.getGameModel().queryZoneStatistics(coordinate);
-            property.getCallBack().updateStatisticPanel(zoneStatistics);
+            Zone zone = property.getGameModel().queryZoneStatistics(coordinate);
+            property.getCallBack().updateStatisticPanel(zone);
         } catch (OperationException e) {
             System.out.println(e.getMessage());
         }

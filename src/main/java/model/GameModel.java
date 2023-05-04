@@ -249,16 +249,16 @@ public class GameModel implements java.io.Serializable {
      * Gets the statistics of a specified zone
      *
      * @param coordinate the coordinate of the zone for which statistics should be got
-     * @return statistics
+     * @return Zone
      * @throws OperationException when no zone is on the coordinate.
      */
-    public ZoneStatistics queryZoneStatistics(Coordinate coordinate) throws OperationException {
+    public Zone queryZoneStatistics(Coordinate coordinate) throws OperationException {
         Buildable b = map[coordinate.getRow()][coordinate.getCol()];
         if (isPlotAvailable(b) || !isZone(b)) {
             throw new OperationException("No zone on the selected field");
         }
         Zone z = (Zone) b;
-        return z.getStatistics();
+        return z;
     }
 
     private boolean isZone(Buildable buildable) {
