@@ -1,6 +1,8 @@
 package model;
 
 import static model.common.Constants.*;
+
+import controller.util.GameMode;
 import model.common.Coordinate;
 import model.exceptions.OperationException;
 import model.facility.Road;
