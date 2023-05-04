@@ -337,6 +337,9 @@ public class Handler implements ICallBack {
         this.date = date.toString();
         text = new GUIText(this.date,1,new Vector2f(0.025f,0.885f),1f,false);
         text.setColour(0,0,0);
+        System.out.println("________Callback Inform City Date_________");
+        System.out.println("City Date: " + date);
+        System.out.println("------------------------------------------");
     }
 
     @Override

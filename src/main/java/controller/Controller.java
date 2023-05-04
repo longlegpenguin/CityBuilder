@@ -79,6 +79,7 @@ public class Controller {
         );
         callBack.updateDatePanel(property.getGameModel().getCurrentDate());
         callBack.updateCityStatisticPanel(property.getGameModel().getCityStatistics());
+        callBack.updateBudgetPanel(property.getGameModel().getCityStatistics().getBudget());
     }
 
     /**

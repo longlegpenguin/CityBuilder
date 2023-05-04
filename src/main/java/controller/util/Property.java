@@ -57,6 +57,9 @@ public class Property {
             @Override
             public void updateDatePanel(Date date) {
                 System.out.println("Default Call back");
+                System.out.println("________Callback Inform City Date_________");
+                System.out.println("City Date: " + date);
+                System.out.println("------------------------------------------");
             }
 
             @Override
