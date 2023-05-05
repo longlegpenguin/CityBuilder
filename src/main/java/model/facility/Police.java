@@ -27,7 +27,9 @@ public class Police extends EffectualFacility {
 
     @Override
     public void effect(Zone zone, GameModel gm) {
-        zone.updatePoliceEffect(zone.getStatistics().getSatisfaction().getPoliceEffect() + POLICE_BASE_EFFECT);
+        if (condition(zone, gm)){
+            zone.updatePoliceEffect(zone.getStatistics().getSatisfaction().getPoliceEffect() + POLICE_BASE_EFFECT);
+        }
     }
 
     @Override
@@ -37,6 +39,7 @@ public class Police extends EffectualFacility {
 
     @Override
     public boolean condition(Zone zone, GameModel gm) {
-        return new PathFinder(gm.getMap()).manhattanDistance(zone, this) <= influenceRadius;
+        double manhattanDist = new PathFinder(gm.getMap()).manhattanDistance(zone, this);
+        return manhattanDist <= influenceRadius && manhattanDist != -1;
     }
 }

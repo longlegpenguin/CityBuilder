@@ -25,8 +25,10 @@ public class CommercialZone extends Zone implements SideEffect {
 
     @Override
     public void effect(Zone zone, GameModel gm) {
-        zone.getStatistics().getSatisfaction().setFreeWorkplaceEffect(
-                zone.getStatistics().getSatisfaction().getFreeWorkplaceEffect() + COMMERCIAL_ZONE_BASE_EFFECT);
+        if (condition(zone, gm)) {
+            zone.getStatistics().getSatisfaction().setFreeWorkplaceEffect(
+                    zone.getStatistics().getSatisfaction().getFreeWorkplaceEffect() + COMMERCIAL_ZONE_BASE_EFFECT);
+        }
     }
 
     @Override
@@ -37,6 +39,7 @@ public class CommercialZone extends Zone implements SideEffect {
 
     @Override
     public boolean condition(Zone zone, GameModel gm) {
-        return (new PathFinder(gm.getMap()).manhattanDistance(this, zone) < effectRadius);
+        double manhattanDist = new PathFinder(gm.getMap()).manhattanDistance(zone, gm.getMasterRoads().get(0));
+        return manhattanDist != -1 && zone.getCitizens().size() < 10 && manhattanDist < effectRadius;
     }
 }

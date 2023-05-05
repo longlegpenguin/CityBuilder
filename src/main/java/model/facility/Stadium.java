@@ -27,17 +27,19 @@ public class Stadium extends EffectualFacility {
 
     @Override
     public void effect(Zone zone, GameModel gm) {
-        zone.updateStadiumEffect(zone.getStatistics().getSatisfaction().getStadiumEffect() + STADIUM_BASE_EFFECT);
+        if (condition(zone, gm)) {
+            zone.updateStadiumEffect(zone.getStatistics().getSatisfaction().getStadiumEffect() + STADIUM_BASE_EFFECT);
+        }
     }
 
     @Override
     public void reverseEffect(Zone zone, GameModel gm) {
         zone.updateStadiumEffect(zone.getStatistics().getSatisfaction().getStadiumEffect() - STADIUM_BASE_EFFECT);
-
     }
 
     @Override
     public boolean condition(Zone zone, GameModel gm) {
-        return new PathFinder(gm.getMap()).manhattanDistance(zone, this) <= influenceRadius;
+        double manhattanDist = new PathFinder(gm.getMap()).manhattanDistance(zone, this);
+        return manhattanDist <= influenceRadius && manhattanDist != -1;
     }
 }

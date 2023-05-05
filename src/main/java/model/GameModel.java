@@ -150,7 +150,7 @@ public class GameModel implements java.io.Serializable {
         }
     }
 
-    private static boolean hasSideEffect(Buildable buildable) {
+    private boolean hasSideEffect(Buildable buildable) {
         return SideEffect.class.isAssignableFrom(buildable.getClass());
     }
 
