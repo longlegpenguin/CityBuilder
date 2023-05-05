@@ -1,29 +1,27 @@
 package model;
 
-import static model.common.Constants.*;
-
-import controller.util.GameMode;
 import model.common.Coordinate;
 import model.exceptions.OperationException;
 import model.facility.*;
-import model.zone.IndustrialZone;
 import model.zone.IndustrialZoneFactory;
 import model.zone.ResidentialZoneFactory;
 import model.zone.Zone;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static model.common.Constants.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class GameModelTest {
 
     GameModel gm = new GameModel(5, 10);
+
     @BeforeEach
     void setUp() {
         gm.initialize();
     }
+
     @Test
     void addUniqueZone() {
         try {
@@ -34,10 +32,11 @@ class GameModelTest {
         System.out.println(gm.printMap());
         assertEquals(1 + gm.getMasterRoads().size(), gm.getAllBuildable().size());
     }
+
     @Test
     void addTwiceZone() throws OperationException {
         gm.addZone(new ResidentialZoneFactory(gm).createZone(new Coordinate(3, 3)));
-        Assertions.assertThrows(OperationException.class, ()-> gm.addZone(new ResidentialZoneFactory(gm).createZone(new Coordinate(3, 3))));
+        Assertions.assertThrows(OperationException.class, () -> gm.addZone(new ResidentialZoneFactory(gm).createZone(new Coordinate(3, 3))));
         System.out.println(gm.printMap());
         assertEquals(1 + gm.getMasterRoads().size(), gm.getAllBuildable().size());
     }
@@ -60,7 +59,7 @@ class GameModelTest {
     void TestBuildRoadOnNonEmptyPlot() throws OperationException {
         gm.addFacility(new RoadFactory(gm).createFacility(new Coordinate(3, 3)));
         double beforeBalance = gm.getCityStatistics().getBudget().getBalance();
-        Assertions.assertThrows(OperationException.class, ()-> gm.addFacility(new RoadFactory(gm).createFacility(new Coordinate(3, 3))));
+        Assertions.assertThrows(OperationException.class, () -> gm.addFacility(new RoadFactory(gm).createFacility(new Coordinate(3, 3))));
         double afterBalance = gm.getCityStatistics().getBudget().getBalance();
         assertEquals(1 + gm.getMasterRoads().size(), gm.getAllBuildable().size());
         assertEquals(0, beforeBalance - afterBalance);
@@ -86,13 +85,13 @@ class GameModelTest {
         gm.addFacility(new RoadFactory(gm).createFacility(new Coordinate(3, 3)));
         double beforeBalance = gm.getCityStatistics().getBudget().getBalance();
         // 1,1
-        Assertions.assertThrows(OperationException.class, ()-> gm.addFacility(new StadiumFactory(gm).createFacility(new Coordinate(4, 4))));
+        Assertions.assertThrows(OperationException.class, () -> gm.addFacility(new StadiumFactory(gm).createFacility(new Coordinate(4, 4))));
         // 0,0
-        Assertions.assertThrows(OperationException.class, ()-> gm.addFacility(new StadiumFactory(gm).createFacility(new Coordinate(3, 2))));
+        Assertions.assertThrows(OperationException.class, () -> gm.addFacility(new StadiumFactory(gm).createFacility(new Coordinate(3, 2))));
         // 0,1
-        Assertions.assertThrows(OperationException.class, ()-> gm.addFacility(new StadiumFactory(gm).createFacility(new Coordinate(3, 3))));
+        Assertions.assertThrows(OperationException.class, () -> gm.addFacility(new StadiumFactory(gm).createFacility(new Coordinate(3, 3))));
         // 1,0
-        Assertions.assertThrows(OperationException.class, ()-> gm.addFacility(new StadiumFactory(gm).createFacility(new Coordinate(2, 3))));
+        Assertions.assertThrows(OperationException.class, () -> gm.addFacility(new StadiumFactory(gm).createFacility(new Coordinate(2, 3))));
         double afterBalance = gm.getCityStatistics().getBudget().getBalance();
         assertEquals(1 + gm.getMasterRoads().size(), gm.getAllBuildable().size());
         assertEquals(0, beforeBalance - afterBalance);
@@ -129,7 +128,7 @@ class GameModelTest {
     void TestBuildForestOnNonEmptyPlot() throws OperationException {
         gm.addFacility(new RoadFactory(gm).createFacility(new Coordinate(3, 3)));
         double beforeBalance = gm.getCityStatistics().getBudget().getBalance();
-        Assertions.assertThrows(OperationException.class, ()-> gm.addFacility(new ForestFactory(gm).createFacility(new Coordinate(3, 3))));
+        Assertions.assertThrows(OperationException.class, () -> gm.addFacility(new ForestFactory(gm).createFacility(new Coordinate(3, 3))));
         double afterBalance = gm.getCityStatistics().getBudget().getBalance();
         assertEquals(1 + gm.getMasterRoads().size(), gm.getAllBuildable().size());
         assertEquals(0, beforeBalance - afterBalance);
@@ -145,7 +144,7 @@ class GameModelTest {
         double beforeSatis = z.getZonRelatedSatisfaction();
         gm.addFacility(new ForestFactory(gm).createFacility(new Coordinate(2, 3)));
         double afterSatis = z.getZonRelatedSatisfaction();
-        assertEquals((int)FOREST_BASE_EFFECT, (int)(afterSatis - beforeSatis));
+        assertEquals((int) FOREST_BASE_EFFECT, (int) (afterSatis - beforeSatis));
     }
 
     @Test
@@ -183,7 +182,7 @@ class GameModelTest {
         gm.addFacility(new ForestFactory(gm).createFacility(new Coordinate(2, 3)));
         double afterSatis = z.getZonRelatedSatisfaction();
 
-        assertEquals((int)FOREST_BASE_EFFECT*2, (int)(afterSatis - beforeSatis));
+        assertEquals((int) FOREST_BASE_EFFECT * 2, (int) (afterSatis - beforeSatis));
     }
 
     @Test
@@ -197,6 +196,7 @@ class GameModelTest {
         assertEquals(ROAD_MAINTENANCE_FEE * 2, gm.calculateSpend());
     }
 
+//TODO check the effect based on distance as well pls
 
     @Test
     void addFacility() {

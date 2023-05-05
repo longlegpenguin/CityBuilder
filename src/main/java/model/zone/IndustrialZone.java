@@ -8,11 +8,13 @@ import model.util.Date;
 import model.util.Level;
 import model.util.PathFinder;
 
+import static model.common.Constants.INDUSTRIAL_ZONE_BASE_EFFECT;
+
 public class IndustrialZone extends Zone implements SideEffect {
 
 
-    public IndustrialZone(Level level, int dayToBuild, ZoneStatistics statistics, Date birthday, Coordinate coordinate) {
-        super(level, dayToBuild, statistics, birthday, coordinate);
+    public IndustrialZone(Level level, int dayToBuild, ZoneStatistics statistics, Date birthday, Coordinate coordinate, float effectRadius) {
+        super(level, dayToBuild, statistics, birthday, coordinate, effectRadius);
     }
 
     @Override
@@ -24,21 +26,21 @@ public class IndustrialZone extends Zone implements SideEffect {
     @Override
     public void effect(Zone zone, GameModel gm) {
         if (new PathFinder(gm.getMap()).manhattanDistance(zone, gm.getMasterRoads().get(0)) != -1 && zone.getCitizens().size() < 10) {
-            zone.getStatistics().getSatisfaction().setFreeWorkplaceEffect(zone.getStatistics().getSatisfaction().getFreeWorkplaceEffect() + 1);
+            zone.getStatistics().getSatisfaction().setFreeWorkplaceEffect(zone.getStatistics().getSatisfaction().getFreeWorkplaceEffect() + INDUSTRIAL_ZONE_BASE_EFFECT);
         }
-        zone.getStatistics().getSatisfaction().setIndustrialEffect(zone.getStatistics().getSatisfaction().getIndustrialEffect() - 1);
+        zone.getStatistics().getSatisfaction().setIndustrialEffect(zone.getStatistics().getSatisfaction().getIndustrialEffect() - INDUSTRIAL_ZONE_BASE_EFFECT);
     }
 
     @Override
     public void reverseEffect(Zone zone, GameModel gm) {
         if (new PathFinder(gm.getMap()).manhattanDistance(zone, gm.getMasterRoads().get(0)) != -1 && zone.getCitizens().size() < 10) {
-            zone.getStatistics().getSatisfaction().setFreeWorkplaceEffect(zone.getStatistics().getSatisfaction().getFreeWorkplaceEffect() - 1);
+            zone.getStatistics().getSatisfaction().setFreeWorkplaceEffect(zone.getStatistics().getSatisfaction().getFreeWorkplaceEffect() - INDUSTRIAL_ZONE_BASE_EFFECT);
         }
-        zone.getStatistics().getSatisfaction().setIndustrialEffect(zone.getStatistics().getSatisfaction().getIndustrialEffect() + 1);
+        zone.getStatistics().getSatisfaction().setIndustrialEffect(zone.getStatistics().getSatisfaction().getIndustrialEffect() + INDUSTRIAL_ZONE_BASE_EFFECT);
     }
 
     @Override
     public boolean condition(Zone zone, GameModel gm) {
-        return new PathFinder(gm.getMap()).euclideanDistance(this, zone) < 5;
+        return new PathFinder(gm.getMap()).euclideanDistance(this, zone) < effectRadius;
     }
 }

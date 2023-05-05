@@ -2,11 +2,11 @@ package model.util;
 
 import model.common.Constants;
 
+import static model.common.Constants.ZONE_ONE_TIME_COST;
+
 public enum Level {
-    CONSTRUCTING(0, Constants.RESIDENTIAL_ONE_TIME_COST),
-    ONE(10, 500),
-    TWO(20, 1000),
-    THREE(30, 2000);
+    CONSTRUCTING(0, ZONE_ONE_TIME_COST),
+    ONE(10, 0);
 
     final int capacity;
     final int cost;

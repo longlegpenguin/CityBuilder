@@ -7,6 +7,8 @@ import model.util.BuildableType;
 import model.util.PathFinder;
 import model.zone.Zone;
 
+import static model.common.Constants.POLICE_BASE_EFFECT;
+
 public class Police extends EffectualFacility {
 
     public Police(int oneTimeCost, int maintenanceFee, Coordinate coordinate, Dimension dimension, float influenceRadius) {
@@ -25,12 +27,12 @@ public class Police extends EffectualFacility {
 
     @Override
     public void effect(Zone zone, GameModel gm) {
-        zone.updatePoliceEffect(zone.getStatistics().getSatisfaction().getPoliceEffect() + 1);
+        zone.updatePoliceEffect(zone.getStatistics().getSatisfaction().getPoliceEffect() + POLICE_BASE_EFFECT);
     }
 
     @Override
     public void reverseEffect(Zone zone, GameModel gm) {
-        zone.updatePoliceEffect(zone.getStatistics().getSatisfaction().getPoliceEffect() - 1);
+        zone.updatePoliceEffect(zone.getStatistics().getSatisfaction().getPoliceEffect() - POLICE_BASE_EFFECT);
     }
 
     @Override

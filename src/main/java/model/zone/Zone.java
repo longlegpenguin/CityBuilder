@@ -20,9 +20,10 @@ public abstract class Zone implements Buildable, java.io.Serializable {
     protected BuildableType buildableType;
     List<Buildable> effectedBy;
     protected Boolean isUnderConstruction;
+    protected float effectRadius;
 
 
-    public Zone(Level level, int dayToBuild, ZoneStatistics statistics, Date birthday, Coordinate coordinate) {
+    public Zone(Level level, int dayToBuild, ZoneStatistics statistics, Date birthday, Coordinate coordinate, float effectRadius) {
         this.level = level;
         this.dayToBuild = dayToBuild;
         this.statistics = statistics;
@@ -32,6 +33,7 @@ public abstract class Zone implements Buildable, java.io.Serializable {
         this.dimension = new Dimension(1, 1);
         effectedBy = new ArrayList<>();
         isUnderConstruction = true;
+        this.effectRadius = effectRadius;
     }
 
     public Level getLevel() {
@@ -70,6 +72,10 @@ public abstract class Zone implements Buildable, java.io.Serializable {
 
     public List<Citizen> getCitizens() {
         return citizens;
+    }
+
+    public float getEffectRadius() {
+        return effectRadius;
     }
 
     public void setEffectedBy(List<Buildable> effectedBy) {
@@ -180,18 +186,6 @@ public abstract class Zone implements Buildable, java.io.Serializable {
     public int collectTax(double taxRate) {
         return (int) (taxRate * Constants.BASE_TAX * getPopulation());
     }
-
-    /**
-     * Levels up the zone by one level.
-     * Levels can be constructing, 1, 2, 3
-     */
-    public void LevelUp() {
-        if (level != Level.THREE) {
-            level = Level.values()[level.ordinal() + 1];
-            statistics.setCapacity(level.getCapacity());
-        }
-    }
-
 
     /**
      * Gets the cost for assigning/upgrading the zone

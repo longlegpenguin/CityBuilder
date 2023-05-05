@@ -38,10 +38,6 @@ public class CityStatistics implements java.io.Serializable {
         return nrIndustrialZones;
     }
 
-    public int getNrResidentialZones() {
-        return nrResidentialZones;
-    }
-
     public Budget getBudget() {
         return budget;
     }

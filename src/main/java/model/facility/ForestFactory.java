@@ -5,6 +5,8 @@ import model.common.Constants;
 import model.common.Coordinate;
 import model.common.Dimension;
 
+import static model.common.Constants.FOREST_EFFECT_RADIUS;
+
 public class ForestFactory extends FacilityFactory {
 
     public ForestFactory(GameModel gm) {
@@ -18,7 +20,7 @@ public class ForestFactory extends FacilityFactory {
                 Constants.FOREST_MAINTENANCE_FEE,
                 coordinate,
                 new Dimension(1, 1),
-                3,
+                FOREST_EFFECT_RADIUS,
                 gm.getCurrentDate());
     }
 }

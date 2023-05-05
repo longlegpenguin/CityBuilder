@@ -6,15 +6,12 @@ import model.city.CityStatistics;
 import model.city.SocialSecurity;
 import model.common.*;
 import model.exceptions.OperationException;
-import model.facility.Education;
 import model.facility.Facility;
 import model.facility.Forest;
 import model.facility.Road;
 import model.util.*;
 import model.zone.Zone;
-import model.zone.ZoneStatistics;
 
-import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -218,7 +215,7 @@ public class GameModel implements java.io.Serializable {
         }
         System.out.println("Remove Success");
     }
-    
+
     public boolean roadIsEssentialForConnection(Road road) {
         removeFromMap(road);
         for (Buildable b :
@@ -367,9 +364,9 @@ public class GameModel implements java.io.Serializable {
         return true;
     }
 
-    private boolean atLeastOneRoadConnected(Zone zone){
-        for (Road road : masterRoads){
-            if (new PathFinder(map).manhattanDistance(road, zone) != -1){
+    private boolean atLeastOneRoadConnected(Zone zone) {
+        for (Road road : masterRoads) {
+            if (new PathFinder(map).manhattanDistance(road, zone) != -1) {
                 return true;
             }
         }
@@ -445,7 +442,7 @@ public class GameModel implements java.io.Serializable {
         }
         updateForests();
         System.out.println("Balance: " + cityStatistics.getBudget().getBalance());
-        System.out.println("Tax rate: "+ cityStatistics.getBudget().getTaxRate());
+        System.out.println("Tax rate: " + cityStatistics.getBudget().getTaxRate());
         for (Citizen c :
                 cityRegistry.getAllCitizens()) {
             System.out.println(c);
@@ -502,7 +499,7 @@ public class GameModel implements java.io.Serializable {
         List<Forest> newYouth = new ArrayList<>();
         for (Forest forest : youthForest) {
             forest.incAge(getCurrentDate());
-            System.out.println("Forest age: "+ forest.getAge());
+            System.out.println("Forest age: " + forest.getAge());
             if (forest.getAge() > 10) {
                 System.out.println("Old");
                 cityStatistics.getBudget().addMaintenanceFee((-1) * forest.getMaintenanceFee());
@@ -521,7 +518,7 @@ public class GameModel implements java.io.Serializable {
     private void filterConstructed() {
         List<Zone> newUnderConstructions = new ArrayList<>();
         for (Zone zone : underConstructions) {
-            if (zone.getBirthday().dateDifference(getCurrentDate()).get("days") > Constants.CONSTRUCTION_DAY) {
+            if (zone.getBirthday().dateDifference(getCurrentDate()).get("days") > Constants.DAYS_FOR_CONSTRUCTION) {
                 zone.setLevel(Level.ONE);
                 zone.setUnderConstruction(false);
             } else {

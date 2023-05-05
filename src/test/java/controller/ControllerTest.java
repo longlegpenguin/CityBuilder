@@ -82,7 +82,7 @@ class ControllerTest {
         System.out.println(gm.printMap());
         assertEquals(gm.getAllBuildable().size(), 2);
         double afterBalance = gm.getCityStatistics().getBudget().getBalance();
-        assertEquals(RESIDENTIAL_ONE_TIME_COST, beforeBalance - afterBalance);
+        assertEquals(ZONE_ONE_TIME_COST, beforeBalance - afterBalance);
     }
     @org.junit.jupiter.api.Test
     void testBuildResidentialZoneNonEmptyPlot() {
@@ -92,7 +92,7 @@ class ControllerTest {
         controller.mouseClickRequest(new Coordinate(1, 1), null);
         assertEquals(gm.getAllBuildable().size(), 2);
         double afterBalance = gm.getCityStatistics().getBudget().getBalance();
-        assertEquals(RESIDENTIAL_ONE_TIME_COST, beforeBalance - afterBalance);
+        assertEquals(ZONE_ONE_TIME_COST, beforeBalance - afterBalance);
     }
 
     @org.junit.jupiter.api.Test
@@ -106,7 +106,7 @@ class ControllerTest {
         controller.mouseClickRequest(new Coordinate(1, 1), null);
         assertEquals(1, gm.getAllBuildable().size());
         double afterBalance = gm.getCityStatistics().getBudget().getBalance();
-        assertEquals(RETURN_RATE * RESIDENTIAL_ONE_TIME_COST, afterBalance - beforeBalance);
+        assertEquals(RETURN_RATE * ZONE_ONE_TIME_COST, afterBalance - beforeBalance);
     }
 
     @org.junit.jupiter.api.Test
@@ -116,7 +116,7 @@ class ControllerTest {
         controller.mouseClickRequest(new Coordinate(1, 1), null);
         double beforeBalance = gm.getCityStatistics().getBudget().getBalance();
 
-        controller.regularUpdateRequest(CONSTRUCTION_DAY + 1, null);
+        controller.regularUpdateRequest(DAYS_FOR_CONSTRUCTION + 1, null);
 
         controller.switchGameModeRequest(GameMode.DEMOLISH_MODE);
         controller.mouseClickRequest(new Coordinate(1, 1), null);

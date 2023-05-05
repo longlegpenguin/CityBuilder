@@ -7,8 +7,8 @@ import model.util.Level;
 
 public class ResidentialZone extends Zone {
 
-    public ResidentialZone(Level level, int dayToBuild, ZoneStatistics statistics, Date birthday, Coordinate coordinate) {
-        super(level, dayToBuild, statistics, birthday, coordinate);
+    public ResidentialZone(Level level, int dayToBuild, ZoneStatistics statistics, Date birthday, Coordinate coordinate, float effectRadius) {
+        super(level, dayToBuild, statistics, birthday, coordinate, effectRadius);
     }
 
     @Override
