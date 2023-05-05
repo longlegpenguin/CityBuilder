@@ -149,6 +149,27 @@ class GameModelTest {
     }
 
     @Test
+    void TestForestEffectElevenYears() throws OperationException {
+        // conditions are tested in forest class test.
+        // here only test if the change appears.
+        Zone z = new ResidentialZoneFactory(gm).createZone(new Coordinate(2, 2));
+        gm.addZone(z);
+        double beforeSatis = z.getZonRelatedSatisfaction();
+        gm.addFacility(new ForestFactory(gm).createFacility(new Coordinate(2, 3)));
+        for (int i = 0; i < 10; i++) {
+            gm.regularUpdate(366, null);
+        }
+        double afterSatis = z.getZonRelatedSatisfaction();
+        assertEquals((int)FOREST_BASE_EFFECT * 10, (int)(afterSatis - beforeSatis));
+
+        gm.regularUpdate(365, null);
+        afterSatis = z.getZonRelatedSatisfaction();
+        assertEquals((int)FOREST_BASE_EFFECT * 10, (int)(afterSatis - beforeSatis));
+
+        assertEquals(0, gm.calculateSpend());
+    }
+
+    @Test
     void TestForestEffectReverseIndustry() throws OperationException {
         // conditions are tested in forest class test.
         // here only test if the change appears.

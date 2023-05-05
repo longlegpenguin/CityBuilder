@@ -438,8 +438,8 @@ public class GameModel implements java.io.Serializable {
             System.out.println(e.getMessage());
         }
 
-        socialSecurity.census(this);
-        if (lastTaxDate.dateDifference(dateOfWorld).get("days") >= 1) {
+        if (lastTaxDate.dateDifference(dateOfWorld).get("years") >= 1) {
+            socialSecurity.census(this);
             updateCityBalance();
             lastTaxDate = getCurrentDate();
         }
@@ -472,9 +472,11 @@ public class GameModel implements java.io.Serializable {
      */
     public int calculateSpend() {
         int spend = 0;
-        for (Facility facility : cityRegistry.getFacilities()) {
-            spend += facility.getMaintenanceFee();
-        }
+//        for (Facility facility : cityRegistry.getFacilities()) {
+//            spend += facility.getMaintenanceFee();
+//        }
+        spend += cityStatistics.getBudget().getTotalMaintenanceFee();
+        System.out.println("maintence spend" + spend);
         spend += socialSecurity.payPension();
         return spend;
     }
@@ -500,8 +502,11 @@ public class GameModel implements java.io.Serializable {
         List<Forest> newYouth = new ArrayList<>();
         for (Forest forest : youthForest) {
             forest.incAge(getCurrentDate());
+            System.out.println("Forest age: "+ forest.getAge());
             if (forest.getAge() > 10) {
+                System.out.println("Old");
                 cityStatistics.getBudget().addMaintenanceFee((-1) * forest.getMaintenanceFee());
+                System.out.println(cityStatistics.getBudget().getTotalMaintenanceFee());
             } else {
                 newYouth.add(forest);
             }

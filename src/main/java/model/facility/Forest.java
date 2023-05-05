@@ -35,12 +35,12 @@ public class Forest extends EffectualFacility {
     }
 
     public void incAge(Date now) {
-        if (now.dateDifference(lastUpdate).get("years") > 1) {
+        if (now.dateDifference(lastUpdate).get("years") >= 1) {
             lastUpdate = now;
             if (age < 10) {
-                age += 1;
                 grew = true;
             }
+            age += 1;
         }
     }
 
