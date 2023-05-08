@@ -28,6 +28,15 @@ public class Citizen implements java.io.Serializable {
     }
 
     /**
+     * Pays the tax
+     * @param taxRate the current tax rate
+     * @return the tax to be paid by the person
+     */
+    public double payTax(double taxRate) {
+        return Constants.BASE_TAX * taxRate + levelOfEducation.getAdditionalValue();
+    }
+
+    /**
      * Getting distance between living place and working place.
      *
      * @param gm

@@ -1,5 +1,7 @@
 package model.common;
 
+import model.GameModel;
+
 import java.util.LinkedList;
 
 public class Budget implements java.io.Serializable {
@@ -73,4 +75,7 @@ public class Budget implements java.io.Serializable {
         return sumTax / cnt;
     }
 
+    public double getRevenue(GameModel gm) {
+        return gm.calculateRevenue();
+    }
 }

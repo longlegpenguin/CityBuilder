@@ -66,6 +66,7 @@ public class GameModel implements java.io.Serializable {
         List<Buildable> buildableList = new ArrayList<>();
         buildableList.addAll(cityRegistry.getZones());
         buildableList.addAll(cityRegistry.getFacilities());
+        buildableList.addAll(underConstructions);
         buildableList.addAll(masterRoads);
         return buildableList;
     }
@@ -77,6 +78,7 @@ public class GameModel implements java.io.Serializable {
     public List<Buildable> getZoneBuildable() {
         List<Buildable> buildableList = new ArrayList<>();
         buildableList.addAll(cityRegistry.getZones());
+        buildableList.addAll(underConstructions);
         return buildableList;
     }
 
@@ -116,7 +118,7 @@ public class GameModel implements java.io.Serializable {
         effectExists(zone);
         beEffectedByExisting(zone);
         cityStatistics.getBudget().deductBalance(zone.getConstructionCost());
-        cityRegistry.addZone(zone);
+//        cityRegistry.addZone(zone);
         updateIndustryCommercialBalanceSatisfactionIndex();
         underConstructions.add(zone);
     }
@@ -435,14 +437,12 @@ public class GameModel implements java.io.Serializable {
             System.out.println(e.getMessage());
         }
 
-        if (lastTaxDate.dateDifference(dateOfWorld).get("years") >= 1) {
+        if (lastTaxDate.dateDifference(dateOfWorld).get("days") >= 1) {
             socialSecurity.census(this);
             updateCityBalance();
             lastTaxDate = getCurrentDate();
         }
         updateForests();
-        System.out.println("Balance: " + cityStatistics.getBudget().getBalance());
-        System.out.println("Tax rate: " + cityStatistics.getBudget().getTaxRate());
         for (Citizen c :
                 cityRegistry.getAllCitizens()) {
             System.out.println(c);
@@ -469,11 +469,7 @@ public class GameModel implements java.io.Serializable {
      */
     public int calculateSpend() {
         int spend = 0;
-//        for (Facility facility : cityRegistry.getFacilities()) {
-//            spend += facility.getMaintenanceFee();
-//        }
         spend += cityStatistics.getBudget().getTotalMaintenanceFee();
-        System.out.println("maintence spend" + spend);
         spend += socialSecurity.payPension();
         return spend;
     }
@@ -483,14 +479,10 @@ public class GameModel implements java.io.Serializable {
      *
      * @return
      */
-    private int calculateRevenue() {
+    public int calculateRevenue() {
         int revenue = 0;
-        for (Zone zone :
-                cityRegistry.getZones()) {
-            revenue += zone.collectTax(cityStatistics.getBudget().getTaxRate());
-        }
         for (Citizen c : cityRegistry.getAllCitizens()) {
-            revenue += c.getLevelOfEducation().getAdditionalValue();
+            revenue += c.payTax(cityStatistics.getBudget().getTaxRate());
         }
         return revenue;
     }
@@ -501,7 +493,6 @@ public class GameModel implements java.io.Serializable {
             forest.incAge(getCurrentDate());
             System.out.println("Forest age: " + forest.getAge());
             if (forest.getAge() > 10) {
-                System.out.println("Old");
                 cityStatistics.getBudget().addMaintenanceFee((-1) * forest.getMaintenanceFee());
                 System.out.println(cityStatistics.getBudget().getTotalMaintenanceFee());
             } else {
@@ -521,6 +512,7 @@ public class GameModel implements java.io.Serializable {
             if (zone.getBirthday().dateDifference(getCurrentDate()).get("days") > Constants.DAYS_FOR_CONSTRUCTION) {
                 zone.setLevel(Level.ONE);
                 zone.setUnderConstruction(false);
+                cityRegistry.addZone(zone);
             } else {
                 newUnderConstructions.add(zone);
             }
