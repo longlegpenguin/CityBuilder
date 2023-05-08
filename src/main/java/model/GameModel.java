@@ -132,12 +132,17 @@ public class GameModel implements java.io.Serializable {
         if (hasSideEffect(buildable)) {
             SideEffect bad = (SideEffect) buildable;
             for (Zone z :
-                    cityRegistry.getZones()) {
+                    getAllZones()) {
                 bad.effect(z, this);
             }
         }
     }
 
+    private List<Zone> getAllZones() {
+        List<Zone> zl = new ArrayList<>(cityRegistry.getZones());
+        zl.addAll(underConstructions);
+        return zl;
+    }
     /**
      * Applies effects by all existing buildables if there is effect.
      *
@@ -210,6 +215,7 @@ public class GameModel implements java.io.Serializable {
 
         if (Zone.class.isAssignableFrom(bad.getClass())) {
             cityRegistry.removeZone((Zone) bad);
+            underConstructions.remove((Zone) bad);
             updateIndustryCommercialBalanceSatisfactionIndex();
         } else {
             cityRegistry.removeFacility((Facility) bad);
