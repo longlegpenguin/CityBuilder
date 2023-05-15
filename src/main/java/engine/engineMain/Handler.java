@@ -93,6 +93,7 @@ public class Handler implements ICallBack {
 
         TextMaster.init(loader);
         viewModel = new ViewModel(controller,gameModel);
+        viewModel.init(gameModel, gameModel.getCityStatistics());
 
         this.date = gameModel.getCurrentDate().toString();
 
@@ -153,11 +154,12 @@ public class Handler implements ICallBack {
                         case POLICE -> viewModel.getBottomMenuBar().policeButtonAction();
                         case SCHOOL -> viewModel.getBottomMenuBar().schoolButtonAction();
                         case UNIVERSITY -> viewModel.getBottomMenuBar().universityButton();
-                        case DESTROY -> viewModel.getBottomMenuBar().destroyButtonAction();
+//                        case DESTROY -> viewModel.getBottomMenuBar().destroyButtonAction();
+                        case DESTROY -> viewModel.getBottomMenuBar().selectButtonAction();
                     }
                 }
             }
-            if (buttonPressed == false && coordsX < worldGrid.getWorldSize() && coordsX >= 0 && coordsY < worldGrid.getWorldSize() && coordsY >= 0 && controller.getGameMode() != GameMode.SELECTION_MODE) {
+            if (buttonPressed == false && coordsX < worldGrid.getWorldSize() && coordsX >= 0 && coordsY < worldGrid.getWorldSize() && coordsY >= 0) {
                 controller.mouseClickRequest(new Coordinate(coordsX, coordsY), this);
 //                Entity road = new Entity(roadTexM, new Vector3f(coordsX * Terrain.getSize(),0,(coordsY + 1) *Terrain.getSize()), 0,0,0,5);
 //                worldGrid.addBuildable(mousePicker.getCurrentTileCoords().x, mousePicker.getCurrentTileCoords().y, road);
