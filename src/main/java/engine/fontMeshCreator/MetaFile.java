@@ -12,9 +12,6 @@ import engine.display.DisplayManager;
 
 /**
  * Provides functionality for getting the values from a font file.
- * 
- * @author Karl
- *
  */
 public class MetaFile {
 

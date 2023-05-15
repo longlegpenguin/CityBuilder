@@ -10,9 +10,6 @@ import java.io.File;
 
 /**
  * Represents a piece of text in the game.
- * 
- * @author Karl
- *
  */
 public class GUIText {
 
