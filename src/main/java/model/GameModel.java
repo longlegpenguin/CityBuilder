@@ -48,9 +48,20 @@ public class GameModel implements java.io.Serializable {
      * Initializes the settings inside game model.
      */
     public void initialize() {
-        Road road = new Road(0, 0, new Coordinate(rows - 1, cols / 2), new Dimension(1, 1));
-        masterRoads.add(road);
-        addToMap(road);
+//        Road road = new Road(0, 0, new Coordinate(rows - 1, cols / 2), new Dimension(1, 1));
+//        masterRoads.add(road);
+//        addToMap(road);
+//        road = new Road(0, 0, new Coordinate(rows - 1, cols / 2 - 1), new Dimension(1, 1));
+//        masterRoads.add(road);
+//        addToMap(road);
+//        road = new Road(0, 0, new Coordinate(rows - 1, cols / 2 + 1), new Dimension(1, 1));
+//        masterRoads.add(road);
+//        addToMap(road);
+        for (int i = 0; i < cols; i++) {
+            Road road = new Road(0, 0, new Coordinate(rows - 1, i), new Dimension(1, 1));
+            masterRoads.add(road);
+            addToMap(road);
+        }
     }
 
     public Buildable[][] getMap() {
@@ -351,6 +362,7 @@ public class GameModel implements java.io.Serializable {
     }
 
     private boolean isPlotAvailable(Buildable b) {
+        if (b == null) { return true; }
         Coordinate coordinate = b.getCoordinate();
         Dimension dimension = b.getDimension();
         int topRow = coordinate.getRow();

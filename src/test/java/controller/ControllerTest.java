@@ -26,8 +26,7 @@ class ControllerTest {
     void testMouseHandlerBuildZone() {
         controller.switchGameModeRequest(GameMode.RESIDENTIAL_MODE);
         controller.mouseClickRequest(new Coordinate(1, 1), null);
-        System.out.println(gm.printMap());
-        assertEquals(gm.getAllBuildable().size(), 2);
+        assertEquals(gm.getZoneBuildable().size(), 1);
     }
 
     @org.junit.jupiter.api.Test
@@ -80,7 +79,7 @@ class ControllerTest {
         controller.switchGameModeRequest(GameMode.RESIDENTIAL_MODE);
         controller.mouseClickRequest(new Coordinate(1, 1), null);
         System.out.println(gm.printMap());
-        assertEquals(gm.getAllBuildable().size(), 2);
+        assertEquals(gm.getZoneBuildable().size(), 1);
         double afterBalance = gm.getCityStatistics().getBudget().getBalance();
         assertEquals(ZONE_ONE_TIME_COST, beforeBalance - afterBalance);
     }
@@ -90,7 +89,7 @@ class ControllerTest {
         controller.switchGameModeRequest(GameMode.RESIDENTIAL_MODE);
         controller.mouseClickRequest(new Coordinate(1, 1), null);
         controller.mouseClickRequest(new Coordinate(1, 1), null);
-        assertEquals(gm.getAllBuildable().size(), 2);
+        assertEquals(gm.getZoneBuildable().size(), 1);
         double afterBalance = gm.getCityStatistics().getBudget().getBalance();
         assertEquals(ZONE_ONE_TIME_COST, beforeBalance - afterBalance);
     }
@@ -104,7 +103,7 @@ class ControllerTest {
 
         controller.switchGameModeRequest(GameMode.DEMOLISH_MODE);
         controller.mouseClickRequest(new Coordinate(1, 1), null);
-        assertEquals(1, gm.getAllBuildable().size());
+        assertEquals(0, gm.getZoneBuildable().size());
         double afterBalance = gm.getCityStatistics().getBudget().getBalance();
         assertEquals(RETURN_RATE * ZONE_ONE_TIME_COST, afterBalance - beforeBalance);
     }
@@ -120,7 +119,7 @@ class ControllerTest {
 
         controller.switchGameModeRequest(GameMode.DEMOLISH_MODE);
         controller.mouseClickRequest(new Coordinate(1, 1), null);
-        assertEquals(2, gm.getAllBuildable().size());
+        assertEquals(1, gm.getZoneBuildable().size());
         double afterBalance = gm.getCityStatistics().getBudget().getBalance();
         assertEquals(0, afterBalance - beforeBalance);
     }
