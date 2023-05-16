@@ -93,7 +93,6 @@ public class Handler implements ICallBack {
 
         TextMaster.init(loader);
         viewModel = new ViewModel(controller,gameModel);
-
         this.date = gameModel.getCurrentDate().toString();
 
         text = new GUIText(this.date,1,new Vector2f(0.025f,0.885f),1f,false);
@@ -104,14 +103,13 @@ public class Handler implements ICallBack {
 
     public void render() {
 
-
-
         if (timer >= 3f / multiplier) {
             TextMaster.removeText(text);
-
-            for (GUIText t: viewModel.getTexts()) {
-                TextMaster.removeText(t);
-            }
+            /**
+             * Hey, Hey I moved some of this part to the city statistic callback.
+             * so the city and budget information can be updated in real time as building,
+             * not wait for another three second.
+             */
             controller.regularUpdateRequest(1, this);
             timer -= 3f/multiplier;
         } else {
@@ -119,7 +117,6 @@ public class Handler implements ICallBack {
             //text.setColour(0,0,1);
             //controller.regularUpdateRequest(0, this);
         }
-
 
         camera.move();
         mousePicker.update();
@@ -153,11 +150,12 @@ public class Handler implements ICallBack {
                         case POLICE -> viewModel.getBottomMenuBar().policeButtonAction();
                         case SCHOOL -> viewModel.getBottomMenuBar().schoolButtonAction();
                         case UNIVERSITY -> viewModel.getBottomMenuBar().universityButton();
-                        case DESTROY -> viewModel.getBottomMenuBar().destroyButtonAction();
+//                        case DESTROY -> viewModel.getBottomMenuBar().destroyButtonAction();
+                        case DESTROY -> viewModel.getBottomMenuBar().selectButtonAction();
                     }
                 }
             }
-            if (buttonPressed == false && coordsX < worldGrid.getWorldSize() && coordsX >= 0 && coordsY < worldGrid.getWorldSize() && coordsY >= 0 && controller.getGameMode() != GameMode.SELECTION_MODE) {
+            if (buttonPressed == false && coordsX < worldGrid.getWorldSize() && coordsX >= 0 && coordsY < worldGrid.getWorldSize() && coordsY >= 0) {
                 controller.mouseClickRequest(new Coordinate(coordsX, coordsY), this);
 //                Entity road = new Entity(roadTexM, new Vector3f(coordsX * Terrain.getSize(),0,(coordsY + 1) *Terrain.getSize()), 0,0,0,5);
 //                worldGrid.addBuildable(mousePicker.getCurrentTileCoords().x, mousePicker.getCurrentTileCoords().y, road);
@@ -350,6 +348,10 @@ public class Handler implements ICallBack {
         System.out.println("City population: " + cityStatistics.getPopulation(gameModel.getCityRegistry()));
         System.out.println("City satisfaction: " + cityStatistics.getCitySatisfaction());
         System.out.println("-----------------------------------------------");
+
+        for (GUIText t: viewModel.getTexts()) {
+            TextMaster.removeText(t);
+        }
         viewModel.init(gameModel, cityStatistics);
     }
 }

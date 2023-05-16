@@ -69,7 +69,7 @@ class GameModelTest {
     @Test
     void TestBuildStadiumOnEmptyPlot() {
         double beforeBalance = gm.getCityStatistics().getBudget().getBalance();
-        Stadium r = (Stadium) new StadiumFactory(gm).createFacility(new Coordinate(3, 3));
+        Stadium r = (Stadium) new StadiumFactory(gm).createFacility(new Coordinate(2, 2));
         try {
             gm.addFacility(r);
         } catch (OperationException e) {
@@ -82,16 +82,16 @@ class GameModelTest {
 
     @Test
     void TestBuildStadiumOnNonEmptyPlot() throws OperationException {
-        gm.addFacility(new RoadFactory(gm).createFacility(new Coordinate(3, 3)));
+        gm.addFacility(new RoadFactory(gm).createFacility(new Coordinate(2, 2)));
         double beforeBalance = gm.getCityStatistics().getBudget().getBalance();
         // 1,1
-        Assertions.assertThrows(OperationException.class, () -> gm.addFacility(new StadiumFactory(gm).createFacility(new Coordinate(4, 4))));
+        Assertions.assertThrows(OperationException.class, () -> gm.addFacility(new StadiumFactory(gm).createFacility(new Coordinate(1, 1))));
         // 0,0
-        Assertions.assertThrows(OperationException.class, () -> gm.addFacility(new StadiumFactory(gm).createFacility(new Coordinate(3, 2))));
+        Assertions.assertThrows(OperationException.class, () -> gm.addFacility(new StadiumFactory(gm).createFacility(new Coordinate(2, 1))));
         // 0,1
-        Assertions.assertThrows(OperationException.class, () -> gm.addFacility(new StadiumFactory(gm).createFacility(new Coordinate(3, 3))));
+        Assertions.assertThrows(OperationException.class, () -> gm.addFacility(new StadiumFactory(gm).createFacility(new Coordinate(2, 2))));
         // 1,0
-        Assertions.assertThrows(OperationException.class, () -> gm.addFacility(new StadiumFactory(gm).createFacility(new Coordinate(2, 3))));
+        Assertions.assertThrows(OperationException.class, () -> gm.addFacility(new StadiumFactory(gm).createFacility(new Coordinate(1, 2))));
         double afterBalance = gm.getCityStatistics().getBudget().getBalance();
         assertEquals(1 + gm.getMasterRoads().size(), gm.getAllBuildable().size());
         assertEquals(0, beforeBalance - afterBalance);
@@ -100,11 +100,11 @@ class GameModelTest {
 
     @Test
     void TestBuildStadiumEffect() throws OperationException {
-        Zone z = new ResidentialZoneFactory(gm).createZone(new Coordinate(2, 2));
+        Zone z = new ResidentialZoneFactory(gm).createZone(new Coordinate(1, 1));
         gm.addZone(z);
         double beforeSatis = z.getZoneSatisfaction(gm);
-        gm.addFacility(new RoadFactory(gm).createFacility(new Coordinate(2, 3)));
-        Stadium r = (Stadium) new StadiumFactory(gm).createFacility(new Coordinate(3, 3));
+        gm.addFacility(new RoadFactory(gm).createFacility(new Coordinate(1, 2)));
+        Stadium r = (Stadium) new StadiumFactory(gm).createFacility(new Coordinate(2, 2));
         gm.addFacility(r);
         double afterSatis = z.getZoneSatisfaction(gm);
         assertEquals(STADIUM_BASE_EFFECT, afterSatis - beforeSatis);
