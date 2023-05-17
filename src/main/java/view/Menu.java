@@ -12,20 +12,25 @@ import java.util.ArrayList;
 public abstract class Menu {
 
     protected Controller controller;
+    protected GameModel gameModel;
     protected ArrayList<UiButton> buttons = new ArrayList<UiButton>();
     protected ArrayList<UiTab> tabs = new ArrayList<UiTab>();
     protected ArrayList<GUIText> texts = new ArrayList<GUIText>();
 
-    public Menu(Controller controller) {
+    public Menu(Controller controller, GameModel gameModel) {
         this.controller = controller;
+        this.gameModel = gameModel;
     }
 
     public void buttonAction(UiButton button,GameMode gameMode) {
         if (!button.isEnabled()) {
+            button.setEnabled(true);
             controller.switchGameModeRequest(gameMode);
         } else {
+            button.setEnabled(false);
             controller.switchGameModeRequest(GameMode.SELECTION_MODE);
         }
+        System.out.println(gameModel.getCurrentDate().toString());
     }
 
     protected abstract void loadComponents(GameModel gameModel);

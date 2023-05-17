@@ -28,7 +28,7 @@ public class BottomMenuBar extends Menu{
     private UiButton stadiumButton;
     private UiButton schoolButton;
     private UiButton universityButton;
-    private UiButton destroyButton;
+    private UiButton selectZoneButton;
     private UiButton speedPauseButton;
     private UiButton speedOneButton;
     private UiButton speedTwoButton;
@@ -38,7 +38,7 @@ public class BottomMenuBar extends Menu{
     private String buttonTexture = "Button";
 
     public BottomMenuBar(Controller controller, GameModel gameModel) {
-        super(controller);
+        super(controller, gameModel);
         loadComponents(gameModel);
     }
 
@@ -72,8 +72,8 @@ public class BottomMenuBar extends Menu{
         universityButton = new UiButton(loader.loadTexture("University"), new Vector2f(0.55f, -0.92f), new Vector2f(0.05f, 0.05f), ButtonEnum.UNIVERSITY);
         super.buttons.add(universityButton);
 
-        destroyButton = new UiButton(loader.loadTexture(buttonTexture), new Vector2f(0.9f, -0.92f), new Vector2f(0.05f, 0.05f), ButtonEnum.DESTROY);
-        super.buttons.add(destroyButton);
+        selectZoneButton = new UiButton(loader.loadTexture(buttonTexture), new Vector2f(0.9f, -0.92f), new Vector2f(0.05f, 0.05f), ButtonEnum.SELECT);
+        super.buttons.add(selectZoneButton);
 
         speedPauseButton = new UiButton(loader.loadTexture(buttonTexture), new Vector2f(-0.74f, -0.8f), new Vector2f(0.03f, 0.03f), ButtonEnum.SPEED_PAUSE);
         super.buttons.add(speedPauseButton);
@@ -137,13 +137,9 @@ public class BottomMenuBar extends Menu{
         buttonAction(universityButton, GameMode.UNIVERSITY_MODE);
     }
 
-    public void destroyButtonAction() {
-        buttonAction(destroyButton, GameMode.DEMOLISH_MODE);
-    }
-
     public void selectButtonAction() {
         System.out.println("Selection mode!");
-        buttonAction(destroyButton, GameMode.SELECTION_MODE);
+        buttonAction(selectZoneButton, GameMode.SELECTION_MODE);
     }
 
     public void updateDateText(Date date) {

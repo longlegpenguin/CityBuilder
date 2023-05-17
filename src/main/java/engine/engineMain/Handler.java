@@ -2,6 +2,7 @@ package engine.engineMain;
 
 import controller.Controller;
 import controller.ICallBack;
+import controller.util.GameMode;
 import engine.display.DisplayManager;
 import engine.entities.Camera;
 import engine.entities.Entity;
@@ -57,8 +58,6 @@ public class Handler implements ICallBack {
     private float multiplier = 1;
     private float timer = 0;
     private float timer2 = 0;
-    private String date = "";
-
     private GUIText framerate;
     private GUIText frametime;
 
@@ -85,7 +84,6 @@ public class Handler implements ICallBack {
 
         TextMaster.init(loader);
         viewModel = new ViewModel(controller,gameModel);
-        this.date = gameModel.getCurrentDate().toString();
 
         frametime = new GUIText("FT (ms): ", 0.9f, new Vector2f(0.025f, 0.025f), 1, false);
         frametime.setColour(0,0,0);
@@ -149,8 +147,7 @@ public class Handler implements ICallBack {
                         case POLICE -> viewModel.getBottomMenuBar().policeButtonAction();
                         case SCHOOL -> viewModel.getBottomMenuBar().schoolButtonAction();
                         case UNIVERSITY -> viewModel.getBottomMenuBar().universityButton();
-//                        case DESTROY -> viewModel.getBottomMenuBar().destroyButtonAction();
-                        case DESTROY -> viewModel.getBottomMenuBar().selectButtonAction();
+                        case SELECT -> viewModel.getBottomMenuBar().selectButtonAction();
                     }
                 }
             }

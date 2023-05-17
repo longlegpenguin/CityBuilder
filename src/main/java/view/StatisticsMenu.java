@@ -18,7 +18,7 @@ public class StatisticsMenu extends Menu {
     private GUIText money;
     private GameModel gameModel;
     public StatisticsMenu(Controller controller, GameModel gameModel) {
-        super(controller);
+        super(controller, gameModel);
         this.gameModel = gameModel;
         loadComponents(gameModel);
     }
