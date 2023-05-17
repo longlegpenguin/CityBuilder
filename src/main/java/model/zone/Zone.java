@@ -42,7 +42,8 @@ public abstract class Zone implements Buildable, java.io.Serializable {
     public int getCapacity() {
         return level.getCapacity();
     }
-    public Boolean isConnected() {
+    @Override
+    public boolean isConnected() {
         return isConnected;
     }
 

@@ -19,4 +19,7 @@ public class Road extends Facility {
     public boolean isUnderConstruction() {
         return false;
     }
+
+    @Override
+    public boolean isConnected() { return false; }
 }

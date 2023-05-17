@@ -174,6 +174,7 @@ public class GameModel implements java.io.Serializable {
         }
 
         addToMap(facility);
+        facility.setConnected(masterRoads.get(0), map);
 
         effectExists(facility);
         cityStatistics.getBudget().deductBalance(facility.getOneTimeCost());
@@ -234,7 +235,7 @@ public class GameModel implements java.io.Serializable {
         removeFromMap(road);
         for (Buildable b :
                 getAllBuildable()) {
-            if ( new PathFinder(map).manhattanDistance(masterRoads.get(0), b) == -1) {
+            if (b.isConnected() && new PathFinder(map).manhattanDistance(masterRoads.get(0), b) == -1) {
                 addToMap(road);
                 return true;
             }

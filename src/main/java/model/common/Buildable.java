@@ -33,4 +33,10 @@ public interface Buildable {
      * @return boolean
      */
     boolean isUnderConstruction();
+
+    /**
+     * if buildable is connected to master road
+     * @return true id connected
+     */
+    boolean isConnected();
 }
