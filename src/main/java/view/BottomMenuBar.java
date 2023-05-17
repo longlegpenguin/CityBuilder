@@ -39,11 +39,11 @@ public class BottomMenuBar extends Menu{
 
     public BottomMenuBar(Controller controller, GameModel gameModel) {
         super(controller, gameModel);
-        loadComponents(gameModel);
+        loadComponents();
     }
 
     @Override
-    protected void loadComponents(GameModel gameModel) {
+    protected void loadComponents() {
 
         bottomTab = new UiTab(loader.loadTexture("Test"),new Vector2f(0,-0.87f),new Vector2f(1f,0.13f));
         super.tabs.add(bottomTab);
@@ -87,14 +87,17 @@ public class BottomMenuBar extends Menu{
         moneyButton = new UiButton(loader.loadTexture(buttonTexture), new Vector2f(0.87f, -0.8f), new Vector2f(0.08f, 0.03f), ButtonEnum.MONEY);
         super.buttons.add(moneyButton);
 
-        dateText = new GUIText(gameModel.getCurrentDate().toString(),1,new Vector2f(0.025f,0.885f),1f,false);
+        dateText = new GUIText(super.gameModel.getCurrentDate().toString(),1,new Vector2f(0.025f,0.885f),1f,false);
         dateText.setColour(0,0,0);
         TextMaster.loadText(dateText);
+        super.texts.add(dateText);
     }
 
     @Override
-    public void initText(GameModel gameModel) {
-
+    public void updateText() {
+        dateText.setTextString(super.gameModel.getCurrentDate().toString());
+        TextMaster.loadText(dateText);
+        super.texts.add(dateText);
     }
 
     public void resZoneButtonAction() {
@@ -142,9 +145,5 @@ public class BottomMenuBar extends Menu{
         buttonAction(selectZoneButton, GameMode.SELECTION_MODE);
     }
 
-    public void updateDateText(Date date) {
-        TextMaster.removeText(dateText);
-        dateText.setTextString(date.toString());
-        TextMaster.loadText(dateText);
-    }
+
 }

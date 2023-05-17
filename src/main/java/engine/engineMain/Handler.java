@@ -2,7 +2,6 @@ package engine.engineMain;
 
 import controller.Controller;
 import controller.ICallBack;
-import controller.util.GameMode;
 import engine.display.DisplayManager;
 import engine.entities.Camera;
 import engine.entities.Entity;
@@ -55,9 +54,11 @@ public class Handler implements ICallBack {
     private int counter = 0;
 
     private float mouseDelay = 0f;
-    private float multiplier = 1;
+    private float baseTime =  3f;
+    private float timeMultiplier = 1;
     private float timer = 0;
     private float timer2 = 0;
+    private boolean paused = false;
     private GUIText framerate;
     private GUIText frametime;
 
@@ -110,9 +111,10 @@ public class Handler implements ICallBack {
             timer2 -= 0.1f;
         }
 
-        if (timer >= 3f / multiplier) {
+        if (timer >= baseTime / timeMultiplier) {
             controller.regularUpdateRequest(1, this);
-            timer -= 3f/multiplier;
+            viewModel.Update();
+            timer -= baseTime/ timeMultiplier;
         }
 
         camera.move();
@@ -148,6 +150,10 @@ public class Handler implements ICallBack {
                         case SCHOOL -> viewModel.getBottomMenuBar().schoolButtonAction();
                         case UNIVERSITY -> viewModel.getBottomMenuBar().universityButton();
                         case SELECT -> viewModel.getBottomMenuBar().selectButtonAction();
+                        case SPEED_PAUSE -> paused = true;
+                        case SPEED_ONE -> {timeMultiplier = 1f; paused = false;}
+                        case SPEED_TWO -> {timeMultiplier = 2f; paused = false;}
+                        case SPEED_THREE -> {timeMultiplier = 3f; paused = false;}
                     }
                 }
             }
@@ -175,7 +181,7 @@ public class Handler implements ICallBack {
         loader.clearTextVaos();
 
 
-        timer += DisplayManager.getFrameTimeSeconds();
+        if (paused == false) {timer += DisplayManager.getFrameTimeSeconds();}
         timer2 += DisplayManager.getFrameTimeSeconds();
     }
 
@@ -296,8 +302,6 @@ public class Handler implements ICallBack {
 
     @Override
     public void updateDatePanel(Date date) {
-
-
         System.out.println("________Callback Inform City Date_________");
         System.out.println("City Date: " + date);
         System.out.println("------------------------------------------");
@@ -309,10 +313,5 @@ public class Handler implements ICallBack {
         System.out.println("City population: " + cityStatistics.getPopulation(gameModel.getCityRegistry()));
         System.out.println("City satisfaction: " + cityStatistics.getCitySatisfaction());
         System.out.println("-----------------------------------------------");
-
-        for (GUIText t: viewModel.getTexts()) {
-            TextMaster.removeText(t);
-        }
-        viewModel.init(gameModel);
     }
 }

@@ -3,6 +3,7 @@ package view;
 import controller.Controller;
 import controller.util.GameMode;
 import engine.fontMeshCreator.GUIText;
+import engine.fontRendering.TextMaster;
 import engine.guis.UiButton;
 import engine.guis.UiTab;
 import model.GameModel;
@@ -33,9 +34,9 @@ public abstract class Menu {
         System.out.println(gameModel.getCurrentDate().toString());
     }
 
-    protected abstract void loadComponents(GameModel gameModel);
+    protected abstract void loadComponents();
 
-    public abstract void initText(GameModel gameModel);
+    public abstract void updateText();
 
     public ArrayList<UiButton> getButtons() {
         return buttons;
@@ -50,6 +51,9 @@ public abstract class Menu {
     }
 
     public void clearText() {
+        for (GUIText text: texts) {
+            TextMaster.removeText(text);
+        }
         this.texts.clear();
     }
 }

@@ -5,7 +5,6 @@ import engine.fontMeshCreator.GUIText;
 import engine.guis.UiButton;
 import engine.guis.UiTab;
 import model.GameModel;
-import model.city.CityStatistics;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -17,7 +16,6 @@ public class ViewModel {
     private StatisticsMenu statisticsMenu;
     private ArrayList<UiButton> buttons = new ArrayList<UiButton>();
     private ArrayList<UiTab> tabs = new ArrayList<UiTab>();
-    private ArrayList<GUIText> texts = new ArrayList<GUIText>();
 
     public ViewModel(Controller controller, GameModel gameModel) {
         this.controller = controller;
@@ -27,15 +25,14 @@ public class ViewModel {
         this.statisticsMenu = new StatisticsMenu(controller,gameModel);
         this.tabs.addAll(this.statisticsMenu.getTabs());
         this.tabs.addAll(this.bottomMenuBar.getTabs());
-        this.texts.addAll(statisticsMenu.getTexts());
     }
 
-    public void init(GameModel gameModel) {
-        texts.clear();
+    public void Update() {
         statisticsMenu.clearText();
+        statisticsMenu.updateText();
 
-        statisticsMenu.initText(gameModel);
-        texts.addAll(statisticsMenu.getTexts());
+        bottomMenuBar.clearText();
+        bottomMenuBar.updateText();
     }
 
     public ArrayList<UiButton> getButtons() {
@@ -50,16 +47,7 @@ public class ViewModel {
         return tabs;
     }
 
-    public ArrayList<GUIText> getTexts() {
-        return texts;
-    }
-
     public BottomMenuBar getBottomMenuBar() {
         return bottomMenuBar;
     }
-
-    public void updateDate(Date date) {
-        bottomMenuBar.updateDateText(date);
-    }
-
 }

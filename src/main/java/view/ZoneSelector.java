@@ -12,12 +12,12 @@ public class ZoneSelector extends Menu{
     }
 
     @Override
-    protected void loadComponents(GameModel gameModel) {
+    protected void loadComponents() {
 
     }
 
     @Override
-    public void initText(GameModel gameModel) {
+    public void updateText() {
 
     }
 }
