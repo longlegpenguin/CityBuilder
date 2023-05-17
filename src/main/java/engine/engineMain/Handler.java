@@ -35,6 +35,7 @@ import model.zone.Zone;
 import model.zone.ZoneStatistics;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
+import view.MoneyStatistic;
 import view.ViewModel;
 import org.w3c.dom.Text;
 
@@ -57,6 +58,7 @@ public class Handler implements ICallBack {
     private GameModel gameModel;
     private Controller controller;
     private ViewModel viewModel;
+    private MoneyStatistic money;
 
 
     private GUIText text;
@@ -95,8 +97,11 @@ public class Handler implements ICallBack {
         viewModel = new ViewModel(controller,gameModel);
         this.date = gameModel.getCurrentDate().toString();
 
+        this.money = new MoneyStatistic(controller,gameModel);
+
         text = new GUIText(this.date,1,new Vector2f(0.025f,0.885f),1f,false);
         text.setColour(0,0,0);
+
 
         setWorldGrid();
     }

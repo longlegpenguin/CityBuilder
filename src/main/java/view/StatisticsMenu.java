@@ -43,7 +43,6 @@ public class StatisticsMenu extends Menu {
         money = new GUIText(String.valueOf(gameModel.getCityStatistics().getBudget().getBalance()), 1, new Vector2f(0.9f, 0.885f), 1f, false);
         money.setColour(0,0,0);
 
-        System.out.println("Test");
         super.texts.add(cityPopulation);
         super.texts.add(citizenSatisfaction);
         super.texts.add(money);
