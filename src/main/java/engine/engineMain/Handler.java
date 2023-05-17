@@ -345,10 +345,11 @@ public class Handler implements ICallBack {
         ZoneStatistics zoneStatistics = zone.getStatistics();
         System.out.println("________Callback Inform Zone Statistic_________");
         System.out.println("Selected Zone connection: " + zone.isConnected());
+        System.out.println("Selected Zone under constructed: " + zone.isUnderConstruction());
+        System.out.println("Selected Zone type: " + zone.getBuildableType());
         System.out.println("Selected Zone population: " + zoneStatistics.getPopulation());
-        System.out.println("Selected Zone capacity: " + zoneStatistics.getCapacity());
-        System.out.println("Selected Zone capacity: " + zone.getLevel().getCapacity());
-        System.out.println("Selected Zone satisfaction: " + zoneStatistics.getSatisfaction());
+        System.out.println("Selected Zone capacity: " + zone.getCapacity());
+        System.out.println("Selected Zone satisfaction: " + zone.getZoneSatisfaction(gameModel));
         System.out.println("Selected Zone citizens: ");
         List<Citizen> citizens = zone.getCitizens();
         for (Citizen c :

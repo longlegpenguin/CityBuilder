@@ -39,6 +39,9 @@ public abstract class Zone implements Buildable, java.io.Serializable {
         this.isConnected = false;
     }
 
+    public int getCapacity() {
+        return level.getCapacity();
+    }
     public Boolean isConnected() {
         return isConnected;
     }
@@ -179,7 +182,7 @@ public abstract class Zone implements Buildable, java.io.Serializable {
      * @return the satisfaction of the zone
      */
     public double getZoneSatisfaction(GameModel gm) {
-        return statistics.getSatisfaction().getTotalZoneSatisfaction(gm);
+        return statistics.getSatisfaction().getTotalZoneSatisfaction(gm) + 60.0;
     }
 
     /**

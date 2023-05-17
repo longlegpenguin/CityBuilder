@@ -112,7 +112,4 @@ public class Controller {
         assert callBack != null;
         callBack.updateBudgetPanel(property.getGameModel().queryCityBudget());
     }
-    public GameMode getGameMode() {
-        return property.getGameMode();
-    }
 }
