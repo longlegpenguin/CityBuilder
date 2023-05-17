@@ -116,7 +116,7 @@ public class GameModel implements java.io.Serializable {
             throw new OperationException("Add zone failed, no available plot.");
         }
         addToMap(zone);
-
+        zone.setConnected(masterRoads.get(0), map);
         effectExists(zone);
         beEffectedByExisting(zone);
         cityStatistics.getBudget().deductBalance(zone.getConstructionCost());
@@ -183,6 +183,11 @@ public class GameModel implements java.io.Serializable {
 
         if (facility.getBuildableType() == BuildableType.FOREST) {
             youthForest.add((Forest) facility);
+        }
+        if (facility.getBuildableType() == ROAD) {
+            for (Zone z: getAllZones()) {
+                z.setConnected(masterRoads.get(0), map);
+            }
         }
     }
 
@@ -389,8 +394,9 @@ public class GameModel implements java.io.Serializable {
             Zone zone = (Zone) buildable;
             if (zone.getBuildableType() == BuildableType.RESIDENTIAL &&
                     zone.getStatistics().getPopulation() < zone.getLevel().getCapacity() &&
-                    atLeastOneRoadConnected(zone))
+                    zone.isConnected()) {
                 return true;
+            }
         }
         return false;
     }
@@ -455,10 +461,10 @@ public class GameModel implements java.io.Serializable {
             lastTaxDate = getCurrentDate();
         }
         updateForests();
-        for (Citizen c :
-                cityRegistry.getAllCitizens()) {
-            System.out.println(c);
-        }
+//        for (Citizen c :
+//                cityRegistry.getAllCitizens()) {
+//            System.out.println(c);
+//        }
     }
 
     /**
