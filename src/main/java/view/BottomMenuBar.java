@@ -134,8 +134,14 @@ public class BottomMenuBar extends Menu{
         buttonAction(destroyButton, GameMode.DEMOLISH_MODE);
     }
 
+
+
     public void selectButtonAction() {
         System.out.println("Selection mode!");
         buttonAction(destroyButton, GameMode.SELECTION_MODE);
+    }
+
+    public UiButton getMoneyButton() {
+        return moneyButton;
     }
 }

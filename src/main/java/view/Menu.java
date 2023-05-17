@@ -28,6 +28,10 @@ public abstract class Menu {
         }
     }
 
+
+
+
+
     protected abstract void loadComponents();
 
     public abstract void initText(GameModel gameModel);

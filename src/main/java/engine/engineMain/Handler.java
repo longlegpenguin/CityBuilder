@@ -101,7 +101,6 @@ public class Handler implements ICallBack {
         viewModel = new ViewModel(controller,gameModel);
         this.date = gameModel.getCurrentDate().toString();
 
-        this.money = new MoneyStatistic(controller,gameModel);
 
         text = new GUIText(this.date,1,new Vector2f(0.025f,0.885f),1f,false);
         text.setColour(0,0,0);
@@ -173,6 +172,10 @@ public class Handler implements ICallBack {
                         case UNIVERSITY -> viewModel.getBottomMenuBar().universityButton();
 //                        case DESTROY -> viewModel.getBottomMenuBar().destroyButtonAction();
                         case DESTROY -> viewModel.getBottomMenuBar().selectButtonAction();
+                        //create a money menu function that calls the menu when the botton money is clicked
+                        case MONEY -> viewModel.moneyDisplayManagement(controller,gameModel);
+                        //add a function when the menu is closed it goes away
+
                     }
                 }
             }
