@@ -48,6 +48,7 @@ public class Line {
 		} else {
 			return false;
 		}
+
 	}
 
 	/**

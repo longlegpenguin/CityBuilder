@@ -20,7 +20,7 @@ import java.util.List;
 
         public GuiRenderer(Loader loader) {
             float[] positions = {-1,1,-1,-1,1,1,1,-1};
-            quad = loader.loadToVAO(positions);
+            quad = loader.loadTextToVAO(positions);
             shader = new GuiShader();
         }
 

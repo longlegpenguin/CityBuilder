@@ -55,8 +55,7 @@ public class MetaFile {
 		close();
 	}
 
-	protected double getSpaceWidth() {
-		return spaceWidth;
+	protected double getSpaceWidth() {return spaceWidth;
 	}
 
 	protected Character getCharacter(int ascii) {
