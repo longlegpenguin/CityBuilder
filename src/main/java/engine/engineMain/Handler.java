@@ -332,20 +332,22 @@ public class Handler implements ICallBack {
 
     @Override
     public void updateBudgetPanel(Budget budget) {
-        System.out.println("________Callback Inform Budget_________");
-        System.out.println("Tax rate: " + budget.getTaxRate());
-        System.out.println("Balance: " + budget.getBalance());
-        System.out.println("Maintenance fee: " + budget.getTotalMaintenanceFee());
-        System.out.println("Tax revenue: " + budget.getRevenue(gameModel));
-        System.out.println("---------------------------------------");
+//        System.out.println("________Callback Inform Budget_________");
+//        System.out.println("Tax rate: " + budget.getTaxRate());
+//        System.out.println("Balance: " + budget.getBalance());
+//        System.out.println("Maintenance fee: " + budget.getTotalMaintenanceFee());
+//        System.out.println("Tax revenue: " + budget.getRevenue(gameModel));
+//        System.out.println("---------------------------------------");
     }
 
     @Override
     public void updateStatisticPanel(Zone zone) {
         ZoneStatistics zoneStatistics = zone.getStatistics();
         System.out.println("________Callback Inform Zone Statistic_________");
+        System.out.println("Selected Zone connection: " + zone.isConnected());
         System.out.println("Selected Zone population: " + zoneStatistics.getPopulation());
         System.out.println("Selected Zone capacity: " + zoneStatistics.getCapacity());
+        System.out.println("Selected Zone capacity: " + zone.getLevel().getCapacity());
         System.out.println("Selected Zone satisfaction: " + zoneStatistics.getSatisfaction());
         System.out.println("Selected Zone citizens: ");
         List<Citizen> citizens = zone.getCitizens();
@@ -369,10 +371,10 @@ public class Handler implements ICallBack {
 
     @Override
     public void updateCityStatisticPanel(CityStatistics cityStatistics) {
-        System.out.println("________Callback Inform City Statistic_________");
-        System.out.println("City population: " + cityStatistics.getPopulation(gameModel.getCityRegistry()));
-        System.out.println("City satisfaction: " + cityStatistics.getCitySatisfaction());
-        System.out.println("-----------------------------------------------");
+//        System.out.println("________Callback Inform City Statistic_________");
+//        System.out.println("City population: " + cityStatistics.getPopulation(gameModel.getCityRegistry()));
+//        System.out.println("City satisfaction: " + cityStatistics.getCitySatisfaction());
+//        System.out.println("-----------------------------------------------");
 
         for (GUIText t: viewModel.getTexts()) {
             TextMaster.removeText(t);
