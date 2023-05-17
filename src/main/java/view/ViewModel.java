@@ -1,13 +1,10 @@
 package view;
 
 import controller.Controller;
-import engine.fontMeshCreator.GUIText;
 import engine.guis.UiButton;
 import engine.guis.UiTab;
 import model.GameModel;
-
 import java.util.ArrayList;
-import java.util.Date;
 
 public class ViewModel {
 

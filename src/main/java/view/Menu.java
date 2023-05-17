@@ -23,7 +23,7 @@ public abstract class Menu {
         this.gameModel = gameModel;
     }
 
-    public void buttonAction(UiButton button,GameMode gameMode) {
+    public void buttonAction(UiButton button,GameMode gameMode, GUIText text) {
         if (!button.isEnabled()) {
             button.setEnabled(true);
             controller.switchGameModeRequest(gameMode);
@@ -31,7 +31,9 @@ public abstract class Menu {
             button.setEnabled(false);
             controller.switchGameModeRequest(GameMode.SELECTION_MODE);
         }
-        System.out.println(gameModel.getCurrentDate().toString());
+        TextMaster.removeText(text);
+        text.setTextString(button.getButtonEnum().toString());
+        TextMaster.loadText(text);
     }
 
     protected abstract void loadComponents();
