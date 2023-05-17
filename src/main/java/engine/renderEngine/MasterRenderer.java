@@ -61,6 +61,7 @@ public class MasterRenderer {
         entityShader.loadViewMatrix(camera);
         entityRenderer.render(entities);
         entityShader.stop();
+        entities.clear();
 
         terrainShader.start();
         terrainShader.loadLight(light);

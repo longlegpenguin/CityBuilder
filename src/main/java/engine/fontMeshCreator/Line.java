@@ -5,9 +5,6 @@ import java.util.List;
 
 /**
  * Represents a line of text during the loading of a text.
- * 
- * @author Karl
- *
  */
 public class Line {
 
@@ -51,6 +48,7 @@ public class Line {
 		} else {
 			return false;
 		}
+
 	}
 
 	/**
