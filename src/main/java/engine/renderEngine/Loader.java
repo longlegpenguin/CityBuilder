@@ -12,6 +12,7 @@ import java.util.List;
 
 public class Loader {
     private List<Integer> vaos = new ArrayList<Integer>();
+    private List<Integer> textVaos = new ArrayList<Integer>();
     private List<Integer> vbos = new ArrayList<Integer>();
     private List<Integer> textures = new ArrayList<Integer>();
     /**
@@ -29,7 +30,7 @@ public class Loader {
              * @return the loaded model
      */
 
-    public RawModel loadToVAO(float[] positions,float[] textureCoords,float[] normals ,int[] indices) {
+    public RawModel loadTextToVAO(float[] positions, float[] textureCoords, float[] normals , int[] indices) {
         int vaoID = createVAO();
         bindIndicesBuffer(indices);
         storeDataInAttributeList(0,3, positions);
@@ -39,14 +40,14 @@ public class Loader {
         return new RawModel(vaoID, indices.length);
     }
 
-    public RawModel loadToVAO(float[] positions) {
+    public RawModel loadTextToVAO(float[] positions) {
         int vaoID = createVAO();
         this.storeDataInAttributeList(0, 2, positions);
         unbindVAO();
         return new RawModel(vaoID, positions.length/2);
     }
-    public int loadToVAO(float[] positions,float[] textureCoords) {
-        int vaoID = createVAO();
+    public int loadTextToVAO(float[] positions, float[] textureCoords) {
+        int vaoID = createTextVAO();
 
         storeDataInAttributeList(0,2, positions);
         storeDataInAttributeList(1, 2, textureCoords);
@@ -91,6 +92,13 @@ public class Loader {
         GL30.glBindVertexArray(vaoID);
         return vaoID;
     }
+
+    private int createTextVAO() {
+        int vaoID = GL30.glGenVertexArrays();
+        textVaos.add(vaoID);
+        GL30.glBindVertexArray(vaoID);
+        return vaoID;
+    }
     /**
      * Deletes all the VAOs, VBOs and Textures when the game is closed or terminated
      * VAOs, VBOs and Textures are stored int the VRAM (Video Memory)
@@ -98,6 +106,9 @@ public class Loader {
     public void cleanUp() {
         for (int vao: vaos) {
             GL30.glDeleteVertexArrays(vao);
+        }
+        for (int textVao: textVaos) {
+            GL30.glDeleteVertexArrays(textVao);
         }
         for (int vbo: vbos) {
             GL15.glDeleteBuffers(vbo);
@@ -192,6 +203,10 @@ public class Loader {
         GL15.glBindBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER, vboID);
         IntBuffer buffer = storeDataInIntBuffer(indices);
         GL15.glBufferData(GL15.GL_ELEMENT_ARRAY_BUFFER, buffer, GL15.GL_STATIC_DRAW);
+    }
 
+    public void clearTextVaos() {
+        vbos.clear();
+        textVaos.clear();
     }
 }

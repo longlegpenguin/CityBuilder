@@ -1,10 +1,11 @@
 package engine.guis;
 
 import engine.display.DisplayManager;
-import engine.textures.TextureAttribute;
-import engine.tools.Mouse;
 import org.joml.Vector2f;
 
+/**
+ * Parent class for UI components on screen such as tabs, buttons and text fields.
+ */
 public abstract class UiComponent {
     protected final long window = DisplayManager.window;
     protected Vector2f position;
@@ -13,15 +14,18 @@ public abstract class UiComponent {
     protected int texture;
     protected  boolean isClickable;
 
-
+    /**
+     * Constructor of UI Component.
+     * @param texture Texture ID of the texture
+     * @param position Vector2f of the position
+     * @param scale Vector2f Scale of the component
+     */
     public UiComponent(int texture ,Vector2f position ,Vector2f scale) {
         this.texture = texture;
         this.position = position;
         this.scale = scale;
 
     }
-
-
 
     public Vector2f getPosition() {
         return position;

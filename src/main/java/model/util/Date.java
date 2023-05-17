@@ -109,7 +109,6 @@ public class Date implements Comparable<Date>,java.io.Serializable {
      */
     public void addDay(int daysPassed) {
         String dayBefore = this.toString();
-        System.out.println(dayBefore);
         SimpleDateFormat dayFormat = new SimpleDateFormat("yyyy/MM/dd");
         Calendar cal = Calendar.getInstance();
         try {

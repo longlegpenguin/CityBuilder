@@ -22,7 +22,7 @@ public class FontRenderer {
 	public void cleanUp(){
 		shader.cleanUp();
 	}
-	public  void render(Map<FontType, List<GUIText>> texts )
+	public  void render(Map<FontType, List<GUIText>> texts)
 	{
 		prepare();
 		for(FontType font : texts.keySet())
@@ -35,7 +35,6 @@ public class FontRenderer {
 			}
 		}
 		endRendering();
-
 	}
 	
 	private void prepare(){
@@ -55,8 +54,6 @@ public class FontRenderer {
 		GL20.glDisableVertexAttribArray(0);
 		GL20.glDisableVertexAttribArray(1);
 		GL30.glBindVertexArray(0);
-
-
 	}
 	
 	private void endRendering(){

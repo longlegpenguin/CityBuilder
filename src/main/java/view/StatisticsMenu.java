@@ -2,6 +2,7 @@ package view;
 
 import controller.Controller;
 import engine.fontMeshCreator.GUIText;
+import engine.fontRendering.TextMaster;
 import engine.guis.UiTab;
 import engine.renderEngine.Loader;
 import model.GameModel;
@@ -27,11 +28,6 @@ public class StatisticsMenu extends Menu {
         tab = new UiTab(loader.loadTexture(tabTexture),new Vector2f(0.95f,0.95f),new Vector2f(0.3f,0.1f));
         super.tabs.add(tab);
 
-        initText(gameModel);
-    }
-
-    @Override
-    public void initText(GameModel gameModel) {
         cityPopulation = new GUIText("Population: "+ String.valueOf(gameModel.getCityStatistics().getPopulation(gameModel.getCityRegistry())),
                 1,new Vector2f(0.83f,0f),1,false);
 
@@ -42,8 +38,20 @@ public class StatisticsMenu extends Menu {
 
         money = new GUIText(String.valueOf(gameModel.getCityStatistics().getBudget().getBalance()), 1, new Vector2f(0.9f, 0.885f), 1f, false);
         money.setColour(0,0,0);
+        //initText(gameModel);
+    }
 
-        System.out.println("Test");
+    @Override
+    public void initText(GameModel gameModel) {
+        cityPopulation.setTextString("Population: "+ String.valueOf(gameModel.getCityStatistics().getPopulation(gameModel.getCityRegistry())));
+        TextMaster.loadText(cityPopulation);
+
+        citizenSatisfaction.setTextString("Satifaction: "+ String.valueOf(gameModel.getCityStatistics().getCitySatisfaction()));
+        TextMaster.loadText(citizenSatisfaction);
+
+        money.setTextString(String.valueOf(gameModel.getCityStatistics().getBudget().getBalance()));
+        TextMaster.loadText(money);
+
         super.texts.add(cityPopulation);
         super.texts.add(citizenSatisfaction);
         super.texts.add(money);
