@@ -20,11 +20,11 @@ public class StatisticsMenu extends Menu {
     public StatisticsMenu(Controller controller, GameModel gameModel) {
         super(controller);
         this.gameModel = gameModel;
-        loadComponents();
+        loadComponents(gameModel);
     }
 
     @Override
-    protected void loadComponents() {
+    protected void loadComponents(GameModel gameModel) {
         tab = new UiTab(loader.loadTexture(tabTexture),new Vector2f(0.95f,0.95f),new Vector2f(0.3f,0.1f));
         super.tabs.add(tab);
 

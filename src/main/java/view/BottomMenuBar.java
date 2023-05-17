@@ -2,13 +2,16 @@ package view;
 
 import controller.Controller;
 import controller.util.GameMode;
+import engine.fontMeshCreator.GUIText;
+import engine.fontRendering.TextMaster;
 import engine.guis.ButtonEnum;
 import engine.guis.UiButton;
 import engine.guis.UiTab;
 import engine.renderEngine.Loader;
-import engine.textures.TextureAttribute;
 import model.GameModel;
 import org.joml.Vector2f;
+
+import java.util.Date;
 
 public class BottomMenuBar extends Menu{
 
@@ -31,16 +34,16 @@ public class BottomMenuBar extends Menu{
     private UiButton speedTwoButton;
     private UiButton speedThreeButton;
     private UiButton moneyButton;
-
+    private GUIText dateText;
     private String buttonTexture = "Button";
 
-    public BottomMenuBar(Controller controller) {
+    public BottomMenuBar(Controller controller, GameModel gameModel) {
         super(controller);
-        loadComponents();
+        loadComponents(gameModel);
     }
 
     @Override
-    protected void loadComponents() {
+    protected void loadComponents(GameModel gameModel) {
 
         bottomTab = new UiTab(loader.loadTexture("Test"),new Vector2f(0,-0.87f),new Vector2f(1f,0.13f));
         super.tabs.add(bottomTab);
@@ -83,6 +86,10 @@ public class BottomMenuBar extends Menu{
 
         moneyButton = new UiButton(loader.loadTexture(buttonTexture), new Vector2f(0.87f, -0.8f), new Vector2f(0.08f, 0.03f), ButtonEnum.MONEY);
         super.buttons.add(moneyButton);
+
+        dateText = new GUIText(gameModel.getCurrentDate().toString(),1,new Vector2f(0.025f,0.885f),1f,false);
+        dateText.setColour(0,0,0);
+        TextMaster.loadText(dateText);
     }
 
     @Override
@@ -137,5 +144,11 @@ public class BottomMenuBar extends Menu{
     public void selectButtonAction() {
         System.out.println("Selection mode!");
         buttonAction(destroyButton, GameMode.SELECTION_MODE);
+    }
+
+    public void updateDateText(Date date) {
+        TextMaster.removeText(dateText);
+        dateText.setTextString(date.toString());
+        TextMaster.loadText(dateText);
     }
 }

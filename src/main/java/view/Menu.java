@@ -28,7 +28,7 @@ public abstract class Menu {
         }
     }
 
-    protected abstract void loadComponents();
+    protected abstract void loadComponents(GameModel gameModel);
 
     public abstract void initText(GameModel gameModel);
 

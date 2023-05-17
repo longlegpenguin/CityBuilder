@@ -8,6 +8,7 @@ import model.GameModel;
 import model.city.CityStatistics;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 public class ViewModel {
 
@@ -20,7 +21,7 @@ public class ViewModel {
 
     public ViewModel(Controller controller, GameModel gameModel) {
         this.controller = controller;
-        this.bottomMenuBar = new BottomMenuBar(controller);
+        this.bottomMenuBar = new BottomMenuBar(controller, gameModel);
         this.buttons.addAll(bottomMenuBar.getButtons());
 
         this.statisticsMenu = new StatisticsMenu(controller,gameModel);
@@ -29,7 +30,7 @@ public class ViewModel {
         this.texts.addAll(statisticsMenu.getTexts());
     }
 
-    public void init(GameModel gameModel, CityStatistics cityStatistics) {
+    public void init(GameModel gameModel) {
         texts.clear();
         statisticsMenu.clearText();
 
@@ -56,4 +57,9 @@ public class ViewModel {
     public BottomMenuBar getBottomMenuBar() {
         return bottomMenuBar;
     }
+
+    public void updateDate(Date date) {
+        bottomMenuBar.updateDateText(date);
+    }
+
 }
