@@ -68,7 +68,11 @@ public class Handler implements ICallBack {
     private float mouseDelay = 0f;
     private float multiplier = 1;
     private float timer = 0;
+    private float timer2 = 0;
     private String date = "";
+
+    private GUIText framerate;
+    private GUIText frametime;
 
     ArrayList<UiButton> guiButtons = new ArrayList<UiButton>();
 
@@ -101,6 +105,15 @@ public class Handler implements ICallBack {
 
         text = new GUIText(this.date,1,new Vector2f(0.025f,0.885f),1f,false);
         text.setColour(0,0,0);
+        TextMaster.loadText(text);
+
+        frametime = new GUIText("FT (ms): ", 0.9f, new Vector2f(0.025f, 0.025f), 1, false);
+        frametime.setColour(0,0,0);
+        TextMaster.loadText(frametime);
+
+        framerate = new GUIText("FPS: ", 0.9f, new Vector2f(0.025f, 0.05f), 1, false);
+        framerate.setColour(0,0,0);
+        TextMaster.loadText(framerate);
 
 
         setWorldGrid();
@@ -108,19 +121,22 @@ public class Handler implements ICallBack {
 
     public void render() {
 
+        if (timer2 >= 0.1f) {
+            TextMaster.removeText(frametime);
+            TextMaster.removeText(framerate);
+
+            frametime.setTextString("FT (ms): " + DisplayManager.getFrameTimeSeconds() * 1000);
+            TextMaster.loadText(frametime);
+
+            framerate.setTextString("FPS: " + 1 / DisplayManager.getFrameTimeSeconds());
+            TextMaster.loadText(framerate);
+            timer2 -= 0.1f;
+        }
+
         if (timer >= 3f / multiplier) {
             TextMaster.removeText(text);
-            /**
-             * Hey, Hey I moved some of this part to the city statistic callback.
-             * so the city and budget information can be updated in real time as building,
-             * not wait for another three second.
-             */
             controller.regularUpdateRequest(1, this);
             timer -= 3f/multiplier;
-        } else {
-            //text = new GUIText(this.date,1,new Vector2f(0f,0f),1f,true);
-            //text.setColour(0,0,1);
-            //controller.regularUpdateRequest(0, this);
         }
 
         camera.move();
@@ -175,27 +191,35 @@ public class Handler implements ICallBack {
 
         Mouse.update();
 
-        for (Terrain terrain: worldGrid.getTerrainList()) {
-            masterRenderer.processTerrain(terrain);
-        }
 
-        for (Entity zone: worldGrid.getZoneList()) {
-            masterRenderer.processEntities(zone);
-        }
-
-        for (Entity buildable: worldGrid.getBuildableList()) {
-            masterRenderer.processEntities(buildable);
-        }
+        processAllAssets();
 
 
         masterRenderer.render(selector, camera, light);
         guiRenderer.render(viewModel.getButtons(),viewModel.getTabs());
 
         TextMaster.render();
+        loader.clearTextVaos();
 
 
         timer += DisplayManager.getFrameTimeSeconds();
+        timer2 += DisplayManager.getFrameTimeSeconds();
+    }
 
+    public void processAllAssets() {
+        for (Terrain terrain: worldGrid.getTerrainList()) {
+            masterRenderer.processTerrain(terrain);
+        }
+
+
+        for (Entity zone: worldGrid.getZoneList()) {
+            masterRenderer.processEntities(zone);
+        }
+
+
+        for (Entity buildable: worldGrid.getBuildableList()) {
+            masterRenderer.processEntities(buildable);
+        }
     }
 
     public void cleanUp() {
@@ -313,20 +337,22 @@ public class Handler implements ICallBack {
 
     @Override
     public void updateBudgetPanel(Budget budget) {
-        System.out.println("________Callback Inform Budget_________");
-        System.out.println("Tax rate: " + budget.getTaxRate());
-        System.out.println("Balance: " + budget.getBalance());
-        System.out.println("Maintenance fee: " + budget.getTotalMaintenanceFee());
-        System.out.println("Tax revenue: " + budget.getRevenue(gameModel));
-        System.out.println("---------------------------------------");
+//        System.out.println("________Callback Inform Budget_________");
+//        System.out.println("Tax rate: " + budget.getTaxRate());
+//        System.out.println("Balance: " + budget.getBalance());
+//        System.out.println("Maintenance fee: " + budget.getTotalMaintenanceFee());
+//        System.out.println("Tax revenue: " + budget.getRevenue(gameModel));
+//        System.out.println("---------------------------------------");
     }
 
     @Override
     public void updateStatisticPanel(Zone zone) {
         ZoneStatistics zoneStatistics = zone.getStatistics();
         System.out.println("________Callback Inform Zone Statistic_________");
+        System.out.println("Selected Zone connection: " + zone.isConnected());
         System.out.println("Selected Zone population: " + zoneStatistics.getPopulation());
         System.out.println("Selected Zone capacity: " + zoneStatistics.getCapacity());
+        System.out.println("Selected Zone capacity: " + zone.getLevel().getCapacity());
         System.out.println("Selected Zone satisfaction: " + zoneStatistics.getSatisfaction());
         System.out.println("Selected Zone citizens: ");
         List<Citizen> citizens = zone.getCitizens();
@@ -340,8 +366,9 @@ public class Handler implements ICallBack {
     @Override
     public void updateDatePanel(Date date) {
         this.date = date.toString();
-        text = new GUIText(this.date,1,new Vector2f(0.025f,0.885f),1f,false);
-        text.setColour(0,0,0);
+        text.setTextString(this.date);
+        TextMaster.loadText(text);
+
         System.out.println("________Callback Inform City Date_________");
         System.out.println("City Date: " + date);
         System.out.println("------------------------------------------");
@@ -349,10 +376,10 @@ public class Handler implements ICallBack {
 
     @Override
     public void updateCityStatisticPanel(CityStatistics cityStatistics) {
-        System.out.println("________Callback Inform City Statistic_________");
-        System.out.println("City population: " + cityStatistics.getPopulation(gameModel.getCityRegistry()));
-        System.out.println("City satisfaction: " + cityStatistics.getCitySatisfaction());
-        System.out.println("-----------------------------------------------");
+//        System.out.println("________Callback Inform City Statistic_________");
+//        System.out.println("City population: " + cityStatistics.getPopulation(gameModel.getCityRegistry()));
+//        System.out.println("City satisfaction: " + cityStatistics.getCitySatisfaction());
+//        System.out.println("-----------------------------------------------");
 
         for (GUIText t: viewModel.getTexts()) {
             TextMaster.removeText(t);

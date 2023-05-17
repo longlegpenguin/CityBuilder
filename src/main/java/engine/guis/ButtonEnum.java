@@ -1,5 +1,8 @@
 package engine.guis;
 
+/**
+ * Button enumerator which stores the type of the button for rendering purposes.
+ */
 public enum ButtonEnum {
     RESIDENTIAL_ZONE,
     COMMERICAL_ZONE,

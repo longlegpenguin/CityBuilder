@@ -116,7 +116,7 @@ public class GameModel implements java.io.Serializable {
             throw new OperationException("Add zone failed, no available plot.");
         }
         addToMap(zone);
-
+        zone.setConnected(masterRoads.get(0), map);
         effectExists(zone);
         beEffectedByExisting(zone);
         cityStatistics.getBudget().deductBalance(zone.getConstructionCost());
@@ -183,6 +183,11 @@ public class GameModel implements java.io.Serializable {
 
         if (facility.getBuildableType() == BuildableType.FOREST) {
             youthForest.add((Forest) facility);
+        }
+        if (facility.getBuildableType() == ROAD) {
+            for (Zone z: getAllZones()) {
+                z.setConnected(masterRoads.get(0), map);
+            }
         }
     }
 
@@ -389,8 +394,9 @@ public class GameModel implements java.io.Serializable {
             Zone zone = (Zone) buildable;
             if (zone.getBuildableType() == BuildableType.RESIDENTIAL &&
                     zone.getStatistics().getPopulation() < zone.getLevel().getCapacity() &&
-                    atLeastOneRoadConnected(zone))
+                    zone.isConnected()) {
                 return true;
+            }
         }
         return false;
     }
@@ -433,6 +439,9 @@ public class GameModel implements java.io.Serializable {
                 } else {
                     Zone possibleLivingZone = HumanManufacture.getLivingPlace(this);
                     Zone possibleWorkingZone = HumanManufacture.getWorkingPlace(this, possibleLivingZone);
+                    System.out.println("possible livin: " + possibleLivingZone);
+                    System.out.println("decistion: " + ProbabilitySelector.decision(
+                            cityStatistics.getCitySatisfaction() / 100));
                     if (
                             possibleLivingZone != null && ProbabilitySelector.decision(
                                     cityStatistics.getCitySatisfaction() / 100)
@@ -452,10 +461,10 @@ public class GameModel implements java.io.Serializable {
             lastTaxDate = getCurrentDate();
         }
         updateForests();
-        for (Citizen c :
-                cityRegistry.getAllCitizens()) {
-            System.out.println(c);
-        }
+//        for (Citizen c :
+//                cityRegistry.getAllCitizens()) {
+//            System.out.println(c);
+//        }
     }
 
     /**
@@ -465,8 +474,8 @@ public class GameModel implements java.io.Serializable {
     private void updateCityBalance() {
         int revenue = calculateRevenue();
         int spend = calculateSpend();
-        System.out.println("Revenue: " + revenue);
-        System.out.println("spend: " + spend);
+        //System.out.println("Revenue: " + revenue);
+        //System.out.println("spend: " + spend);
         cityRegistry.updateBalance(revenue - spend);
         socialSecurity.appendTaxRecord();
     }
@@ -500,7 +509,7 @@ public class GameModel implements java.io.Serializable {
         List<Forest> newYouth = new ArrayList<>();
         for (Forest forest : youthForest) {
             forest.incAge(getCurrentDate());
-            System.out.println("Forest age: " + forest.getAge());
+            //System.out.println("Forest age: " + forest.getAge());
             if (forest.getAge() > 10) {
                 cityStatistics.getBudget().addMaintenanceFee((-1) * forest.getMaintenanceFee());
                 System.out.println(cityStatistics.getBudget().getTotalMaintenanceFee());

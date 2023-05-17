@@ -2,8 +2,6 @@ package engine.fontMeshCreator;
 
 /**
  * Stores the vertex data for all the quads on which a text will be rendered.
- * @author Karl
- *
  */
 public class TextMeshData {
 	

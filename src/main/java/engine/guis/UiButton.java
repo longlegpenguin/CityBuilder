@@ -4,7 +4,10 @@ import engine.display.DisplayManager;
 import engine.tools.Mouse;
 import org.joml.Vector2f;
 
-
+/**
+ * Button component which extends UIComponent.
+ * Button is a 2d clickable object on screen for the user to interact with the game.
+ */
 public class UiButton extends UiComponent {
 
     private ButtonEnum buttonEnum;

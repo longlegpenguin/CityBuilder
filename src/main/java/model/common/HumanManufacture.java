@@ -136,6 +136,7 @@ public class HumanManufacture {
      */
     public static void createYoungCitizen(GameModel gm, Zone workPlace, Zone livingPlace) {
         Citizen newCitizen = new Citizen(workPlace, livingPlace, getEducationLevel(gm));
+        livingPlace.addCitizen(newCitizen, gm);
         if (workPlace != null) workPlace.addCitizen(newCitizen, gm);
     }
 
