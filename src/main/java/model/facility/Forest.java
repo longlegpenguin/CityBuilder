@@ -114,48 +114,61 @@ public class Forest extends EffectualFacility {
     private boolean hasDirectView(Zone zone, Buildable[][] map) {
         Coordinate zC = zone.getCoordinate();
         Coordinate self = this.getCoordinate();
-        // check horizontally
-        if (zC.getRow() == self.getRow()) {
-            int diff = self.getCol() - zC.getCol();
-            if (diff > 3) {
+
+        if (zC.getRow() == self.getRow()) { // check horizontally
+            if (horizontallyBlocked(map, zC, self)) {
                 return false;
             }
-            if (diff < 0) { // self在左边
-                for (int i = 1; i < -diff; i++) {
-                    if (map[self.getRow()][self.getCol() + i] != null) {
-                        return false;
-                    }
-                }
-            } else {
-                for (int i = 1; i < diff; i++) {
-                    if (map[self.getRow()][self.getCol() - i] != null) {
-                        return false;
-                    }
-                }
-            }
-        } else if (zC.getCol() == self.getCol()) {
-            int diff = self.getRow() - zC.getRow();
-            if (diff > 3) {
+        } else if (zC.getCol() == self.getCol()) { // check vertically
+            if (verticallyBlocked(map, zC, self)) {
                 return false;
-            }
-            if (diff < 0) { // self上边
-                for (int i = 1; i < -diff; i++) {
-                    if (map[self.getRow() + i][self.getCol()] != null) {
-                        return false;
-                    }
-                }
-            } else {
-                for (int i = 1; i < diff; i++) {
-                    if (map[self.getRow() - i][self.getCol()] != null) {
-                        return false;
-                    }
-                }
             }
         } else {
             return false;
         }
         return true;
+    }
 
+    private boolean horizontallyBlocked(Buildable[][] map, Coordinate zC, Coordinate self) {
+        int diff = self.getCol() - zC.getCol();
+        if (diff > 3) {
+            return true;
+        }
+        if (diff < 0) { // self on the left
+            for (int i = 1; i < -diff; i++) {
+                if (!isEmpty(self.getRow(), self.getCol() + i, map)) {
+                    return true;
+                }
+            }
+        } else {
+            for (int i = 1; i < diff; i++) {
+                if (!isEmpty(self.getRow(), self.getCol() - i, map)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    private boolean verticallyBlocked(Buildable[][] map, Coordinate zC, Coordinate self) {
+        int diff = self.getRow() - zC.getRow();
+        if (diff > 3) {
+            return true;
+        }
+        if (diff < 0) { // self on above
+            for (int i = 1; i < -diff; i++) {
+                if (!isEmpty(self.getRow() + i, self.getCol(), map)) {
+                    return true;
+                }
+            }
+        } else {
+            for (int i = 1; i < diff; i++) {
+                if (!isEmpty(self.getRow() - i, self.getCol(), map)) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     private boolean isInBetween(Coordinate a, Coordinate b, Coordinate c) {
@@ -168,31 +181,8 @@ public class Forest extends EffectualFacility {
         return vertically || horizontally;
     }
 
-    private boolean isInOneLine(Buildable a, Buildable b, Buildable c) {
-        return (a.getCoordinate().getRow() == b.getCoordinate().getRow() &&
-                b.getCoordinate().getRow() == c.getCoordinate().getRow() &&
-                (a.getCoordinate().getCol() - b.getCoordinate().getCol()) == 1 &&
-                (c.getCoordinate().getCol() - b.getCoordinate().getCol()) == 1) ||
-                (a.getCoordinate().getCol() == b.getCoordinate().getCol() &&
-                        b.getCoordinate().getCol() == c.getCoordinate().getCol() &&
-                        Math.abs(a.getCoordinate().getRow() - b.getCoordinate().getRow()) == 1 &&
-                        Math.abs(c.getCoordinate().getRow() - b.getCoordinate().getRow()) == 1);
-    }
-
-    private boolean isInMapCoordinate(Coordinate coordinate, Buildable[][] map) {
-        return isInMap(coordinate.getRow(), coordinate.getCol(), map);
-    }
-
-    private boolean isGoalCoordinate(Coordinate current, Coordinate goalCoordinate) {
-        return current.equals(goalCoordinate);
-    }
-
     private boolean isEmpty(int sRow, int sCol, Buildable[][] map) {
         return map[sRow][sCol] == null;
     }
 
-    private boolean isInMap(int sRow, int sCol, Buildable[][] map) {
-        return sRow < map.length && sRow >= 0 &&
-                sCol < map[0].length && sCol >= 0;
-    }
 }
