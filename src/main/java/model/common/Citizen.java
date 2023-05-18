@@ -28,12 +28,14 @@ public class Citizen implements java.io.Serializable {
     }
 
     /**
-     * Pays the tax
+     * Pays the tax and records the pay
      * @param taxRate the current tax rate
      * @return the tax to be paid by the person
      */
     public double payTax(double taxRate) {
-        return Constants.BASE_TAX * taxRate + levelOfEducation.getAdditionalValue();
+        double tax = Constants.BASE_TAX * taxRate + levelOfEducation.getAdditionalValue();
+        addPaidTax(tax);
+        return tax;
     }
 
     /**
@@ -61,6 +63,7 @@ public class Citizen implements java.io.Serializable {
     }
 
     public int getPension() {
+        retire();
         return pension;
     }
 

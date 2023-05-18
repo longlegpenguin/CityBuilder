@@ -130,13 +130,9 @@ public class GameModel implements java.io.Serializable {
      * @param buildable the effective buildable
      */
     private void effectExists(Buildable buildable) {
-        System.out.println("Hahaha");
         if (hasSideEffect(buildable)) {
-            System.out.println("shitq");
             SideEffect bad = (SideEffect) buildable;
             for (Zone z : getAllZones()) {
-                System.out.println("f**");
-
                 bad.effect(z, this);
             }
         }
@@ -482,13 +478,12 @@ public class GameModel implements java.io.Serializable {
 
     /**
      * Collects tax and pays the maintenance fee as well as pension
-     * Records the tax rate.
      */
     private void updateCityBalance() {
-        int revenue = calculateRevenue();
-        int spend = calculateSpend();
+        double revenue = calculateRevenue();
+        double spend = calculateSpend();
         cityRegistry.updateBalance(revenue - spend);
-        socialSecurity.appendTaxRecord();
+//        socialSecurity.appendTaxRecord();
     }
 
     /**
@@ -496,8 +491,8 @@ public class GameModel implements java.io.Serializable {
      *
      * @return
      */
-    public int calculateSpend() {
-        int spend = 0;
+    public double calculateSpend() {
+        double spend = 0;
         spend += cityStatistics.getBudget().getTotalMaintenanceFee();
         spend += socialSecurity.payPension();
         return spend;
@@ -508,12 +503,12 @@ public class GameModel implements java.io.Serializable {
      *
      * @return
      */
-    public int calculateRevenue() {
-        int revenue = 0;
-        for (Citizen c : cityRegistry.getAllCitizens()) {
-            revenue += c.payTax(cityStatistics.getBudget().getTaxRate());
-        }
-        return revenue;
+    public double calculateRevenue() {
+//        int revenue = 0;
+//        for (Citizen c : cityRegistry.getAllCitizens()) {
+//            revenue += c.payTax(cityStatistics.getBudget().getTaxRate());
+//        }
+        return socialSecurity.collectTax(queryCityBudget().getTaxRate());
     }
 
     private void updateForests() {

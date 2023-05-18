@@ -30,6 +30,7 @@ public class SocialSecurity implements java.io.Serializable {
         for (Citizen retire : getListOfRetired()) {
             if (ProbabilitySelector.decision(retire.getAge() / 100.0)) {
                 try {
+                    System.out.println("One citizen died");
                     die(retire, gm);
                 } catch (NullPointerException e) {}
                 HumanManufacture.createYoungCitizen(gm);
@@ -70,10 +71,24 @@ public class SocialSecurity implements java.io.Serializable {
      */
     public int payPension() {
         int total = 0;
-        for (Citizen retire :
-                getListOfRetired()) {
+        for (Citizen retire : getListOfRetired()) {
             total += retire.getPension();
         }
+        System.out.println("Social Security: Paid " + total + " pension to " + getListOfRetired().size() + " retires");
+        return total;
+    }
+
+    /**
+     * Calculate the total tax revenue from tax
+     * @param taxRate current tax rate
+     * @return total tax from work forces.
+     */
+    public double collectTax(double taxRate) {
+        double total = 0;
+        for (Citizen c : getListOfWorkForce()) {
+            total += c.payTax(taxRate);
+        }
+        System.out.println("Social Security: Got tax " + total + " from" + getListOfWorkForce().size() + " workers");
         return total;
     }
 

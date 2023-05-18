@@ -87,7 +87,7 @@ public class CityRegistry implements java.io.Serializable {
      *
      * @param amount int
      */
-    public void updateBalance(int amount) {
+    public void updateBalance(double amount) {
         cityStatistics.getBudget().addBalance(amount);
     }
 
