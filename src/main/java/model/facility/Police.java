@@ -27,14 +27,16 @@ public class Police extends EffectualFacility {
 
     @Override
     public void effect(Zone zone, GameModel gm) {
-        if (condition(zone, gm)){
+        if (condition(zone, gm)) {
             zone.updatePoliceEffect(zone.getStatistics().getSatisfaction().getPoliceEffect() + POLICE_BASE_EFFECT);
         }
     }
 
     @Override
     public void reverseEffect(Zone zone, GameModel gm) {
-        zone.updatePoliceEffect(zone.getStatistics().getSatisfaction().getPoliceEffect() - POLICE_BASE_EFFECT);
+        if (condition(zone, gm)) {
+            zone.updatePoliceEffect(zone.getStatistics().getSatisfaction().getPoliceEffect() - POLICE_BASE_EFFECT);
+        }
     }
 
     @Override

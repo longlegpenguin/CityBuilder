@@ -15,7 +15,7 @@ public class CommercialZoneFactory extends ZoneFactory {
 
     @Override
     public Zone createZone(Coordinate coordinate) {
-        return new IndustrialZone(
+        return new CommercialZone(
                 Level.CONSTRUCTING,
                 DAYS_FOR_CONSTRUCTION,
                 new ZoneStatistics(0, Level.CONSTRUCTING.getCapacity(), new ZoneSatisfaction()),

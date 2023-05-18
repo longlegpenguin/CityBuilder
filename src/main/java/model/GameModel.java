@@ -143,6 +143,7 @@ public class GameModel implements java.io.Serializable {
         zl.addAll(underConstructions);
         return zl;
     }
+
     /**
      * Applies effects by all existing buildables if there is effect.
      *
@@ -158,10 +159,6 @@ public class GameModel implements java.io.Serializable {
     }
 
     private boolean hasSideEffect(Buildable buildable) {
-        if (buildable.getBuildableType() == POLICE || buildable.getBuildableType() == STADIUM
-                || buildable.getBuildableType() == COMMERCIAL || buildable.getBuildableType() == INDUSTRIAL){
-            return SideEffect.class.isAssignableFrom(buildable.getClass()) && buildable.isConnected();
-        }
         return SideEffect.class.isAssignableFrom(buildable.getClass());
     }
 
@@ -188,7 +185,7 @@ public class GameModel implements java.io.Serializable {
             youthForest.add((Forest) facility);
         }
         if (facility.getBuildableType() == ROAD) {
-            for (Zone z: getAllZones()) {
+            for (Zone z : getAllZones()) {
                 z.setConnected(masterRoads.get(0), map);
             }
         }
@@ -221,6 +218,7 @@ public class GameModel implements java.io.Serializable {
 
     /**
      * Removes the side effects on satisfaction if any.
+     *
      * @param bad the possible buildable with side effect.
      */
     private void removeSideEffects(Buildable bad) {
@@ -234,6 +232,7 @@ public class GameModel implements java.io.Serializable {
 
     /**
      * Removes the buildable from the city registry and tempory lists.
+     *
      * @param bad
      */
     private void removeFromCity(Buildable bad) {
@@ -249,6 +248,7 @@ public class GameModel implements java.io.Serializable {
 
     /**
      * Checks if the removal of road will results in lost of existing connection
+     *
      * @param road th road to be checked
      * @return true if will cause lost, otherwise false.
      */
@@ -378,7 +378,9 @@ public class GameModel implements java.io.Serializable {
     }
 
     private boolean isPlotAvailable(Buildable b) {
-        if (b == null) { return true; }
+        if (b == null) {
+            return true;
+        }
         Coordinate coordinate = b.getCoordinate();
         Dimension dimension = b.getDimension();
         int topRow = coordinate.getRow();

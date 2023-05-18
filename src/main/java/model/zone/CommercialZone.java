@@ -33,8 +33,10 @@ public class CommercialZone extends Zone implements SideEffect {
 
     @Override
     public void reverseEffect(Zone zone, GameModel gm) {
-        zone.getStatistics().getSatisfaction().setFreeWorkplaceEffect(
-                zone.getStatistics().getSatisfaction().getFreeWorkplaceEffect() - COMMERCIAL_ZONE_BASE_EFFECT );
+        if (condition(zone, gm)) {
+            zone.getStatistics().getSatisfaction().setFreeWorkplaceEffect(
+                    zone.getStatistics().getSatisfaction().getFreeWorkplaceEffect() - COMMERCIAL_ZONE_BASE_EFFECT);
+        }
     }
 
     @Override

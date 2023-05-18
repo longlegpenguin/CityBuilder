@@ -27,6 +27,7 @@ public class Stadium extends EffectualFacility {
 
     @Override
     public void effect(Zone zone, GameModel gm) {
+        System.out.println(condition(zone, gm));
         if (condition(zone, gm)) {
             zone.updateStadiumEffect(zone.getStatistics().getSatisfaction().getStadiumEffect() + STADIUM_BASE_EFFECT);
         }

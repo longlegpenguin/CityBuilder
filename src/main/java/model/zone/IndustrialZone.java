@@ -38,7 +38,9 @@ public class IndustrialZone extends Zone implements SideEffect {
         if (new PathFinder(gm.getMap()).manhattanDistance(zone, gm.getMasterRoads().get(0)) != -1 && zone.getCitizens().size() < 10) {
             zone.getStatistics().getSatisfaction().setFreeWorkplaceEffect(zone.getStatistics().getSatisfaction().getFreeWorkplaceEffect() - INDUSTRIAL_ZONE_BASE_EFFECT);
         }
-        zone.getStatistics().getSatisfaction().setIndustrialEffect(zone.getStatistics().getSatisfaction().getIndustrialEffect() + INDUSTRIAL_ZONE_BASE_EFFECT);
+        if (condition(zone, gm)) {
+            zone.getStatistics().getSatisfaction().setIndustrialEffect(zone.getStatistics().getSatisfaction().getIndustrialEffect() + INDUSTRIAL_ZONE_BASE_EFFECT);
+        }
     }
 
     @Override
