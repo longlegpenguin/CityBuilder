@@ -159,11 +159,7 @@ public class Handler implements ICallBack {
                 }
             }
             if (buttonPressed == false && coordsX < worldGrid.getWorldSize() && coordsX >= 0 && coordsY < worldGrid.getWorldSize() && coordsY >= 0) {
-                if (controller.getGameMode() == GameMode.SELECTION_MODE) {
-                    controller.
-                } else {
-                    controller.mouseClickRequest(new Coordinate(coordsX, coordsY), this);
-                }
+                controller.mouseClickRequest(new Coordinate(coordsX, coordsY), this);
             }
         } else {
             mouseDelay -= DisplayManager.getFrameTimeSeconds();
