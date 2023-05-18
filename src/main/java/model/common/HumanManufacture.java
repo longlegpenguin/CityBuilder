@@ -26,7 +26,7 @@ public class HumanManufacture {
         for (Buildable buildable : gm.getZoneBuildable()) {
             Zone zone = (Zone) buildable;
             if (zone.getBuildableType() == BuildableType.RESIDENTIAL &&
-                    zone.getStatistics().getPopulation() < zone.getLevel().getCapacity()) {
+                    zone.getStatistics().getPopulation() < zone.getLevel().getCapacity() && zone.isConnected()) {
                 availableResidentialZones.add(zone);
             }
         }
@@ -112,19 +112,15 @@ public class HumanManufacture {
      * (if available)
      *
      * @param gm
-     * @return
      */
-    public static Citizen createYoungCitizen(GameModel gm) {
+    public static void createYoungCitizen(GameModel gm) {
         Zone livingPlace = getLivingPlace(gm);
         Zone workPlace = getWorkingPlace(gm, livingPlace);
         Citizen newCitizen = new Citizen(workPlace, livingPlace, getEducationLevel(gm));
         livingPlace.addCitizen(newCitizen, gm);
         if (workPlace != null) {
             workPlace.addCitizen(newCitizen, gm);
-
         }
-
-        return newCitizen;
     }
 
     /**
