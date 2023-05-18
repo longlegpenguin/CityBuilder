@@ -27,6 +27,14 @@ public abstract class Menu {
             controller.switchGameModeRequest(GameMode.SELECTION_MODE);
         }
     }
+    public void buttonAction(UiButton money,ArrayList<GUIText> texts)
+    {
+
+    }
+
+
+
+
 
     protected abstract void loadComponents();
 

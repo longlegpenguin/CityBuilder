@@ -35,6 +35,7 @@ import model.zone.Zone;
 import model.zone.ZoneStatistics;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
+import view.MoneyStatistic;
 import view.ViewModel;
 import org.w3c.dom.Text;
 
@@ -57,6 +58,7 @@ public class Handler implements ICallBack {
     private GameModel gameModel;
     private Controller controller;
     private ViewModel viewModel;
+    private MoneyStatistic money;
 
 
     private GUIText text;
@@ -99,6 +101,7 @@ public class Handler implements ICallBack {
         viewModel = new ViewModel(controller,gameModel);
         this.date = gameModel.getCurrentDate().toString();
 
+
         text = new GUIText(this.date,1,new Vector2f(0.025f,0.885f),1f,false);
         text.setColour(0,0,0);
         TextMaster.loadText(text);
@@ -110,6 +113,7 @@ public class Handler implements ICallBack {
         framerate = new GUIText("FPS: ", 0.9f, new Vector2f(0.025f, 0.05f), 1, false);
         framerate.setColour(0,0,0);
         TextMaster.loadText(framerate);
+
 
         setWorldGrid();
     }
@@ -168,6 +172,10 @@ public class Handler implements ICallBack {
                         case UNIVERSITY -> viewModel.getBottomMenuBar().universityButton();
 //                        case DESTROY -> viewModel.getBottomMenuBar().destroyButtonAction();
                         case DESTROY -> viewModel.getBottomMenuBar().selectButtonAction();
+                        //create a money menu function that calls the menu when the botton money is clicked
+                        case MONEY -> viewModel.moneyDisplayManagement(controller,gameModel);
+                        //add a function when the menu is closed it goes away
+
                     }
                 }
             }
