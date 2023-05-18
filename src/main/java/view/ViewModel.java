@@ -16,11 +16,14 @@ public class ViewModel {
     private ZoneSelector zoneSelector;
     private ArrayList<UiButton> buttons = new ArrayList<UiButton>();
     private ArrayList<UiTab> tabs = new ArrayList<UiTab>();
+    private MoneyStatistic moneyStatistic;
+    private boolean moneySelected = false;
 
     public ViewModel(Controller controller, GameModel gameModel) {
         this.controller = controller;
         this.bottomMenuBar = new BottomMenuBar(controller, gameModel);
         this.buttons.addAll(bottomMenuBar.getButtons());
+
 
         this.statisticsMenu = new StatisticsMenu(controller,gameModel);
         this.tabs.addAll(this.statisticsMenu.getTabs());
@@ -28,6 +31,22 @@ public class ViewModel {
 
         this.zoneSelector = new ZoneSelector(controller, gameModel);
         this.tabs.addAll(this.zoneSelector.getTabs());
+
+
+    }
+
+    public void moneyDisplayManagement(Controller controller,GameModel gameModel)
+    {
+        if (!this.moneySelected) {
+            this.moneyStatistic = new MoneyStatistic(controller, gameModel);
+            this.tabs.addAll(this.moneyStatistic.getTabs());
+
+            this.moneySelected = true;
+        }
+        else{
+            this.tabs.remove((this.moneyStatistic.getTabs()));
+            this.moneySelected = false;
+        }
     }
 
     public void Update() {

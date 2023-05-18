@@ -30,6 +30,7 @@ import model.zone.Zone;
 import model.zone.ZoneStatistics;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
+import view.MoneyStatistic;
 import view.ViewModel;
 import java.util.List;
 
@@ -48,6 +49,7 @@ public class Handler implements ICallBack {
     private GameModel gameModel;
     private Controller controller;
     private ViewModel viewModel;
+    private MoneyStatistic money;
 
 
     private GUIText text;
@@ -94,6 +96,7 @@ public class Handler implements ICallBack {
         framerate = new GUIText("FPS: ", 0.9f, new Vector2f(0.025f, 0.05f), 1, false);
         framerate.setColour(0,0,0);
         TextMaster.loadText(framerate);
+
 
         setWorldGrid();
     }
@@ -150,6 +153,7 @@ public class Handler implements ICallBack {
                         case POLICE -> viewModel.getBottomMenuBar().policeButtonAction();
                         case SCHOOL -> viewModel.getBottomMenuBar().schoolButtonAction();
                         case UNIVERSITY -> viewModel.getBottomMenuBar().universityButton();
+                        case MONEY -> viewModel.moneyDisplayManagement(controller,gameModel);
                         case SELECT -> viewModel.getBottomMenuBar().selectButtonAction();
                         case SPEED_PAUSE -> paused = true;
                         case SPEED_ONE -> {timeMultiplier = 1f; paused = false;}
@@ -277,21 +281,24 @@ public class Handler implements ICallBack {
 
     @Override
     public void updateBudgetPanel(Budget budget) {
-        System.out.println("________Callback Inform Budget_________");
-        System.out.println("Tax rate: " + budget.getTaxRate());
-        System.out.println("Balance: " + budget.getBalance());
-        System.out.println("Maintenance fee: " + budget.getTotalMaintenanceFee());
-        System.out.println("Tax revenue: " + budget.getRevenue(gameModel));
-        System.out.println("---------------------------------------");
+//        System.out.println("________Callback Inform Budget_________");
+//        System.out.println("Tax rate: " + budget.getTaxRate());
+//        System.out.println("Balance: " + budget.getBalance());
+//        System.out.println("Maintenance fee: " + budget.getTotalMaintenanceFee());
+//        System.out.println("Tax revenue: " + budget.getRevenue(gameModel));
+//        System.out.println("---------------------------------------");
     }
 
     @Override
     public void updateStatisticPanel(Zone zone) {
         ZoneStatistics zoneStatistics = zone.getStatistics();
         System.out.println("________Callback Inform Zone Statistic_________");
+        System.out.println("Selected Zone connection: " + zone.isConnected());
+        System.out.println("Selected Zone under constructed: " + zone.isUnderConstruction());
+        System.out.println("Selected Zone type: " + zone.getBuildableType());
         System.out.println("Selected Zone population: " + zoneStatistics.getPopulation());
-        System.out.println("Selected Zone capacity: " + zoneStatistics.getCapacity());
-        System.out.println("Selected Zone satisfaction: " + zoneStatistics.getSatisfaction());
+        System.out.println("Selected Zone capacity: " + zone.getCapacity());
+        System.out.println("Selected Zone satisfaction: " + zone.getZoneSatisfaction(gameModel));
         System.out.println("Selected Zone citizens: ");
         List<Citizen> citizens = zone.getCitizens();
         for (Citizen c :

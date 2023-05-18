@@ -1,7 +1,8 @@
 package engine.engineMain;
 
 import engine.display.DisplayManager;
-import static org.lwjgl.glfw.GLFW.glfwWindowShouldClose;
+
+import static org.lwjgl.glfw.GLFW.*;
 
 public class MainApp {
 
@@ -13,6 +14,8 @@ public class MainApp {
 
             handler.render();
             DisplayManager.updateDisplay();
+
+
 
         }
 

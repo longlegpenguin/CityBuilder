@@ -3,19 +3,35 @@ package model.facility;
 import model.common.Buildable;
 import model.common.Coordinate;
 import model.common.Dimension;
+import model.util.PathFinder;
 
 public abstract class Facility implements Buildable , java.io.Serializable {
     protected int oneTimeCost;
     protected int maintenanceFee;
     protected Coordinate coordinate;
     protected Dimension dimension;
+    Boolean isConnected;
 
     public Facility(int oneTimeCost, int maintenanceFee, Coordinate coordinate, Dimension dimension) {
         this.oneTimeCost = oneTimeCost;
         this.maintenanceFee = maintenanceFee;
         this.coordinate = coordinate;
         this.dimension = dimension;
+        this.isConnected = false;
     }
+
+    @Override
+    public boolean isConnected() {
+        return isConnected;
+    }
+
+    public void setConnected(Boolean connected) {
+        isConnected = connected;
+    }
+    public void setConnected(Buildable connectingPoint, Buildable map[][]) {
+        isConnected = new PathFinder(map).manhattanDistance(this, connectingPoint) > -1;
+    }
+
 
     public int getOneTimeCost() {
         return oneTimeCost;

@@ -35,6 +35,11 @@ public abstract class Menu {
         text.setTextString(button.getButtonEnum().toString());
         TextMaster.loadText(text);
     }
+    public void buttonAction(UiButton money,ArrayList<GUIText> texts)
+    {
+
+    }
+
 
     protected abstract void loadComponents();
 

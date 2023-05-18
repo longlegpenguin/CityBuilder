@@ -143,9 +143,9 @@ public class BottomMenuBar extends Menu{
         buttonAction(universityButton, GameMode.UNIVERSITY_MODE, gameModeText);
     }
 
+
     public void selectButtonAction() {
         buttonAction(selectZoneButton, GameMode.SELECTION_MODE, gameModeText);
     }
-
 
 }

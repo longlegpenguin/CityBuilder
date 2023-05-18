@@ -5,6 +5,7 @@ import model.common.*;
 import model.util.BuildableType;
 import model.util.Date;
 import model.util.Level;
+import model.util.PathFinder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,6 +22,7 @@ public abstract class Zone implements Buildable, java.io.Serializable {
     List<Buildable> effectedBy;
     protected Boolean isUnderConstruction;
     protected float effectRadius;
+    Boolean isConnected;
 
 
     public Zone(Level level, int dayToBuild, ZoneStatistics statistics, Date birthday, Coordinate coordinate, float effectRadius) {
@@ -34,6 +36,22 @@ public abstract class Zone implements Buildable, java.io.Serializable {
         effectedBy = new ArrayList<>();
         isUnderConstruction = true;
         this.effectRadius = effectRadius;
+        this.isConnected = false;
+    }
+
+    public int getCapacity() {
+        return level.getCapacity();
+    }
+    @Override
+    public boolean isConnected() {
+        return isConnected;
+    }
+
+    public void setConnected(Boolean connected) {
+        isConnected = connected;
+    }
+    public void setConnected(Buildable connectingPoint, Buildable map[][]) {
+        isConnected = new PathFinder(map).manhattanDistance(this, connectingPoint) > -1;
     }
 
     public Level getLevel() {
@@ -165,7 +183,7 @@ public abstract class Zone implements Buildable, java.io.Serializable {
      * @return the satisfaction of the zone
      */
     public double getZoneSatisfaction(GameModel gm) {
-        return statistics.getSatisfaction().getTotalZoneSatisfaction(gm);
+        return statistics.getSatisfaction().getTotalZoneSatisfaction(gm) + 60.0;
     }
 
     /**
@@ -209,6 +227,7 @@ public abstract class Zone implements Buildable, java.io.Serializable {
     public String toString() {
         return "Zone{" +
                 "level=" + level +
+                ", isConnected=" + isConnected +
                 ", dayToBuild=" + dayToBuild +
                 ", statistics=" + statistics +
                 ", citizens=" + citizens.size() +
