@@ -210,17 +210,31 @@ public class GameModel implements java.io.Serializable {
             throw new OperationException("Removing fails, master roads cannot be removed.");
         }
         removeFromMap(bad);
+        removeSideEffects(bad);
+        cityStatistics.getBudget().addBalance(bad.getConstructionCost() * Constants.RETURN_RATE);
+        removeFromCity(bad);
+        System.out.println("Remove Success");
+    }
 
-        if (SideEffect.class.isAssignableFrom(bad.getClass())) {
+    /**
+     * Removes the side effects on satisfaction if any.
+     * @param bad the possible buildable with side effect.
+     */
+    private void removeSideEffects(Buildable bad) {
+        if (hasSideEffect(bad)) {
             SideEffect badBuildable = (SideEffect) bad;
-            for (Zone z :
-                    cityRegistry.getZones()) {
+            for (Zone z : cityRegistry.getZones()) {
                 badBuildable.reverseEffect(z, this);
             }
         }
-        cityStatistics.getBudget().addBalance(bad.getConstructionCost() * Constants.RETURN_RATE);
+    }
 
-        if (Zone.class.isAssignableFrom(bad.getClass())) {
+    /**
+     * Removes the buildable from the city registry and tempory lists.
+     * @param bad
+     */
+    private void removeFromCity(Buildable bad) {
+        if (isZone(bad)) {
             cityRegistry.removeZone((Zone) bad);
             underConstructions.remove((Zone) bad);
             updateIndustryCommercialBalanceSatisfactionIndex();
@@ -228,9 +242,13 @@ public class GameModel implements java.io.Serializable {
             cityRegistry.removeFacility((Facility) bad);
             cityStatistics.getBudget().deductMaintenanceFee(((Facility) bad).getMaintenanceFee());
         }
-        System.out.println("Remove Success");
     }
 
+    /**
+     * Checks if the removal of road will results in lost of existing connection
+     * @param road th road to be checked
+     * @return true if will cause lost, otherwise false.
+     */
     public boolean roadIsEssentialForConnection(Road road) {
         removeFromMap(road);
         for (Buildable b :
@@ -421,34 +439,42 @@ public class GameModel implements java.io.Serializable {
     public void regularUpdate(int dayPass, ICallBack callBack) {
         dateOfWorld.addDay(dayPass);
         filterConstructed();
-        if (existFreeWorkingZones()) updateUnemployedStatusForCitizens();
-        try {
-            cityStatistics.setCitySatisfaction(this);
-            if (existFreeResidentialZones()) {
-                if (cityStatistics.getPopulation(cityRegistry) < HumanManufacture.startingNrCitizens) {
-                    HumanManufacture.createYoungCitizen(this);
-                } else {
-                    Zone possibleLivingZone = HumanManufacture.getLivingPlace(this);
-                    Zone possibleWorkingZone = HumanManufacture.getWorkingPlace(this, possibleLivingZone);
-                    if (
-                            possibleLivingZone != null && ProbabilitySelector.decision(
-                                    cityStatistics.getCitySatisfaction() / 100)
-                    ) {
-                        HumanManufacture.createYoungCitizen(this, possibleWorkingZone, possibleLivingZone);
-                    }
-                }
+        citizenshipManipulation();
+        cityAging();
+        updateForests();
+    }
 
-            }
-        } catch (NullPointerException e) {
-            System.out.println(e.getMessage());
-        }
-
+    /**
+     * Updates citizen ages and budgets once a year.
+     */
+    private void cityAging() {
         if (lastTaxDate.dateDifference(dateOfWorld).get("years") >= 1) {
             socialSecurity.census(this);
             updateCityBalance();
             lastTaxDate = getCurrentDate();
         }
-        updateForests();
+    }
+
+    /**
+     * Distributes new citizens and new jobs.
+     */
+    private void citizenshipManipulation() {
+        if (existFreeWorkingZones()) updateUnemployedStatusForCitizens();
+        cityStatistics.setCitySatisfaction(this);
+        if (existFreeResidentialZones()) {
+            if (cityStatistics.getPopulation(cityRegistry) < HumanManufacture.startingNrCitizens) {
+                HumanManufacture.createYoungCitizen(this);
+            } else {
+                Zone possibleLivingZone = HumanManufacture.getLivingPlace(this);
+                Zone possibleWorkingZone = HumanManufacture.getWorkingPlace(this, possibleLivingZone);
+                if (
+                        possibleLivingZone != null && ProbabilitySelector.decision(
+                                cityStatistics.getCitySatisfaction() / 100)
+                ) {
+                    HumanManufacture.createYoungCitizen(this, possibleWorkingZone, possibleLivingZone);
+                }
+            }
+        }
     }
 
     /**

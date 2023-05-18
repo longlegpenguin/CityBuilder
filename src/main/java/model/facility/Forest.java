@@ -71,10 +71,7 @@ public class Forest extends EffectualFacility {
     @Override
     public void effect(Zone zone, GameModel gm) {
         if (condition(zone, gm) && grew) {
-//            System.out.println("Forest grows");
-//            System.out.println(zone.getStatistics().getSatisfaction().getForestEffect() + getPositiveEffect());
             zone.updateForestEffect(zone.getStatistics().getSatisfaction().getForestEffect() + getPositiveEffect());
-            System.out.println("Forest effect: " + zone.getStatistics().getSatisfaction().getForestEffect());
             if (age == 1) {
                 for (SideEffect s :
                         getBadEffectIndustrial(zone, gm)) {

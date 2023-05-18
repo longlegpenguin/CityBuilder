@@ -149,6 +149,13 @@ public class PathFinder {
         }
     }
 
+    /**
+     * Implemented BFS algorithm
+     * @param start
+     * @param goal
+     * @param graph
+     * @return the destination node if can be reached, otherwise null
+     */
     private Node BFS(Buildable start, Buildable goal, List<Node> graph) {
         List<Node> opens = new ArrayList<>();
         Node current;
