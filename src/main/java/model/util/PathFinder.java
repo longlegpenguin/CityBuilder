@@ -48,73 +48,6 @@ public class PathFinder {
         return result == null ? -1 : result.cost;
     }
 
-    public boolean hasDirectView(Buildable start, Buildable goal, int radius) {
-        List<Coordinate> graph = new ArrayList<>();
-        List<Coordinate> opens = new ArrayList<>();
-        Coordinate current;
-        opens.add(start.getCoordinate());
-        while (true) {
-            if (opens.isEmpty()) {
-                return false;
-            }
-
-            current = opens.get(0);
-            if (current.equals(goal.getCoordinate())) { // 如果是直接OK
-                return true;
-            }
-
-            opens.remove(0);
-            graph.add(current);
-            for (Coordinate surr : fourAround(current, goal.getCoordinate())) { // 如果不是，把四周的加进来，但是只能加为null的四周,用一个dummy coordinate
-                if (!graph.contains(surr)) {
-                    opens.add(surr);
-                    graph.add(surr);
-                }
-            }
-        }
-    }
-
-    private List<Coordinate> fourAround(Coordinate current, Coordinate goalCoordinate) {
-        List<Coordinate> successors = new ArrayList<>();
-        int sRow = current.getRow();
-        int sCol = current.getCol();
-
-        Coordinate check = new Coordinate(sRow - 1, sCol);
-        if (isInMap(sRow - 1, sCol) && notBadInView(check, goalCoordinate)) {
-            successors.add(check);
-        }
-        check = new Coordinate(sRow + 1, sCol);
-        if (isInMap(sRow + 1, sCol) && notBadInView(check, goalCoordinate)) {
-            successors.add(check);
-        }
-        check = new Coordinate(sRow, sCol - 1);
-        if (isInMap(sRow, sCol - 1) && notBadInView(check, goalCoordinate)) {
-            successors.add(new Coordinate(sRow, sCol - 1));
-        }
-        check = new Coordinate(sRow, sCol + 1);
-        if (isInMap(sRow, sCol + 1) && notBadInView(check, goalCoordinate)) {
-            successors.add(new Coordinate(sRow, sCol + 1));
-        }
-        return successors;
-    }
-
-    private boolean notBadInView(Coordinate current, Coordinate goalCoordinate) {
-        return (isGoalCoordinate(current, goalCoordinate) || isEmpty(current.getRow(), current.getCol()));
-    }
-
-    private boolean isInMapCoordinate(Coordinate coordinate) {
-        return isInMap(coordinate.getRow(), coordinate.getCol());
-    }
-
-    private boolean isGoalCoordinate(Coordinate current, Coordinate goalCoordinate) {
-        return current.equals(goalCoordinate);
-    }
-
-    private boolean isInSquare(Buildable center, Buildable candidate, int radius) {
-        return
-                Math.abs(center.getCoordinate().getRow() - candidate.getCoordinate().getRow()) <= radius &
-                        Math.abs(center.getCoordinate().getCol() - candidate.getCoordinate().getCol()) <= radius;
-    }
 
     class Node {
         Node parent;
@@ -239,6 +172,77 @@ public class PathFinder {
     private boolean isInMap(int sRow, int sCol) {
         return sRow < map.length && sRow >= 0 &&
                 sCol < map[0].length && sCol >= 0;
+    }
+
+    /**
+     * Checks if nothing is between
+     * @param start
+     * @param goal
+     * @param radius
+     * @return true if nothing is between
+     */
+    public boolean hasDirectView(Buildable start, Buildable goal, int radius) {
+        List<Coordinate> graph = new ArrayList<>();
+        List<Coordinate> opens = new ArrayList<>();
+        Coordinate current;
+        opens.add(start.getCoordinate());
+        while (true) {
+            if (opens.isEmpty()) {
+                return false;
+            }
+
+            current = opens.get(0);
+            if (current.equals(goal.getCoordinate())) { // 如果是直接OK
+                return true;
+            }
+
+            opens.remove(0);
+            graph.add(current);
+            for (Coordinate surr : fourAround(current, goal.getCoordinate())) { // 如果不是，把四周的加进来，但是只能加为null的四周,用一个dummy coordinate
+                if (!graph.contains(surr)) {
+                    opens.add(surr);
+                    graph.add(surr);
+                }
+            }
+        }
+    }
+
+    /**
+     * Gets the 4 direct neighbours of a node
+     * @param current
+     * @param goalCoordinate
+     * @return
+     */
+    private List<Coordinate> fourAround(Coordinate current, Coordinate goalCoordinate) {
+        List<Coordinate> successors = new ArrayList<>();
+        int sRow = current.getRow();
+        int sCol = current.getCol();
+
+        Coordinate check = new Coordinate(sRow - 1, sCol);
+        if (isInMap(sRow - 1, sCol) && notBadInView(check, goalCoordinate)) {
+            successors.add(check);
+        }
+        check = new Coordinate(sRow + 1, sCol);
+        if (isInMap(sRow + 1, sCol) && notBadInView(check, goalCoordinate)) {
+            successors.add(check);
+        }
+        check = new Coordinate(sRow, sCol - 1);
+        if (isInMap(sRow, sCol - 1) && notBadInView(check, goalCoordinate)) {
+            successors.add(new Coordinate(sRow, sCol - 1));
+        }
+        check = new Coordinate(sRow, sCol + 1);
+        if (isInMap(sRow, sCol + 1) && notBadInView(check, goalCoordinate)) {
+            successors.add(new Coordinate(sRow, sCol + 1));
+        }
+        return successors;
+    }
+
+    private boolean notBadInView(Coordinate current, Coordinate goalCoordinate) {
+        return (isGoalCoordinate(current, goalCoordinate) || isEmpty(current.getRow(), current.getCol()));
+    }
+
+    private boolean isGoalCoordinate(Coordinate current, Coordinate goalCoordinate) {
+        return current.equals(goalCoordinate);
     }
 }
 
