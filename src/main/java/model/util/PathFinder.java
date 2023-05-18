@@ -124,12 +124,10 @@ public class PathFinder {
     private boolean isGoal(Node currentItem, Node goal) {
         int cRow = currentItem.getRow();
         int cCol = currentItem.getCol();
-        int gRow = goal.getRow();
-        int gCol = goal.getCol();
-        return (cRow + 1 == gRow && cCol == gCol) ||
-                (cRow - 1 == gRow && cCol == gCol) ||
-                (cRow == gRow && cCol + 1 == gCol) ||
-                (cRow == gRow && cCol - 1 == gCol);
+        return (isInMap(cRow+1, cCol) && map[cRow+1][cCol] == goal.self) ||
+                (isInMap(cRow-1, cCol) && map[cRow-1][cCol] == goal.self) ||
+                (isInMap(cRow, cCol+1) && map[cRow][cCol+1] == goal.self) ||
+                (isInMap(cRow, cCol-1) && map[cRow][cCol-1] == goal.self);
     }
 
     /**

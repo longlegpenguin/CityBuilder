@@ -130,10 +130,13 @@ public class GameModel implements java.io.Serializable {
      * @param buildable the effective buildable
      */
     private void effectExists(Buildable buildable) {
+        System.out.println("Hahaha");
         if (hasSideEffect(buildable)) {
+            System.out.println("shitq");
             SideEffect bad = (SideEffect) buildable;
-            for (Zone z :
-                    getAllZones()) {
+            for (Zone z : getAllZones()) {
+                System.out.println("f**");
+
                 bad.effect(z, this);
             }
         }
@@ -209,8 +212,8 @@ public class GameModel implements java.io.Serializable {
         } else if (masterRoads.contains(bad)) {
             throw new OperationException("Removing fails, master roads cannot be removed.");
         }
-        removeFromMap(bad);
         removeSideEffects(bad);
+        removeFromMap(bad);
         cityStatistics.getBudget().addBalance(bad.getConstructionCost() * Constants.RETURN_RATE);
         removeFromCity(bad);
         System.out.println("Remove Success");
