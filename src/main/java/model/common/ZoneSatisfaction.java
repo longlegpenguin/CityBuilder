@@ -50,6 +50,7 @@ public class ZoneSatisfaction implements java.io.Serializable {
     }
 
     public void setIndustrialEffect(int noIndustrialEffect) {
+        System.out.println("new industrial eff" + noIndustrialEffect);
         this.noIndustrialEffect = noIndustrialEffect;
     }
 
@@ -61,10 +62,11 @@ public class ZoneSatisfaction implements java.io.Serializable {
      * @return total satisfaction for a zone
      */
     public double getTotalZoneSatisfaction(GameModel gm) {
+        System.out.println("get toal " + noIndustrialEffect);
         return policeEffect + freeWorkplaceEffect + stadiumEffect + noIndustrialEffect + forestEffect
                 + (gm.getCityStatistics().getTaxEffect()
                 + gm.getCityStatistics().getIndComZoneBalance()
-                + gm.getCityStatistics().getBudgetEffect()) / 3;
+                + gm.getCityStatistics().getBudgetEffect()) / 3.0;
     }
     /**
      * @return related satisfaction for a zone
