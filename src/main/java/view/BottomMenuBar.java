@@ -2,11 +2,12 @@ package view;
 
 import controller.Controller;
 import controller.util.GameMode;
+import engine.fontMeshCreator.GUIText;
+import engine.fontRendering.TextMaster;
 import engine.guis.ButtonEnum;
 import engine.guis.UiButton;
 import engine.guis.UiTab;
 import engine.renderEngine.Loader;
-import engine.textures.TextureAttribute;
 import model.GameModel;
 import org.joml.Vector2f;
 
@@ -25,17 +26,18 @@ public class BottomMenuBar extends Menu{
     private UiButton stadiumButton;
     private UiButton schoolButton;
     private UiButton universityButton;
-    private UiButton destroyButton;
+    private UiButton selectZoneButton;
     private UiButton speedPauseButton;
     private UiButton speedOneButton;
     private UiButton speedTwoButton;
     private UiButton speedThreeButton;
     private UiButton moneyButton;
-
+    private GUIText dateText;
+    private GUIText gameModeText;
     private String buttonTexture = "Button";
 
-    public BottomMenuBar(Controller controller) {
-        super(controller);
+    public BottomMenuBar(Controller controller, GameModel gameModel) {
+        super(controller, gameModel);
         loadComponents();
     }
 
@@ -69,8 +71,8 @@ public class BottomMenuBar extends Menu{
         universityButton = new UiButton(loader.loadTexture("University"), new Vector2f(0.55f, -0.92f), new Vector2f(0.05f, 0.05f), ButtonEnum.UNIVERSITY);
         super.buttons.add(universityButton);
 
-        destroyButton = new UiButton(loader.loadTexture(buttonTexture), new Vector2f(0.9f, -0.92f), new Vector2f(0.05f, 0.05f), ButtonEnum.DESTROY);
-        super.buttons.add(destroyButton);
+        selectZoneButton = new UiButton(loader.loadTexture(buttonTexture), new Vector2f(0.9f, -0.92f), new Vector2f(0.05f, 0.05f), ButtonEnum.SELECT);
+        super.buttons.add(selectZoneButton);
 
         speedPauseButton = new UiButton(loader.loadTexture(buttonTexture), new Vector2f(-0.74f, -0.8f), new Vector2f(0.03f, 0.03f), ButtonEnum.SPEED_PAUSE);
         super.buttons.add(speedPauseButton);
@@ -83,59 +85,67 @@ public class BottomMenuBar extends Menu{
 
         moneyButton = new UiButton(loader.loadTexture(buttonTexture), new Vector2f(0.87f, -0.8f), new Vector2f(0.08f, 0.03f), ButtonEnum.MONEY);
         super.buttons.add(moneyButton);
+
+        dateText = new GUIText(super.gameModel.getCurrentDate().toString(),1,new Vector2f(0.025f,0.885f),1f,false);
+        dateText.setColour(0,0,0);
+        TextMaster.loadText(dateText);
+        super.texts.add(dateText);
+
+        gameModeText = new GUIText(ButtonEnum.SELECT.toString(), 1f, new Vector2f(0.025f, 0.83f), 1f, false);
+        gameModeText.setColour(1,0,0);
+        TextMaster.loadText(gameModeText);
     }
 
     @Override
-    public void initText(GameModel gameModel) {
-
+    public void updateText() {
+        dateText.setTextString(super.gameModel.getCurrentDate().toString());
+        TextMaster.loadText(dateText);
+        super.texts.add(dateText);
     }
 
     public void resZoneButtonAction() {
-        buttonAction(resZoneButton, GameMode.RESIDENTIAL_MODE);
+        buttonAction(resZoneButton, GameMode.RESIDENTIAL_MODE, gameModeText);
     }
 
     public void comZoneButtonAction() {
-        buttonAction(comZoneButton, GameMode.COMMERCIAL_MODE);
+        buttonAction(comZoneButton, GameMode.COMMERCIAL_MODE, gameModeText);
     }
 
     public void indZoneButtonAction() {
-        buttonAction(indZoneButton, GameMode.INDUSTRIAL_MODE);
+        buttonAction(indZoneButton, GameMode.INDUSTRIAL_MODE, gameModeText);
     }
 
     public void deZoneButtonAction() {
-        buttonAction(deZoneButton, GameMode.DEMOLISH_MODE);
+        buttonAction(deZoneButton, GameMode.DEMOLISH_MODE, gameModeText);
     }
 
     public void roadButtonAction() {
-        buttonAction(roadButton, GameMode.ROAD_MODE);
+        buttonAction(roadButton, GameMode.ROAD_MODE, gameModeText);
     }
 
     public void forestButtonAction() {
-        buttonAction(forestButton, GameMode.FOREST_MODE);
+        buttonAction(forestButton, GameMode.FOREST_MODE, gameModeText);
     }
 
     public void policeButtonAction() {
-        buttonAction(policeButton, GameMode.POLICE_MODE);
+        buttonAction(policeButton, GameMode.POLICE_MODE, gameModeText);
     }
 
     public void stadiumButtonAction() {
-        buttonAction(stadiumButton, GameMode.STADIUM_MODE);
+        buttonAction(stadiumButton, GameMode.STADIUM_MODE, gameModeText);
     }
 
     public void schoolButtonAction() {
-        buttonAction(schoolButton, GameMode.SCHOOL_MODE);
+        buttonAction(schoolButton, GameMode.SCHOOL_MODE, gameModeText);
     }
 
     public void universityButton() {
-        buttonAction(universityButton, GameMode.UNIVERSITY_MODE);
+        buttonAction(universityButton, GameMode.UNIVERSITY_MODE, gameModeText);
     }
 
-    public void destroyButtonAction() {
-        buttonAction(destroyButton, GameMode.DEMOLISH_MODE);
-    }
 
     public void selectButtonAction() {
-        System.out.println("Selection mode!");
-        buttonAction(destroyButton, GameMode.SELECTION_MODE);
+        buttonAction(selectZoneButton, GameMode.SELECTION_MODE, gameModeText);
     }
+
 }

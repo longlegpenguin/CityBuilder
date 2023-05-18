@@ -7,13 +7,8 @@ import engine.display.DisplayManager;
 import engine.entities.Camera;
 import engine.entities.Entity;
 import engine.entities.Light;
-import engine.fontMeshCreator.FontType;
 import engine.fontMeshCreator.GUIText;
 import engine.fontRendering.TextMaster;
-import engine.models.RawModel;
-import engine.models.TexturedModel;
-import engine.objConverter.ModelData;
-import engine.objConverter.OBJFileLoader;
 import engine.renderEngine.GuiRenderer;
 import engine.renderEngine.Loader;
 import engine.renderEngine.MasterRenderer;
@@ -35,11 +30,8 @@ import model.zone.Zone;
 import model.zone.ZoneStatistics;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
+import view.MoneyStatistic;
 import view.ViewModel;
-import org.w3c.dom.Text;
-
-import java.io.File;
-import java.util.ArrayList;
 import java.util.List;
 
 public class Handler implements ICallBack {
@@ -57,6 +49,7 @@ public class Handler implements ICallBack {
     private GameModel gameModel;
     private Controller controller;
     private ViewModel viewModel;
+    private MoneyStatistic money;
 
 
     private GUIText text;
@@ -64,15 +57,15 @@ public class Handler implements ICallBack {
     private int counter = 0;
 
     private float mouseDelay = 0f;
-    private float multiplier = 1;
+    private float baseTime =  3f;
+    private float timeMultiplier = 1;
     private float timer = 0;
     private float timer2 = 0;
-    private String date = "";
-
+    private boolean paused = false;
     private GUIText framerate;
     private GUIText frametime;
+    private boolean moneyTab = false;
 
-    ArrayList<UiButton> guiButtons = new ArrayList<UiButton>();
 
     public Handler(String saveFile) {
 
@@ -82,7 +75,6 @@ public class Handler implements ICallBack {
         this.worldGrid = new WorldGrid(loader, new TextureAttribute(loader.loadTexture("grass")));
         this.selector = new Selector(0, 0, loader, new TextureAttribute(loader.loadTexture("selector")));
 
-        float center = Terrain.getSize() * worldGrid.getWorldSize() / 2;
         this.camera = new Camera(new Vector3f(0,100, 0));
         this.light = new Light(new Vector3f(50, 1000, 50), new Vector3f(1,1,1));
 
@@ -97,11 +89,6 @@ public class Handler implements ICallBack {
 
         TextMaster.init(loader);
         viewModel = new ViewModel(controller,gameModel);
-        this.date = gameModel.getCurrentDate().toString();
-
-        text = new GUIText(this.date,1,new Vector2f(0.025f,0.885f),1f,false);
-        text.setColour(0,0,0);
-        TextMaster.loadText(text);
 
         frametime = new GUIText("FT (ms): ", 0.9f, new Vector2f(0.025f, 0.025f), 1, false);
         frametime.setColour(0,0,0);
@@ -110,6 +97,7 @@ public class Handler implements ICallBack {
         framerate = new GUIText("FPS: ", 0.9f, new Vector2f(0.025f, 0.05f), 1, false);
         framerate.setColour(0,0,0);
         TextMaster.loadText(framerate);
+
 
         setWorldGrid();
     }
@@ -128,10 +116,10 @@ public class Handler implements ICallBack {
             timer2 -= 0.1f;
         }
 
-        if (timer >= 3f / multiplier) {
-            TextMaster.removeText(text);
+        if (timer >= baseTime / timeMultiplier) {
             controller.regularUpdateRequest(1, this);
-            timer -= 3f/multiplier;
+            viewModel.Update();
+            timer -= baseTime/ timeMultiplier;
         }
 
         camera.move();
@@ -148,6 +136,7 @@ public class Handler implements ICallBack {
             selector.setX(-100);
             selector.setZ(-100);
         }
+
 
         boolean buttonPressed = false;
         if (mouseDelay == 0f && Mouse.isLeftButtonPressed()) {
@@ -166,15 +155,17 @@ public class Handler implements ICallBack {
                         case POLICE -> viewModel.getBottomMenuBar().policeButtonAction();
                         case SCHOOL -> viewModel.getBottomMenuBar().schoolButtonAction();
                         case UNIVERSITY -> viewModel.getBottomMenuBar().universityButton();
-//                        case DESTROY -> viewModel.getBottomMenuBar().destroyButtonAction();
-                        case DESTROY -> viewModel.getBottomMenuBar().selectButtonAction();
+                        case MONEY -> {viewModel.moneyDisplayManagement(controller,gameModel, moneyTab); if (moneyTab) {moneyTab = false;} else {moneyTab = true;}}
+                        case SELECT -> viewModel.getBottomMenuBar().selectButtonAction();
+                        case SPEED_PAUSE -> paused = true;
+                        case SPEED_ONE -> {timeMultiplier = 1f; paused = false;}
+                        case SPEED_TWO -> {timeMultiplier = 2f; paused = false;}
+                        case SPEED_THREE -> {timeMultiplier = 3f; paused = false;}
                     }
                 }
             }
             if (buttonPressed == false && coordsX < worldGrid.getWorldSize() && coordsX >= 0 && coordsY < worldGrid.getWorldSize() && coordsY >= 0) {
                 controller.mouseClickRequest(new Coordinate(coordsX, coordsY), this);
-//                Entity road = new Entity(roadTexM, new Vector3f(coordsX * Terrain.getSize(),0,(coordsY + 1) *Terrain.getSize()), 0,0,0,5);
-//                worldGrid.addBuildable(mousePicker.getCurrentTileCoords().x, mousePicker.getCurrentTileCoords().y, road);
             }
         } else {
             mouseDelay -= DisplayManager.getFrameTimeSeconds();
@@ -197,7 +188,7 @@ public class Handler implements ICallBack {
         loader.clearTextVaos();
 
 
-        timer += DisplayManager.getFrameTimeSeconds();
+        if (paused == false) {timer += DisplayManager.getFrameTimeSeconds();}
         timer2 += DisplayManager.getFrameTimeSeconds();
     }
 
@@ -288,46 +279,6 @@ public class Handler implements ICallBack {
     @Override
     public void updateGridSystem(Coordinate coordinate, Buildable buildable) {
         setWorldGrid();
-        /*Entity entity = null;
-        switch (buildable.getBuildableType()) {
-            case RESIDENTIAL -> {
-                entity = new Entity(assets.getResidentialBuilding(), new Vector3f(coordinate.getRow() * Terrain.getSize(),0,(coordinate.getCol() + 1) *Terrain.getSize()), 0,0,0,5);
-                break;
-            }
-            case COMMERCIAL -> {
-                entity = new Entity(assets.getCommercialBuilding(), new Vector3f(coordinate.getRow() * Terrain.getSize(),0,(coordinate.getCol() + 1) *Terrain.getSize()), 0,0,0,5);
-                break;
-            }
-            case INDUSTRIAL -> {
-                entity = new Entity(assets.getIndustrialBuilding(), new Vector3f(coordinate.getRow() * Terrain.getSize(),0,(coordinate.getCol() + 1) *Terrain.getSize()), 0,0,0,5);
-                break;
-            }
-            case ROAD -> {
-                entity = new Entity(assets.getRoad(), new Vector3f(coordinate.getRow() * Terrain.getSize(),0,(coordinate.getCol() + 1) *Terrain.getSize()), 0,0,0,5);
-                break;
-            }
-            case FOREST -> {
-                entity = new Entity(assets.getForest(), new Vector3f(coordinate.getRow() * Terrain.getSize(),0,(coordinate.getCol() + 1) *Terrain.getSize()), 0,0,0,5);
-                break;
-            }
-            case POLICE -> {
-                entity = new Entity(assets.getPolice(), new Vector3f(coordinate.getRow() * Terrain.getSize(),0,(coordinate.getCol() + 1) *Terrain.getSize()), 0,0,0,5);
-                break;
-            }
-            case STADIUM -> {
-                entity = new Entity(assets.getStadium(), new Vector3f(coordinate.getRow() * Terrain.getSize(),0,(coordinate.getCol() + 1) *Terrain.getSize()), 0,0,0,5);
-                break;
-            }
-            case SCHOOL -> {
-                entity = new Entity(assets.getSchool(), new Vector3f(coordinate.getRow() * Terrain.getSize(),0,(coordinate.getCol() + 1) *Terrain.getSize()), 0,0,0,5);
-                break;
-            }
-            case UNIVERSITY -> {
-                entity = new Entity(assets.getUniversity(), new Vector3f(coordinate.getRow() * Terrain.getSize(),0,(coordinate.getCol() + 1) *Terrain.getSize()), 0,0,0,5);
-                break;
-            }
-        }
-        worldGrid.addBuildable(mousePicker.getCurrentTileCoords().x, mousePicker.getCurrentTileCoords().y, entity);*/
     }
 
     @Override
@@ -361,10 +312,6 @@ public class Handler implements ICallBack {
 
     @Override
     public void updateDatePanel(Date date) {
-        this.date = date.toString();
-        text.setTextString(this.date);
-        TextMaster.loadText(text);
-
         System.out.println("________Callback Inform City Date_________");
         System.out.println("City Date: " + date);
         System.out.println("------------------------------------------");
@@ -372,14 +319,9 @@ public class Handler implements ICallBack {
 
     @Override
     public void updateCityStatisticPanel(CityStatistics cityStatistics) {
-//        System.out.println("________Callback Inform City Statistic_________");
-//        System.out.println("City population: " + cityStatistics.getPopulation(gameModel.getCityRegistry()));
-//        System.out.println("City satisfaction: " + cityStatistics.getCitySatisfaction());
-//        System.out.println("-----------------------------------------------");
-
-        for (GUIText t: viewModel.getTexts()) {
-            TextMaster.removeText(t);
-        }
-        viewModel.init(gameModel, cityStatistics);
+        System.out.println("________Callback Inform City Statistic_________");
+        System.out.println("City population: " + cityStatistics.getPopulation(gameModel.getCityRegistry()));
+        System.out.println("City satisfaction: " + cityStatistics.getCitySatisfaction());
+        System.out.println("-----------------------------------------------");
     }
 }
