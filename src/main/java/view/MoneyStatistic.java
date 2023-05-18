@@ -3,6 +3,8 @@ package view;
 import controller.Controller;
 import engine.fontMeshCreator.GUIText;
 import engine.fontRendering.TextMaster;
+import engine.guis.ButtonEnum;
+import engine.guis.UiButton;
 import engine.guis.UiTab;
 import engine.renderEngine.Loader;
 import model.GameModel;
@@ -29,6 +31,7 @@ public class MoneyStatistic extends Menu{
         taxRate.setColour(0,0,0);
         TextMaster.loadText(moneyBudget);
         TextMaster.loadText(taxRate);
+
     }
 
     @Override
@@ -51,4 +54,7 @@ public class MoneyStatistic extends Menu{
     public UiTab getTab() {
         return tab;
     }
+
+
 }
+

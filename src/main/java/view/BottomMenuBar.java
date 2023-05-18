@@ -135,7 +135,6 @@ public class BottomMenuBar extends Menu{
     }
 
 
-
     public void selectButtonAction() {
         System.out.println("Selection mode!");
         buttonAction(destroyButton, GameMode.SELECTION_MODE);

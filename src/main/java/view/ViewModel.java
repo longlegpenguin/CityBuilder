@@ -40,6 +40,7 @@ public class ViewModel {
         if (!this.moneySelected) {
         this.moneyStatistic = new MoneyStatistic(controller, gameModel);
         this.tabs.addAll(this.moneyStatistic.getTabs());
+
         this.moneySelected = true;
     }
         else{
