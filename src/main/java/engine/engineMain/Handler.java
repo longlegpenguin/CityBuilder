@@ -2,6 +2,7 @@ package engine.engineMain;
 
 import controller.Controller;
 import controller.ICallBack;
+import controller.util.GameMode;
 import engine.display.DisplayManager;
 import engine.entities.Camera;
 import engine.entities.Entity;
@@ -158,7 +159,11 @@ public class Handler implements ICallBack {
                 }
             }
             if (buttonPressed == false && coordsX < worldGrid.getWorldSize() && coordsX >= 0 && coordsY < worldGrid.getWorldSize() && coordsY >= 0) {
-                controller.mouseClickRequest(new Coordinate(coordsX, coordsY), this);
+                if (controller.getGameMode() == GameMode.SELECTION_MODE) {
+                    controller.
+                } else {
+                    controller.mouseClickRequest(new Coordinate(coordsX, coordsY), this);
+                }
             }
         } else {
             mouseDelay -= DisplayManager.getFrameTimeSeconds();

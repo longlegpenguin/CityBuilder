@@ -4,6 +4,8 @@ import controller.Controller;
 import engine.guis.UiButton;
 import engine.guis.UiTab;
 import model.GameModel;
+import model.zone.ZoneStatistics;
+
 import java.util.ArrayList;
 
 public class ViewModel {
@@ -11,6 +13,7 @@ public class ViewModel {
     private Controller controller;
     private BottomMenuBar bottomMenuBar;
     private StatisticsMenu statisticsMenu;
+    private ZoneSelector zoneSelector;
     private ArrayList<UiButton> buttons = new ArrayList<UiButton>();
     private ArrayList<UiTab> tabs = new ArrayList<UiTab>();
 
@@ -22,6 +25,9 @@ public class ViewModel {
         this.statisticsMenu = new StatisticsMenu(controller,gameModel);
         this.tabs.addAll(this.statisticsMenu.getTabs());
         this.tabs.addAll(this.bottomMenuBar.getTabs());
+
+        this.zoneSelector = new ZoneSelector(controller, gameModel);
+        this.tabs.addAll(this.zoneSelector.getTabs());
     }
 
     public void Update() {
