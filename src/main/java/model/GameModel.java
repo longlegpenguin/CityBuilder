@@ -158,6 +158,10 @@ public class GameModel implements java.io.Serializable {
     }
 
     private boolean hasSideEffect(Buildable buildable) {
+        if (buildable.getBuildableType() == POLICE || buildable.getBuildableType() == STADIUM
+                || buildable.getBuildableType() == COMMERCIAL || buildable.getBuildableType() == INDUSTRIAL){
+            return SideEffect.class.isAssignableFrom(buildable.getClass()) && buildable.isConnected();
+        }
         return SideEffect.class.isAssignableFrom(buildable.getClass());
     }
 
@@ -294,8 +298,7 @@ public class GameModel implements java.io.Serializable {
         if (isPlotAvailable(b) || !isZone(b)) {
             throw new OperationException("No zone on the selected field");
         }
-        Zone z = (Zone) b;
-        return z;
+        return (Zone) b;
     }
 
     private boolean isZone(Buildable buildable) {
