@@ -7,6 +7,7 @@ import persistence.Database;
 public class Main {
     public static void main(String[] args) throws OperationException {
         GameModel gm = new GameModel(10,10);
+        gm.initialize();
         gm.addZone(new ResidentialZoneFactory(gm).createZone(new Coordinate(1,1)));
         gm.regularUpdate(2, null);
         Database.save(gm);
