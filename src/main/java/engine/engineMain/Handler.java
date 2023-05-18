@@ -64,6 +64,7 @@ public class Handler implements ICallBack {
     private boolean paused = false;
     private GUIText framerate;
     private GUIText frametime;
+    private boolean moneyTab = false;
 
 
     public Handler(String saveFile) {
@@ -136,6 +137,7 @@ public class Handler implements ICallBack {
             selector.setZ(-100);
         }
 
+
         boolean buttonPressed = false;
         if (mouseDelay == 0f && Mouse.isLeftButtonPressed()) {
             mouseDelay = 0.1f;
@@ -153,7 +155,7 @@ public class Handler implements ICallBack {
                         case POLICE -> viewModel.getBottomMenuBar().policeButtonAction();
                         case SCHOOL -> viewModel.getBottomMenuBar().schoolButtonAction();
                         case UNIVERSITY -> viewModel.getBottomMenuBar().universityButton();
-                        case MONEY -> viewModel.moneyDisplayManagement(controller,gameModel);
+                        case MONEY -> {viewModel.moneyDisplayManagement(controller,gameModel, moneyTab); if (moneyTab) {moneyTab = false;} else {moneyTab = true;}}
                         case SELECT -> viewModel.getBottomMenuBar().selectButtonAction();
                         case SPEED_PAUSE -> paused = true;
                         case SPEED_ONE -> {timeMultiplier = 1f; paused = false;}

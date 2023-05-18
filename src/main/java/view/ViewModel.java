@@ -17,7 +17,6 @@ public class ViewModel {
     private ArrayList<UiButton> buttons = new ArrayList<UiButton>();
     private ArrayList<UiTab> tabs = new ArrayList<UiTab>();
     private MoneyStatistic moneyStatistic;
-    private boolean moneySelected = false;
 
     public ViewModel(Controller controller, GameModel gameModel) {
         this.controller = controller;
@@ -35,17 +34,14 @@ public class ViewModel {
 
     }
 
-    public void moneyDisplayManagement(Controller controller,GameModel gameModel)
+    public void moneyDisplayManagement(Controller controller,GameModel gameModel, boolean moneyTab)
     {
-        if (!this.moneySelected) {
+        if (!moneyTab) {
             this.moneyStatistic = new MoneyStatistic(controller, gameModel);
             this.tabs.addAll(this.moneyStatistic.getTabs());
-
-            this.moneySelected = true;
-        }
-        else{
-            this.tabs.remove((this.moneyStatistic.getTabs()));
-            this.moneySelected = false;
+        } else {
+            this.moneyStatistic.clearText();
+            this.tabs.removeAll(this.moneyStatistic.getTabs());
         }
     }
 
