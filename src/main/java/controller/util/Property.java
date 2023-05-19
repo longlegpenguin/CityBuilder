@@ -70,6 +70,10 @@ public class Property {
                 System.out.println("City satisfaction: " + cityStatistics.getCitySatisfaction());
                 System.out.println("-----------------------------------------------");
             }
+
+            @Override
+            public void shoutLose(boolean isLost) {
+            }
         };
     }
 

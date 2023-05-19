@@ -328,4 +328,9 @@ public class Handler implements ICallBack {
 //        System.out.println("City satisfaction: " + cityStatistics.getCitySatisfaction());
 //        System.out.println("-----------------------------------------------");
     }
+
+    @Override
+    public void shoutLose(boolean isLost) {
+        System.out.println("Game is lost: " + isLost);
+    }
 }

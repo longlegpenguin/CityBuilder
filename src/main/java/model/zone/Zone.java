@@ -177,7 +177,14 @@ public abstract class Zone implements Buildable, java.io.Serializable {
      * @return the satisfaction of the zone
      */
     public double getZoneSatisfaction(GameModel gm) {
-        return statistics.getSatisfaction().getTotalZoneSatisfaction(gm) + 60.0;
+
+        return statistics.getSatisfaction().getTotalZoneSatisfaction(gm) +
+                getPoliceEffect() * getPopulation() / 10 +
+                60.0;
+    }
+
+    public double getPoliceEffect() {
+        return statistics.getSatisfaction().getPoliceEffect();
     }
 
     /**

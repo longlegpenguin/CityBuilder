@@ -108,7 +108,6 @@ public class Forest extends EffectualFacility {
 
     @Override
     public boolean condition(Zone zone, GameModel gm) {
-        System.out.println(new PathFinder(gm.getMap()).squareDistance(zone, this));
         return (hasDirectView(zone, gm.getMap()) && new PathFinder(gm.getMap()).squareDistance(zone, this) < influenceRadius);
     }
 

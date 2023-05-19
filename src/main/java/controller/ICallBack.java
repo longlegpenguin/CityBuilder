@@ -18,4 +18,5 @@ public interface ICallBack {
     void updateDatePanel(Date date);
 
     void updateCityStatisticPanel(CityStatistics cityStatistics);
+    void shoutLose(boolean isLost);
 }

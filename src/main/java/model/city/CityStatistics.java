@@ -14,7 +14,7 @@ public class CityStatistics implements java.io.Serializable {
     private int nrIndustrialZones;
     private int nrResidentialZones;
     private final Budget budget;
-    private float citySatisfaction;
+    private double citySatisfaction;
     private final int taxEffect;
     private double indComZoneBalance;
     private final float budgetEffect;
@@ -27,7 +27,13 @@ public class CityStatistics implements java.io.Serializable {
         this.taxEffect = 0;
         this.indComZoneBalance = 0;
         this.budgetEffect = 0;
-        this.citySatisfaction = 60;
+        this.citySatisfaction = 0;
+    }
+
+    public double getCityRelatedSatisfaction() {
+        return getTaxEffect()
+                + getIndComZoneBalance()
+                + getBudgetEffect();
     }
 
     public int getNrCommercialZones() {
@@ -52,12 +58,12 @@ public class CityStatistics implements java.io.Serializable {
         return cityRegistry.getAllCitizens().size();
     }
 
-    public float getCitySatisfaction() {
+    public double getCitySatisfaction() {
         return citySatisfaction;
     }
 
-    public int getTaxEffect() {
-        return taxEffect;
+    public double getTaxEffect() {
+        return 1 / budget.getTaxRate();
     }
 
     public double getIndComZoneBalance() {
@@ -90,7 +96,7 @@ public class CityStatistics implements java.io.Serializable {
         }
         int zoneCount =  (gm.getCityRegistry().getZones().size());
         if (zoneCount == 0) {
-            this.citySatisfaction = 60;
+            this.citySatisfaction = 60 + getCityRelatedSatisfaction();
         } else {
             float avgZonesSatisfaction =  ((float)sumZoneSatisfaction /(float) zoneCount);
             this.citySatisfaction = avgZonesSatisfaction;

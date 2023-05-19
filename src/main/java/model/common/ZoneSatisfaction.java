@@ -61,7 +61,7 @@ public class ZoneSatisfaction implements java.io.Serializable {
      * @return total satisfaction for a zone
      */
     public double getTotalZoneSatisfaction(GameModel gm) {
-        return policeEffect + freeWorkplaceEffect + stadiumEffect + noIndustrialEffect + forestEffect
+        return getZoneRelatedSatisfaction()
                 + gm.getCityStatistics().getTaxEffect()
                 + gm.getCityStatistics().getIndComZoneBalance()
                 + gm.getCityStatistics().getBudgetEffect();

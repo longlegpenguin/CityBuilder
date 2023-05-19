@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import static model.common.Constants.INITIAL_CITY_BALANCE;
+import static model.common.Constants.*;
 import static model.util.BuildableType.*;
 
 public class GameModel implements java.io.Serializable {
@@ -61,6 +61,7 @@ public class GameModel implements java.io.Serializable {
             } catch (OperationException e) {}
             addToMap(forest);
         }
+        cityRegistry.getCityStatistics().setCitySatisfaction(this);
     }
 
     public Buildable[][] getMap() {
@@ -449,6 +450,12 @@ public class GameModel implements java.io.Serializable {
         citizenshipEducationUpdate();
         cityAging();
         updateForests();
+        if (callBack == null) { return; }
+        if (cityRegistry.getCityStatistics().getCitySatisfaction() < GAME_LOST_SATISFACTION) {
+            callBack.shoutLose(true);
+        } else {
+            callBack.shoutLose(false);
+        }
     }
 
     /**
