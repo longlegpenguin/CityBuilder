@@ -5,6 +5,7 @@ import model.util.LevelOfEducation;
 import model.util.PathFinder;
 import model.zone.Zone;
 
+import java.nio.file.Path;
 import java.util.LinkedList;
 
 public class Citizen implements java.io.Serializable {
@@ -15,7 +16,7 @@ public class Citizen implements java.io.Serializable {
     private int age;
     private boolean isUnemployed;
 
-    private LinkedList<Double> taxPaidPast20Years;
+    private final LinkedList<Double> taxPaidPast20Years;
 
     public Citizen(Zone workplace, Zone livingPlace, LevelOfEducation levelOfEducation) {
         this.workplace = workplace;
@@ -27,6 +28,15 @@ public class Citizen implements java.io.Serializable {
         taxPaidPast20Years = new LinkedList<>();
     }
 
+    public double getSatisfaction(GameModel gm) {
+        if (workplace == null) {
+            return livingPlace.getZoneSatisfaction(gm);
+        }
+        double distanceEffect = new PathFinder(gm.getMap()).manhattanDistance(workplace, livingPlace);
+        return workplace.getZoneSatisfaction(gm) +
+                livingPlace.getZoneSatisfaction(gm) -
+                distanceEffect;
+    }
     /**
      * Pays the tax and records the pay
      * @param taxRate the current tax rate

@@ -306,6 +306,7 @@ public class Handler implements ICallBack {
         for (Citizen c :
                 citizens) {
             System.out.println(c);
+            System.out.println("Citizen Satisfaction: " + c.getSatisfaction(gameModel));
         }
         System.out.println("-----------------------------------------------");
     }

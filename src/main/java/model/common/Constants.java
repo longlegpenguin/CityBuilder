@@ -32,5 +32,6 @@ public class Constants implements java.io.Serializable {
     public static final int STADIUM_EFFECT_RADIUS = 5;
     public static final int FOREST_EFFECT_RADIUS = 3;
     public static final int POLICE_EFFECT_RADIUS = 5;
+    public static final int CITIZEN_LEAVING_SATISFACTION = 50;
 
 }

@@ -36,6 +36,14 @@ public class SocialSecurity implements java.io.Serializable {
                 HumanManufacture.createYoungCitizen(gm);
             }
         }
+        for (Citizen worker : getListOfWorkForce()) {
+            if (worker.getSatisfaction(gm) < Constants.CITIZEN_LEAVING_SATISFACTION) {
+                System.out.println("One citizen left");
+                try {
+                    die(worker, gm);
+                } catch (NullPointerException e) {}
+            }
+        }
     }
 
     private List<Citizen> getListOfRetired() {
