@@ -75,7 +75,21 @@ public class Budget implements java.io.Serializable {
         return sumTax / cnt;
     }
 
+    /**
+     * Gets the revenue of the city
+     * @param gm game model
+     * @return amount
+     */
     public double getRevenue(GameModel gm) {
         return gm.calculateRevenue();
+    }
+
+    /**
+     * Gets the spend of the city
+     * @param gm game model
+     * @return amount
+     */
+    public double getSpend(GameModel gm) {
+        return gm.calculateSpend();
     }
 }
