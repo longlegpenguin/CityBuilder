@@ -4,6 +4,8 @@ import controller.util.GameMode;
 import controller.util.TimeMode;
 import model.GameModel;
 import model.common.Coordinate;
+import model.common.Dimension;
+import model.facility.Road;
 import model.util.Date;
 
 import static model.common.Constants.*;
@@ -15,7 +17,12 @@ class ControllerTest {
     Controller controller = new Controller(gm);
     @org.junit.jupiter.api.BeforeEach
     void setUp() {
-        gm.initialize();
+//        gm.initialize();
+        for (int i = 0; i < 10; i++) {
+            Road road = new Road(0, 0, new Coordinate(5 - 1, i), new Dimension(1, 1));
+            gm.getMasterRoads().add(road);
+            gm.addToMap(road);
+        }
     }
 
     @org.junit.jupiter.api.AfterEach

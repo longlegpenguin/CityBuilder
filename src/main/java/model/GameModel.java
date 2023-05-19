@@ -8,6 +8,7 @@ import model.common.*;
 import model.exceptions.OperationException;
 import model.facility.Facility;
 import model.facility.Forest;
+import model.facility.ForestFactory;
 import model.facility.Road;
 import model.util.*;
 import model.zone.Zone;
@@ -51,6 +52,21 @@ public class GameModel implements java.io.Serializable {
             masterRoads.add(road);
             addToMap(road);
         }
+        Forest forest = (Forest)new ForestFactory(this).createFacility(new Coordinate(0, cols -1));
+        try {
+            addFacility(forest);
+        } catch (OperationException e) {}
+        addToMap(forest);
+        forest = (Forest)new ForestFactory(this).createFacility(new Coordinate(1, cols -1));
+        try {
+            addFacility(forest);
+        } catch (OperationException e) {}
+        addToMap(forest);
+        forest = (Forest)new ForestFactory(this).createFacility(new Coordinate(2, cols -1));
+        try {
+            addFacility(forest);
+        } catch (OperationException e) {}
+        addToMap(forest);
     }
 
     public Buildable[][] getMap() {
@@ -203,6 +219,7 @@ public class GameModel implements java.io.Serializable {
         }
         removeSideEffects(bad);
         removeFromMap(bad);
+        youthForest.remove(bad);
         cityStatistics.getBudget().addBalance(bad.getConstructionCost() * Constants.RETURN_RATE);
         removeFromCity(bad);
         System.out.println("Remove Success");
@@ -317,7 +334,7 @@ public class GameModel implements java.io.Serializable {
         return new Date(dateOfWorld.getDay(), dateOfWorld.getMonth(), dateOfWorld.getYear());
     }
 
-    private void addToMap(Buildable buildable) {
+    public void addToMap(Buildable buildable) {
         Coordinate coordinate = buildable.getCoordinate();
         Dimension dimension = buildable.getDimension();
 

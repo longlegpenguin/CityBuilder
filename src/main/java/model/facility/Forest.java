@@ -4,6 +4,7 @@ import model.GameModel;
 import model.common.*;
 import model.util.BuildableType;
 import model.util.Date;
+import model.util.PathFinder;
 import model.zone.Zone;
 
 import java.util.LinkedList;
@@ -107,7 +108,8 @@ public class Forest extends EffectualFacility {
 
     @Override
     public boolean condition(Zone zone, GameModel gm) {
-        return (hasDirectView(zone, gm.getMap()));
+        System.out.println(new PathFinder(gm.getMap()).squareDistance(zone, this));
+        return (hasDirectView(zone, gm.getMap()) && new PathFinder(gm.getMap()).squareDistance(zone, this) < influenceRadius);
     }
 
     private double getPositiveEffect() {

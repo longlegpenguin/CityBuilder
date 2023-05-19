@@ -2,6 +2,7 @@ package model;
 
 import model.common.Citizen;
 import model.common.Coordinate;
+import model.common.Dimension;
 import model.exceptions.OperationException;
 import model.facility.*;
 import model.util.LevelOfEducation;
@@ -22,7 +23,12 @@ class GameModelTest {
 
     @BeforeEach
     void setUp() {
-        gm.initialize();
+//        gm.initialize();
+        for (int i = 0; i < 10; i++) {
+            Road road = new Road(0, 0, new Coordinate(5 - 1, i), new Dimension(1, 1));
+            gm.getMasterRoads().add(road);
+            gm.addToMap(road);
+        }
     }
 
     @Test

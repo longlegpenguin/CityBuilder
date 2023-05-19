@@ -36,6 +36,23 @@ public class PathFinder {
     }
 
     /**
+     * Calculates max difference between two buildables
+     *
+     * @param start the starting buildable
+     * @param goal  the goal buildable
+     * @return the euclidean distance
+     * @throws NullPointerException if one of the parameter is null.
+     */
+    public double squareDistance(Buildable start, Buildable goal) throws NullPointerException {
+        if (start == null || goal == null) {
+            throw new NullPointerException("Distance cannot be calculate if the place is null!");
+        }
+        Coordinate star = start.getCoordinate();
+        Coordinate goa = goal.getCoordinate();
+        return Math.max(Math.abs(star.getCol() - goa.getCol()), Math.abs(star.getRow() - goa.getRow()));
+    }
+
+    /**
      * Calculates the manhattan distance between two buildables
      *
      * @param start the starting buildable

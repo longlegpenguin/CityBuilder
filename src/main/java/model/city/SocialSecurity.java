@@ -49,7 +49,7 @@ public class SocialSecurity implements java.io.Serializable {
     private List<Citizen> getListOfRetired() {
         List<Citizen> retired = new LinkedList<>();
         for (Citizen citizen : cityRegistry.getAllCitizens()) {
-            if (citizen.getAge() > 80) {
+            if (citizen.getAge() >= 65) {
                 retired.add(citizen);
             }
         }
@@ -59,7 +59,7 @@ public class SocialSecurity implements java.io.Serializable {
     private List<Citizen> getListOfWorkForce() {
         List<Citizen> workForce = new LinkedList<>();
         for (Citizen citizen : cityRegistry.getAllCitizens()) {
-            if (citizen.getAge() <= 80) {
+            if (citizen.getAge() < 65) {
                 workForce.add(citizen);
             }
         }

@@ -7,6 +7,7 @@ import model.zone.Zone;
 
 import java.nio.file.Path;
 import java.util.LinkedList;
+import java.util.Random;
 
 public class Citizen implements java.io.Serializable {
     private Zone workplace;
@@ -23,7 +24,7 @@ public class Citizen implements java.io.Serializable {
         this.livingPlace = livingPlace;
         this.levelOfEducation = levelOfEducation;
         pension = 0;
-        age = 18;
+        age = new Random().nextInt(42) + 18;
         isUnemployed = workplace == null;
         taxPaidPast20Years = new LinkedList<>();
     }
