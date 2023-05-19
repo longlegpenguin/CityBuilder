@@ -15,6 +15,7 @@ import model.zone.Zone;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import static model.common.Constants.INITIAL_CITY_BALANCE;
 import static model.util.BuildableType.*;
@@ -52,21 +53,14 @@ public class GameModel implements java.io.Serializable {
             masterRoads.add(road);
             addToMap(road);
         }
-        Forest forest = (Forest)new ForestFactory(this).createFacility(new Coordinate(0, cols -1));
-        try {
-            addFacility(forest);
-        } catch (OperationException e) {}
-        addToMap(forest);
-        forest = (Forest)new ForestFactory(this).createFacility(new Coordinate(1, cols -1));
-        try {
-            addFacility(forest);
-        } catch (OperationException e) {}
-        addToMap(forest);
-        forest = (Forest)new ForestFactory(this).createFacility(new Coordinate(2, cols -1));
-        try {
-            addFacility(forest);
-        } catch (OperationException e) {}
-        addToMap(forest);
+        Random random = new Random();
+        for (int i = 0; i < 4; i++) {
+            Forest forest = (Forest)new ForestFactory(this).createFacility(new Coordinate(random.nextInt(rows-1), random.nextInt(cols-1)));
+            try {
+                addFacility(forest);
+            } catch (OperationException e) {}
+            addToMap(forest);
+        }
     }
 
     public Buildable[][] getMap() {
