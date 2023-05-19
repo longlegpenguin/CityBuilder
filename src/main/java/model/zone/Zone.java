@@ -19,7 +19,6 @@ public abstract class Zone implements Buildable, java.io.Serializable {
     protected List<Citizen> citizens;
     protected final Dimension dimension;
     protected BuildableType buildableType;
-    List<Buildable> effectedBy;
     protected Boolean isUnderConstruction;
     protected float effectRadius;
     Boolean isConnected;
@@ -33,7 +32,6 @@ public abstract class Zone implements Buildable, java.io.Serializable {
         this.coordinate = coordinate;
         citizens = new ArrayList<>();
         this.dimension = new Dimension(1, 1);
-        effectedBy = new ArrayList<>();
         isUnderConstruction = true;
         this.effectRadius = effectRadius;
         this.isConnected = false;
@@ -47,10 +45,12 @@ public abstract class Zone implements Buildable, java.io.Serializable {
         return isConnected;
     }
 
-    public void setConnected(Boolean connected) {
-        isConnected = connected;
-    }
-    public void setConnected(Buildable connectingPoint, Buildable map[][]) {
+    /**
+     * Resets the connected property with the current possibility of connection
+     * @param connectingPoint master road
+     * @param map map of city
+     */
+    public void resetConnected(Buildable connectingPoint, Buildable map[][]) {
         isConnected = new PathFinder(map).manhattanDistance(this, connectingPoint) > -1;
     }
 
@@ -64,10 +64,6 @@ public abstract class Zone implements Buildable, java.io.Serializable {
 
     public ZoneStatistics getStatistics() {
         return statistics;
-    }
-
-    public List<Buildable> getEffectedBy() {
-        return effectedBy;
     }
 
     public Date getBirthday() {
@@ -94,10 +90,6 @@ public abstract class Zone implements Buildable, java.io.Serializable {
 
     public float getEffectRadius() {
         return effectRadius;
-    }
-
-    public void setEffectedBy(List<Buildable> effectedBy) {
-        this.effectedBy = effectedBy;
     }
 
     @Override
@@ -189,15 +181,6 @@ public abstract class Zone implements Buildable, java.io.Serializable {
         return statistics.getSatisfaction().getZoneRelatedSatisfaction();
     }
 
-    /**
-     * Collects the base tax from each citizen
-     *
-     * @param taxRate the tax rate of the city.
-     * @return the sum of tax paid by citizens located in the zone
-     */
-    public int collectTax(double taxRate) {
-        return (int) (taxRate * Constants.BASE_TAX * getPopulation());
-    }
 
     /**
      * Gets the cost for assigning/upgrading the zone

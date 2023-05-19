@@ -25,7 +25,6 @@ public class GameModel implements java.io.Serializable {
     private final CityStatistics cityStatistics;
     private final Date dateOfWorld;
     private final List<Road> masterRoads;
-    private List<Zone> underConstructions;
     private List<Forest> youthForest;
     private Date lastTaxDate;
     private final SocialSecurity socialSecurity;
@@ -39,7 +38,6 @@ public class GameModel implements java.io.Serializable {
         dateOfWorld = new Date(1, Month.JANUARY, 2020);
         lastTaxDate = new Date(1, Month.JANUARY, 2020);
         masterRoads = new ArrayList<>();
-        underConstructions = new ArrayList<>();
         youthForest = new ArrayList<>();
         socialSecurity = new SocialSecurity(cityRegistry);
     }
@@ -68,7 +66,6 @@ public class GameModel implements java.io.Serializable {
         List<Buildable> buildableList = new ArrayList<>();
         buildableList.addAll(cityRegistry.getZones());
         buildableList.addAll(cityRegistry.getFacilities());
-        buildableList.addAll(underConstructions);
         buildableList.addAll(masterRoads);
         return buildableList;
     }
@@ -78,10 +75,7 @@ public class GameModel implements java.io.Serializable {
     }
 
     public List<Buildable> getZoneBuildable() {
-        List<Buildable> buildableList = new ArrayList<>();
-        buildableList.addAll(cityRegistry.getZones());
-        buildableList.addAll(underConstructions);
-        return buildableList;
+        return new ArrayList<>(cityRegistry.getZones());
     }
 
     public CityRegistry getCityRegistry() {
@@ -116,12 +110,12 @@ public class GameModel implements java.io.Serializable {
             throw new OperationException("Add zone failed, no available plot.");
         }
         addToMap(zone);
-        zone.setConnected(masterRoads.get(0), map);
+        zone.resetConnected(masterRoads.get(0), map);
         effectExists(zone);
         beEffectedByExisting(zone);
+        cityRegistry.addZone(zone);
         cityStatistics.getBudget().deductBalance(zone.getConstructionCost());
         updateIndustryCommercialBalanceSatisfactionIndex();
-        underConstructions.add(zone);
     }
 
     /**
@@ -139,9 +133,7 @@ public class GameModel implements java.io.Serializable {
     }
 
     private List<Zone> getAllZones() {
-        List<Zone> zl = new ArrayList<>(cityRegistry.getZones());
-        zl.addAll(underConstructions);
-        return zl;
+        return new ArrayList<>(cityRegistry.getZones());
     }
 
     /**
@@ -186,7 +178,7 @@ public class GameModel implements java.io.Serializable {
         }
         if (facility.getBuildableType() == ROAD) {
             for (Zone z : getAllZones()) {
-                z.setConnected(masterRoads.get(0), map);
+                z.resetConnected(masterRoads.get(0), map);
             }
         }
     }
@@ -204,7 +196,7 @@ public class GameModel implements java.io.Serializable {
             throw new OperationException("Removing fails, plot is empty.");
         } else if (bad.getBuildableType() == ROAD && roadIsEssentialForConnection((Road) bad)) {
             throw new OperationException("Removing fails, the selected road will break connections on remove.");
-        } else if (isZone(bad) && !underConstructions.contains(bad)) {
+        } else if (isZone(bad) && !bad.isUnderConstruction()) {
             throw new OperationException("Removing fails, zone with assets cannot be removed.");
         } else if (masterRoads.contains(bad)) {
             throw new OperationException("Removing fails, master roads cannot be removed.");
@@ -233,12 +225,11 @@ public class GameModel implements java.io.Serializable {
     /**
      * Removes the buildable from the city registry and tempory lists.
      *
-     * @param bad
+     * @param bad the building to be removed
      */
     private void removeFromCity(Buildable bad) {
         if (isZone(bad)) {
             cityRegistry.removeZone((Zone) bad);
-            underConstructions.remove((Zone) bad);
             updateIndustryCommercialBalanceSatisfactionIndex();
         } else {
             cityRegistry.removeFacility((Facility) bad);
@@ -247,7 +238,7 @@ public class GameModel implements java.io.Serializable {
     }
 
     /**
-     * Checks if the removal of road will results in lost of existing connection
+     * Checks if the removal of road will result in lost of existing connection
      *
      * @param road th road to be checked
      * @return true if will cause lost, otherwise false.
@@ -488,13 +479,12 @@ public class GameModel implements java.io.Serializable {
         double revenue = calculateRevenue();
         double spend = calculateSpend();
         cityRegistry.updateBalance(revenue - spend);
-//        socialSecurity.appendTaxRecord();
     }
 
     /**
      * Getting the total expenses of the city.
      *
-     * @return
+     * @return the total pension and maintainence
      */
     public double calculateSpend() {
         double spend = 0;
@@ -506,13 +496,9 @@ public class GameModel implements java.io.Serializable {
     /**
      * Getting the revenue of the city.
      *
-     * @return
+     * @return the amount of tax collected
      */
     public double calculateRevenue() {
-//        int revenue = 0;
-//        for (Citizen c : cityRegistry.getAllCitizens()) {
-//            revenue += c.payTax(cityStatistics.getBudget().getTaxRate());
-//        }
         return socialSecurity.collectTax(queryCityBudget().getTaxRate());
     }
 
@@ -535,16 +521,25 @@ public class GameModel implements java.io.Serializable {
      * Filter out the already finished constructions and update their level.
      */
     private void filterConstructed() {
-        List<Zone> newUnderConstructions = new ArrayList<>();
-        for (Zone zone : underConstructions) {
+        for (Zone zone : getUnderConstructions()) {
             if (zone.getBirthday().dateDifference(getCurrentDate()).get("days") > Constants.DAYS_FOR_CONSTRUCTION) {
                 zone.setLevel(Level.ONE);
                 zone.setUnderConstruction(false);
-                cityRegistry.addZone(zone);
-            } else {
-                newUnderConstructions.add(zone);
             }
         }
-        underConstructions = newUnderConstructions;
+    }
+
+    /**
+     * Gets all zones which status is still under constructed.
+     * @return the list
+     */
+    public List<Zone> getUnderConstructions() {
+        List<Zone> underConstructions = new ArrayList<>();
+        for (Zone zone : getAllZones()) {
+            if (zone.isUnderConstruction()) {
+                underConstructions.add(zone);
+            }
+        }
+        return underConstructions;
     }
 }
