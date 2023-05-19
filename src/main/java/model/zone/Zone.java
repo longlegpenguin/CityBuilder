@@ -113,6 +113,14 @@ public abstract class Zone implements Buildable, java.io.Serializable {
         this.statistics = statistics;
     }
 
+    public double getFreeWorkSpaceEffect() {
+        return getStatistics().getSatisfaction().getFreeWorkplaceEffect();
+    }
+
+    public double getIndustrialEffect() {
+        return getStatistics().getSatisfaction().getIndustrialEffect();
+    }
+
     /**
      * If new is positive, use new value as effect if is greater than the old one.
      * If is negative, set to zero if abs is the same.

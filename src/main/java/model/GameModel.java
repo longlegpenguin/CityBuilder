@@ -463,9 +463,12 @@ public class GameModel implements java.io.Serializable {
             } else {
                 Zone possibleLivingZone = HumanManufacture.getLivingPlace(this);
                 Zone possibleWorkingZone = HumanManufacture.getWorkingPlace(this, possibleLivingZone);
-                if (
-                        possibleLivingZone != null && ProbabilitySelector.decision(
-                                cityStatistics.getCitySatisfaction() / 100)
+                if (possibleLivingZone != null &&
+                        ProbabilitySelector.decision(
+                                (cityStatistics.getCitySatisfaction() +
+                                        possibleLivingZone.getFreeWorkSpaceEffect() +
+                                        possibleLivingZone.getIndustrialEffect())
+                                                / 100)
                 ) {
                     HumanManufacture.createYoungCitizen(this, possibleWorkingZone, possibleLivingZone);
                 }
