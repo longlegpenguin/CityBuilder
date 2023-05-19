@@ -75,7 +75,7 @@ public class HumanManufacture {
         ArrayList<School> availableSchools = new ArrayList<>();
         for (Buildable buildable : gm.getAllBuildable()) {
             if (new PathFinder(gm.getMap()).manhattanDistance(buildable, livingPlace) != -1) {
-                if (buildable.getClass() == School.class) {
+                if (buildable.getBuildableType() == BuildableType.SCHOOL) {
                     availableSchools.add((School) buildable);
                 }
             }

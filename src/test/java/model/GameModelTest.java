@@ -1,8 +1,11 @@
 package model;
 
+import model.common.Citizen;
 import model.common.Coordinate;
 import model.exceptions.OperationException;
 import model.facility.*;
+import model.util.LevelOfEducation;
+import model.util.PathFinder;
 import model.zone.IndustrialZoneFactory;
 import model.zone.ResidentialZoneFactory;
 import model.zone.Zone;
@@ -185,6 +188,27 @@ class GameModelTest {
         assertEquals((int) FOREST_BASE_EFFECT * 2, (int) (afterSatis - beforeSatis));
     }
 
+    @Test
+    void TestSchoolNotConnectedToMasterRoad() throws OperationException {
+        Zone z = new ResidentialZoneFactory(gm).createZone(new Coordinate(3, 1));
+        gm.addZone(z);
+        School r = (School) new SchoolFactory(gm).createFacility(new Coordinate(2, 3));
+        gm.addFacility(r);
+
+        for (int i = 0; i < 10; i++) {
+            gm.regularUpdate(1, null);
+        }
+        System.out.println(gm.printMap());
+        System.out.println(z.getCitizens());
+        boolean atLeast1PersonHasSecondaryDegree = false;
+        for(Citizen citizen : z.getCitizens()){
+            if (citizen.getLevelOfEducation() == LevelOfEducation.SCHOOL){
+                atLeast1PersonHasSecondaryDegree = true;
+                break;
+            }
+        }
+        assertEquals(true, atLeast1PersonHasSecondaryDegree);
+    }
     @Test
     void TestBuildTwoDifferentRoadOnNonEmptyPlot() throws OperationException {
         double beforeBalance = gm.getCityStatistics().getBudget().getBalance();

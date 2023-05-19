@@ -45,7 +45,12 @@ public class PathFinder {
     public int manhattanDistance(Buildable start, Buildable goal) {
         List<Node> graph = new ArrayList<>();
         Node result = BFS(start, goal, graph);
-        return result == null ? -1 : result.cost;
+        if (result != null) {
+            return result.cost;
+        } else {
+            Node result2 = BFS(goal, start, graph);
+            return result2 == null ? -1: result2.cost;
+        }
     }
 
 
