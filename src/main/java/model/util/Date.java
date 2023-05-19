@@ -65,8 +65,15 @@ public class Date implements Comparable<Date>,java.io.Serializable {
     public String toString() {
         String strDay = this.day + "";
         String strMonth = this.month + "";
+        System.out.println(strMonth);
+
         if ((int) (Math.log10(this.day) + 1) < 2) strDay = "0" + this.day;
-        if ((int) (Math.log10(this.month.getMonthOrder()) + 1) < 2) strMonth = "0" + this.month.getMonthOrder();
+        if ((int) (Math.log10(this.month.getMonthOrder()) + 1) < 2) {
+            strMonth = "0" + this.month.getMonthOrder();
+        } else {
+            strMonth = "" + this.month.getMonthOrder();
+        }
+        System.out.println(strMonth);
         return "" + this.year + "/" + strMonth + "/" + strDay;
     }
 
@@ -109,6 +116,7 @@ public class Date implements Comparable<Date>,java.io.Serializable {
      */
     public void addDay(int daysPassed) {
         String dayBefore = this.toString();
+        System.out.println(dayBefore);
         SimpleDateFormat dayFormat = new SimpleDateFormat("yyyy/MM/dd");
         Calendar cal = Calendar.getInstance();
         try {

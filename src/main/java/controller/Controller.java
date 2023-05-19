@@ -73,10 +73,9 @@ public class Controller {
         } else {
             callBack = property.getCallBack();
         }
-        this.property.getGameModel().regularUpdate(
-                dayPass * property.getTimeMode().getMultiplier(),
-                property.getCallBack()
-        );
+        for (int i = 0; i < dayPass * property.getTimeMode().getMultiplier(); i++) {
+            this.property.getGameModel().regularUpdate(1, property.getCallBack());
+        }
         callBack.updateDatePanel(property.getGameModel().getCurrentDate());
         callBack.updateCityStatisticPanel(property.getGameModel().getCityStatistics());
         callBack.updateBudgetPanel(property.getGameModel().getCityStatistics().getBudget());

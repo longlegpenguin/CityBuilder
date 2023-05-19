@@ -3,6 +3,7 @@ package engine.engineMain;
 import controller.Controller;
 import controller.ICallBack;
 import controller.util.GameMode;
+import controller.util.TimeMode;
 import engine.display.DisplayManager;
 import engine.entities.Camera;
 import engine.entities.Entity;
@@ -98,6 +99,7 @@ public class Handler implements ICallBack {
         framerate.setColour(0,0,0);
         TextMaster.loadText(framerate);
 
+        controller.switchTimeModeRequest(TimeMode.MONTHLY);
 
         setWorldGrid();
     }
@@ -283,13 +285,13 @@ public class Handler implements ICallBack {
 
     @Override
     public void updateBudgetPanel(Budget budget) {
-        System.out.println("________Callback Inform Budget_________");
-        System.out.println("Tax rate: " + budget.getTaxRate());
-        System.out.println("Balance: " + budget.getBalance());
-        System.out.println("Maintenance fee: " + budget.getTotalMaintenanceFee());
-        System.out.println("Tax revenue: " + budget.getRevenue(gameModel));
-        System.out.println("Total spend: " + budget.getSpend(gameModel));
-        System.out.println("---------------------------------------");
+//        System.out.println("________Callback Inform Budget_________");
+//        System.out.println("Tax rate: " + budget.getTaxRate());
+//        System.out.println("Balance: " + budget.getBalance());
+//        System.out.println("Maintenance fee: " + budget.getTotalMaintenanceFee());
+//        System.out.println("Tax revenue: " + budget.getRevenue(gameModel));
+//        System.out.println("Total spend: " + budget.getSpend(gameModel));
+//        System.out.println("---------------------------------------");
     }
 
     @Override
