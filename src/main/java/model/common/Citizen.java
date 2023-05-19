@@ -11,7 +11,7 @@ import java.util.LinkedList;
 public class Citizen implements java.io.Serializable {
     private Zone workplace;
     private final Zone livingPlace;
-    private final LevelOfEducation levelOfEducation;
+    private LevelOfEducation levelOfEducation;
     private int pension;
     private int age;
     private boolean isUnemployed;
@@ -87,6 +87,10 @@ public class Citizen implements java.io.Serializable {
 
     public void setWorkplace(Zone workplace) {
         this.workplace = workplace;
+    }
+
+    public void setLevelOfEducation(LevelOfEducation levelOfEducation) {
+        this.levelOfEducation = levelOfEducation;
     }
 
     public void setIsUnemployed(boolean isUnemployed) {

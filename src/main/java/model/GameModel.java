@@ -435,6 +435,7 @@ public class GameModel implements java.io.Serializable {
         dateOfWorld.addDay(dayPass);
         filterConstructed();
         citizenshipManipulation();
+        citizenshipEducationUpdate();
         cityAging();
         updateForests();
     }
@@ -469,6 +470,12 @@ public class GameModel implements java.io.Serializable {
                     HumanManufacture.createYoungCitizen(this, possibleWorkingZone, possibleLivingZone);
                 }
             }
+        }
+    }
+
+    private void citizenshipEducationUpdate() {
+        for (Citizen citizen : getCityRegistry().getAllCitizens()){
+            citizen.setLevelOfEducation(HumanManufacture.getEducationLevel(this, citizen.getLivingplace()));
         }
     }
 

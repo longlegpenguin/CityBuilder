@@ -71,37 +71,73 @@ public class HumanManufacture {
         return getClosestWorkingPlace(availableWorkingZones, livingPlace, gm);
     }
 
+    public static ArrayList<School> getAvailableSchools(GameModel gm, Zone livingPlace) {
+        ArrayList<School> availableSchools = new ArrayList<>();
+        for (Buildable buildable : gm.getAllBuildable()) {
+            if (new PathFinder(gm.getMap()).manhattanDistance(buildable, livingPlace) != -1) {
+                if (buildable.getClass() == School.class) {
+                    availableSchools.add((School) buildable);
+                }
+            }
+        }
+        return availableSchools;
+    }
+
+    private static boolean areEnoughPlacesSecondaryEducation(GameModel gm, ArrayList<School> availableSchools) {
+        return gm.getCityStatistics().getNrCitizenSecondaryEducation(gm.getCityRegistry()) < getCapacitySchools(availableSchools);
+    }
+
+    private static int getCapacitySchools(ArrayList<School> schools) {
+        int capacityAllSchools = 0;
+        for (School school : schools) {
+            capacityAllSchools += school.getCapacity();
+        }
+        return capacityAllSchools;
+    }
+
+    public static ArrayList<University> getAvailableUniversities(GameModel gm, Zone livingPlace) {
+        ArrayList<University> availableUniversities = new ArrayList<>();
+        for (Buildable buildable : gm.getAllBuildable()) {
+            if (new PathFinder(gm.getMap()).manhattanDistance(buildable, livingPlace) != -1) {
+                if (buildable.getClass() == University.class) {
+                    availableUniversities.add((University) buildable);
+                }
+            }
+        }
+        return availableUniversities;
+    }
+
+    private static boolean areEnoughPlacesHigherEducation(GameModel gm, ArrayList<University> availableUniversities) {
+        return gm.getCityStatistics().getNrCitizenHigherEducation(gm.getCityRegistry()) < getCapacityUniversities(availableUniversities);
+    }
+
+    private static int getCapacityUniversities(ArrayList<University> universities) {
+        int capacityAllUniversities = 0;
+        for (University university : universities) {
+            capacityAllUniversities += university.getCapacity();
+        }
+        return capacityAllUniversities;
+    }
+
     /**
      * Returns a random available level of education.
      *
      * @param gm
      * @return
      */
-    private static LevelOfEducation getEducationLevel(GameModel gm) {
+    public static LevelOfEducation getEducationLevel(GameModel gm, Zone livingPlace) {
         Random rand = new Random();
         int random = rand.nextInt(3);
-        if (random == 1) {
-            int capacityAllSchools = 0;
-            for (Buildable buildable : gm.getAllBuildable()) {
-                if (buildable.getClass() == School.class) {
-                    School school = (School) buildable;
-                    capacityAllSchools += school.getCapacity();
-                }
-            }
-            if (gm.getCityStatistics().getNrCitizenSecondaryEducation(gm.getCityRegistry()) < capacityAllSchools)
-                return LevelOfEducation.SCHOOL;
+
+        ArrayList<School> availableSchools = getAvailableSchools(gm, livingPlace);
+        ArrayList<University> availableUniversities = getAvailableUniversities(gm, livingPlace);
+
+        if (random == 1 && areEnoughPlacesSecondaryEducation(gm, availableSchools)) {
+            return LevelOfEducation.SCHOOL;
         }
 
-        if (random == 2) {
-            int capacityAllUniversities = 0;
-            for (Buildable buildable : gm.getAllBuildable()) {
-                if (buildable.getClass() == University.class) {
-                    University uni = (University) buildable;
-                    capacityAllUniversities += uni.getCapacity();
-                }
-            }
-            if (gm.getCityStatistics().getNrCitizenHigherEducation(gm.getCityRegistry()) < capacityAllUniversities)
-                return LevelOfEducation.UNIVERSITY;
+        if (random == 2 && areEnoughPlacesHigherEducation(gm, availableUniversities)) {
+            return LevelOfEducation.UNIVERSITY;
         }
 
         return LevelOfEducation.PRIMARY;
@@ -116,7 +152,7 @@ public class HumanManufacture {
     public static void createYoungCitizen(GameModel gm) {
         Zone livingPlace = getLivingPlace(gm);
         Zone workPlace = getWorkingPlace(gm, livingPlace);
-        Citizen newCitizen = new Citizen(workPlace, livingPlace, getEducationLevel(gm));
+        Citizen newCitizen = new Citizen(workPlace, livingPlace, getEducationLevel(gm, livingPlace));
         livingPlace.addCitizen(newCitizen, gm);
         if (workPlace != null) {
             workPlace.addCitizen(newCitizen, gm);
@@ -131,7 +167,7 @@ public class HumanManufacture {
      * @param livingPlace
      */
     public static void createYoungCitizen(GameModel gm, Zone workPlace, Zone livingPlace) {
-        Citizen newCitizen = new Citizen(workPlace, livingPlace, getEducationLevel(gm));
+        Citizen newCitizen = new Citizen(workPlace, livingPlace, getEducationLevel(gm, livingPlace));
         livingPlace.addCitizen(newCitizen, gm);
         if (workPlace != null) workPlace.addCitizen(newCitizen, gm);
     }

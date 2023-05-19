@@ -8,7 +8,7 @@ import model.util.LevelOfEducation;
 public class University extends Education {
 
     public University(int oneTimeCost, int maintenanceFee, Coordinate coordinate, Dimension dimension) {
-        super(oneTimeCost, maintenanceFee, coordinate, dimension, 5000, 4, LevelOfEducation.UNIVERSITY);
+        super(oneTimeCost, maintenanceFee, coordinate, dimension, 5, 4, LevelOfEducation.UNIVERSITY);
     }
 
     @Override
