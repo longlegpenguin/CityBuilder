@@ -26,7 +26,7 @@ public class HumanManufacture {
         for (Buildable buildable : gm.getZoneBuildable()) {
             Zone zone = (Zone) buildable;
             if (zone.getBuildableType() == BuildableType.RESIDENTIAL &&
-                    zone.getStatistics().getPopulation() < zone.getLevel().getCapacity() && zone.isConnected()) {
+                    zone.getStatistics().getPopulation() < zone.getCapacity() && zone.isConnected()) {
                 availableResidentialZones.add(zone);
             }
         }
@@ -63,7 +63,7 @@ public class HumanManufacture {
             int distanceLiveWork = new PathFinder(gm.getMap()).manhattanDistance(zone, livingPlace);
             if ((zone.getBuildableType() == BuildableType.INDUSTRIAL ||
                     zone.getBuildableType() == BuildableType.COMMERCIAL) &&
-                    zone.getStatistics().getPopulation() < zone.getLevel().getCapacity()
+                    zone.getStatistics().getPopulation() < zone.getCapacity()
                     && distanceLiveWork != -1) {
                 availableWorkingZones.add(zone);
             }

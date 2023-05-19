@@ -48,4 +48,9 @@ public class IndustrialZone extends Zone implements SideEffect {
         double euclideanDist = new PathFinder(gm.getMap()).euclideanDistance(this, zone);
         return euclideanDist < effectRadius;
     }
+
+    @Override
+    public int getCapacity() {
+        return super.getCapacity() - 5;
+    }
 }

@@ -33,8 +33,8 @@ public class Citizen implements java.io.Serializable {
             return livingPlace.getZoneSatisfaction(gm);
         }
         double distanceEffect = new PathFinder(gm.getMap()).manhattanDistance(workplace, livingPlace);
-        return workplace.getZoneSatisfaction(gm) +
-                livingPlace.getZoneSatisfaction(gm) -
+        return (workplace.getZoneSatisfaction(gm) +
+                livingPlace.getZoneSatisfaction(gm))/2.0 -
                 distanceEffect;
     }
     /**
