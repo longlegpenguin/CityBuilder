@@ -25,6 +25,15 @@ public abstract class Facility implements Buildable , java.io.Serializable {
         return isConnected;
     }
 
+    /**
+     * Resets the connected property with the current possibility of connection
+     * @param connectingPoint master road
+     * @param map map of city
+     */
+    public void resetConnected(Buildable connectingPoint, Buildable map[][]) {
+        isConnected = new PathFinder(map).manhattanDistance(this, connectingPoint) > -1;
+    }
+
     public void setConnected(Boolean connected) {
         isConnected = connected;
     }

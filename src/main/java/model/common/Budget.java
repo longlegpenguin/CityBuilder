@@ -1,6 +1,9 @@
 package model.common;
 
 import model.GameModel;
+import model.util.Date;
+import model.util.Month;
+import persistence.Database;
 
 import java.util.LinkedList;
 
@@ -8,13 +11,13 @@ public class Budget implements java.io.Serializable {
     private double balance;
     private double taxRate;
     private double totalMaintenanceFee;
-    private LinkedList<Double> taxRatePast20Years;
+    private Date lastPositiveBudgetDay;
 
     public Budget(double balance, double taxRate) {
         this.balance = balance;
         this.taxRate = taxRate;
         this.totalMaintenanceFee = 0;
-        taxRatePast20Years = new LinkedList<>();
+        this.lastPositiveBudgetDay = new Date(1, Month.JANUARY, 2020);
     }
 
     public double getBalance() {
@@ -29,29 +32,24 @@ public class Budget implements java.io.Serializable {
         return totalMaintenanceFee;
     }
 
-    public LinkedList<Double> getTaxRatePast20Years() {
-        return taxRatePast20Years;
-    }
-
     public void setTaxRate(double taxRate) {
         this.taxRate = taxRate;
     }
 
-    public void addBalance(double amount) {
+    public void addBalance(double amount, Date now) {
         this.balance += amount;
-    }
-
-    public void deductBalance(double amount) {
-        this.balance -= amount;
-    }
-
-    public void addTaxRate(double newTax) {
-        if (taxRatePast20Years.size() == 20) {
-            taxRatePast20Years.addLast(newTax);
-            taxRatePast20Years.removeFirst();
-        } else {
-            taxRatePast20Years.addLast(newTax);
+        if (this.balance >= 0) {
+            lastPositiveBudgetDay = now;
         }
+    }
+
+    /**
+     * Gets the number of years since the last day the budget is positive.
+     * @param now current date
+     * @return number of years
+     */
+    public int getNegativeYears(Date now) {
+        return now.dateDifference(lastPositiveBudgetDay).get("years");
     }
 
     public void addMaintenanceFee(double maintenanceFee) {
@@ -60,19 +58,6 @@ public class Budget implements java.io.Serializable {
 
     public void deductMaintenanceFee(double maintenanceFee) {
         totalMaintenanceFee -= maintenanceFee;
-    }
-
-    /**
-     * @return average income of the last 20 years.
-     */
-    public double getPast20AvgIncome() {
-        double sumTax = 0;
-        int cnt = 0;
-        for (Double taxRatePast20Year : taxRatePast20Years) {
-            sumTax += taxRatePast20Year;
-            cnt += 1;
-        }
-        return sumTax / cnt;
     }
 
     /**

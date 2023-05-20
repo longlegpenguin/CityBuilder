@@ -56,12 +56,17 @@ public class GameModel implements java.io.Serializable {
         Random random = new Random();
         for (int i = 0; i < 4; i++) {
             Forest forest = (Forest)new ForestFactory(this).createFacility(new Coordinate(random.nextInt(rows-1), random.nextInt(cols-1)));
+            forest.setAgeToTen();
+            forest.setTotalEffectCntToTenYears();
+
             try {
                 addFacility(forest);
+                cityStatistics.getBudget().addBalance(forest.getOneTimeCost(), getCurrentDate());
             } catch (OperationException e) {}
             addToMap(forest);
         }
         cityRegistry.getCityStatistics().setCitySatisfaction(this);
+        cityStatistics.getBudget().addMaintenanceFee(-cityStatistics.getBudget().getTotalMaintenanceFee());
     }
 
     public Buildable[][] getMap() {
@@ -125,8 +130,7 @@ public class GameModel implements java.io.Serializable {
         effectExists(zone);
         beEffectedByExisting(zone);
         cityRegistry.addZone(zone);
-        cityStatistics.getBudget().deductBalance(zone.getConstructionCost());
-        updateIndustryCommercialBalanceSatisfactionIndex();
+        cityRegistry.updateBalance(-zone.getConstructionCost(), getCurrentDate());
     }
 
     /**
@@ -136,10 +140,16 @@ public class GameModel implements java.io.Serializable {
      */
     private void effectExists(Buildable buildable) {
         if (hasSideEffect(buildable)) {
-            SideEffect bad = (SideEffect) buildable;
+            SideEffect sideEffect = (SideEffect) buildable;
             for (Zone z : getAllZones()) {
-                bad.effect(z, this);
+                sideEffect.effect(z, this);
             }
+        }
+    }
+
+    private void forestEffect(Forest forest) {
+        for (Zone z : getAllZones()) {
+            forest.grewEffect(z, this);
         }
     }
 
@@ -180,16 +190,38 @@ public class GameModel implements java.io.Serializable {
         facility.setConnected(masterRoads.get(0), map);
 
         effectExists(facility);
-        cityStatistics.getBudget().deductBalance(facility.getOneTimeCost());
+        cityRegistry.updateBalance(-facility.getOneTimeCost(), getCurrentDate());
         cityStatistics.getBudget().addMaintenanceFee(facility.getMaintenanceFee());
         cityRegistry.addFacility(facility);
 
         if (facility.getBuildableType() == BuildableType.FOREST) {
-            youthForest.add((Forest) facility);
+            Forest forest = (Forest) facility;
+            if (forest.getAge() < 10) {
+                youthForest.add(forest);
+            }
         }
         if (facility.getBuildableType() == ROAD) {
-            for (Zone z : getAllZones()) {
+            recheckConnections();
+        }
+    }
+
+    /**
+     * Rechecks the connections and apply effect with new connections.
+     */
+    private void recheckConnections() {
+        for (Zone z : getAllZones()) {
+            if (!z.isConnected()) {
                 z.resetConnected(masterRoads.get(0), map);
+                beEffectedByExisting(z);
+            }
+        }
+        for (Buildable buildable : getFacilityBuildable() ) {
+            Facility f = (Facility) buildable;
+            if (!f.isConnected() && f.getBuildableType() != FOREST) {
+                f.resetConnected(masterRoads.get(0), map);
+                if (hasSideEffect(f)) {
+                    effectExists(f);
+                }
             }
         }
     }
@@ -215,7 +247,7 @@ public class GameModel implements java.io.Serializable {
         removeSideEffects(bad);
         removeFromMap(bad);
         youthForest.remove(bad);
-        cityStatistics.getBudget().addBalance(bad.getConstructionCost() * Constants.RETURN_RATE);
+        cityStatistics.getBudget().addBalance(bad.getConstructionCost() * Constants.RETURN_RATE, getCurrentDate());
         removeFromCity(bad);
         System.out.println("Remove Success");
     }
@@ -242,7 +274,6 @@ public class GameModel implements java.io.Serializable {
     private void removeFromCity(Buildable bad) {
         if (isZone(bad)) {
             cityRegistry.removeZone((Zone) bad);
-            updateIndustryCommercialBalanceSatisfactionIndex();
         } else {
             cityRegistry.removeFacility((Facility) bad);
             cityStatistics.getBudget().deductMaintenanceFee(((Facility) bad).getMaintenanceFee());
@@ -352,15 +383,6 @@ public class GameModel implements java.io.Serializable {
     }
 
     /**
-     * Updates all zones in city, as result of new industry commercial balance.
-     */
-    private void updateIndustryCommercialBalanceSatisfactionIndex() {
-        int diff = Math.abs(cityStatistics.getNrIndustrialZones() - cityStatistics.getNrCommercialZones());
-        double newVal = 1.0 / (diff == 0 ? 1.0 : diff);
-        cityStatistics.setZoneBalanceEffect(newVal);
-    }
-
-    /**
      * @return a string, whose prints out will be the map.
      */
     public String printMap() {
@@ -449,7 +471,7 @@ public class GameModel implements java.io.Serializable {
         citizenshipManipulation();
         citizenshipEducationUpdate();
         cityAging();
-        updateForests();
+//        updateForests();
         if (callBack == null) { return; }
         if (cityRegistry.getCityStatistics().getCitySatisfaction() < GAME_LOST_SATISFACTION) {
             callBack.shoutLose(true);
@@ -466,6 +488,7 @@ public class GameModel implements java.io.Serializable {
             socialSecurity.census(this);
             updateCityBalance();
             lastTaxDate = getCurrentDate();
+            updateForests();
         }
     }
 
@@ -506,7 +529,7 @@ public class GameModel implements java.io.Serializable {
     private void updateCityBalance() {
         double revenue = calculateRevenue();
         double spend = calculateSpend();
-        cityRegistry.updateBalance(revenue - spend);
+        cityRegistry.updateBalance(revenue - spend, getCurrentDate());
     }
 
     /**
@@ -517,6 +540,7 @@ public class GameModel implements java.io.Serializable {
     public double calculateSpend() {
         double spend = 0;
         spend += cityStatistics.getBudget().getTotalMaintenanceFee();
+        System.out.println(spend);
         spend += socialSecurity.payPension();
         return spend;
     }
@@ -538,9 +562,9 @@ public class GameModel implements java.io.Serializable {
                 cityStatistics.getBudget().addMaintenanceFee((-1) * forest.getMaintenanceFee());
                 System.out.println(cityStatistics.getBudget().getTotalMaintenanceFee());
             } else {
+                forestEffect(forest);
                 newYouth.add(forest);
             }
-            effectExists(forest);
         }
         youthForest = newYouth;
     }

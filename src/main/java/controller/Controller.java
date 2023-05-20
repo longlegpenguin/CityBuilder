@@ -13,6 +13,7 @@ import controller.util.TimeMode;
 import model.GameModel;
 import model.common.Coordinate;
 import model.exceptions.OperationException;
+import persistence.Database;
 
 
 public class Controller {
@@ -68,13 +69,14 @@ public class Controller {
      * @param callBack will be called after the handle of the request, can be null for defaults.
      */
     public void regularUpdateRequest(int dayPass, ICallBack callBack) {
+//        Database.save(property.getGameModel());
         if (callBack != null) {
             property.setCallBack(callBack);
         } else {
             callBack = property.getCallBack();
             System.out.println(callBack);
         }
-        for (int i = 0; i < dayPass * property.getTimeMode().getMultiplier(); i++) {
+        for (int i = 0; i < dayPass * property.getTimeMode().getMultiplier()*12; i++) {
             this.property.getGameModel().regularUpdate(1, property.getCallBack());
         }
         callBack.updateDatePanel(property.getGameModel().getCurrentDate());

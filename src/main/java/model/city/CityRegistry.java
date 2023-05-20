@@ -3,6 +3,7 @@ package model.city;
 import model.common.Citizen;
 import model.facility.Facility;
 import model.util.BuildableType;
+import model.util.Date;
 import model.zone.Zone;
 
 import java.util.ArrayList;
@@ -87,8 +88,8 @@ public class CityRegistry implements java.io.Serializable {
      *
      * @param amount int
      */
-    public void updateBalance(double amount) {
-        cityStatistics.getBudget().addBalance(amount);
+    public void updateBalance(double amount, Date now) {
+        cityStatistics.getBudget().addBalance(amount, now);
     }
 
     /**

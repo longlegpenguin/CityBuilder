@@ -1,5 +1,6 @@
 package model.common;
 import model.GameModel;
+import model.util.Date;
 
 public class ZoneSatisfaction implements java.io.Serializable {
 
@@ -62,9 +63,7 @@ public class ZoneSatisfaction implements java.io.Serializable {
      */
     public double getTotalZoneSatisfaction(GameModel gm) {
         return getZoneRelatedSatisfaction()
-                + gm.getCityStatistics().getTaxEffect()
-                + gm.getCityStatistics().getIndComZoneBalance()
-                + gm.getCityStatistics().getBudgetEffect();
+                + gm.getCityStatistics().getCityRelatedSatisfaction(gm.getCurrentDate());
     }
     /**
      * @return related satisfaction for a zone

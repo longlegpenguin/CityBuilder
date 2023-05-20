@@ -3,6 +3,7 @@ package model.city;
 import model.GameModel;
 import model.common.Budget;
 import model.common.Citizen;
+import model.util.Date;
 import model.util.LevelOfEducation;
 import model.zone.CommercialZone;
 import model.zone.IndustrialZone;
@@ -12,36 +13,20 @@ import model.zone.Zone;
 public class CityStatistics implements java.io.Serializable {
     private int nrCommercialZones;
     private int nrIndustrialZones;
-    private int nrResidentialZones;
     private final Budget budget;
     private double citySatisfaction;
-    private final int taxEffect;
-    private double indComZoneBalance;
-    private final float budgetEffect;
 
     public CityStatistics(Budget budget) {
         this.budget = budget;
         this.nrCommercialZones = 0;
         this.nrIndustrialZones = 0;
-        this.nrResidentialZones = 0;
-        this.taxEffect = 0;
-        this.indComZoneBalance = 0;
-        this.budgetEffect = 0;
         this.citySatisfaction = 0;
     }
 
-    public double getCityRelatedSatisfaction() {
+    public double getCityRelatedSatisfaction(Date now) {
         return getTaxEffect()
                 + getIndComZoneBalance()
-                + getBudgetEffect();
-    }
-
-    public int getNrCommercialZones() {
-        return nrCommercialZones;
-    }
-
-    public int getNrIndustrialZones() {
-        return nrIndustrialZones;
+                + getBudgetEffect(now);
     }
 
     public Budget getBudget() {
@@ -59,7 +44,10 @@ public class CityStatistics implements java.io.Serializable {
     }
 
     public double getCitySatisfaction() {
-        return citySatisfaction;
+        if (citySatisfaction > 100) {
+            return 100;
+        }
+        return citySatisfaction < 0 ? 0 : citySatisfaction;
     }
 
     public double getTaxEffect() {
@@ -67,20 +55,17 @@ public class CityStatistics implements java.io.Serializable {
     }
 
     public double getIndComZoneBalance() {
-        return indComZoneBalance;
+        int diff = Math.abs(nrIndustrialZones - nrCommercialZones);
+        return 1.0 / (diff == 0 ? 1.0 : diff);
     }
 
-    public float getBudgetEffect() {
-        return budgetEffect;
-    }
-
-    /**
-     * Setting the indComZoneBalance to represent the balance between industrial and commercial buildings.
-     *
-     * @param indComZoneBalance balance between industrial and commercial buildings
-     */
-    public void setZoneBalanceEffect(double indComZoneBalance) {
-        this.indComZoneBalance = indComZoneBalance;
+    public double getBudgetEffect(Date now) {
+        int negYears = budget.getNegativeYears(now);
+        if (negYears != 0) {
+            double sizeOfLoan = getBudget().getBalance();
+            return - (Math.log10(-sizeOfLoan) + 1) - negYears;
+        }
+        return 0;
     }
 
     /**
@@ -96,10 +81,9 @@ public class CityStatistics implements java.io.Serializable {
         }
         int zoneCount =  (gm.getCityRegistry().getZones().size());
         if (zoneCount == 0) {
-            this.citySatisfaction = 60 + getCityRelatedSatisfaction();
+            this.citySatisfaction = 60 + getCityRelatedSatisfaction(gm.getCurrentDate());
         } else {
-            float avgZonesSatisfaction =  ((float)sumZoneSatisfaction /(float) zoneCount);
-            this.citySatisfaction = avgZonesSatisfaction;
+            this.citySatisfaction = ((float)sumZoneSatisfaction /(float) zoneCount);
         }
     }
 
@@ -113,8 +97,6 @@ public class CityStatistics implements java.io.Serializable {
                 .equals(CommercialZone.class)).count();
         this.nrIndustrialZones = (int) cityRegistry.getZones().stream().filter(z -> z.getClass()
                 .equals(IndustrialZone.class)).count();
-        this.nrResidentialZones = (int) cityRegistry.getZones().stream().filter(z -> z.getClass()
-                .equals(ResidentialZone.class)).count();
     }
 
     /**

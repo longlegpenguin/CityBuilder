@@ -22,7 +22,7 @@ public class Forest extends EffectualFacility {
         age = 1;
         this.birthday = birthday;
         this.lastUpdate = birthday;
-        totalEffectCnt = 0;
+        totalEffectCnt = getPositiveEffect();
         grew = true;
     }
 
@@ -30,8 +30,12 @@ public class Forest extends EffectualFacility {
         return age;
     }
 
-    public void setAge(int age) {
-        this.age = age;
+    public void setAgeToTen() {
+        this.age = 10;
+    }
+
+    public void setTotalEffectCntToTenYears() {
+        this.totalEffectCnt = getPositiveEffect()*10;
     }
 
     /**
@@ -45,6 +49,7 @@ public class Forest extends EffectualFacility {
                 grew = true;
             }
             age += 1;
+            System.out.println("forest"+age);
         }
     }
 
@@ -79,19 +84,48 @@ public class Forest extends EffectualFacility {
         return iz;
     }
 
+    public void grewEffect(Zone zone, GameModel gm) {
+        if (condition(zone, gm)) {
+            zone.updateForestEffect(zone.getStatistics().getSatisfaction().getForestEffect() - totalEffectCnt);
+            totalEffectCnt += getPositiveEffect();
+            zone.updateForestEffect(zone.getStatistics().getSatisfaction().getForestEffect() + totalEffectCnt);
+            System.out.println("grew effect" + totalEffectCnt);
+        }
+    }
     @Override
     public void effect(Zone zone, GameModel gm) {
-        if (condition(zone, gm) && grew) {
-            zone.updateForestEffect(zone.getStatistics().getSatisfaction().getForestEffect() + getPositiveEffect());
-            if (age == 1) {
-                for (SideEffect s : getBadEffectIndustrial(zone, gm)) {
-                    s.reverseEffect(zone, gm);
-                    System.out.println("Bad effects removed by Forest...");
-                }
+        if (condition(zone, gm)) {
+            System.out.println("Forest effect" + totalEffectCnt);
+            zone.updateForestEffect(zone.getStatistics().getSatisfaction().getForestEffect() + totalEffectCnt);
+            for (SideEffect s : getBadEffectIndustrial(zone, gm)) {
+                s.reverseEffect(zone, gm);
+                System.out.println("Bad effects removed by Forest...");
             }
-            totalEffectCnt += getPositiveEffect();
-            grew = false;
         }
+//        if (condition(zone, gm)) {
+//            zone.updateForestEffect(zone.getStatistics().getSatisfaction().getForestEffect() - totalEffectCnt);
+//            if (age == 1) {
+////                for (SideEffect s : getBadEffectIndustrial(zone, gm)) {
+////                    s.reverseEffect(zone, gm);
+////                    System.out.println("Bad effects removed by Forest...");
+////                }
+//            }
+//            totalEffectCnt += getPositiveEffect();
+//            zone.updateForestEffect(zone.getStatistics().getSatisfaction().getForestEffect() + totalEffectCnt);
+//        }
+//        if (condition(zone, gm) && grew) {
+//            zone.updateForestEffect(zone.getStatistics().getSatisfaction().getForestEffect() + getPositiveEffect());
+//            if (age == 1) {
+//                for (SideEffect s : getBadEffectIndustrial(zone, gm)) {
+//                    s.reverseEffect(zone, gm);
+//                    System.out.println("Bad effects removed by Forest...");
+//                }
+//            }
+//            totalEffectCnt += getPositiveEffect();
+//            grew = false;
+//        } else {
+//
+//        }
     }
 
     @Override
@@ -108,7 +142,9 @@ public class Forest extends EffectualFacility {
 
     @Override
     public boolean condition(Zone zone, GameModel gm) {
-        return (hasDirectView(zone, gm.getMap()) && new PathFinder(gm.getMap()).squareDistance(zone, this) < influenceRadius);
+        return (hasDirectView(zone, gm.getMap()) &&
+                new PathFinder(gm.getMap()).squareDistance(zone, this) < influenceRadius) &&
+                zone.isConnected();
     }
 
     private double getPositiveEffect() {

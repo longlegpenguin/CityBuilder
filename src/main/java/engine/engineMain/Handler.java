@@ -31,6 +31,7 @@ import model.zone.Zone;
 import model.zone.ZoneStatistics;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
+import persistence.Database;
 import view.MoneyStatistic;
 import view.ViewModel;
 import java.util.List;
@@ -65,7 +66,10 @@ public class Handler implements ICallBack {
     private boolean paused = false;
     private GUIText framerate;
     private GUIText frametime;
+    private GUIText gameStatus;
     private boolean moneyTab = false;
+
+    private boolean isGameOver = false;
 
 
     public Handler(String saveFile) {
@@ -86,6 +90,7 @@ public class Handler implements ICallBack {
 
         this.gameModel = new GameModel(worldGrid.getWorldSize(), worldGrid.getWorldSize());
         this.gameModel.initialize();
+//        gameModel = Database.read();
         this.controller = new Controller(gameModel);
 
         TextMaster.init(loader);
@@ -99,6 +104,11 @@ public class Handler implements ICallBack {
         framerate.setColour(0,0,0);
         TextMaster.loadText(framerate);
 
+        gameStatus = new GUIText("Game Over: " + isGameOver, 0.9f, new Vector2f(0.025f, 0.075f), 1, false);
+        gameStatus.setColour(0,0,0);
+        TextMaster.loadText(gameStatus);
+
+
         controller.switchTimeModeRequest(TimeMode.MONTHLY);
 
         setWorldGrid();
@@ -109,12 +119,18 @@ public class Handler implements ICallBack {
         if (timer2 >= 0.1f) {
             TextMaster.removeText(frametime);
             TextMaster.removeText(framerate);
+            TextMaster.removeText(gameStatus);
 
             frametime.setTextString("FT (ms): " + DisplayManager.getFrameTimeSeconds() * 1000);
             TextMaster.loadText(frametime);
 
             framerate.setTextString("FPS: " + 1 / DisplayManager.getFrameTimeSeconds());
             TextMaster.loadText(framerate);
+
+            // TODO isGameOver in the console outputs real value, but always false on the game ui.
+            frametime.setTextString("Game Over: " + isGameOver);
+            TextMaster.loadText(gameStatus);
+//            System.out.println("--------"+isGameOver);
             timer2 -= 0.1f;
         }
 
@@ -331,6 +347,7 @@ public class Handler implements ICallBack {
 
     @Override
     public void shoutLose(boolean isLost) {
-        System.out.println("Game is lost: " + isLost);
+        isGameOver = isLost;
+//        System.out.println("Game is lost: " + isLost);
     }
 }
