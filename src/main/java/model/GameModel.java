@@ -125,12 +125,34 @@ public class GameModel implements java.io.Serializable {
         if (!isPlotAvailable(zone)) {
             throw new OperationException("Add zone failed, no available plot.");
         }
+        checkTemporaryDirectView(zone);
         addToMap(zone);
         zone.resetConnected(masterRoads.get(0), map);
         effectExists(zone);
         beEffectedByExisting(zone);
         cityRegistry.addZone(zone);
         cityRegistry.updateBalance(-zone.getConstructionCost(), getCurrentDate());
+    }
+
+    /**
+     * If the new buildable blocks the forest view, reverses the effect of the blocked.
+     * @param buildable the new buildable to check.
+     */
+    public void checkTemporaryDirectView(Buildable buildable) {
+        for (Buildable b: getFacilityBuildable()) {
+            if (b.getBuildableType() == FOREST) {
+                Forest f = (Forest) b;
+                for (Zone z : getAllZones()) {
+                    boolean cond = f.condition(z, this);
+                    addToMap(buildable);
+                    boolean cond2 = f.condition(z, this);
+                    removeFromMap(buildable);
+                    if (cond2 != cond) {
+                        f.reverseEffect(z, this);
+                    }
+                }
+            }
+        }
     }
 
     /**
@@ -185,7 +207,7 @@ public class GameModel implements java.io.Serializable {
         if (!isPlotAvailable(facility)) {
             throw new OperationException("Add facility failed, no available slot");
         }
-
+        checkTemporaryDirectView(facility);
         addToMap(facility);
         facility.setConnected(masterRoads.get(0), map);
 

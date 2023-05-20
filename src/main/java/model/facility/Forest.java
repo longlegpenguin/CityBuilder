@@ -102,30 +102,6 @@ public class Forest extends EffectualFacility {
                 System.out.println("Bad effects removed by Forest...");
             }
         }
-//        if (condition(zone, gm)) {
-//            zone.updateForestEffect(zone.getStatistics().getSatisfaction().getForestEffect() - totalEffectCnt);
-//            if (age == 1) {
-////                for (SideEffect s : getBadEffectIndustrial(zone, gm)) {
-////                    s.reverseEffect(zone, gm);
-////                    System.out.println("Bad effects removed by Forest...");
-////                }
-//            }
-//            totalEffectCnt += getPositiveEffect();
-//            zone.updateForestEffect(zone.getStatistics().getSatisfaction().getForestEffect() + totalEffectCnt);
-//        }
-//        if (condition(zone, gm) && grew) {
-//            zone.updateForestEffect(zone.getStatistics().getSatisfaction().getForestEffect() + getPositiveEffect());
-//            if (age == 1) {
-//                for (SideEffect s : getBadEffectIndustrial(zone, gm)) {
-//                    s.reverseEffect(zone, gm);
-//                    System.out.println("Bad effects removed by Forest...");
-//                }
-//            }
-//            totalEffectCnt += getPositiveEffect();
-//            grew = false;
-//        } else {
-//
-//        }
     }
 
     @Override
@@ -143,7 +119,7 @@ public class Forest extends EffectualFacility {
     @Override
     public boolean condition(Zone zone, GameModel gm) {
         return (hasDirectView(zone, gm.getMap()) &&
-                new PathFinder(gm.getMap()).squareDistance(zone, this) < influenceRadius) &&
+                new PathFinder(gm.getMap()).squareDistance(zone, this) <= influenceRadius) &&
                 zone.isConnected();
     }
 

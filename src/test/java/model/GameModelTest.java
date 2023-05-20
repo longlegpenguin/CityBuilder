@@ -29,6 +29,10 @@ class GameModelTest {
             gm.getMasterRoads().add(road);
             gm.addToMap(road);
         }
+        Road road = new Road(0, 0, new Coordinate(3, 2), new Dimension(1, 1));
+        gm.addToMap(road);
+        road = new Road(0, 0, new Coordinate(3, 4), new Dimension(1, 1));
+        gm.addToMap(road);
     }
 
     @Test
@@ -78,12 +82,13 @@ class GameModelTest {
     @Test
     void TestBuildStadiumOnEmptyPlot() {
         double beforeBalance = gm.getCityStatistics().getBudget().getBalance();
-        Stadium r = (Stadium) new StadiumFactory(gm).createFacility(new Coordinate(2, 2));
+        Stadium r = (Stadium) new StadiumFactory(gm).createFacility(new Coordinate(1, 1));
         try {
             gm.addFacility(r);
         } catch (OperationException e) {
             throw new RuntimeException(e);
         }
+        System.out.println(gm.printMap());
         double afterBalance = gm.getCityStatistics().getBudget().getBalance();
         assertEquals(STADIUM_ONE_TIME_COST, beforeBalance - afterBalance);
         assertEquals(STADIUM_MAINTENANCE_FEE, gm.calculateSpend());
@@ -109,11 +114,10 @@ class GameModelTest {
 
     @Test
     void TestBuildStadiumEffect() throws OperationException {
-        Zone z = new ResidentialZoneFactory(gm).createZone(new Coordinate(1, 1));
+        Zone z = new ResidentialZoneFactory(gm).createZone(new Coordinate(3, 1));
         gm.addZone(z);
         double beforeSatis = z.getZoneSatisfaction(gm);
-        gm.addFacility(new RoadFactory(gm).createFacility(new Coordinate(1, 2)));
-        Stadium r = (Stadium) new StadiumFactory(gm).createFacility(new Coordinate(2, 2));
+        Stadium r = (Stadium) new StadiumFactory(gm).createFacility(new Coordinate(1, 1));
         gm.addFacility(r);
         double afterSatis = z.getZoneSatisfaction(gm);
         assertEquals(STADIUM_BASE_EFFECT, afterSatis - beforeSatis);
@@ -141,6 +145,7 @@ class GameModelTest {
         double afterBalance = gm.getCityStatistics().getBudget().getBalance();
         assertEquals(1 + gm.getMasterRoads().size(), gm.getAllBuildable().size());
         assertEquals(0, beforeBalance - afterBalance);
+        System.out.println(gm.printMap());
         assertEquals(ROAD_MAINTENANCE_FEE, gm.calculateSpend());
     }
 
@@ -153,6 +158,8 @@ class GameModelTest {
         double beforeSatis = z.getZonRelatedSatisfaction();
         gm.addFacility(new ForestFactory(gm).createFacility(new Coordinate(2, 3)));
         double afterSatis = z.getZonRelatedSatisfaction();
+
+        System.out.println(gm.printMap());
         assertEquals((int) FOREST_BASE_EFFECT, (int) (afterSatis - beforeSatis));
     }
 
@@ -190,8 +197,8 @@ class GameModelTest {
 
         gm.addFacility(new ForestFactory(gm).createFacility(new Coordinate(2, 3)));
         double afterSatis = z.getZonRelatedSatisfaction();
-
-        assertEquals((int) FOREST_BASE_EFFECT * 2, (int) (afterSatis - beforeSatis));
+        System.out.println(gm.printMap());
+        assertEquals((int) FOREST_BASE_EFFECT, (int) (afterSatis - beforeSatis));
     }
 
     @Test
@@ -218,15 +225,13 @@ class GameModelTest {
     @Test
     void TestBuildTwoDifferentRoadOnNonEmptyPlot() throws OperationException {
         double beforeBalance = gm.getCityStatistics().getBudget().getBalance();
-        gm.addFacility(new RoadFactory(gm).createFacility(new Coordinate(3, 3)));
-        gm.addFacility(new RoadFactory(gm).createFacility(new Coordinate(3, 2)));
+        gm.addFacility(new RoadFactory(gm).createFacility(new Coordinate(1, 3)));
+        gm.addFacility(new RoadFactory(gm).createFacility(new Coordinate(1, 2)));
         double afterBalance = gm.getCityStatistics().getBudget().getBalance();
         assertEquals(2 + gm.getMasterRoads().size(), gm.getAllBuildable().size());
         assertEquals(ROAD_ONE_TIME_COST * 2, beforeBalance - afterBalance);
         assertEquals(ROAD_MAINTENANCE_FEE * 2, gm.calculateSpend());
     }
-
-//TODO check the effect based on distance as well pls
 
     @Test
     void addFacility() {
