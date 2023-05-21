@@ -46,6 +46,10 @@ public abstract class Zone implements Buildable, java.io.Serializable {
         return isConnected;
     }
 
+    public int getOneTimeCost() {
+        return Constants.ZONE_ONE_TIME_COST;
+    }
+
     /**
      * Resets the connected property with the current possibility of connection
      *
