@@ -8,7 +8,6 @@ import model.common.*;
 import model.exceptions.OperationException;
 import model.facility.Facility;
 import model.facility.Forest;
-import model.facility.ForestFactory;
 import model.facility.Road;
 import model.util.*;
 import model.zone.Zone;
@@ -55,19 +54,19 @@ public class GameModel implements java.io.Serializable {
         }
         Random random = new Random();
         for (int i = 0; i < 4; i++) {
-            Forest forest = (Forest) new ForestFactory(this).createFacility(new Coordinate(random.nextInt(rows - 1), random.nextInt(cols - 1)));
+            Forest forest = new Forest(0, 0,
+                    new Coordinate(random.nextInt(rows - 1), random.nextInt(cols - 1)),
+                    new Dimension(1, 1),
+                    FOREST_EFFECT_RADIUS, getCurrentDate());
             forest.setAgeToTen();
             forest.setTotalEffectCntToTenYears();
-
             try {
                 addFacility(forest);
-                cityStatistics.getBudget().addBalance(forest.getOneTimeCost(), getCurrentDate());
             } catch (OperationException ignored) {
             }
             addToMap(forest);
         }
         cityRegistry.getCityStatistics().setCitySatisfaction(this);
-        cityStatistics.getBudget().addMaintenanceFee(-cityStatistics.getBudget().getTotalMaintenanceFee());
     }
 
     public Buildable[][] getMap() {
