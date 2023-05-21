@@ -256,12 +256,13 @@ public class GameModel implements java.io.Serializable {
             throw new OperationException("Removing fails, the selected road will break connections on remove.");
         } else if (isZone(bad) && !bad.isUnderConstruction()) {
             throw new OperationException("Removing fails, zone with assets cannot be removed.");
-        } else if (masterRoads.contains(bad)) {
+        } else if (bad.getBuildableType() == ROAD && masterRoads.contains((Road) bad)) {
             throw new OperationException("Removing fails, master roads cannot be removed.");
+        } else if (bad.getBuildableType() == FOREST) {
+            youthForest.remove((Forest) bad);
         }
         removeSideEffects(bad);
         removeFromMap(bad);
-        youthForest.remove(bad);
         cityStatistics.getBudget().addBalance(bad.getOneTimeCost() * Constants.RETURN_RATE, getCurrentDate());
         removeFromCity(bad);
         System.out.println("Remove Success");

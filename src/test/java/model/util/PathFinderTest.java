@@ -1,16 +1,16 @@
 package model.util;
 
-import model.common.Buildable;
 import model.GameModel;
-import model.facility.Road;
+import model.common.Buildable;
 import model.common.Coordinate;
 import model.common.Dimension;
+import model.facility.Road;
 import model.zone.ResidentialZoneFactory;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class PathFinderTest {
 
@@ -25,7 +25,7 @@ class PathFinderTest {
    1,1; 2,1; 2,2; 2,3; 3,3; 4,3; 4,4;
    1,3; 0,3; 0,4; 0,5; 1,5; 2,5; 2,4
      */
-    Buildable map[][];
+    Buildable[][] map;
     PathFinder pf;
     @BeforeEach
     void setUp() {
