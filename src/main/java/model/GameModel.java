@@ -467,9 +467,9 @@ public class GameModel implements java.io.Serializable {
 
     private void updateUnemployedStatusForCitizens() {
         for (Citizen citizen : cityRegistry.getAllCitizens()) {
-            if (citizen.isUnemployed())
-                citizen.setWorkplace(HumanManufacture.getWorkingPlace(this, citizen.getLivingplace()));
-            citizen.setIsUnemployed(false);
+            if (citizen.isUnemployed()) {
+                citizen.setWorkplace(this, HumanManufacture.getWorkingPlace(this, citizen.getLivingplace()));
+            }
         }
     }
 
@@ -588,6 +588,7 @@ public class GameModel implements java.io.Serializable {
         for (Zone zone : getUnderConstructions()) {
             if (zone.getBirthday().dateDifference(getCurrentDate()).get("days") > Constants.DAYS_FOR_CONSTRUCTION) {
                 zone.setLevel(Level.ONE);
+                zone.getStatistics().setCapacity(Level.ONE.getCapacity());
                 zone.setUnderConstruction(false);
             }
         }
