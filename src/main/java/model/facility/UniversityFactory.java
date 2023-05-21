@@ -13,6 +13,10 @@ public class UniversityFactory extends FacilityFactory {
 
     @Override
     public Facility createFacility(Coordinate coordinate) {
-        return new University(Constants.UNIVERSITY_ONE_TIME_COST, Constants.UNIVERSITY_MAINTENANCE_FEE, coordinate, new Dimension(2, 2));
+        return new University(
+                Constants.UNIVERSITY_ONE_TIME_COST,
+                Constants.UNIVERSITY_MAINTENANCE_FEE,
+                coordinate,
+                new Dimension(2,2));
     }
 }

@@ -13,6 +13,10 @@ public class SchoolFactory extends FacilityFactory {
 
     @Override
     public Facility createFacility(Coordinate coordinate) {
-        return new School(Constants.SCHOOL_ONE_TIME_COST, Constants.SCHOOL_MAINTENANCE_FEE, coordinate, new Dimension(1, 2));
+        return new School(
+                Constants.SCHOOL_ONE_TIME_COST,
+                Constants.SCHOOL_MAINTENANCE_FEE,
+                coordinate,
+                new Dimension(1,2));
     }
 }

@@ -33,6 +33,7 @@ public class Constants implements java.io.Serializable {
     // RADIUS EFFECT
     public static final int INDUSTRIAL_EFFECT_RADIUS = 5;
     public static final int COMMERCIAL_EFFECT_RADIUS = 5;
+    public static final int RESIDENTIAL_EFFECT_RADIUS = 0;
     public static final int STADIUM_EFFECT_RADIUS = 5;
     public static final int FOREST_EFFECT_RADIUS = 3;
     public static final int POLICE_EFFECT_RADIUS = 5;

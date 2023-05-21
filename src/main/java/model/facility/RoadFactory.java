@@ -13,6 +13,10 @@ public class RoadFactory extends FacilityFactory {
 
     @Override
     public Facility createFacility(Coordinate coordinate) {
-        return new Road(Constants.ROAD_ONE_TIME_COST, Constants.ROAD_MAINTENANCE_FEE, coordinate, new Dimension(1, 1));
+        return new Road(
+                Constants.ROAD_ONE_TIME_COST,
+                Constants.ROAD_MAINTENANCE_FEE,
+                coordinate,
+                new Dimension(1,1));
     }
 }

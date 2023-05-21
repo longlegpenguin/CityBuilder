@@ -6,6 +6,7 @@ import model.common.ZoneSatisfaction;
 import model.util.Level;
 
 import static model.common.Constants.DAYS_FOR_CONSTRUCTION;
+import static model.common.Constants.RESIDENTIAL_EFFECT_RADIUS;
 
 public class ResidentialZoneFactory extends ZoneFactory {
 
@@ -21,7 +22,7 @@ public class ResidentialZoneFactory extends ZoneFactory {
                 new ZoneStatistics(0, Level.CONSTRUCTING.getCapacity(), new ZoneSatisfaction()),
                 gm.getCurrentDate(),
                 coordinate,
-                0
+                RESIDENTIAL_EFFECT_RADIUS
         );
     }
 }
