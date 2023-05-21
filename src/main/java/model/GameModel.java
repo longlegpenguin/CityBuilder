@@ -467,7 +467,7 @@ public class GameModel implements java.io.Serializable {
         for (Buildable buildable : getZoneBuildable()) {
             Zone zone = (Zone) buildable;
             if ((zone.getBuildableType() == BuildableType.INDUSTRIAL || zone.getBuildableType() == BuildableType.COMMERCIAL) &&
-                    zone.getStatistics().getPopulation() < zone.getStatistics().getCapacity()) {
+                    zone.getStatistics().getPopulation() < zone.getCapacity()) {
                 return true;
             }
         }
@@ -597,7 +597,6 @@ public class GameModel implements java.io.Serializable {
         for (Zone zone : getUnderConstructions()) {
             if (zone.getBirthday().dateDifference(getCurrentDate()).get("days") > Constants.DAYS_FOR_CONSTRUCTION) {
                 zone.setLevel(Level.ONE);
-                zone.getStatistics().setCapacity(Level.ONE.getCapacity());
                 zone.setUnderConstruction(false);
             }
         }

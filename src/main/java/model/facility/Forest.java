@@ -91,7 +91,6 @@ public class Forest extends EffectualFacility {
     @Override
     public void effect(Zone zone, GameModel gm) {
         if (condition(zone, gm)) {
-            System.out.println("Forest effect" + totalEffectCnt);
             zone.updateForestEffect(zone.getStatistics().getSatisfaction().getForestEffect() + totalEffectCnt);
             for (SideEffect s : getBadEffectIndustrial(zone, gm)) {
                 s.reverseEffect(zone, gm);

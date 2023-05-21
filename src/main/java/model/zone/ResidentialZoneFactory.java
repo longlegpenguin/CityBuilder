@@ -19,7 +19,7 @@ public class ResidentialZoneFactory extends ZoneFactory {
         return new ResidentialZone(
                 Level.CONSTRUCTING,
                 DAYS_FOR_CONSTRUCTION,
-                new ZoneStatistics(0, Level.CONSTRUCTING.getCapacity(), new ZoneSatisfaction()),
+                new ZoneStatistics(0, new ZoneSatisfaction()),
                 gm.getCurrentDate(),
                 coordinate,
                 RESIDENTIAL_EFFECT_RADIUS
