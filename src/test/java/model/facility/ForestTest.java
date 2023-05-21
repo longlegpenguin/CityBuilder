@@ -1,6 +1,5 @@
 package model.facility;
 
-import com.sun.source.tree.AssertTree;
 import model.GameModel;
 import model.common.Buildable;
 import model.common.Coordinate;
@@ -11,7 +10,8 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class ForestTest {
 
@@ -28,49 +28,72 @@ class ForestTest {
    1,3; 0,3; 0,4; 0,5; 1,5; 2,5; 2,4
      */
 
-    Buildable map[][];
+    Buildable[][] map;
     GameModel gm = new GameModel(5, 10);
-    Forest forest = (Forest) new ForestFactory(gm).createFacility(new Coordinate(2,4));
+    Forest forest = (Forest) new ForestFactory(gm).createFacility(new Coordinate(2, 4));
+
     @BeforeEach
     void setUp() {
-
         map = new Buildable[5][10];
         map = gm.getMap();
-        map[2][6] = new ResidentialZoneFactory(gm).createZone(new Coordinate(2,6));
-        map[2][5] = new ResidentialZoneFactory(gm).createZone(new Coordinate(2,5));
-        map[2][3] = new ResidentialZoneFactory(gm).createZone(new Coordinate(2,3));
-        map[0][4] = new ResidentialZoneFactory(gm).createZone(new Coordinate(0,4));
+        map[2][4] = forest;
+        map[2][6] = new ResidentialZoneFactory(gm).createZone(new Coordinate(2, 6));
+        map[2][5] = new ResidentialZoneFactory(gm).createZone(new Coordinate(2, 5));
+        map[2][3] = new ResidentialZoneFactory(gm).createZone(new Coordinate(2, 3));
+        map[0][4] = new ResidentialZoneFactory(gm).createZone(new Coordinate(0, 4));
         map[4][5] = new ResidentialZoneFactory(gm).createZone(new Coordinate(4, 5));
 
     }
 
-    @AfterEach
-    void tearDown() {
-    }
-
-    @Test
-    void effect() {
-    }
-
-    @Test
-    void reverseEffect() {
-    }
-
     @Test
     void condition_Neighbour() {
-        assertFalse(forest.condition((Zone)map[2][3], gm));
+        assertFalse(forest.condition((Zone) map[2][3], gm));
     }
+
     @Test
     void condition_OneAway() {
-        assertFalse(forest.condition((Zone)map[0][4], gm));
+        assertFalse(forest.condition((Zone) map[0][4], gm));
     }
+
     @Test
     void condition_HasBetween() {
         System.out.println(gm.printMap());
-        assertFalse(forest.condition((Zone)map[2][6], gm));
+        assertFalse(forest.condition((Zone) map[2][6], gm));
     }
+
     @Test
     void condition_NotInLine() {
-        assertFalse(forest.condition((Zone)map[4][5], gm));
+        assertFalse(forest.condition((Zone) map[4][5], gm));
+    }
+
+
+    @Test
+    void hasDirectViewYesTwoAway() {
+        map[0][1] = new Road(1, 1, new Coordinate(0, 1), new Dimension(1, 1));
+        map[3][4] = new Road(1, 1, new Coordinate(3, 4), new Dimension(3, 4));
+        map[4][4] = new ResidentialZoneFactory(gm).createZone(new Coordinate(4, 4));
+        assertTrue(forest.hasDirectView((Zone) map[4][4], map));
+    }
+
+    @Test
+    void hasDirectViewNo_OneBetween() {
+        map[0][1] = new Road(1, 1, new Coordinate(0, 1), new Dimension(1, 1));
+        map[1][3] = new Road(1, 1, new Coordinate(1, 3), new Dimension(1, 1));
+        map[0][3] = new Road(1, 1, new Coordinate(0, 3), new Dimension(1, 1));
+        map[0][5] = new Road(1, 1, new Coordinate(0, 5), new Dimension(1, 1));
+        map[1][5] = new Road(1, 1, new Coordinate(0, 5), new Dimension(1, 1));
+        map[2][5] = new Road(1, 1, new Coordinate(0, 5), new Dimension(1, 1));
+        assertTrue(forest.hasDirectView((Zone) map[0][4], map));
+    }
+
+    @Test
+    void hasDirectViewYesNeighbour() {
+        assertTrue(forest.hasDirectView((Zone) map[2][3], map));
+    }
+
+    @Test
+    void hasDirectViewYes_RoadBetween() {
+        map[1][4] = new Road(1, 1, new Coordinate(1, 4), new Dimension(1, 1));
+        assertTrue(forest.hasDirectView((Zone) map[0][4], map));
     }
 }

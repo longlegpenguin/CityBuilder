@@ -404,12 +404,20 @@ public class GameModel implements java.io.Serializable {
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < cols; j++) {
+
                 if (map[i][j] == null) {
                     sb.append("-");
-                } else if (map[i][j].getBuildableType() == BuildableType.ROAD) {
-                    sb.append("#");
                 } else {
-                    sb.append("$");
+                    BuildableType bt = map[i][j].getBuildableType();
+                    if (bt == BuildableType.ROAD) {
+                        sb.append("#");
+                    } else if (bt == FOREST) {
+                        sb.append("F");
+                    } else if (bt == STADIUM) {
+                        sb.append("S");
+                    } else {
+                        sb.append("$");
+                    }
                 }
             }
             sb.append("\n");

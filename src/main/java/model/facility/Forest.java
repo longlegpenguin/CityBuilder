@@ -130,7 +130,7 @@ public class Forest extends EffectualFacility {
      * @param map  map of city
      * @return true if can
      */
-    private boolean hasDirectView(Zone zone, Buildable[][] map) {
+    public boolean hasDirectView(Zone zone, Buildable[][] map) {
         Coordinate zC = zone.getCoordinate();
         Coordinate self = this.getCoordinate();
 
