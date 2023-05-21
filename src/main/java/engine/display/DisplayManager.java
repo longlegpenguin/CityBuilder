@@ -6,7 +6,9 @@ import org.lwjgl.BufferUtils;
 import org.lwjgl.Version;
 import org.lwjgl.glfw.GLFWErrorCallback;
 import org.lwjgl.glfw.GLFWVidMode;
+import org.lwjgl.glfw.GLFWWindowSizeCallback;
 import org.lwjgl.opengl.GL;
+import org.lwjgl.opengl.GL11;
 import org.lwjgl.system.MemoryStack;
 
 import java.nio.IntBuffer;
@@ -20,8 +22,9 @@ import static org.lwjgl.system.MemoryUtil.NULL;
  * This class contains all methods needed to set up, maintain and close a LWJGL display
  */
 public class DisplayManager {
-    private static final int WIDTH = 1280;
-    private static final int HEIGHT = 720;
+    private static int WIDTH = 1280;
+    private static int HEIGHT = 720;
+    private static boolean RESIZED = false;
     private static final String TITLE = "Utopia";
 
     private static long lastFrameTime;
@@ -32,6 +35,7 @@ public class DisplayManager {
 
     public static Keyboard keyboard = new Keyboard();
     public Mouse mouse = new Mouse();
+    private static GLFWWindowSizeCallback windowSizeCallback;
 
     /**
      * Creates a display windows on which the game can be rendered.
@@ -98,6 +102,27 @@ public class DisplayManager {
         //initialize the lastFrameTime
         lastFrameTime = getCurrentTime();
 
+        setLocalCallbacks();
+    }
+
+    public static boolean isRESIZED() {
+        return RESIZED;
+    }
+
+    public static void setRESIZED(boolean RESIZED) {
+        DisplayManager.RESIZED = RESIZED;
+    }
+
+    public static void resize() {
+        GL11.glViewport(0,0,WIDTH, HEIGHT);
+    }
+
+    public static void setWIDTH(int WIDTH) {
+        DisplayManager.WIDTH = WIDTH;
+    }
+
+    public static void setHEIGHT(int HEIGHT) {
+        DisplayManager.HEIGHT = HEIGHT;
     }
 
     /**
@@ -158,6 +183,17 @@ public class DisplayManager {
         return delta;
     }
 
+    private static void setLocalCallbacks() {
+        windowSizeCallback = new GLFWWindowSizeCallback() {
+            @Override
+            public void invoke(long l, int i, int i1) {
+                DisplayManager.setWIDTH(i);
+                DisplayManager.setHEIGHT(i1);
+                DisplayManager.setRESIZED(true);
+            }
+        };
 
+        glfwSetWindowSizeCallback(window, windowSizeCallback);
+    }
 }
 

@@ -109,6 +109,11 @@ public class Handler implements ICallBack {
     }
 
     public void render() {
+        if (DisplayManager.isRESIZED()) {
+            DisplayManager.resize();
+            masterRenderer = new MasterRenderer();
+            DisplayManager.setRESIZED(false);
+        }
 
         if (timer2 >= 0.1f) {
             TextMaster.removeText(frametime);
