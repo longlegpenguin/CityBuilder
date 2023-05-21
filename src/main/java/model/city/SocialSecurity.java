@@ -69,7 +69,7 @@ public class SocialSecurity implements java.io.Serializable {
     }
 
     private void die(Citizen dead, GameModel gm) throws NullPointerException {
-        dead.getLivingplace().removeCitizen(dead, gm);
+        dead.getLivingPlace().removeCitizen(dead, gm);
         dead.getWorkplace().removeCitizen(dead, gm);
     }
 

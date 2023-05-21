@@ -468,7 +468,7 @@ public class GameModel implements java.io.Serializable {
     private void updateUnemployedStatusForCitizens() {
         for (Citizen citizen : cityRegistry.getAllCitizens()) {
             if (citizen.isUnemployed()) {
-                citizen.setWorkplace(this, HumanManufacture.getWorkingPlace(this, citizen.getLivingplace()));
+                citizen.setWorkplace(this, HumanManufacture.getWorkingPlace(this, citizen.getLivingPlace()));
             }
         }
     }
@@ -531,7 +531,7 @@ public class GameModel implements java.io.Serializable {
 
     private void citizenshipEducationUpdate() {
         for (Citizen citizen : getCityRegistry().getAllCitizens()) {
-            citizen.setLevelOfEducation(HumanManufacture.getEducationLevel(this, citizen.getLivingplace()));
+            citizen.setLevelOfEducation(HumanManufacture.getEducationLevel(this, citizen.getLivingPlace()));
         }
     }
 
