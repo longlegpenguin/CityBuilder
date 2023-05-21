@@ -50,13 +50,9 @@ public class Handler implements ICallBack {
     private Controller controller;
     private ViewModel viewModel;
     private MoneyStatistic money;
-
-
     private GUIText text;
 
     private int counter = 0;
-
-    private float mouseDelay = 0f;
     private float baseTime = 3f;
     private float timeMultiplier = 1;
     private float timer = 0;
@@ -153,8 +149,7 @@ public class Handler implements ICallBack {
 
 
         boolean buttonPressed = false;
-        if (mouseDelay == 0f && Mouse.isLeftButtonPressed()) {
-            mouseDelay = 0.1f;
+        if (Mouse.isLeftButtonClicked()) {
             for (UiButton button : viewModel.getButtons()) {
                 if (button.isClicked()) {
                     buttonPressed = true;
@@ -197,19 +192,11 @@ public class Handler implements ICallBack {
             if (buttonPressed == false && coordsX < worldGrid.getWorldSize() && coordsX >= 0 && coordsY < worldGrid.getWorldSize() && coordsY >= 0) {
                 controller.mouseClickRequest(new Coordinate(coordsX, coordsY), this);
             }
-        } else {
-            mouseDelay -= DisplayManager.getFrameTimeSeconds();
-            if (mouseDelay < 0f) {
-                mouseDelay = 0f;
-            }
         }
-
 
         Mouse.update();
 
-
         processAllAssets();
-
 
         masterRenderer.render(selector, camera, light);
         guiRenderer.render(viewModel.getButtons(), viewModel.getTabs());

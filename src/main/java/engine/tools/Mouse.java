@@ -2,6 +2,7 @@ package engine.tools;
 
 import engine.display.DisplayManager;
 import org.lwjgl.BufferUtils;
+import org.lwjgl.glfw.GLFW;
 import org.lwjgl.glfw.GLFWCursorPosCallback;
 import org.lwjgl.glfw.GLFWMouseButtonCallback;
 import org.lwjgl.glfw.GLFWScrollCallback;
@@ -9,6 +10,7 @@ import org.lwjgl.glfw.GLFWScrollCallback;
 import java.nio.DoubleBuffer;
 import java.nio.FloatBuffer;
 
+import static org.lwjgl.glfw.GLFW.GLFW_RELEASE;
 import static org.lwjgl.glfw.GLFW.glfwGetCursorPos;
 
 /**
@@ -23,7 +25,7 @@ public class Mouse {
     private static float prevMouseY = 0;
     private static float deltaX = 0;
     private static float deltaY = 0;
-    private static boolean leftButtonPressed, rightButtonPressed;
+    private static boolean leftButtonPressed, rightButtonPressed, leftButtonClicked;
     private static float dWheel;
 
 
@@ -37,6 +39,7 @@ public class Mouse {
             public void invoke(long window, int button, int action, int mods) {
                 leftButtonPressed = button == 0 && action == 1;
                 rightButtonPressed = button == 1 && action == 1;
+                leftButtonClicked = button == 0 && action == GLFW_RELEASE;
             }
         };
         GLFWScrollCallback scrollCallback = new GLFWScrollCallback() {
@@ -94,6 +97,15 @@ public class Mouse {
 
     public static boolean isRightButtonPressed() {
         return rightButtonPressed;
+    }
+
+    public static boolean isLeftButtonClicked() {
+        if (leftButtonClicked == true) {
+            leftButtonClicked = false;
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public static float getDWheel() {
