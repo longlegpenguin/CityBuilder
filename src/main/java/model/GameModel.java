@@ -304,8 +304,7 @@ public class GameModel implements java.io.Serializable {
      */
     public boolean roadIsEssentialForConnection(Road road) {
         removeFromMap(road);
-        for (Buildable b :
-                getAllBuildable()) {
+        for (Buildable b : getAllBuildable()) {
             if (b.isConnected() && new PathFinder(map).manhattanDistance(masterRoads.get(0), b) == -1) {
                 addToMap(road);
                 return true;
@@ -376,23 +375,33 @@ public class GameModel implements java.io.Serializable {
         return new Date(dateOfWorld.getDay(), dateOfWorld.getMonth(), dateOfWorld.getYear());
     }
 
+    /**
+     * Adds the buildable to the world map, reverse operation of removeFromMap
+     *
+     * @param buildable buildable to be added.
+     */
     public void addToMap(Buildable buildable) {
         Coordinate coordinate = buildable.getCoordinate();
         Dimension dimension = buildable.getDimension();
 
-        for (int i = 0; i < dimension.getHeight(); i++) { // rows
-            for (int j = 0; j < dimension.getWidth(); j++) { // cols
+        for (int i = 0; i < dimension.getHeight(); i++) {
+            for (int j = 0; j < dimension.getWidth(); j++) {
                 map[coordinate.getRow() + i][coordinate.getCol() + j] = buildable;
             }
         }
     }
 
+    /**
+     * Removes the buildable to the world map, reverse operation of addToMap
+     *
+     * @param buildable buildable to be added.
+     */
     private void removeFromMap(Buildable buildable) {
         Coordinate coordinate = buildable.getCoordinate();
         Dimension dimension = buildable.getDimension();
 
-        for (int i = 0; i < dimension.getHeight(); i++) { // rows
-            for (int j = 0; j < dimension.getWidth(); j++) { // cols
+        for (int i = 0; i < dimension.getHeight(); i++) {
+            for (int j = 0; j < dimension.getWidth(); j++) {
                 map[coordinate.getRow() + i][coordinate.getCol() + j] = null;
             }
         }
@@ -426,6 +435,12 @@ public class GameModel implements java.io.Serializable {
         return sb.toString();
     }
 
+    /**
+     * Checks if there is space for a certain buildable
+     *
+     * @param b the buildable to be checked
+     * @return true if there is space, otherwise, false.
+     */
     public boolean isPlotAvailable(Buildable b) {
         if (b == null) {
             return true;
@@ -575,6 +590,9 @@ public class GameModel implements java.io.Serializable {
         return socialSecurity.collectTax(queryCityBudget().getTaxRate());
     }
 
+    /**
+     * Filters the youthForest list and do the appending effects of youth forests.
+     */
     private void updateForests() {
         List<Forest> newYouth = new ArrayList<>();
         for (Forest forest : youthForest) {
