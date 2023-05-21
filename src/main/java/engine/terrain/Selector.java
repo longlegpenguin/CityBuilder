@@ -6,6 +6,7 @@ import engine.textures.TextureAttribute;
 
 /**
  * TODO Parent class of this and terrain so that code is not copied
+ * Selector Object which is the square which appears when hovering over a cell.
  */
 public class Selector {
     private static final float SIZE = 10;
@@ -17,6 +18,13 @@ public class Selector {
     private RawModel model;
     private TextureAttribute texture;
 
+    /**
+     * Sets the position and texture and then generates the model for the selector.
+     * @param gridX
+     * @param gridZ
+     * @param loader
+     * @param texture
+     */
     public Selector(int gridX, int gridZ, Loader loader, TextureAttribute texture) {
         this.texture = texture;
         this.x = gridX * SIZE;
@@ -52,6 +60,11 @@ public class Selector {
         return texture;
     }
 
+    /**
+     * Smaller version of the OBJFile loader which creates the vertices, normals and texture coordinates for the selector as it is just a 2D plane
+     * @param loader
+     * @return
+     */
     private RawModel generateSelector(Loader loader){
         int count = VERTEX_COUNT * VERTEX_COUNT;
         float[] vertices = new float[count * 3];
