@@ -20,7 +20,6 @@ class GameModelTest {
 
     @BeforeEach
     void setUp() {
-//        gm.initialize();
         for (int i = 0; i < 10; i++) {
             Road road = new Road(ROAD_ONE_TIME_COST, ROAD_MAINTENANCE_FEE, new Coordinate(5 - 1, i), new Dimension(1, 1));
             gm.getMasterRoads().add(road);
@@ -549,20 +548,4 @@ class GameModelTest {
     }
 
     /////
-
-    @Test
-    void addFacility() {
-    }
-
-    @Test
-    void updateTaxRate() {
-    }
-
-    @Test
-    void queryCityBudget() {
-    }
-
-    @Test
-    void getCurrentDate() {
-    }
 }

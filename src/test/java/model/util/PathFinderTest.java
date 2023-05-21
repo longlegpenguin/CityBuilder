@@ -6,7 +6,6 @@ import model.common.Coordinate;
 import model.common.Dimension;
 import model.facility.Road;
 import model.zone.ResidentialZoneFactory;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -41,14 +40,6 @@ class PathFinderTest {
         map[4][4] = new Road(1,1, new Coordinate(4,4), new Dimension(1,1));
         map[4][5] = new ResidentialZoneFactory(gm).createZone(new Coordinate(4, 5));
         pf = new PathFinder(map);
-    }
-
-    @AfterEach
-    void tearDown() {
-    }
-
-    @Test
-    void euclideanDistance() {
     }
 
     @Test
