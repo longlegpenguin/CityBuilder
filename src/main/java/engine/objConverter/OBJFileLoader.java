@@ -7,9 +7,19 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * The OBJFileLoader class is responsible for reading in the .obj file for an asset and converting the data in the file
+ * to usable arrays of vertices, indices, normals and texture coordinates.
+ */
 public class OBJFileLoader {
     private static final String RES_LOC = "src/main/resources/objects/";
 
+    /**
+     * This method takes in the filename of the asset and reads through every line of the file.
+     * Depending on the prefix in the line, the data is assigned to the relevant arrays and the Modeldata object is created.
+     * @param objFileName The name of the asset .obj file.
+     * @return ModelData object containing all necessary data in arrays.
+     */
     public static ModelData loadOBJ(String objFileName) {
         FileReader isr = null;
         File objFile = new File(RES_LOC + objFileName + ".obj");
@@ -76,6 +86,12 @@ public class OBJFileLoader {
         return data;
     }
 
+    /**
+     * Method used to process the vertices in each triangle from the file and set the indices.
+     * @param vertex
+     * @param vertices
+     * @param indices
+     */
     private static void processVertex(String[] vertex, List<Vertex> vertices, List<Integer> indices) {
         int index = Integer.parseInt(vertex[0]) - 1;
         Vertex currentVertex = vertices.get(index);
@@ -91,6 +107,11 @@ public class OBJFileLoader {
         }
     }
 
+    /**
+     * Converts the List of indices to a standard int array
+     * @param indices
+     * @return
+     */
     private static int[] convertIndicesListToArray(List<Integer> indices) {
         int[] indicesArray = new int[indices.size()];
         for (int i = 0; i < indicesArray.length; i++) {
@@ -99,6 +120,16 @@ public class OBJFileLoader {
         return indicesArray;
     }
 
+    /**
+     * Used to shift the positions in the array and convert it all to standard arrays.
+     * @param vertices
+     * @param textures
+     * @param normals
+     * @param verticesArray
+     * @param texturesArray
+     * @param normalsArray
+     * @return
+     */
     private static float convertDataToArrays(List<Vertex> vertices, List<Vector2f> textures,
                                              List<Vector3f> normals, float[] verticesArray, float[] texturesArray,
                                              float[] normalsArray) {
@@ -123,6 +154,14 @@ public class OBJFileLoader {
         return furthestPoint;
     }
 
+    /**
+     * Processes the vertices further to ensure that the duplicate vertices are handled.
+     * @param previousVertex
+     * @param newTextureIndex
+     * @param newNormalIndex
+     * @param indices
+     * @param vertices
+     */
     private static void dealWithAlreadyProcessedVertex(Vertex previousVertex, int newTextureIndex,
                                                        int newNormalIndex, List<Integer> indices, List<Vertex> vertices) {
         if (previousVertex.hasSameTextureAndNormal(newTextureIndex, newNormalIndex)) {
@@ -144,6 +183,10 @@ public class OBJFileLoader {
         }
     }
 
+    /**
+     * Removed any unnecessary vertices in the array which has already been accounted for.
+     * @param vertices
+     */
     private static void removeUnusedVertices(List<Vertex> vertices){
         for(Vertex vertex:vertices){
             if(!vertex.isSet()){

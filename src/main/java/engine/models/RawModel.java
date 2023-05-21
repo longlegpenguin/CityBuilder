@@ -1,5 +1,8 @@
 package engine.models;
 
+/**
+ * Stores the ID of the VAO of an asset and the number of vertices.
+ */
 public class RawModel {
     private int vaoID;
     private int vertexCount;

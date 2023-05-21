@@ -8,6 +8,9 @@ import engine.textures.TextureAttribute;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Stores the entire grid of tiles in a matrix.
+ */
 public class WorldGrid {
 
     private static final int WORLD_SIZE = 10;
@@ -16,6 +19,12 @@ public class WorldGrid {
     private List<Terrain> terrains = new ArrayList<Terrain>();
     private List<Entity> zones = new ArrayList<Entity>();
     private List<Entity> buildables = new ArrayList<Entity>();
+
+    /**
+     * Generates the complete grid of all terrains.
+     * @param loader
+     * @param texture
+     */
     public WorldGrid(Loader loader, TextureAttribute texture) {
         for (int i = 0; i < WORLD_SIZE; i++) {
             for (int j = 0; j < WORLD_SIZE; j++) {
@@ -37,7 +46,7 @@ public class WorldGrid {
     public List<Terrain> getTerrainList() {
         return terrains;
     }
-
+    
     public List<Entity> getZoneList() {
         zones.clear();
         for (int i = 0; i < WORLD_SIZE; i++) {

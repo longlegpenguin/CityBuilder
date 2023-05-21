@@ -17,10 +17,18 @@ import org.lwjgl.opengl.GL30;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * This class is responsible for rendering all terrain elements on the grid.
+ */
 public class TerrainRenderer {
 
     private TerrainShader shader;
 
+    /**
+     * Constructor which starts the shader and loads the projection matrix in the shader.
+     * @param shader
+     * @param projectionMatrix
+     */
     public TerrainRenderer(TerrainShader shader, Matrix4f projectionMatrix) {
         this.shader = shader;
         this.shader.start();
@@ -28,6 +36,11 @@ public class TerrainRenderer {
         this.shader.stop();
     }
 
+    /**
+     * Terrains are stored in the hashmap
+     * Render function prepares each type of TexturedModel and the prepares each individual instance of that model before drawing it to the screen.
+     * @param terrains
+     */
     public  void render(Map<TextureAttribute, List<Terrain>> terrains) {
         for(TextureAttribute texture: terrains.keySet()) {
             List<Terrain> batch = terrains.get(texture);
@@ -40,6 +53,12 @@ public class TerrainRenderer {
         }
     }
 
+    /**
+     * The vertex attribute arrays for each model are enabled,
+     * the shaders are laoded with the shinedampers and reflectivity,
+     * the texture banks are activated and the texture is loaded.
+     * @param terrain
+     */
     private void prepareTerrain(Terrain terrain) {
         RawModel rawModel = terrain.getModel();
         GL30.glBindVertexArray(rawModel.getVaoID());
@@ -53,6 +72,9 @@ public class TerrainRenderer {
         GL11.glBindTexture(GL11.GL_TEXTURE_2D, texture.getTextureID());
     }
 
+    /**
+     * Disables and unbinds all the Vertex Arrays.
+     */
     private void unbindTexturedModel() {
         GL20.glDisableVertexAttribArray(0);
         GL20.glDisableVertexAttribArray(1);
@@ -60,6 +82,10 @@ public class TerrainRenderer {
         GL30.glBindVertexArray(0);
     }
 
+    /**
+     * Prepares each individual entity by loading its transformation matrix based on its position in the world to the shader.
+     * @param terrain
+     */
     private void prepareInstance(Terrain terrain) {
         Matrix4f transformationMatrix = Maths.createTransformationMatrix(new Vector3f(terrain.getX(), 0, terrain.getZ()), 0, 0, 0, 1);
         shader.loadTransformationMatrix(transformationMatrix);

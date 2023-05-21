@@ -15,10 +15,20 @@ import org.lwjgl.opengl.GL30;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * This class is responsible for rendering anything considered an entity.
+ * An entity constitutes as anything that has a 3D asset.
+ * Starts the entity shaders as well as drawing every asset to the screen with the help of the shaders.
+ */
 public class EntityRenderer {
 
     private EntityShader shader;
 
+    /**
+     * Constructor which starts the shader and loads the projection matrix in the shader.
+     * @param shader
+     * @param projectionMatrix
+     */
     public EntityRenderer(EntityShader shader, Matrix4f projectionMatrix) {
         this.shader = shader;
         this.shader.start();
@@ -26,6 +36,11 @@ public class EntityRenderer {
         this.shader.stop();
     }
 
+    /**
+     * Entities are stored in the hashmap
+     * Render function prepares each type of TexturedModel and the prepares each individual instance of that model before drawing it to the screen.
+     * @param entities
+     */
     public void render(Map<TexturedModel, List<Entity>> entities) {
         for(TexturedModel textureModel: entities.keySet()) {
             List<Entity> batch = entities.get(textureModel);
@@ -38,6 +53,12 @@ public class EntityRenderer {
         }
     }
 
+    /**
+     * The vertex attribute arrays for each model are enabled,
+     * the shaders are laoded with the shinedampers and reflectivity,
+     * the texture banks are activated and the texture is loaded.
+     * @param texturedModel
+     */
     public void prepareModel(TexturedModel texturedModel) {
         RawModel rawModel = texturedModel.getRawModel();
         GL30.glBindVertexArray(rawModel.getVaoID());
@@ -52,6 +73,9 @@ public class EntityRenderer {
 
     }
 
+    /**
+     * Disables and unbinds all the Vertex Arrays.
+     */
     public void unbindModel() {
         GL20.glDisableVertexAttribArray(0);
         GL20.glDisableVertexAttribArray(1);
@@ -59,6 +83,10 @@ public class EntityRenderer {
         GL30.glBindVertexArray(0);
     }
 
+    /**
+     * Prepares each individual entity by loading its transformation matrix based on its position in the world to the shader.
+     * @param entity
+     */
     private void prepareInstance(Entity entity) {
         Matrix4f transformationMatrix = Maths.createTransformationMatrix(entity.getPosition(), entity.getRotX(), entity.getRotY(), entity.getRotZ(), entity.getScale());
         shader.loadTransformationMatrix(transformationMatrix);

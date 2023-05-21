@@ -5,6 +5,11 @@ import engine.renderEngine.Loader;
 import engine.terrain.Terrain;
 import engine.textures.TextureAttribute;
 
+/**
+ * Single Tile class contains all necessary data for one tile of the grid.
+ * Tile can contain a zone or a buildable
+ * Always contains a terrain.
+ */
 public class Tile {
 
     private Terrain terrain;

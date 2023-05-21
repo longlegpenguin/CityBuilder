@@ -4,6 +4,9 @@ import engine.models.RawModel;
 import engine.renderEngine.Loader;
 import engine.textures.TextureAttribute;
 
+/**
+ * Terrain Object which is makes up each cell of grass on the grid.
+ */
 public class Terrain {
     private static final float SIZE = 10;
     private static final int VERTEX_COUNT = 4;
@@ -14,6 +17,13 @@ public class Terrain {
     private RawModel model;
     private TextureAttribute texture;
 
+    /**
+     * Sets the position and texture and then generates the model for the terrain
+     * @param gridX
+     * @param gridZ
+     * @param loader
+     * @param texture
+     */
     public Terrain(int gridX, int gridZ, Loader loader, TextureAttribute texture) {
         this.texture = texture;
         this.x = gridX * SIZE;
@@ -49,6 +59,11 @@ public class Terrain {
         return texture;
     }
 
+    /**
+     * Smaller version of the OBJFile loader which creates the vertices, normals and texture coordinates for the terrain as it is just a 2D plane
+     * @param loader
+     * @return
+     */
     private RawModel generateTerrain(Loader loader){
         int count = VERTEX_COUNT * VERTEX_COUNT;
         float[] vertices = new float[count * 3];
@@ -84,7 +99,7 @@ public class Terrain {
                 indices[pointer++] = bottomRight;
             }
         }
-        return loader.loadTextToVAO(vertices, textureCoords, normals, indices);
+        return loader.loadToVAO(vertices, textureCoords, normals, indices);
     }
 
 }
