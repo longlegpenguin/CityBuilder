@@ -24,22 +24,12 @@ public abstract class Menu {
     }
 
     public void buttonAction(UiButton button,GameMode gameMode, GUIText text) {
-        if (!button.isEnabled()) {
-            button.setEnabled(true);
-            controller.switchGameModeRequest(gameMode);
-        } else {
-            button.setEnabled(false);
-            controller.switchGameModeRequest(GameMode.SELECTION_MODE);
-        }
         TextMaster.removeText(text);
+        button.setEnabled(true);
+        controller.switchGameModeRequest(gameMode);
         text.setTextString(button.getButtonEnum().toString());
         TextMaster.loadText(text);
     }
-    public void buttonAction(UiButton money,ArrayList<GUIText> texts)
-    {
-
-    }
-
 
     protected abstract void loadComponents();
 
