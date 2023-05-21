@@ -5,7 +5,6 @@ import model.util.LevelOfEducation;
 import model.util.PathFinder;
 import model.zone.Zone;
 
-import java.nio.file.Path;
 import java.util.LinkedList;
 import java.util.Random;
 
@@ -52,10 +51,10 @@ public class Citizen implements java.io.Serializable {
     /**
      * Getting distance between living place and working place.
      *
-     * @param gm
-     * @param livingPlace
-     * @param workplace
-     * @return
+     * @param gm gameModel
+     * @param livingPlace living place of the citizen
+     * @param workplace work place of the citizen
+     * @return distance from living place to working place
      */
     public static int getDistanceLiveWork(GameModel gm, Zone livingPlace, Zone workplace) {
         return new PathFinder(gm.getMap()).manhattanDistance(livingPlace, workplace);
@@ -65,7 +64,7 @@ public class Citizen implements java.io.Serializable {
         return workplace;
     }
 
-    public Zone getLivingplace() {
+    public Zone getLivingPlace() {
         return livingPlace;
     }
 
@@ -82,12 +81,10 @@ public class Citizen implements java.io.Serializable {
         return age;
     }
 
-    public void setAge(int age) {
-        this.age = age;
-    }
-
-    public void setWorkplace(Zone workplace) {
+    public void setWorkplace(GameModel gm, Zone workplace) {
         this.workplace = workplace;
+        setIsUnemployed(false);
+        workplace.addCitizen(this, gm);
     }
 
     public void setLevelOfEducation(LevelOfEducation levelOfEducation) {
@@ -100,10 +97,6 @@ public class Citizen implements java.io.Serializable {
 
     public void incAge() {
         age++;
-    }
-
-    public void setPension(int pension) {
-        this.pension = pension;
     }
 
     public boolean isUnemployed() {
