@@ -2,6 +2,7 @@ package engine.engineMain;
 
 import controller.Controller;
 import controller.ICallBack;
+import controller.util.TimeMode;
 import engine.display.DisplayManager;
 import engine.entities.Camera;
 import engine.entities.Entity;
@@ -178,17 +179,20 @@ public class Handler implements ICallBack {
                             }
                         }
                         case SELECT -> viewModel.getBottomMenuBar().selectButtonAction();
-                        case SPEED_PAUSE -> paused = true;
+                        case SPEED_PAUSE -> {
+                            controller.switchTimeModeRequest(TimeMode.PAUSE);
+                            paused = true;
+                        }
                         case SPEED_ONE -> {
-                            timeMultiplier = 1f;
+                            controller.switchTimeModeRequest(TimeMode.DAILY);
                             paused = false;
                         }
                         case SPEED_TWO -> {
-                            timeMultiplier = 2f;
+                            controller.switchTimeModeRequest(TimeMode.WEEKLY);
                             paused = false;
                         }
                         case SPEED_THREE -> {
-                            timeMultiplier = 3f;
+                            controller.switchTimeModeRequest(TimeMode.MONTHLY);
                             paused = false;
                         }
                     }
