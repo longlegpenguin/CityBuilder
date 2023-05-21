@@ -22,7 +22,6 @@ public class CommercialZone extends Zone implements SideEffect {
         return BuildableType.COMMERCIAL;
     }
 
-
     @Override
     public void effect(Zone zone, GameModel gm) {
         if (condition(zone, gm)) {
