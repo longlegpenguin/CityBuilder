@@ -576,7 +576,6 @@ public class GameModel implements java.io.Serializable {
     public double calculateSpend() {
         double spend = 0;
         spend += cityStatistics.getBudget().getTotalMaintenanceFee();
-        System.out.println(spend);
         spend += socialSecurity.payPension();
         return spend;
     }
@@ -599,7 +598,6 @@ public class GameModel implements java.io.Serializable {
             forest.incAge(getCurrentDate());
             if (forest.getAge() > 10) {
                 cityStatistics.getBudget().addMaintenanceFee((-1) * forest.getMaintenanceFee());
-                System.out.println(cityStatistics.getBudget().getTotalMaintenanceFee());
             } else {
                 forestEffect(forest);
                 newYouth.add(forest);

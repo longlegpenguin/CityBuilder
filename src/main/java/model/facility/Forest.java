@@ -43,7 +43,6 @@ public class Forest extends EffectualFacility {
         if (now.dateDifference(lastUpdate).get("years") >= 1) {
             lastUpdate = now;
             age += 1;
-            System.out.println("forest" + age);
         }
     }
 
@@ -84,7 +83,6 @@ public class Forest extends EffectualFacility {
             zone.updateForestEffect(zone.getStatistics().getSatisfaction().getForestEffect() - totalEffectCnt);
             totalEffectCnt += getPositiveEffect();
             zone.updateForestEffect(zone.getStatistics().getSatisfaction().getForestEffect() + totalEffectCnt);
-            System.out.println("grew effect" + totalEffectCnt);
         }
     }
 
