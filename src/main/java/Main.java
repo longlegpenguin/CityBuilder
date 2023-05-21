@@ -11,7 +11,11 @@ public class Main {
         gm.addZone(new ResidentialZoneFactory(gm).createZone(new Coordinate(1,1)));
         gm.regularUpdate(2, null);
         Database.save(gm);
+        Database.save(gm, "hello.ser");
         gm = Database.read();
+        assert gm != null;
+        System.out.println(gm.printMap());
+        gm = Database.read("hello.ser");
         assert gm != null;
         System.out.println(gm.printMap());
         System.out.println(gm.getCurrentDate());
