@@ -83,7 +83,7 @@ class PathFinderTest {
 
         System.out.println(map[0][1]);
         System.out.println(map[0][3]);
-        assertTrue(pf.hasDirectView(map[0][1], map[0][3], 3));
+        assertTrue(pf.hasDirectView(map[0][1], map[0][3]));
     }
 
     @Test
@@ -99,7 +99,7 @@ class PathFinderTest {
 
         System.out.println(map[2][3]);
         System.out.println(map[0][3]);
-        assertFalse(pf.hasDirectView(map[2][3], map[0][3], 3));
+        assertFalse(pf.hasDirectView(map[2][3], map[0][3]));
     }
     @Test
     void hasDirectViewYesNeighbour() {
@@ -114,7 +114,7 @@ class PathFinderTest {
 
         System.out.println(map[2][3]);
         System.out.println(map[1][3]);
-        assertTrue(pf.hasDirectView(map[2][3], map[1][3], 3));
+        assertTrue(pf.hasDirectView(map[2][3], map[1][3]));
     }
 
     @Test
@@ -130,6 +130,6 @@ class PathFinderTest {
 
         System.out.println(map[2][3]);
         System.out.println(map[1][3]);
-        assertTrue(pf.hasDirectView(map[3][3], map[4][5], 3));
+        assertTrue(pf.hasDirectView(map[3][3], map[4][5]));
     }
 }

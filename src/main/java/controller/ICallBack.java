@@ -6,7 +6,6 @@ import model.common.Buildable;
 import model.common.Coordinate;
 import model.util.Date;
 import model.zone.Zone;
-import model.zone.ZoneStatistics;
 
 public interface ICallBack {
     void updateGridSystem(Coordinate coordinate, Buildable buildable);
@@ -18,5 +17,6 @@ public interface ICallBack {
     void updateDatePanel(Date date);
 
     void updateCityStatisticPanel(CityStatistics cityStatistics);
+
     void shoutLose(boolean isLost);
 }

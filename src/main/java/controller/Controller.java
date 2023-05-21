@@ -7,18 +7,17 @@ import controller.listeners.ZoneBuildingListener;
 import controller.util.Event;
 import controller.util.GameMode;
 import controller.util.Property;
-import static controller.util.TimeMode.*;
-
 import controller.util.TimeMode;
 import model.GameModel;
 import model.common.Coordinate;
 import model.exceptions.OperationException;
-import persistence.Database;
+
+import static controller.util.TimeMode.DAILY;
 
 
 public class Controller {
-    private Property property;
-    private Publisher service;
+    private final Property property;
+    private final Publisher service;
 
     public Controller(GameModel gameModel) {
         property = new Property(GameMode.SELECTION_MODE, gameModel, DAILY);
@@ -26,18 +25,11 @@ public class Controller {
         registerListeners();
     }
 
-    public Publisher getService() {
-        return service;
-    }
-
-    public void setService(Publisher service) {
-        this.service = service;
-    }
-
     /**
      * Handles every mouse click (on grid system) from the user
+     *
      * @param coordinate the coordinate of the cell the user click in grid sense.
-     * @param callBack will be called after the handle of the request, can be null for defaults.
+     * @param callBack   will be called after the handle of the request, can be null for defaults.
      */
     public void mouseClickRequest(Coordinate coordinate, ICallBack callBack) {
         if (callBack != null) {
@@ -48,6 +40,7 @@ public class Controller {
 
     /**
      * Handles client request of mode switching (Button click)
+     *
      * @param gameMode the mode to switch to.
      */
     public void switchGameModeRequest(GameMode gameMode) {
@@ -56,6 +49,7 @@ public class Controller {
 
     /**
      * Handles client request of time mode switching (Button click)
+     *
      * @param timeMode the time mode to switch to
      */
     public void switchTimeModeRequest(TimeMode timeMode) {
@@ -65,7 +59,8 @@ public class Controller {
     /**
      * Update the game model regularly with calculated time pass.
      * The actual day pass will be according to the time mode.
-     * @param dayPass the pass of time in the unit of day.
+     *
+     * @param dayPass  the pass of time in the unit of day.
      * @param callBack will be called after the handle of the request, can be null for defaults.
      */
     public void regularUpdateRequest(int dayPass, ICallBack callBack) {
@@ -97,8 +92,9 @@ public class Controller {
 
     /**
      * Updates the tax rate.
+     *
      * @param newTaxRate the new rate.
-     * @param callBack will be called after the handle of the request, can be null for defaults.
+     * @param callBack   will be called after the handle of the request, can be null for defaults.
      */
     public void updateTaxRate(double newTaxRate, ICallBack callBack) {
         if (callBack != null) {

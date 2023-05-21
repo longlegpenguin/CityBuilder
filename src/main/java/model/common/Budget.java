@@ -45,6 +45,7 @@ public class Budget implements java.io.Serializable {
 
     /**
      * Gets the number of years since the last day the budget is positive.
+     *
      * @param now current date
      * @return number of years
      */
@@ -62,6 +63,7 @@ public class Budget implements java.io.Serializable {
 
     /**
      * Gets the revenue of the city
+     *
      * @param gm game model
      * @return amount
      */
@@ -71,6 +73,7 @@ public class Budget implements java.io.Serializable {
 
     /**
      * Gets the spend of the city
+     *
      * @param gm game model
      * @return amount
      */

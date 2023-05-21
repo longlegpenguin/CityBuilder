@@ -1,7 +1,8 @@
 package model.common;
 
 public class Dimension implements java.io.Serializable {
-    private int width, height;
+    private final int width;
+    private final int height;
 
     public Dimension(int width, int height) {
         this.width = width;
@@ -12,16 +13,8 @@ public class Dimension implements java.io.Serializable {
         return width;
     }
 
-    public void setWidth(int width) {
-        this.width = width;
-    }
-
     public int getHeight() {
         return height;
-    }
-
-    public void setHeight(int height) {
-        this.height = height;
     }
 
     @Override

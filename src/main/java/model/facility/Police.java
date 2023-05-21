@@ -29,7 +29,7 @@ public class Police extends EffectualFacility {
     public void effect(Zone zone, GameModel gm) {
         if (condition(zone, gm)) {
             zone.updatePoliceEffect(zone.getStatistics().getSatisfaction().getPoliceEffect() + POLICE_BASE_EFFECT);
-            System.out.println("Police effect: " + zone.getStatistics().getSatisfaction().getPoliceEffect() );
+            System.out.println("Police effect: " + zone.getStatistics().getSatisfaction().getPoliceEffect());
         }
     }
 

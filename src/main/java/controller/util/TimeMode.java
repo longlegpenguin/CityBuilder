@@ -8,7 +8,7 @@ public enum TimeMode {
 
     private final int multiplier;
 
-    private TimeMode(int multiplier) {
+    TimeMode(int multiplier) {
         this.multiplier = multiplier;
     }
 

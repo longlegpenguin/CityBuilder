@@ -1,12 +1,8 @@
 package model.facility;
 
-import model.common.Citizen;
 import model.common.Coordinate;
 import model.common.Dimension;
 import model.util.LevelOfEducation;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public abstract class Education extends Facility {
 
@@ -24,13 +20,5 @@ public abstract class Education extends Facility {
 
     public int getCapacity() {
         return capacity;
-    }
-
-    public int getYearsToGraduate() {
-        return yearsToGraduate;
-    }
-
-    public LevelOfEducation getLevelOfEducation() {
-        return levelOfEducation;
     }
 }

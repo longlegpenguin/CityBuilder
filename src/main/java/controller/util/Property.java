@@ -15,9 +15,10 @@ import java.util.List;
 
 public class Property {
     private GameMode gameMode;
-    private GameModel gameModel;
+    private final GameModel gameModel;
     private ICallBack iCallBack;
     private TimeMode timeMode;
+
     public Property(GameMode gameMode, GameModel gameModel, TimeMode timeMode) {
         this.gameMode = gameMode;
         this.gameModel = gameModel;
@@ -105,7 +106,4 @@ public class Property {
         return gameModel;
     }
 
-    public void setGameModel(GameModel gameModel) {
-        this.gameModel = gameModel;
-    }
 }

@@ -175,11 +175,11 @@ class GameModelTest {
             gm.regularUpdate(366, null);
         }
         double afterSatis = z.getZonRelatedSatisfaction();
-        assertEquals((int)FOREST_BASE_EFFECT * 10, (int)(afterSatis - beforeSatis));
+        assertEquals((int) FOREST_BASE_EFFECT * 10, (int) (afterSatis - beforeSatis));
 
         gm.regularUpdate(365, null);
         afterSatis = z.getZonRelatedSatisfaction();
-        assertEquals((int)FOREST_BASE_EFFECT * 10, (int)(afterSatis - beforeSatis));
+        assertEquals((int) FOREST_BASE_EFFECT * 10, (int) (afterSatis - beforeSatis));
 
         assertEquals(0, gm.calculateSpend());
     }
@@ -214,14 +214,15 @@ class GameModelTest {
         System.out.println(gm.printMap());
         System.out.println(z.getCitizens());
         boolean atLeast1PersonHasSecondaryDegree = false;
-        for(Citizen citizen : z.getCitizens()){
-            if (citizen.getLevelOfEducation() == LevelOfEducation.SCHOOL){
+        for (Citizen citizen : z.getCitizens()) {
+            if (citizen.getLevelOfEducation() == LevelOfEducation.SCHOOL) {
                 atLeast1PersonHasSecondaryDegree = true;
                 break;
             }
         }
         assertEquals(true, atLeast1PersonHasSecondaryDegree);
     }
+
     @Test
     void TestBuildTwoDifferentRoadOnNonEmptyPlot() throws OperationException {
         double beforeBalance = gm.getCityStatistics().getBudget().getBalance();

@@ -6,7 +6,6 @@ import model.common.Constants;
 import model.common.HumanManufacture;
 import model.util.ProbabilitySelector;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -32,7 +31,8 @@ public class SocialSecurity implements java.io.Serializable {
                 try {
                     System.out.println("One citizen died");
                     die(retire, gm);
-                } catch (NullPointerException e) {}
+                } catch (NullPointerException ignored) {
+                }
                 HumanManufacture.createYoungCitizen(gm);
             }
         }
@@ -42,7 +42,8 @@ public class SocialSecurity implements java.io.Serializable {
                 System.out.println("One citizen left");
                 try {
                     die(worker, gm);
-                } catch (NullPointerException e) {}
+                } catch (NullPointerException ignored) {
+                }
             }
         }
     }
@@ -89,6 +90,7 @@ public class SocialSecurity implements java.io.Serializable {
 
     /**
      * Calculate the total tax revenue from tax
+     *
      * @param taxRate current tax rate
      * @return total tax from work forces.
      */
@@ -100,16 +102,5 @@ public class SocialSecurity implements java.io.Serializable {
         System.out.println("Social Security: Got tax " + total + " from" + getListOfWorkForce().size() + " workers");
         return total;
     }
-
-    /**
-     * Records the tax rate of the year for every citizen
-     */
-    public void appendTaxRecord() {
-        for (Citizen c : getListOfWorkForce()) {
-            c.addPaidTax(
-                    Constants.BASE_TAX * cityRegistry.getCityStatistics().getBudget().getTaxRate() +
-                    c.getLevelOfEducation().getAdditionalValue()
-            );
-        }
-    }
+    
 }

@@ -4,7 +4,6 @@ import controller.util.Property;
 import model.common.Coordinate;
 import model.exceptions.OperationException;
 import model.zone.Zone;
-import model.zone.ZoneStatistics;
 
 public class SelectionListener extends ServiceListener {
 

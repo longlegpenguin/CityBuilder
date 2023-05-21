@@ -7,7 +7,6 @@ import model.util.Date;
 import model.util.LevelOfEducation;
 import model.zone.CommercialZone;
 import model.zone.IndustrialZone;
-import model.zone.ResidentialZone;
 import model.zone.Zone;
 
 public class CityStatistics implements java.io.Serializable {
@@ -63,7 +62,7 @@ public class CityStatistics implements java.io.Serializable {
         int negYears = budget.getNegativeYears(now);
         if (negYears != 0) {
             double sizeOfLoan = getBudget().getBalance();
-            return - (Math.log10(-sizeOfLoan) + 1) - negYears;
+            return -(Math.log10(-sizeOfLoan) + 1) - negYears;
         }
         return 0;
     }
@@ -79,11 +78,11 @@ public class CityStatistics implements java.io.Serializable {
         for (Zone zone : gm.getCityRegistry().getZones()) {
             sumZoneSatisfaction += zone.getZoneSatisfaction(gm);
         }
-        int zoneCount =  (gm.getCityRegistry().getZones().size());
+        int zoneCount = (gm.getCityRegistry().getZones().size());
         if (zoneCount == 0) {
             this.citySatisfaction = 60 + getCityRelatedSatisfaction(gm.getCurrentDate());
         } else {
-            this.citySatisfaction = ((float)sumZoneSatisfaction /(float) zoneCount);
+            this.citySatisfaction = ((float) sumZoneSatisfaction / (float) zoneCount);
         }
     }
 

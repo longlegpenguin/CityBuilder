@@ -5,7 +5,10 @@ import controller.util.Property;
 import model.GameModel;
 import model.common.Coordinate;
 import model.exceptions.OperationException;
-import model.zone.*;
+import model.zone.CommercialZoneFactory;
+import model.zone.IndustrialZoneFactory;
+import model.zone.ResidentialZoneFactory;
+import model.zone.Zone;
 
 public class ZoneBuildingListener extends ServiceListener {
 

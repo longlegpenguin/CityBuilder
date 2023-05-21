@@ -14,14 +14,20 @@ public class Publisher {
         listeners = new HashMap<>();
     }
 
+    /**
+     * Register listeners to events
+     * @param event Event
+     * @param serviceListener ServiceListener
+     */
     public void register(Event event, ServiceListener serviceListener) {
         listeners.put(event, serviceListener);
     }
 
-    public void deregister(Event event, ServiceListener serviceListener) {
-        listeners.remove(event, serviceListener);
-    }
-
+    /**
+     * Notifies according to the event the listener.
+     * @param event Event
+     * @param coordinate Coordinate
+     */
     public void notify(Event event, Coordinate coordinate) {
         listeners.get(event).update(coordinate);
     }

@@ -16,7 +16,7 @@ public class PathFinder {
     }
 
     /**
-     * Calculates the euclidean distance between two buildables
+     * Calculates the euclidean distance between two buildable
      *
      * @param start the starting buildable
      * @param goal  the goal buildable
@@ -36,7 +36,7 @@ public class PathFinder {
     }
 
     /**
-     * Calculates max difference between two buildables
+     * Calculates max difference between two buildable
      *
      * @param start the starting buildable
      * @param goal  the goal buildable
@@ -53,7 +53,7 @@ public class PathFinder {
     }
 
     /**
-     * Calculates the manhattan distance between two buildables
+     * Calculates the manhattan distance between two buildable
      *
      * @param start the starting buildable
      * @param goal  the goal buildable
@@ -66,12 +66,11 @@ public class PathFinder {
             return result.cost;
         } else {
             Node result2 = BFS(goal, start, graph);
-            return result2 == null ? -1: result2.cost;
+            return result2 == null ? -1 : result2.cost;
         }
     }
 
-
-    class Node {
+    static class Node {
         Node parent;
         int cost;
         Buildable self;
@@ -106,10 +105,11 @@ public class PathFinder {
 
     /**
      * Implemented BFS algorithm
-     * @param start
-     * @param goal
-     * @param graph
-     * @return the destination node if can be reached, otherwise null
+     *
+     * @param start starting buildable
+     * @param goal  goal buildable
+     * @param graph final list of graph nodes
+     * @return the destination node if it can be reached, otherwise null
      */
     private Node BFS(Buildable start, Buildable goal, List<Node> graph) {
         List<Node> opens = new ArrayList<>();
@@ -146,10 +146,10 @@ public class PathFinder {
     private boolean isGoal(Node currentItem, Node goal) {
         int cRow = currentItem.getRow();
         int cCol = currentItem.getCol();
-        return (isInMap(cRow+1, cCol) && map[cRow+1][cCol] == goal.self) ||
-                (isInMap(cRow-1, cCol) && map[cRow-1][cCol] == goal.self) ||
-                (isInMap(cRow, cCol+1) && map[cRow][cCol+1] == goal.self) ||
-                (isInMap(cRow, cCol-1) && map[cRow][cCol-1] == goal.self);
+        return (isInMap(cRow + 1, cCol) && map[cRow + 1][cCol] == goal.self) ||
+                (isInMap(cRow - 1, cCol) && map[cRow - 1][cCol] == goal.self) ||
+                (isInMap(cRow, cCol + 1) && map[cRow][cCol + 1] == goal.self) ||
+                (isInMap(cRow, cCol - 1) && map[cRow][cCol - 1] == goal.self);
     }
 
     /**
@@ -196,12 +196,12 @@ public class PathFinder {
 
     /**
      * Checks if nothing is between
-     * @param start
-     * @param goal
-     * @param radius
+     *
+     * @param start starting buildable
+     * @param goal  goal buildable
      * @return true if nothing is between
      */
-    public boolean hasDirectView(Buildable start, Buildable goal, int radius) {
+    public boolean hasDirectView(Buildable start, Buildable goal) {
         List<Coordinate> graph = new ArrayList<>();
         List<Coordinate> opens = new ArrayList<>();
         Coordinate current;
@@ -210,15 +210,14 @@ public class PathFinder {
             if (opens.isEmpty()) {
                 return false;
             }
-
             current = opens.get(0);
-            if (current.equals(goal.getCoordinate())) { // 如果是直接OK
+            if (current.equals(goal.getCoordinate())) {
                 return true;
             }
 
             opens.remove(0);
             graph.add(current);
-            for (Coordinate surr : fourAround(current, goal.getCoordinate())) { // 如果不是，把四周的加进来，但是只能加为null的四周,用一个dummy coordinate
+            for (Coordinate surr : fourAround(current, goal.getCoordinate())) {
                 if (!graph.contains(surr)) {
                     opens.add(surr);
                     graph.add(surr);
@@ -229,9 +228,10 @@ public class PathFinder {
 
     /**
      * Gets the 4 direct neighbours of a node
-     * @param current
-     * @param goalCoordinate
-     * @return
+     *
+     * @param current        the middle coordinate
+     * @param goalCoordinate the goal
+     * @return list of nodes
      */
     private List<Coordinate> fourAround(Coordinate current, Coordinate goalCoordinate) {
         List<Coordinate> successors = new ArrayList<>();

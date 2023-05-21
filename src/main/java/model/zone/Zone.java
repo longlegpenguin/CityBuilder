@@ -40,6 +40,7 @@ public abstract class Zone implements Buildable, java.io.Serializable {
     public int getCapacity() {
         return level.getCapacity();
     }
+
     @Override
     public boolean isConnected() {
         return isConnected;
@@ -47,8 +48,9 @@ public abstract class Zone implements Buildable, java.io.Serializable {
 
     /**
      * Resets the connected property with the current possibility of connection
+     *
      * @param connectingPoint master road
-     * @param map map of city
+     * @param map             map of city
      */
     public void resetConnected(Buildable connectingPoint, Buildable map[][]) {
         isConnected = new PathFinder(map).manhattanDistance(this, connectingPoint) > -1;
@@ -56,10 +58,6 @@ public abstract class Zone implements Buildable, java.io.Serializable {
 
     public Level getLevel() {
         return level;
-    }
-
-    public int getDayToBuild() {
-        return dayToBuild;
     }
 
     public ZoneStatistics getStatistics() {
@@ -80,18 +78,10 @@ public abstract class Zone implements Buildable, java.io.Serializable {
         return dimension;
     }
 
-    public Boolean getUnderConstruction() {
-        return isUnderConstruction;
-    }
-
     public List<Citizen> getCitizens() {
         return citizens;
     }
-
-    public float getEffectRadius() {
-        return effectRadius;
-    }
-
+    
     @Override
     public BuildableType getBuildableType() {
         return buildableType;
@@ -103,14 +93,6 @@ public abstract class Zone implements Buildable, java.io.Serializable {
 
     public void setLevel(Level level) {
         this.level = level;
-    }
-
-    public void setDayToBuild(int dayToBuild) {
-        this.dayToBuild = dayToBuild;
-    }
-
-    public void setStatistics(ZoneStatistics statistics) {
-        this.statistics = statistics;
     }
 
     public double getFreeWorkSpaceEffect() {
@@ -137,10 +119,6 @@ public abstract class Zone implements Buildable, java.io.Serializable {
 
     public void updateIndustrialEffect(int newValue) {
         statistics.getSatisfaction().setIndustrialEffect(newValue);
-    }
-
-    public void updateFreeWorkSpaceEffect(int newValue) {
-        statistics.getSatisfaction().setFreeWorkplaceEffect(newValue);
     }
 
     public void updateStadiumEffect(int newValue) {

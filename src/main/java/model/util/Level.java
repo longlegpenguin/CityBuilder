@@ -1,7 +1,5 @@
 package model.util;
 
-import model.common.Constants;
-
 import static model.common.Constants.ZONE_ONE_TIME_COST;
 
 public enum Level {

@@ -5,7 +5,7 @@ import model.common.Coordinate;
 import model.common.Dimension;
 import model.util.PathFinder;
 
-public abstract class Facility implements Buildable , java.io.Serializable {
+public abstract class Facility implements Buildable, java.io.Serializable {
     protected int oneTimeCost;
     protected int maintenanceFee;
     protected Coordinate coordinate;
@@ -27,17 +27,15 @@ public abstract class Facility implements Buildable , java.io.Serializable {
 
     /**
      * Resets the connected property with the current possibility of connection
+     *
      * @param connectingPoint master road
-     * @param map map of city
+     * @param map             map of city
      */
-    public void resetConnected(Buildable connectingPoint, Buildable map[][]) {
+    public void resetConnected(Buildable connectingPoint, Buildable[][] map) {
         isConnected = new PathFinder(map).manhattanDistance(this, connectingPoint) > -1;
     }
 
-    public void setConnected(Boolean connected) {
-        isConnected = connected;
-    }
-    public void setConnected(Buildable connectingPoint, Buildable map[][]) {
+    public void setConnected(Buildable connectingPoint, Buildable[][] map) {
         isConnected = new PathFinder(map).manhattanDistance(this, connectingPoint) > -1;
     }
 
@@ -62,14 +60,6 @@ public abstract class Facility implements Buildable , java.io.Serializable {
     @Override
     public Dimension getDimension() {
         return dimension;
-    }
-
-    public void setOneTimeCost(int oneTimeCost) {
-        this.oneTimeCost = oneTimeCost;
-    }
-
-    public void setMaintenanceFee(int maintenanceFee) {
-        this.maintenanceFee = maintenanceFee;
     }
 
     @Override

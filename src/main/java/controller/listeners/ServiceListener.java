@@ -10,5 +10,10 @@ public abstract class ServiceListener {
     public ServiceListener(Property property) {
         this.property = property;
     }
+
+    /**
+     * Update the game model.
+     * @param coordinate Coordinate of the clicked place.
+     */
     public abstract void update(Coordinate coordinate);
 }

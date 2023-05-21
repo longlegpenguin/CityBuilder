@@ -1,5 +1,7 @@
 package controller.util;
+
 import static controller.util.Event.*;
+
 public enum GameMode {
 
     SELECTION_MODE(SELECTION),
@@ -12,9 +14,9 @@ public enum GameMode {
     SCHOOL_MODE(FACILITY),
     UNIVERSITY_MODE(FACILITY),
     FOREST_MODE(FACILITY),
-    UPGRADE_MODE(UPGRADE),
     DEMOLISH_MODE(DEMOLISH);
     private final Event event;
+
     GameMode(Event event) {
         this.event = event;
     }

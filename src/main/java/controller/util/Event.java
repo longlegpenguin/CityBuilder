@@ -6,7 +6,4 @@ public enum Event {
     FACILITY,
     UPGRADE,
     DEMOLISH
-//    QUERY_BUDGET,
-//    QUERY_CITY_STATISTIC,
-//    QUERY_ZONE_STATISTIC
 }

@@ -4,7 +4,7 @@ import model.common.ZoneSatisfaction;
 
 public final class ZoneStatistics implements java.io.Serializable {
     private int population;
-    private int capacity;
+    private final int capacity;
     private final ZoneSatisfaction satisfaction;
 
     public ZoneStatistics(int population, int capacity, ZoneSatisfaction satisfaction) {
@@ -27,10 +27,6 @@ public final class ZoneStatistics implements java.io.Serializable {
 
     public void setPopulation(int population) {
         this.population = population;
-    }
-
-    public void setCapacity(int capacity) {
-        this.capacity = capacity;
     }
 
 }

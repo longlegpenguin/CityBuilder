@@ -6,7 +6,7 @@ import java.time.LocalDate;
 import java.time.Period;
 import java.util.*;
 
-public class Date implements Comparable<Date>,java.io.Serializable {
+public class Date implements Comparable<Date>, java.io.Serializable {
     private int day;
     private Month month;
     private int year;

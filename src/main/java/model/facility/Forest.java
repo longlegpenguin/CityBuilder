@@ -12,18 +12,14 @@ import java.util.LinkedList;
 public class Forest extends EffectualFacility {
 
     private int age;
-    private final Date birthday;
     private Date lastUpdate;
     private double totalEffectCnt;
-    private boolean grew;
 
     public Forest(int oneTimeCost, int maintenanceFee, Coordinate coordinate, Dimension dimension, float influenceRadius, Date birthday) {
         super(oneTimeCost, maintenanceFee, coordinate, dimension, influenceRadius);
         age = 1;
-        this.birthday = birthday;
         this.lastUpdate = birthday;
         totalEffectCnt = getPositiveEffect();
-        grew = true;
     }
 
     public int getAge() {
@@ -35,21 +31,19 @@ public class Forest extends EffectualFacility {
     }
 
     public void setTotalEffectCntToTenYears() {
-        this.totalEffectCnt = getPositiveEffect()*10;
+        this.totalEffectCnt = getPositiveEffect() * 10;
     }
 
     /**
      * Increments forests age by one, if one year passed.
+     *
      * @param now the current time
      */
     public void incAge(Date now) {
         if (now.dateDifference(lastUpdate).get("years") >= 1) {
             lastUpdate = now;
-            if (age < 10) {
-                grew = true;
-            }
             age += 1;
-            System.out.println("forest"+age);
+            System.out.println("forest" + age);
         }
     }
 
@@ -65,8 +59,9 @@ public class Forest extends EffectualFacility {
 
     /**
      * Filter out industrial zones lies between a given zone and the forest.
+     *
      * @param zone given zone
-     * @param gm gme model
+     * @param gm   gme model
      * @return the list of bad zones
      */
     public LinkedList<SideEffect> getBadEffectIndustrial(Zone zone, GameModel gm) {
@@ -92,6 +87,7 @@ public class Forest extends EffectualFacility {
             System.out.println("grew effect" + totalEffectCnt);
         }
     }
+
     @Override
     public void effect(Zone zone, GameModel gm) {
         if (condition(zone, gm)) {
@@ -119,18 +115,19 @@ public class Forest extends EffectualFacility {
     @Override
     public boolean condition(Zone zone, GameModel gm) {
         return (hasDirectView(zone, gm.getMap()) &&
-                new PathFinder(gm.getMap()).squareDistance(zone, this) <= influenceRadius) &&
+                new PathFinder(gm.getMap()).squareDistance(zone, this) <= influenceRadius + 1) &&
                 zone.isConnected();
     }
 
     private double getPositiveEffect() {
-        return Constants.FOREST_BASE_EFFECT ;
+        return Constants.FOREST_BASE_EFFECT;
     }
 
     /**
      * Checks if a zone can see the forest directly
+     *
      * @param zone zone to be checked
-     * @param map map of city
+     * @param map  map of city
      * @return true if can
      */
     private boolean hasDirectView(Zone zone, Buildable[][] map) {
@@ -138,21 +135,17 @@ public class Forest extends EffectualFacility {
         Coordinate self = this.getCoordinate();
 
         if (zC.getRow() == self.getRow()) { // check horizontally
-            if (horizontallyBlocked(map, zC, self)) {
-                return false;
-            }
+            return !horizontallyBlocked(map, zC, self);
         } else if (zC.getCol() == self.getCol()) { // check vertically
-            if (verticallyBlocked(map, zC, self)) {
-                return false;
-            }
+            return !verticallyBlocked(map, zC, self);
         } else {
             return false;
         }
-        return true;
     }
 
     /**
-     * Checks if b is in one line and betwee a and c
+     * Checks if b is in one line and between a and c
+     *
      * @param a Coordinate
      * @param b Coordinate
      * @param c Coordinate
@@ -170,15 +163,15 @@ public class Forest extends EffectualFacility {
 
     /**
      * Checks if there is a real building at the given place
+     *
      * @param sRow row coordinate
      * @param sCol column coordinate
-     * @param map map of the city
+     * @param map  map of the city
      * @return true if there is one.
      */
     private boolean isNotEmpty(int sRow, int sCol, Buildable[][] map) {
         return map[sRow][sCol] != null && map[sRow][sCol].getBuildableType() != BuildableType.ROAD;
     }
-
 
     private boolean horizontallyBlocked(Buildable[][] map, Coordinate zC, Coordinate self) {
         int diff = self.getCol() - zC.getCol();

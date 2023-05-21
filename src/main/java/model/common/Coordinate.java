@@ -3,7 +3,8 @@ package model.common;
 import java.util.Objects;
 
 public class Coordinate implements java.io.Serializable {
-    private int row, col;
+    private final int row;
+    private final int col;
 
     public Coordinate(int row, int col) {
         this.row = row;
@@ -16,14 +17,6 @@ public class Coordinate implements java.io.Serializable {
 
     public int getCol() {
         return col;
-    }
-
-    public void setRow(int row) {
-        this.row = row;
-    }
-
-    public void setCol(int col) {
-        this.col = col;
     }
 
     @Override

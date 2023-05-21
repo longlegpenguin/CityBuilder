@@ -4,7 +4,6 @@ import controller.util.GameMode;
 import controller.util.Property;
 import model.GameModel;
 import model.common.Coordinate;
-import model.common.Dimension;
 import model.exceptions.OperationException;
 import model.facility.*;
 

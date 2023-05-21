@@ -12,6 +12,7 @@ public class Main {
         gm.regularUpdate(2, null);
         Database.save(gm);
         gm = Database.read();
+        assert gm != null;
         System.out.println(gm.printMap());
         System.out.println(gm.getCurrentDate());
     }

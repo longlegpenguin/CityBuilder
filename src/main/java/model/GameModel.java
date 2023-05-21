@@ -17,7 +17,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import static model.common.Constants.*;
+import static model.common.Constants.GAME_LOST_SATISFACTION;
+import static model.common.Constants.INITIAL_CITY_BALANCE;
 import static model.util.BuildableType.*;
 
 public class GameModel implements java.io.Serializable {
@@ -55,14 +56,15 @@ public class GameModel implements java.io.Serializable {
         }
         Random random = new Random();
         for (int i = 0; i < 4; i++) {
-            Forest forest = (Forest)new ForestFactory(this).createFacility(new Coordinate(random.nextInt(rows-1), random.nextInt(cols-1)));
+            Forest forest = (Forest) new ForestFactory(this).createFacility(new Coordinate(random.nextInt(rows - 1), random.nextInt(cols - 1)));
             forest.setAgeToTen();
             forest.setTotalEffectCntToTenYears();
 
             try {
                 addFacility(forest);
                 cityStatistics.getBudget().addBalance(forest.getOneTimeCost(), getCurrentDate());
-            } catch (OperationException e) {}
+            } catch (OperationException ignored) {
+            }
             addToMap(forest);
         }
         cityRegistry.getCityStatistics().setCitySatisfaction(this);
@@ -76,7 +78,7 @@ public class GameModel implements java.io.Serializable {
     /**
      * Gets everything on the map.
      *
-     * @return list of buildables.
+     * @return list of buildable.
      */
     public List<Buildable> getAllBuildable() {
         List<Buildable> buildableList = new ArrayList<>();
@@ -106,15 +108,6 @@ public class GameModel implements java.io.Serializable {
     }
 
     /**
-     * Updates the city's date
-     *
-     * @param daysPassed the days passed since last update
-     */
-    public void timePassUpdate(int daysPassed) {
-        dateOfWorld.addDay(daysPassed);
-    }
-
-    /**
      * Adds the zone to the city.
      * Updates its effect on satisfaction of other zones as well.
      *
@@ -136,10 +129,11 @@ public class GameModel implements java.io.Serializable {
 
     /**
      * If the new buildable blocks the forest view, reverses the effect of the blocked.
+     *
      * @param buildable the new buildable to check.
      */
     public void checkTemporaryDirectView(Buildable buildable) {
-        for (Buildable b: getFacilityBuildable()) {
+        for (Buildable b : getFacilityBuildable()) {
             if (b.getBuildableType() == FOREST) {
                 Forest f = (Forest) b;
                 for (Zone z : getAllZones()) {
@@ -180,7 +174,7 @@ public class GameModel implements java.io.Serializable {
     }
 
     /**
-     * Applies effects by all existing buildables if there is effect.
+     * Applies effects by all existing buildable if there is effect.
      *
      * @param zone the zone to be effected.
      */
@@ -237,7 +231,7 @@ public class GameModel implements java.io.Serializable {
                 beEffectedByExisting(z);
             }
         }
-        for (Buildable buildable : getFacilityBuildable() ) {
+        for (Buildable buildable : getFacilityBuildable()) {
             Facility f = (Facility) buildable;
             if (!f.isConnected() && f.getBuildableType() != FOREST) {
                 f.resetConnected(masterRoads.get(0), map);
@@ -289,7 +283,7 @@ public class GameModel implements java.io.Serializable {
     }
 
     /**
-     * Removes the buildable from the city registry and tempory lists.
+     * Removes the buildable from the city registry and temporary lists.
      *
      * @param bad the building to be removed
      */
@@ -306,7 +300,7 @@ public class GameModel implements java.io.Serializable {
      * Checks if the removal of road will result in lost of existing connection
      *
      * @param road th road to be checked
-     * @return true if will cause lost, otherwise false.
+     * @return true if it will cause lost, otherwise false.
      */
     public boolean roadIsEssentialForConnection(Road road) {
         removeFromMap(road);
@@ -493,13 +487,10 @@ public class GameModel implements java.io.Serializable {
         citizenshipManipulation();
         citizenshipEducationUpdate();
         cityAging();
-//        updateForests();
-        if (callBack == null) { return; }
-        if (cityRegistry.getCityStatistics().getCitySatisfaction() < GAME_LOST_SATISFACTION) {
-            callBack.shoutLose(true);
-        } else {
-            callBack.shoutLose(false);
+        if (callBack == null) {
+            return;
         }
+        callBack.shoutLose(cityRegistry.getCityStatistics().getCitySatisfaction() < GAME_LOST_SATISFACTION);
     }
 
     /**
@@ -531,7 +522,7 @@ public class GameModel implements java.io.Serializable {
                                 (cityStatistics.getCitySatisfaction() +
                                         possibleLivingZone.getFreeWorkSpaceEffect() +
                                         possibleLivingZone.getIndustrialEffect())
-                                                / 100)
+                                        / 100)
                 ) {
                     HumanManufacture.createYoungCitizen(this, possibleWorkingZone, possibleLivingZone);
                 }
@@ -540,7 +531,7 @@ public class GameModel implements java.io.Serializable {
     }
 
     private void citizenshipEducationUpdate() {
-        for (Citizen citizen : getCityRegistry().getAllCitizens()){
+        for (Citizen citizen : getCityRegistry().getAllCitizens()) {
             citizen.setLevelOfEducation(HumanManufacture.getEducationLevel(this, citizen.getLivingplace()));
         }
     }
@@ -557,7 +548,7 @@ public class GameModel implements java.io.Serializable {
     /**
      * Getting the total expenses of the city.
      *
-     * @return the total pension and maintainence
+     * @return the total pension and maintenance
      */
     public double calculateSpend() {
         double spend = 0;
@@ -605,6 +596,7 @@ public class GameModel implements java.io.Serializable {
 
     /**
      * Gets all zones which status is still under constructed.
+     *
      * @return the list
      */
     public List<Zone> getUnderConstructions() {

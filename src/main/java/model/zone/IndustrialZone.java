@@ -29,7 +29,7 @@ public class IndustrialZone extends Zone implements SideEffect {
             zone.getStatistics().getSatisfaction().setFreeWorkplaceEffect(zone.getStatistics().getSatisfaction().getFreeWorkplaceEffect() + INDUSTRIAL_ZONE_BASE_EFFECT);
         }
         if (condition(zone, gm)) {
-            zone.updateIndustrialEffect((int)zone.getIndustrialEffect() - INDUSTRIAL_ZONE_BASE_EFFECT);
+            zone.updateIndustrialEffect((int) zone.getIndustrialEffect() - INDUSTRIAL_ZONE_BASE_EFFECT);
         }
     }
 
@@ -39,7 +39,7 @@ public class IndustrialZone extends Zone implements SideEffect {
             zone.getStatistics().getSatisfaction().setFreeWorkplaceEffect(zone.getStatistics().getSatisfaction().getFreeWorkplaceEffect() - INDUSTRIAL_ZONE_BASE_EFFECT);
         }
         if (condition(zone, gm)) {
-            zone.updateIndustrialEffect((int)zone.getIndustrialEffect() + INDUSTRIAL_ZONE_BASE_EFFECT);
+            zone.updateIndustrialEffect((int) zone.getIndustrialEffect() + INDUSTRIAL_ZONE_BASE_EFFECT);
         }
     }
 

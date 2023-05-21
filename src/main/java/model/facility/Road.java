@@ -21,5 +21,7 @@ public class Road extends Facility {
     }
 
     @Override
-    public boolean isConnected() { return false; }
+    public boolean isConnected() {
+        return false;
+    }
 }
