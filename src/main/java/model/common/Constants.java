@@ -8,17 +8,17 @@ public class Constants implements java.io.Serializable {
 
     // ONE TIME COSTS
     public static final int ZONE_ONE_TIME_COST = 1000;
-    public static final int STADIUM_ONE_TIME_COST = 10000;
-    public static final int FOREST_ONE_TIME_COST = 10000;
-    public static final int POLICE_ONE_TIME_COST = 10000;
+    public static final int STADIUM_ONE_TIME_COST = 1000;
+    public static final int FOREST_ONE_TIME_COST = 1000;
+    public static final int POLICE_ONE_TIME_COST = 1000;
     public static final int ROAD_ONE_TIME_COST = 2000;
     public static final int SCHOOL_ONE_TIME_COST = 3000;
     public static final int UNIVERSITY_ONE_TIME_COST = 5000;
 
     // MAINTENANCE FEES
-    public static final int STADIUM_MAINTENANCE_FEE = 1000;
-    public static final int FOREST_MAINTENANCE_FEE = 1000;
-    public static final int POLICE_MAINTENANCE_FEE = 1000;
+    public static final int STADIUM_MAINTENANCE_FEE = 500;
+    public static final int FOREST_MAINTENANCE_FEE = 500;
+    public static final int POLICE_MAINTENANCE_FEE = 500;
     public static final int ROAD_MAINTENANCE_FEE = 1000;
     public static final int SCHOOL_MAINTENANCE_FEE = 1500;
     public static final int UNIVERSITY_MAINTENANCE_FEE = 2500;
