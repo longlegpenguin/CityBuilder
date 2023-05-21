@@ -87,6 +87,6 @@ public class Selector {
                 indices[pointer++] = bottomRight;
             }
         }
-        return loader.loadTextToVAO(vertices, textureCoords, normals, indices);
+        return loader.loadToVAO(vertices, textureCoords, normals, indices);
     }
 }

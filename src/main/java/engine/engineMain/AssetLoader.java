@@ -49,7 +49,7 @@ public class AssetLoader {
      */
     private TexturedModel loadAsset(String objFileName, String textureFilename) {
         ModelData modelData = OBJFileLoader.loadOBJ(objFileName);
-        RawModel rawModel = LOADER.loadTextToVAO(modelData.getVertices(), modelData.getTextureCoords(), modelData.getNormals(), modelData.getIndices());
+        RawModel rawModel = LOADER.loadToVAO(modelData.getVertices(), modelData.getTextureCoords(), modelData.getNormals(), modelData.getIndices());
         TexturedModel texturedModel = new TexturedModel(rawModel, new TextureAttribute(LOADER.loadTexture(textureFilename)));
         return texturedModel;
     }

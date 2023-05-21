@@ -29,7 +29,7 @@ public class GuiRenderer {
      */
     public GuiRenderer(Loader loader) {
         float[] positions = {-1,1,-1,-1,1,1,1,-1};
-        quad = loader.loadTextToVAO(positions);
+        quad = loader.loadToVAO(positions);
         shader = new GuiShader();
     }
 

@@ -10,6 +10,9 @@ import java.nio.IntBuffer;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Loader class is used to load the VBO's for each VAO of all Assets, UIComponents, Terrains and Texts in the game.
+ */
 public class Loader {
     private List<Integer> vaos = new ArrayList<Integer>();
     private List<Integer> textVaos = new ArrayList<Integer>();
@@ -29,8 +32,7 @@ public class Loader {
      *
              * @return the loaded model
      */
-
-    public RawModel loadTextToVAO(float[] positions, float[] textureCoords, float[] normals , int[] indices) {
+    public RawModel loadToVAO(float[] positions, float[] textureCoords, float[] normals , int[] indices) {
         int vaoID = createVAO();
         bindIndicesBuffer(indices);
         storeDataInAttributeList(0,3, positions);
@@ -40,13 +42,27 @@ public class Loader {
         return new RawModel(vaoID, indices.length);
     }
 
-    public RawModel loadTextToVAO(float[] positions) {
+    /**
+     * Method responsible for loading VAO for GUI Objects.
+     * Same process as LoadToVAO for entities however index array is not required.
+     * @param positions
+     * @return
+     */
+    public RawModel loadToVAO(float[] positions) {
         int vaoID = createVAO();
         this.storeDataInAttributeList(0, 2, positions);
         unbindVAO();
         return new RawModel(vaoID, positions.length/2);
     }
-    public int loadTextToVAO(float[] positions, float[] textureCoords) {
+
+    /**
+     * Method responsible for loading VAO for Text Objects.
+     * Same process as LoadToVAO for entities however index array is not required.
+     * @param positions
+     * @param textureCoords
+     * @return
+     */
+    public int loadToVAO(float[] positions, float[] textureCoords) {
         int vaoID = createTextVAO();
 
         storeDataInAttributeList(0,2, positions);
@@ -68,6 +84,12 @@ public class Loader {
         textures.add(textureID);
         return textureID;
     }
+
+    /**
+     *
+     * @param fileName
+     * @return
+     */
     public int loadFontTexture(String fileName) {
         Texture texture = Texture.loadTexture("src/main/resources/textures/" + fileName + ".png");
         GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL14.GL_TEXTURE_LOD_BIAS,0);
@@ -93,6 +115,10 @@ public class Loader {
         return vaoID;
     }
 
+    /**
+     * Creation of the VAO for text - stored in a different VAO id.
+     * @return
+     */
     private int createTextVAO() {
         int vaoID = GL30.glGenVertexArrays();
         textVaos.add(vaoID);
@@ -205,6 +231,9 @@ public class Loader {
         GL15.glBufferData(GL15.GL_ELEMENT_ARRAY_BUFFER, buffer, GL15.GL_STATIC_DRAW);
     }
 
+    /**
+     * Clears the Text VAO as well as the VBO arrays.
+     */
     public void clearTextVaos() {
         vbos.clear();
         textVaos.clear();
