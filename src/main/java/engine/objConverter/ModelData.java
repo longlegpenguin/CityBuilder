@@ -19,24 +19,31 @@ public class ModelData {
         this.furthestPoint = furthestPoint;
     }
 
+    /**
+     * @return float array of all Vertices in the asset.
+     */
     public float[] getVertices() {
         return vertices;
     }
 
+    /**
+     * @return float array of the texture coordinates of the asset - also known as UV coords.
+     */
     public float[] getTextureCoords() {
         return textureCoords;
     }
 
+    /**
+     * @return float array of the normals of the asset used in lighting calculations.
+     */
     public float[] getNormals() {
         return normals;
     }
 
+    /**
+     * @return int array of the indices which specify to shader how vertices of assets should be connected.
+     */
     public int[] getIndices() {
         return indices;
     }
-
-    public float getFurthestPoint() {
-        return furthestPoint;
-    }
-
 }
