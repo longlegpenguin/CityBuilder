@@ -109,7 +109,7 @@ public class Handler implements ICallBack {
         TextMaster.loadText(gameStatus);
 
 
-        controller.switchTimeModeRequest(TimeMode.MONTHLY);
+        //controller.switchTimeModeRequest(TimeMode.MONTHLY);
 
         setWorldGrid();
     }
@@ -127,10 +127,8 @@ public class Handler implements ICallBack {
             framerate.setTextString("FPS: " + 1 / DisplayManager.getFrameTimeSeconds());
             TextMaster.loadText(framerate);
 
-            // TODO isGameOver in the console outputs real value, but always false on the game ui.
-            frametime.setTextString("Game Over: " + isGameOver);
+            gameStatus.setTextString("Game Over: " + isGameOver);
             TextMaster.loadText(gameStatus);
-//            System.out.println("--------"+isGameOver);
             timer2 -= 0.1f;
         }
 
@@ -348,6 +346,6 @@ public class Handler implements ICallBack {
     @Override
     public void shoutLose(boolean isLost) {
         isGameOver = isLost;
-//        System.out.println("Game is lost: " + isLost);
+        //System.out.println("Game is lost: " + isLost);
     }
 }
