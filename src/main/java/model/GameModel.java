@@ -17,8 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import static model.common.Constants.GAME_LOST_SATISFACTION;
-import static model.common.Constants.INITIAL_CITY_BALANCE;
+import static model.common.Constants.*;
 import static model.util.BuildableType.*;
 
 public class GameModel implements java.io.Serializable {
@@ -50,7 +49,7 @@ public class GameModel implements java.io.Serializable {
      */
     public void initialize() {
         for (int i = 0; i < cols; i++) {
-            Road road = new Road(0, 0, new Coordinate(rows - 1, i), new Dimension(1, 1));
+            Road road = new Road(ROAD_ONE_TIME_COST, ROAD_MAINTENANCE_FEE, new Coordinate(rows - 1, i), new Dimension(1, 1));
             masterRoads.add(road);
             addToMap(road);
         }
@@ -124,7 +123,7 @@ public class GameModel implements java.io.Serializable {
         effectExists(zone);
         beEffectedByExisting(zone);
         cityRegistry.addZone(zone);
-        cityRegistry.updateBalance(-zone.getConstructionCost(), getCurrentDate());
+        cityRegistry.updateBalance(-zone.getOneTimeCost(), getCurrentDate());
     }
 
     /**
@@ -263,7 +262,7 @@ public class GameModel implements java.io.Serializable {
         removeSideEffects(bad);
         removeFromMap(bad);
         youthForest.remove(bad);
-        cityStatistics.getBudget().addBalance(bad.getConstructionCost() * Constants.RETURN_RATE, getCurrentDate());
+        cityStatistics.getBudget().addBalance(bad.getOneTimeCost() * Constants.RETURN_RATE, getCurrentDate());
         removeFromCity(bad);
         System.out.println("Remove Success");
     }
@@ -418,7 +417,7 @@ public class GameModel implements java.io.Serializable {
         return sb.toString();
     }
 
-    private boolean isPlotAvailable(Buildable b) {
+    public boolean isPlotAvailable(Buildable b) {
         if (b == null) {
             return true;
         }
