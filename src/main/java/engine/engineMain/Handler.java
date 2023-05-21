@@ -2,21 +2,19 @@ package engine.engineMain;
 
 import controller.Controller;
 import controller.ICallBack;
-import controller.util.GameMode;
-import controller.util.TimeMode;
 import engine.display.DisplayManager;
 import engine.entities.Camera;
 import engine.entities.Entity;
 import engine.entities.Light;
 import engine.fontMeshCreator.GUIText;
 import engine.fontRendering.TextMaster;
+import engine.guis.UiButton;
 import engine.renderEngine.GuiRenderer;
 import engine.renderEngine.Loader;
 import engine.renderEngine.MasterRenderer;
 import engine.terrain.Selector;
 import engine.terrain.Terrain;
 import engine.textures.TextureAttribute;
-import engine.guis.UiButton;
 import engine.tools.Mouse;
 import engine.tools.MousePicker;
 import engine.world.WorldGrid;
@@ -31,9 +29,9 @@ import model.zone.Zone;
 import model.zone.ZoneStatistics;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
-import persistence.Database;
 import view.MoneyStatistic;
 import view.ViewModel;
+
 import java.util.List;
 
 public class Handler implements ICallBack {
@@ -59,7 +57,7 @@ public class Handler implements ICallBack {
     private int counter = 0;
 
     private float mouseDelay = 0f;
-    private float baseTime =  3f;
+    private float baseTime = 3f;
     private float timeMultiplier = 1;
     private float timer = 0;
     private float timer2 = 0;
@@ -80,8 +78,8 @@ public class Handler implements ICallBack {
         this.worldGrid = new WorldGrid(loader, new TextureAttribute(loader.loadTexture("grass")));
         this.selector = new Selector(0, 0, loader, new TextureAttribute(loader.loadTexture("selector")));
 
-        this.camera = new Camera(new Vector3f(0,100, 0));
-        this.light = new Light(new Vector3f(50, 1000, 50), new Vector3f(1,1,1));
+        this.camera = new Camera(new Vector3f(0, 100, 0));
+        this.light = new Light(new Vector3f(50, 1000, 50), new Vector3f(1, 1, 1));
 
         this.guiRenderer = new GuiRenderer(loader);
 
@@ -94,18 +92,18 @@ public class Handler implements ICallBack {
         this.controller = new Controller(gameModel);
 
         TextMaster.init(loader);
-        viewModel = new ViewModel(controller,gameModel);
+        viewModel = new ViewModel(controller, gameModel);
 
         frametime = new GUIText("FT (ms): ", 0.9f, new Vector2f(0.025f, 0.025f), 1, false);
-        frametime.setColour(0,0,0);
+        frametime.setColour(0, 0, 0);
         TextMaster.loadText(frametime);
 
         framerate = new GUIText("FPS: ", 0.9f, new Vector2f(0.025f, 0.05f), 1, false);
-        framerate.setColour(0,0,0);
+        framerate.setColour(0, 0, 0);
         TextMaster.loadText(framerate);
 
         gameStatus = new GUIText("Game Over: " + isGameOver, 0.9f, new Vector2f(0.025f, 0.075f), 1, false);
-        gameStatus.setColour(0,0,0);
+        gameStatus.setColour(0, 0, 0);
         TextMaster.loadText(gameStatus);
 
 
@@ -135,7 +133,7 @@ public class Handler implements ICallBack {
         if (timer >= baseTime / timeMultiplier) {
             controller.regularUpdateRequest(1, this);
             viewModel.Update();
-            timer -= baseTime/ timeMultiplier;
+            timer -= baseTime / timeMultiplier;
         }
 
         camera.move();
@@ -157,7 +155,7 @@ public class Handler implements ICallBack {
         boolean buttonPressed = false;
         if (mouseDelay == 0f && Mouse.isLeftButtonPressed()) {
             mouseDelay = 0.1f;
-            for (UiButton button: viewModel.getButtons()) {
+            for (UiButton button : viewModel.getButtons()) {
                 if (button.isClicked()) {
                     buttonPressed = true;
                     switch (button.getButtonEnum()) {
@@ -171,12 +169,28 @@ public class Handler implements ICallBack {
                         case POLICE -> viewModel.getBottomMenuBar().policeButtonAction();
                         case SCHOOL -> viewModel.getBottomMenuBar().schoolButtonAction();
                         case UNIVERSITY -> viewModel.getBottomMenuBar().universityButton();
-                        case MONEY -> {viewModel.moneyDisplayManagement(controller,gameModel, moneyTab); if (moneyTab) {moneyTab = false;} else {moneyTab = true;}}
+                        case MONEY -> {
+                            viewModel.moneyDisplayManagement(controller, gameModel, moneyTab);
+                            if (moneyTab) {
+                                moneyTab = false;
+                            } else {
+                                moneyTab = true;
+                            }
+                        }
                         case SELECT -> viewModel.getBottomMenuBar().selectButtonAction();
                         case SPEED_PAUSE -> paused = true;
-                        case SPEED_ONE -> {timeMultiplier = 1f; paused = false;}
-                        case SPEED_TWO -> {timeMultiplier = 2f; paused = false;}
-                        case SPEED_THREE -> {timeMultiplier = 3f; paused = false;}
+                        case SPEED_ONE -> {
+                            timeMultiplier = 1f;
+                            paused = false;
+                        }
+                        case SPEED_TWO -> {
+                            timeMultiplier = 2f;
+                            paused = false;
+                        }
+                        case SPEED_THREE -> {
+                            timeMultiplier = 3f;
+                            paused = false;
+                        }
                     }
                 }
             }
@@ -198,28 +212,30 @@ public class Handler implements ICallBack {
 
 
         masterRenderer.render(selector, camera, light);
-        guiRenderer.render(viewModel.getButtons(),viewModel.getTabs());
+        guiRenderer.render(viewModel.getButtons(), viewModel.getTabs());
 
         TextMaster.render();
         loader.clearTextVaos();
 
 
-        if (paused == false) {timer += DisplayManager.getFrameTimeSeconds();}
+        if (paused == false) {
+            timer += DisplayManager.getFrameTimeSeconds();
+        }
         timer2 += DisplayManager.getFrameTimeSeconds();
     }
 
     public void processAllAssets() {
-        for (Terrain terrain: worldGrid.getTerrainList()) {
+        for (Terrain terrain : worldGrid.getTerrainList()) {
             masterRenderer.processTerrain(terrain);
         }
 
 
-        for (Entity zone: worldGrid.getZoneList()) {
+        for (Entity zone : worldGrid.getZoneList()) {
             masterRenderer.processEntities(zone);
         }
 
 
-        for (Entity buildable: worldGrid.getBuildableList()) {
+        for (Entity buildable : worldGrid.getBuildableList()) {
             masterRenderer.processEntities(buildable);
         }
     }
@@ -238,13 +254,13 @@ public class Handler implements ICallBack {
     }
 
     private void addBuildablesWorldGrid(List<Buildable> gameModelBuildables) {
-        for (Buildable b: gameModelBuildables) {
+        for (Buildable b : gameModelBuildables) {
             worldGrid.addBuildable(b.getCoordinate().getRow(), b.getCoordinate().getCol(), getGridEntity(b));
         }
     }
 
     private void addZonesWorldGrid(List<Buildable> gameModelZones) {
-        for (Buildable b: gameModelZones) {
+        for (Buildable b : gameModelZones) {
             worldGrid.addBuildable(b.getCoordinate().getRow(), b.getCoordinate().getCol(), getGridEntity(b));
         }
     }
@@ -253,39 +269,39 @@ public class Handler implements ICallBack {
         Entity entity = null;
         switch (buildable.getBuildableType()) {
             case RESIDENTIAL -> {
-                entity = new Entity(assets.getResidentialBuilding(), new Vector3f(buildable.getCoordinate().getRow() * Terrain.getSize(),0,(buildable.getCoordinate().getCol() + 1) *Terrain.getSize()), 0,0,0,5);
+                entity = new Entity(assets.getResidentialBuilding(), new Vector3f(buildable.getCoordinate().getRow() * Terrain.getSize(), 0, (buildable.getCoordinate().getCol() + 1) * Terrain.getSize()), 0, 0, 0, 5);
                 break;
             }
             case COMMERCIAL -> {
-                entity = new Entity(assets.getCommercialBuilding(), new Vector3f(buildable.getCoordinate().getRow() * Terrain.getSize(),0,(buildable.getCoordinate().getCol() + 1) *Terrain.getSize()), 0,0,0,5);
+                entity = new Entity(assets.getCommercialBuilding(), new Vector3f(buildable.getCoordinate().getRow() * Terrain.getSize(), 0, (buildable.getCoordinate().getCol() + 1) * Terrain.getSize()), 0, 0, 0, 5);
                 break;
             }
             case INDUSTRIAL -> {
-                entity = new Entity(assets.getIndustrialBuilding(), new Vector3f(buildable.getCoordinate().getRow() * Terrain.getSize(),0,(buildable.getCoordinate().getCol() + 1) *Terrain.getSize()), 0,0,0,5);
+                entity = new Entity(assets.getIndustrialBuilding(), new Vector3f(buildable.getCoordinate().getRow() * Terrain.getSize(), 0, (buildable.getCoordinate().getCol() + 1) * Terrain.getSize()), 0, 0, 0, 5);
                 break;
             }
             case ROAD -> {
-                entity = new Entity(assets.getRoad(), new Vector3f(buildable.getCoordinate().getRow() * Terrain.getSize(),0,(buildable.getCoordinate().getCol() + 1) *Terrain.getSize()), 0,0,0,5);
+                entity = new Entity(assets.getRoad(), new Vector3f(buildable.getCoordinate().getRow() * Terrain.getSize(), 0, (buildable.getCoordinate().getCol() + 1) * Terrain.getSize()), 0, 0, 0, 5);
                 break;
             }
             case FOREST -> {
-                entity = new Entity(assets.getForest(), new Vector3f(buildable.getCoordinate().getRow() * Terrain.getSize(),0,(buildable.getCoordinate().getCol() + 1) *Terrain.getSize()), 0,0,0,5);
+                entity = new Entity(assets.getForest(), new Vector3f(buildable.getCoordinate().getRow() * Terrain.getSize(), 0, (buildable.getCoordinate().getCol() + 1) * Terrain.getSize()), 0, 0, 0, 5);
                 break;
             }
             case POLICE -> {
-                entity = new Entity(assets.getPolice(), new Vector3f(buildable.getCoordinate().getRow() * Terrain.getSize(),0,(buildable.getCoordinate().getCol() + 1) *Terrain.getSize()), 0,0,0,5);
+                entity = new Entity(assets.getPolice(), new Vector3f(buildable.getCoordinate().getRow() * Terrain.getSize(), 0, (buildable.getCoordinate().getCol() + 1) * Terrain.getSize()), 0, 0, 0, 5);
                 break;
             }
             case STADIUM -> {
-                entity = new Entity(assets.getStadium(), new Vector3f(buildable.getCoordinate().getRow() * Terrain.getSize(),0,(buildable.getCoordinate().getCol() + 2) *Terrain.getSize()), 0,0,0,5*2);
+                entity = new Entity(assets.getStadium(), new Vector3f(buildable.getCoordinate().getRow() * Terrain.getSize(), 0, (buildable.getCoordinate().getCol() + 2) * Terrain.getSize()), 0, 0, 0, 5 * 2);
                 break;
             }
             case SCHOOL -> {
-                entity = new Entity(assets.getSchool(), new Vector3f(buildable.getCoordinate().getRow() * Terrain.getSize(),0,(buildable.getCoordinate().getCol() + 1) *Terrain.getSize()), 0,0,0,5);
+                entity = new Entity(assets.getSchool(), new Vector3f(buildable.getCoordinate().getRow() * Terrain.getSize(), 0, (buildable.getCoordinate().getCol() + 1) * Terrain.getSize()), 0, 0, 0, 5);
                 break;
             }
             case UNIVERSITY -> {
-                entity = new Entity(assets.getUniversity(), new Vector3f(buildable.getCoordinate().getRow() * Terrain.getSize(),0,(buildable.getCoordinate().getCol() + 1) *Terrain.getSize()), 0,0,0,5);
+                entity = new Entity(assets.getUniversity(), new Vector3f(buildable.getCoordinate().getRow() * Terrain.getSize(), 0, (buildable.getCoordinate().getCol() + 1) * Terrain.getSize()), 0, 0, 0, 5);
                 break;
             }
         }
@@ -313,7 +329,7 @@ public class Handler implements ICallBack {
         ZoneStatistics zoneStatistics = zone.getStatistics();
         System.out.println("________Callback Inform Zone Statistic_________");
         System.out.println("Selected Zone connection: " + zone.isConnected());
-        System.out.println("Selected Zone under constructed: " + zone.isUnderConstruction());
+        System.out.println("Selected Zone under construction: " + zone.isUnderConstruction());
         System.out.println("Selected Zone type: " + zone.getBuildableType());
         System.out.println("Selected Zone population: " + zoneStatistics.getPopulation());
         System.out.println("Selected Zone capacity: " + zone.getCapacity());

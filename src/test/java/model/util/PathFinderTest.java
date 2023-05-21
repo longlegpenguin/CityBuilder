@@ -1,16 +1,15 @@
 package model.util;
 
-import model.common.Buildable;
 import model.GameModel;
-import model.facility.Road;
+import model.common.Buildable;
 import model.common.Coordinate;
 import model.common.Dimension;
+import model.facility.Road;
 import model.zone.ResidentialZoneFactory;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class PathFinderTest {
 
@@ -25,7 +24,7 @@ class PathFinderTest {
    1,1; 2,1; 2,2; 2,3; 3,3; 4,3; 4,4;
    1,3; 0,3; 0,4; 0,5; 1,5; 2,5; 2,4
      */
-    Buildable map[][];
+    Buildable[][] map;
     PathFinder pf;
     @BeforeEach
     void setUp() {
@@ -41,14 +40,6 @@ class PathFinderTest {
         map[4][4] = new Road(1,1, new Coordinate(4,4), new Dimension(1,1));
         map[4][5] = new ResidentialZoneFactory(gm).createZone(new Coordinate(4, 5));
         pf = new PathFinder(map);
-    }
-
-    @AfterEach
-    void tearDown() {
-    }
-
-    @Test
-    void euclideanDistance() {
     }
 
     @Test
@@ -76,60 +67,4 @@ class PathFinderTest {
         assertEquals(8, pf.manhattanDistance(map[0][0], map[4][5]));
     }
 
-    @Test
-    void hasDirectViewYesTwoAway() {
-        map[0][1] = new Road(1,1, new Coordinate(0,1), new Dimension(1,1));
-        map[0][3] = new Road(1,1, new Coordinate(0,3), new Dimension(1,1));
-
-        System.out.println(map[0][1]);
-        System.out.println(map[0][3]);
-        assertTrue(pf.hasDirectView(map[0][1], map[0][3]));
-    }
-
-    @Test
-    void hasDirectViewNo_OneBetween() {
-        map[0][1] = new Road(1,1, new Coordinate(0,1), new Dimension(1,1));
-        map[1][3] = new Road(1,1, new Coordinate(1,3), new Dimension(1,1));
-        map[0][3] = new Road(1,1, new Coordinate(0,3), new Dimension(1,1));
-        map[0][4] = new Road(1,1, new Coordinate(0,4), new Dimension(1,1));
-        map[0][5] = new Road(1,1, new Coordinate(0,5), new Dimension(1,1));
-        map[1][5] = new Road(1,1, new Coordinate(0,5), new Dimension(1,1));
-        map[2][4] = new Road(1,1, new Coordinate(0,4), new Dimension(1,1));
-        map[2][5] = new Road(1,1, new Coordinate(0,5), new Dimension(1,1));
-
-        System.out.println(map[2][3]);
-        System.out.println(map[0][3]);
-        assertFalse(pf.hasDirectView(map[2][3], map[0][3]));
-    }
-    @Test
-    void hasDirectViewYesNeighbour() {
-        map[0][1] = new Road(1,1, new Coordinate(0,1), new Dimension(1,1));
-        map[1][3] = new Road(1,1, new Coordinate(1,3), new Dimension(1,1));
-        map[0][3] = new Road(1,1, new Coordinate(0,3), new Dimension(1,1));
-        map[0][4] = new Road(1,1, new Coordinate(0,4), new Dimension(1,1));
-        map[0][5] = new Road(1,1, new Coordinate(0,5), new Dimension(1,1));
-        map[1][5] = new Road(1,1, new Coordinate(0,5), new Dimension(1,1));
-        map[2][4] = new Road(1,1, new Coordinate(0,4), new Dimension(1,1));
-        map[2][5] = new Road(1,1, new Coordinate(0,5), new Dimension(1,1));
-
-        System.out.println(map[2][3]);
-        System.out.println(map[1][3]);
-        assertTrue(pf.hasDirectView(map[2][3], map[1][3]));
-    }
-
-    @Test
-    void hasDirectViewYes_crossButDirect() {
-        map[0][1] = new Road(1,1, new Coordinate(0,1), new Dimension(1,1));
-        map[1][3] = new Road(1,1, new Coordinate(1,3), new Dimension(1,1));
-        map[0][3] = new Road(1,1, new Coordinate(0,3), new Dimension(1,1));
-        map[0][4] = new Road(1,1, new Coordinate(0,4), new Dimension(1,1));
-        map[0][5] = new Road(1,1, new Coordinate(0,5), new Dimension(1,1));
-        map[1][5] = new Road(1,1, new Coordinate(0,5), new Dimension(1,1));
-        map[2][4] = new Road(1,1, new Coordinate(0,4), new Dimension(1,1));
-        map[2][5] = new Road(1,1, new Coordinate(0,5), new Dimension(1,1));
-
-        System.out.println(map[2][3]);
-        System.out.println(map[1][3]);
-        assertTrue(pf.hasDirectView(map[3][3], map[4][5]));
-    }
 }

@@ -39,13 +39,8 @@ public abstract class Facility implements Buildable, java.io.Serializable {
         isConnected = new PathFinder(map).manhattanDistance(this, connectingPoint) > -1;
     }
 
-
     public int getOneTimeCost() {
         return oneTimeCost;
-    }
-
-    public int getConstructionCost() {
-        return getOneTimeCost();
     }
 
     public int getMaintenanceFee() {

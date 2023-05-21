@@ -17,8 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import static model.common.Constants.GAME_LOST_SATISFACTION;
-import static model.common.Constants.INITIAL_CITY_BALANCE;
+import static model.common.Constants.*;
 import static model.util.BuildableType.*;
 
 public class GameModel implements java.io.Serializable {
@@ -50,7 +49,7 @@ public class GameModel implements java.io.Serializable {
      */
     public void initialize() {
         for (int i = 0; i < cols; i++) {
-            Road road = new Road(0, 0, new Coordinate(rows - 1, i), new Dimension(1, 1));
+            Road road = new Road(ROAD_ONE_TIME_COST, ROAD_MAINTENANCE_FEE, new Coordinate(rows - 1, i), new Dimension(1, 1));
             masterRoads.add(road);
             addToMap(road);
         }
@@ -124,7 +123,7 @@ public class GameModel implements java.io.Serializable {
         effectExists(zone);
         beEffectedByExisting(zone);
         cityRegistry.addZone(zone);
-        cityRegistry.updateBalance(-zone.getConstructionCost(), getCurrentDate());
+        cityRegistry.updateBalance(-zone.getOneTimeCost(), getCurrentDate());
     }
 
     /**
@@ -257,13 +256,14 @@ public class GameModel implements java.io.Serializable {
             throw new OperationException("Removing fails, the selected road will break connections on remove.");
         } else if (isZone(bad) && !bad.isUnderConstruction()) {
             throw new OperationException("Removing fails, zone with assets cannot be removed.");
-        } else if (masterRoads.contains(bad)) {
+        } else if (bad.getBuildableType() == ROAD && masterRoads.contains((Road) bad)) {
             throw new OperationException("Removing fails, master roads cannot be removed.");
+        } else if (bad.getBuildableType() == FOREST) {
+            youthForest.remove((Forest) bad);
         }
         removeSideEffects(bad);
         removeFromMap(bad);
-        youthForest.remove(bad);
-        cityStatistics.getBudget().addBalance(bad.getConstructionCost() * Constants.RETURN_RATE, getCurrentDate());
+        cityStatistics.getBudget().addBalance(bad.getOneTimeCost() * Constants.RETURN_RATE, getCurrentDate());
         removeFromCity(bad);
         System.out.println("Remove Success");
     }
@@ -304,8 +304,7 @@ public class GameModel implements java.io.Serializable {
      */
     public boolean roadIsEssentialForConnection(Road road) {
         removeFromMap(road);
-        for (Buildable b :
-                getAllBuildable()) {
+        for (Buildable b : getAllBuildable()) {
             if (b.isConnected() && new PathFinder(map).manhattanDistance(masterRoads.get(0), b) == -1) {
                 addToMap(road);
                 return true;
@@ -376,23 +375,33 @@ public class GameModel implements java.io.Serializable {
         return new Date(dateOfWorld.getDay(), dateOfWorld.getMonth(), dateOfWorld.getYear());
     }
 
+    /**
+     * Adds the buildable to the world map, reverse operation of removeFromMap
+     *
+     * @param buildable buildable to be added.
+     */
     public void addToMap(Buildable buildable) {
         Coordinate coordinate = buildable.getCoordinate();
         Dimension dimension = buildable.getDimension();
 
-        for (int i = 0; i < dimension.getHeight(); i++) { // rows
-            for (int j = 0; j < dimension.getWidth(); j++) { // cols
+        for (int i = 0; i < dimension.getHeight(); i++) {
+            for (int j = 0; j < dimension.getWidth(); j++) {
                 map[coordinate.getRow() + i][coordinate.getCol() + j] = buildable;
             }
         }
     }
 
+    /**
+     * Removes the buildable to the world map, reverse operation of addToMap
+     *
+     * @param buildable buildable to be added.
+     */
     private void removeFromMap(Buildable buildable) {
         Coordinate coordinate = buildable.getCoordinate();
         Dimension dimension = buildable.getDimension();
 
-        for (int i = 0; i < dimension.getHeight(); i++) { // rows
-            for (int j = 0; j < dimension.getWidth(); j++) { // cols
+        for (int i = 0; i < dimension.getHeight(); i++) {
+            for (int j = 0; j < dimension.getWidth(); j++) {
                 map[coordinate.getRow() + i][coordinate.getCol() + j] = null;
             }
         }
@@ -405,12 +414,20 @@ public class GameModel implements java.io.Serializable {
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < cols; j++) {
+
                 if (map[i][j] == null) {
                     sb.append("-");
-                } else if (map[i][j].getBuildableType() == BuildableType.ROAD) {
-                    sb.append("#");
                 } else {
-                    sb.append("$");
+                    BuildableType bt = map[i][j].getBuildableType();
+                    if (bt == BuildableType.ROAD) {
+                        sb.append("#");
+                    } else if (bt == FOREST) {
+                        sb.append("F");
+                    } else if (bt == STADIUM) {
+                        sb.append("S");
+                    } else {
+                        sb.append("$");
+                    }
                 }
             }
             sb.append("\n");
@@ -418,7 +435,13 @@ public class GameModel implements java.io.Serializable {
         return sb.toString();
     }
 
-    private boolean isPlotAvailable(Buildable b) {
+    /**
+     * Checks if there is space for a certain buildable
+     *
+     * @param b the buildable to be checked
+     * @return true if there is space, otherwise, false.
+     */
+    public boolean isPlotAvailable(Buildable b) {
         if (b == null) {
             return true;
         }
@@ -459,7 +482,7 @@ public class GameModel implements java.io.Serializable {
         for (Buildable buildable : getZoneBuildable()) {
             Zone zone = (Zone) buildable;
             if ((zone.getBuildableType() == BuildableType.INDUSTRIAL || zone.getBuildableType() == BuildableType.COMMERCIAL) &&
-                    zone.getStatistics().getPopulation() < zone.getStatistics().getCapacity()) {
+                    zone.getStatistics().getPopulation() < zone.getCapacity()) {
                 return true;
             }
         }
@@ -468,9 +491,9 @@ public class GameModel implements java.io.Serializable {
 
     private void updateUnemployedStatusForCitizens() {
         for (Citizen citizen : cityRegistry.getAllCitizens()) {
-            if (citizen.isUnemployed())
-                citizen.setWorkplace(HumanManufacture.getWorkingPlace(this, citizen.getLivingplace()));
-            citizen.setIsUnemployed(false);
+            if (citizen.isUnemployed()) {
+                citizen.setWorkplace(this, HumanManufacture.getWorkingPlace(this, citizen.getLivingPlace()));
+            }
         }
     }
 
@@ -532,7 +555,7 @@ public class GameModel implements java.io.Serializable {
 
     private void citizenshipEducationUpdate() {
         for (Citizen citizen : getCityRegistry().getAllCitizens()) {
-            citizen.setLevelOfEducation(HumanManufacture.getEducationLevel(this, citizen.getLivingplace()));
+            citizen.setLevelOfEducation(HumanManufacture.getEducationLevel(this, citizen.getLivingPlace()));
         }
     }
 
@@ -567,6 +590,9 @@ public class GameModel implements java.io.Serializable {
         return socialSecurity.collectTax(queryCityBudget().getTaxRate());
     }
 
+    /**
+     * Filters the youthForest list and do the appending effects of youth forests.
+     */
     private void updateForests() {
         List<Forest> newYouth = new ArrayList<>();
         for (Forest forest : youthForest) {

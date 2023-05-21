@@ -44,7 +44,7 @@ public class Property {
                 ZoneStatistics zoneStatistics = zone.getStatistics();
                 System.out.println("________Callback Inform Zone Statistic_________");
                 System.out.println("Selected Zone population: " + zoneStatistics.getPopulation());
-                System.out.println("Selected Zone capacity: " + zoneStatistics.getCapacity());
+                System.out.println("Selected Zone capacity: " + zone.getCapacity());
                 System.out.println("Selected Zone satisfaction: " + zoneStatistics.getSatisfaction());
                 System.out.println("Selected Zone citizens: ");
                 List<Citizen> citizens = zone.getCitizens();

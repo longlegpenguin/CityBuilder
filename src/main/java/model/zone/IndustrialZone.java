@@ -22,7 +22,6 @@ public class IndustrialZone extends Zone implements SideEffect {
         return BuildableType.INDUSTRIAL;
     }
 
-
     @Override
     public void effect(Zone zone, GameModel gm) {
         if (new PathFinder(gm.getMap()).manhattanDistance(zone, gm.getMasterRoads().get(0)) != -1 && zone.getCitizens().size() < 10) {

@@ -91,7 +91,6 @@ public class Forest extends EffectualFacility {
     @Override
     public void effect(Zone zone, GameModel gm) {
         if (condition(zone, gm)) {
-            System.out.println("Forest effect" + totalEffectCnt);
             zone.updateForestEffect(zone.getStatistics().getSatisfaction().getForestEffect() + totalEffectCnt);
             for (SideEffect s : getBadEffectIndustrial(zone, gm)) {
                 s.reverseEffect(zone, gm);
@@ -130,7 +129,7 @@ public class Forest extends EffectualFacility {
      * @param map  map of city
      * @return true if can
      */
-    private boolean hasDirectView(Zone zone, Buildable[][] map) {
+    public boolean hasDirectView(Zone zone, Buildable[][] map) {
         Coordinate zC = zone.getCoordinate();
         Coordinate self = this.getCoordinate();
 

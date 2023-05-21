@@ -18,7 +18,7 @@ public class IndustrialZoneFactory extends ZoneFactory {
         return new IndustrialZone(
                 Level.CONSTRUCTING,
                 DAYS_FOR_CONSTRUCTION,
-                new ZoneStatistics(0, Level.CONSTRUCTING.getCapacity(), new ZoneSatisfaction()),
+                new ZoneStatistics(0, new ZoneSatisfaction()),
                 gm.getCurrentDate(),
                 coordinate,
                 INDUSTRIAL_EFFECT_RADIUS

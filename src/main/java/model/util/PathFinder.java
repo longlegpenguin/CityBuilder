@@ -185,84 +185,10 @@ public class PathFinder {
                 map[sRow][sCol].getBuildableType() == BuildableType.ROAD;
     }
 
-    private boolean isEmpty(int sRow, int sCol) {
-        return map[sRow][sCol] == null;
-    }
-
     private boolean isInMap(int sRow, int sCol) {
         return sRow < map.length && sRow >= 0 &&
                 sCol < map[0].length && sCol >= 0;
     }
 
-    /**
-     * Checks if nothing is between
-     *
-     * @param start starting buildable
-     * @param goal  goal buildable
-     * @return true if nothing is between
-     */
-    public boolean hasDirectView(Buildable start, Buildable goal) {
-        List<Coordinate> graph = new ArrayList<>();
-        List<Coordinate> opens = new ArrayList<>();
-        Coordinate current;
-        opens.add(start.getCoordinate());
-        while (true) {
-            if (opens.isEmpty()) {
-                return false;
-            }
-            current = opens.get(0);
-            if (current.equals(goal.getCoordinate())) {
-                return true;
-            }
-
-            opens.remove(0);
-            graph.add(current);
-            for (Coordinate surr : fourAround(current, goal.getCoordinate())) {
-                if (!graph.contains(surr)) {
-                    opens.add(surr);
-                    graph.add(surr);
-                }
-            }
-        }
-    }
-
-    /**
-     * Gets the 4 direct neighbours of a node
-     *
-     * @param current        the middle coordinate
-     * @param goalCoordinate the goal
-     * @return list of nodes
-     */
-    private List<Coordinate> fourAround(Coordinate current, Coordinate goalCoordinate) {
-        List<Coordinate> successors = new ArrayList<>();
-        int sRow = current.getRow();
-        int sCol = current.getCol();
-
-        Coordinate check = new Coordinate(sRow - 1, sCol);
-        if (isInMap(sRow - 1, sCol) && notBadInView(check, goalCoordinate)) {
-            successors.add(check);
-        }
-        check = new Coordinate(sRow + 1, sCol);
-        if (isInMap(sRow + 1, sCol) && notBadInView(check, goalCoordinate)) {
-            successors.add(check);
-        }
-        check = new Coordinate(sRow, sCol - 1);
-        if (isInMap(sRow, sCol - 1) && notBadInView(check, goalCoordinate)) {
-            successors.add(new Coordinate(sRow, sCol - 1));
-        }
-        check = new Coordinate(sRow, sCol + 1);
-        if (isInMap(sRow, sCol + 1) && notBadInView(check, goalCoordinate)) {
-            successors.add(new Coordinate(sRow, sCol + 1));
-        }
-        return successors;
-    }
-
-    private boolean notBadInView(Coordinate current, Coordinate goalCoordinate) {
-        return (isGoalCoordinate(current, goalCoordinate) || isEmpty(current.getRow(), current.getCol()));
-    }
-
-    private boolean isGoalCoordinate(Coordinate current, Coordinate goalCoordinate) {
-        return current.equals(goalCoordinate);
-    }
 }
 
