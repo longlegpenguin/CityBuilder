@@ -13,6 +13,8 @@ import static org.lwjgl.glfw.GLFW.glfwGetCursorPos;
 
 /**
  * the Mouse class is designed to get the mouse position in the screen
+ * Detects when the mouse buttons create input events and pass them on.
+ * Uses GLFW callbacks.
  */
 public class Mouse {
     private static float mouseX = 0;
@@ -57,6 +59,9 @@ public class Mouse {
         cursorPosCallback.set(DisplayManager.window);
     }
 
+    /**
+     * Reset the distance moved by the mouse.
+     */
     public static void update() {
         dWheel = 0;
         deltaX = 0;
@@ -95,86 +100,3 @@ public class Mouse {
         return dWheel;
     }
 }
-
-/*import engine.display.DisplayManager;
-import org.joml.Vector2d;
-import org.joml.Vector2f;
-import static org.lwjgl.glfw.GLFW.*;
-
-public class Mouse {
-
-    private static final Vector2d previousPos = new Vector2d(-1, 1);
-    private static final Vector2d currentPos = new Vector2d(0,0);
-    private static final Vector2f displVec = new Vector2f();
-    private static float dWheel;
-    private static boolean inWindow = false;
-    private static boolean lefButtonPressed = false;
-    private static boolean rightButtonPressed = false;
-
-
-    public static void init() {
-        glfwSetCursorPosCallback(DisplayManager.window, (DisplayManager, xpos, ypos)-> {
-            currentPos.x = xpos;
-            currentPos.y = ypos;
-        });
-
-        glfwSetCursorEnterCallback(DisplayManager.window, (DisplayManager, entered) -> {
-           inWindow = entered;
-        });
-
-        glfwSetMouseButtonCallback(DisplayManager.window, (DisplayManager, button, action, mode) -> {
-           lefButtonPressed = button == GLFW_MOUSE_BUTTON_1 && action == GLFW_PRESS;
-           rightButtonPressed = button == GLFW_MOUSE_BUTTON_2 && action == GLFW_PRESS;
-        });
-
-        glfwSetScrollCallback(DisplayManager.window, (DisplayManager, xoffset, yoffset) -> {
-            dWheel = (float) yoffset;
-        });
-    }
-
-    public static float getX() {
-        return (float) currentPos.x;
-    }
-
-    public static float getY() {
-        return (float) currentPos.y;
-    }
-
-    public static Vector2f getDisplVec() {
-        return  displVec;
-    }
-
-    public static void update() {
-        displVec.x = 0;
-        displVec.y = 0;
-
-        if (previousPos.x > 0 && previousPos.y > 0 && inWindow) {
-            double deltax = currentPos.x - previousPos.x;
-            double deltay = currentPos.y - previousPos.y;
-            boolean rotateX = deltax != 0;
-            boolean rotateY = deltay != 0;
-
-            if (rotateX) {
-                displVec.y = (float) deltax;
-            }
-            if (rotateY) {
-                displVec.x = (float) deltay;
-            }
-        }
-        previousPos.x = currentPos.x;
-        previousPos.y = currentPos.y;
-    }
-
-    public static boolean isLefButtonPressed() {
-        return lefButtonPressed;
-    }
-
-    public static boolean isRightButtonPressed() {
-        return rightButtonPressed;
-    }
-
-    public static float getDWheel() {
-        return dWheel;
-    }
-
-}*/
