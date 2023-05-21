@@ -16,7 +16,7 @@ public abstract class Zone implements Buildable, java.io.Serializable {
     protected ZoneStatistics statistics;
     protected final Date birthday;
     protected Coordinate coordinate;
-    protected List<Citizen> citizens;
+    protected ArrayList<Citizen> citizens;
     protected final Dimension dimension;
     protected BuildableType buildableType;
     protected Boolean isUnderConstruction;
@@ -56,7 +56,7 @@ public abstract class Zone implements Buildable, java.io.Serializable {
      * @param connectingPoint master road
      * @param map             map of city
      */
-    public void resetConnected(Buildable connectingPoint, Buildable map[][]) {
+    public void resetConnected(Buildable connectingPoint, Buildable[][] map) {
         isConnected = new PathFinder(map).manhattanDistance(this, connectingPoint) > -1;
     }
 
@@ -178,16 +178,6 @@ public abstract class Zone implements Buildable, java.io.Serializable {
         return statistics.getSatisfaction().getZoneRelatedSatisfaction();
     }
 
-
-    /**
-     * Gets the cost for assigning/upgrading the zone
-     *
-     * @return the cost
-     */
-    public int getConstructionCost() {
-        return level.getCost();
-    }
-
     @Override
     public boolean isUnderConstruction() {
         return isUnderConstruction;
@@ -204,7 +194,7 @@ public abstract class Zone implements Buildable, java.io.Serializable {
                 ", isConnected=" + isConnected +
                 ", dayToBuild=" + dayToBuild +
                 ", statistics=" + statistics +
-                ", citizens=" + citizens.size() +
+                ", citizens=" + getPopulation() +
                 ", birthday=" + birthday.toString() +
                 ", coordinate=" + coordinate.toString() +
                 ", dimension=" + dimension +
