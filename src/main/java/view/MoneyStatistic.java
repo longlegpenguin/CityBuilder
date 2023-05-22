@@ -11,7 +11,7 @@ import model.GameModel;
 import org.joml.Vector2f;
 
 /**
- * Class reponsible for showing the MoneyStatistics upon clickin on the money
+ * Class responsible for showing the MoneyStatistics upon clicking on the money
  * extending the Menu Class
  */
 public class MoneyStatistic extends Menu{
@@ -24,7 +24,7 @@ public class MoneyStatistic extends Menu{
     private GUIText taxRate;
     private GUIText spend;
     private GUIText revenue;
-
+    private UiButton increaseTax;
 
     public MoneyStatistic(Controller controller, GameModel gameModel) {
         super(controller, gameModel);
@@ -41,11 +41,13 @@ public class MoneyStatistic extends Menu{
         TextMaster.loadText(taxRate);
         TextMaster.loadText(spend);
         TextMaster.loadText(revenue);
-
         super.texts.add(moneyBudget);
         super.texts.add(taxRate);
         super.texts.add(spend);
         super.texts.add(revenue);
+        increaseTax = new UiButton(loader.loadTexture("Button"),new Vector2f(0.0f,0.0f),new Vector2f(0.05f,0.05f),ButtonEnum.INCREASE_TAX );
+        super.buttons.add(increaseTax);
+        System.out.println(super.buttons);
     }
 
     /**
@@ -53,7 +55,7 @@ public class MoneyStatistic extends Menu{
      */
     @Override
     protected void loadComponents() {
-        tab = new UiTab(loader.loadTexture(tabTexture),new Vector2f(0f,0.f),new Vector2f(0.5f,0.5f));
+        tab = new UiTab(loader.loadTexture(tabTexture),new Vector2f(0f,0f),new Vector2f(0.5f,0.5f));
         super.tabs.add(tab);
     }
 
