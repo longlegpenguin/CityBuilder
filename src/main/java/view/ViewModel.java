@@ -4,6 +4,7 @@ import controller.Controller;
 import engine.guis.UiButton;
 import engine.guis.UiTab;
 import model.GameModel;
+import model.zone.Zone;
 import model.zone.ZoneStatistics;
 
 import java.util.ArrayList;
@@ -17,6 +18,7 @@ public class ViewModel {
     private ArrayList<UiButton> buttons = new ArrayList<UiButton>();
     private ArrayList<UiTab> tabs = new ArrayList<UiTab>();
     private MoneyStatistic moneyStatistic;
+    private boolean selectionMenuActive = false;
 
     public ViewModel(Controller controller, GameModel gameModel) {
         this.controller = controller;
@@ -27,11 +29,6 @@ public class ViewModel {
         this.statisticsMenu = new StatisticsMenu(controller,gameModel);
         this.tabs.addAll(this.statisticsMenu.getTabs());
         this.tabs.addAll(this.bottomMenuBar.getTabs());
-
-        this.zoneSelector = new ZoneSelector(controller, gameModel);
-        this.tabs.addAll(this.zoneSelector.getTabs());
-
-
     }
 
     public void moneyDisplayManagement(Controller controller,GameModel gameModel, boolean moneyTab)
@@ -51,6 +48,10 @@ public class ViewModel {
 
         bottomMenuBar.clearText();
         bottomMenuBar.updateText();
+
+        if (selectionMenuActive) {
+            zoneSelector.updateText();
+        }
     }
 
     public ArrayList<UiButton> getButtons() {
@@ -67,5 +68,24 @@ public class ViewModel {
 
     public BottomMenuBar getBottomMenuBar() {
         return bottomMenuBar;
+    }
+
+    public void createZoneSelector(GameModel gameModel, Zone zone) {
+        if (selectionMenuActive) {
+            deleteZoneSelector();
+        }
+
+        this.zoneSelector = new ZoneSelector(controller, gameModel, zone);
+        this.tabs.addAll(this.zoneSelector.getTabs());
+        this.selectionMenuActive = true;
+    }
+
+    public void deleteZoneSelector() {
+        if (selectionMenuActive) {
+            this.tabs.removeAll(this.zoneSelector.getTabs());
+            this.zoneSelector.clearText();
+            this.zoneSelector = null;
+            selectionMenuActive = false;
+        }
     }
 }
