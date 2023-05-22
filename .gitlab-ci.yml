@@ -55,5 +55,8 @@ test-job:
 deploy-job:
   stage: deploy
   script:
-    - mvn javadoc:javadoc
     - mvn install
+  artifacts:
+    paths:
+      - target/*.jar
+
