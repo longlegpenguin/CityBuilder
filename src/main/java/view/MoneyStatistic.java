@@ -67,7 +67,7 @@ public class MoneyStatistic extends Menu{
         TextMaster.loadText(moneyBudget);
         TextMaster.loadText(taxRate);
     }
-    
+
 
 
 }

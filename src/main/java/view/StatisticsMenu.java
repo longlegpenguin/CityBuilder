@@ -8,6 +8,9 @@ import engine.renderEngine.Loader;
 import model.GameModel;
 import org.joml.Vector2f;
 
+/**
+ * Class for showing the statistic Menu during the game
+ */
 public class StatisticsMenu extends Menu {
     private UiTab tab;
     private Loader  loader = new Loader();
@@ -21,6 +24,9 @@ public class StatisticsMenu extends Menu {
         loadComponents();
     }
 
+    /**
+     * loadComponents to load the tabs and the texts to the menu to show them
+     */
     @Override
     protected void loadComponents() {
         tab = new UiTab(loader.loadTexture(tabTexture),new Vector2f(0.95f,0.95f),new Vector2f(0.3f,0.1f));
@@ -43,6 +49,10 @@ public class StatisticsMenu extends Menu {
         TextMaster.loadText(money);
         super.texts.add(money);
     }
+
+    /**
+     * method updateText to update the text during the game time frame
+     */
 
     @Override
     public void updateText() {
