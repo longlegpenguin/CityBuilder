@@ -131,7 +131,7 @@ public class Handler implements ICallBack {
 
         if (timer >= baseTime / timeMultiplier) {
             controller.regularUpdateRequest(1, this);
-            viewModel.Update();
+            viewModel.update();
             timer -= baseTime / timeMultiplier;
         }
 
@@ -172,8 +172,10 @@ public class Handler implements ICallBack {
                             viewModel.moneyDisplayManagement(controller, gameModel, moneyTab);
                             if (moneyTab) {
                                 moneyTab = false;
+                                viewModel.setMoneyMenuActive(false);
                             } else {
                                 moneyTab = true;
+                                viewModel.setMoneyMenuActive(true);
                             }
                         }
                         case SELECT -> viewModel.getBottomMenuBar().selectButtonAction();
@@ -196,6 +198,8 @@ public class Handler implements ICallBack {
                     }
                 }
             }
+            viewModel.taxIncDecButtons(moneyTab,gameModel);
+
             if (buttonPressed == false && coordsX < worldGrid.getWorldSize() && coordsX >= 0 && coordsY < worldGrid.getWorldSize() && coordsY >= 0) {
                 controller.mouseClickRequest(new Coordinate(coordsX, coordsY), this);
             }
