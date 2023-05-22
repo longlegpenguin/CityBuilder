@@ -66,7 +66,10 @@ public class ViewModel {
     public void update() {
         statisticsMenu.clearText();
         statisticsMenu.updateText();
-
+        if (moneyMenuActive) {
+            moneyStatistic.clearText();
+            moneyStatistic.updateText();
+        }
         bottomMenuBar.clearText();
         bottomMenuBar.updateText();
     }
@@ -85,5 +88,13 @@ public class ViewModel {
 
     public BottomMenuBar getBottomMenuBar() {
         return bottomMenuBar;
+    }
+
+    public boolean isMoneyMenuActive() {
+        return moneyMenuActive;
+    }
+
+    public void setMoneyMenuActive(boolean moneyMenuActive) {
+        this.moneyMenuActive = moneyMenuActive;
     }
 }

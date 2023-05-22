@@ -64,10 +64,21 @@ public class MoneyStatistic extends Menu{
      */
     @Override
     public void updateText() {
-        moneyBudget.setTextString(String.valueOf(super.gameModel.getCityStatistics().getBudget().getBalance()));
-        taxRate.setTextString(String.valueOf(super.gameModel.getCityStatistics().getBudget().getTaxRate()));
+
+
+        spend = new GUIText("Spend: " + String.valueOf((super.gameModel.calculateSpend())),1,new Vector2f(0.25f,0.40f),1f,false);
+        spend.setColour(0,0,0);
+        revenue = new GUIText("Revenue: " + String.valueOf((super.gameModel.calculateRevenue())),1,new Vector2f(0.25f,0.45f),1f,false);
+        moneyBudget.setTextString("The Money Budget: "+String.valueOf(super.gameModel.getCityStatistics().getBudget().getBalance()));
+        taxRate.setTextString("Tax Rate: " +String.valueOf(super.gameModel.getCityStatistics().getBudget().getTaxRate()));
         TextMaster.loadText(moneyBudget);
         TextMaster.loadText(taxRate);
+        TextMaster.loadText(spend);
+        TextMaster.loadText(revenue);
+        super.texts.add(moneyBudget);
+        super.texts.add(taxRate);
+        super.texts.add(spend);
+        super.texts.add(revenue);
     }
     public UiButton getIncreaseTax() {
         return increaseTax;
