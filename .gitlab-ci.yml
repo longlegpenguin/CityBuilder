@@ -45,8 +45,15 @@ build-job:
   script:
     - mvn compile
 
+# Test
 test-job:
   stage: test
   script:
     - mvn test
 
+# deploy
+deploy-job:
+  stage: deploy
+  script:
+    - mvn javadoc:javadoc
+    - mvn install
