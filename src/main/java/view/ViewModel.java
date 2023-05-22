@@ -108,6 +108,7 @@ public class ViewModel {
             this.zoneSelector = null;
             selectionMenuActive = false;
         }
+    }
 
     public boolean isMoneyMenuActive() {
         return moneyMenuActive;
