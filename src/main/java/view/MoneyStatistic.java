@@ -10,6 +10,10 @@ import engine.renderEngine.Loader;
 import model.GameModel;
 import org.joml.Vector2f;
 
+/**
+ * Class reponsible for showing the MoneyStatistics upon clickin on the money
+ * extending the Menu Class
+ */
 public class MoneyStatistic extends Menu{
 
     private UiTab tab;
@@ -44,12 +48,18 @@ public class MoneyStatistic extends Menu{
         super.texts.add(revenue);
     }
 
+    /**
+     * method needed to load the background Tab
+     */
     @Override
     protected void loadComponents() {
         tab = new UiTab(loader.loadTexture(tabTexture),new Vector2f(0f,0.f),new Vector2f(0.5f,0.5f));
         super.tabs.add(tab);
     }
 
+    /**
+     * method to update the text of the money and the tax rate within the time frame
+     */
     @Override
     public void updateText() {
         moneyBudget.setTextString(String.valueOf(super.gameModel.getCityStatistics().getBudget().getBalance()));
@@ -57,10 +67,7 @@ public class MoneyStatistic extends Menu{
         TextMaster.loadText(moneyBudget);
         TextMaster.loadText(taxRate);
     }
-
-    public UiTab getTab() {
-        return tab;
-    }
+    
 
 
 }
