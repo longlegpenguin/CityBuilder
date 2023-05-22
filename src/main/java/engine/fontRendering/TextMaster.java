@@ -14,11 +14,21 @@ public class TextMaster {
     private static Loader loader;
     private static Map<FontType, List<GUIText>> texts = new HashMap<FontType,List<GUIText>>();
     private static FontRenderer renderer;
+
+    /**
+     * initilizing the class with the loader
+     * @param theLoader
+     */
     public static void  init(Loader theLoader)
     {
         renderer = new FontRenderer();
         loader = theLoader;
     }
+
+    /**
+     * method to load a text into the text batch and the array list of the texts ready to render
+     * @param text
+     */
     public static void loadText (GUIText text)
     {
         FontType font = text.getFont();
@@ -35,10 +45,18 @@ public class TextMaster {
         textBatch.add(text);
     }
 
+    /**
+     * method to render the texts in the array list of texts
+     */
     public static void render()
     {
         renderer.render(texts);
     }
+
+    /**
+     * method to remove a text from the textbatch and the array list of texts
+     * @param text
+     */
     public static void removeText(GUIText text ){
         List<GUIText> textBatch  = texts.get(text.getFont());
         textBatch.remove(text);
@@ -47,6 +65,10 @@ public class TextMaster {
             texts.remove(text.getFont());
         }
     }
+
+    /**
+     * method to clean up the renderer
+     */
     public static void cleanUp()
     {
         renderer.cleanUp();
