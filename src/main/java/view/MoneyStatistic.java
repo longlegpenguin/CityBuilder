@@ -24,6 +24,7 @@ public class MoneyStatistic extends Menu{
     private GUIText spend;
     private GUIText revenue;
     private UiButton increaseTax;
+    private UiButton decreaseTax;
 
     public MoneyStatistic(Controller controller, GameModel gameModel) {
         super(controller, gameModel);
@@ -46,9 +47,9 @@ public class MoneyStatistic extends Menu{
         super.texts.add(revenue);
         increaseTax = new UiButton(loader.loadTexture("Button"),new Vector2f(-0.2f,0.28f),new Vector2f(0.02f,0.03f),ButtonEnum.INCREASE_TAX );
         super.buttons.add(increaseTax);
-
+        decreaseTax = new UiButton(loader.loadTexture("Button"),new Vector2f(-0.25f,0.28f),new Vector2f(0.02f,0.03f),ButtonEnum.DECREASE_TAX );
+        super.buttons.add(decreaseTax);
     }
-
     /**
      * method needed to load the background Tab
      */
@@ -68,9 +69,11 @@ public class MoneyStatistic extends Menu{
         TextMaster.loadText(moneyBudget);
         TextMaster.loadText(taxRate);
     }
-
     public UiButton getIncreaseTax() {
         return increaseTax;
+    }
+    public UiButton getDecreaseTax() {
+        return decreaseTax;
     }
 }
 

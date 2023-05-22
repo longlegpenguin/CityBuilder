@@ -54,9 +54,10 @@ public class ViewModel {
         if (moneyStatistic.getIncreaseTax().isClicked())
         {
             gameModel.getCityStatistics().getBudget().setTaxRate(gameModel.getCityStatistics().getBudget().getTaxRate()+0.1);
-
         }
-
+        if (moneyStatistic.getDecreaseTax().isClicked()){
+            gameModel.getCityStatistics().getBudget().setTaxRate(gameModel.getCityStatistics().getBudget().getTaxRate()-0.1);
+        }
     }
         else
         this.buttons.removeAll(moneyStatistic.getButtons());

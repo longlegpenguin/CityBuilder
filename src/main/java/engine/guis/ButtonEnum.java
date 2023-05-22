@@ -20,7 +20,8 @@ public enum ButtonEnum {
     SPEED_TWO("2x Game Speed"),
     SPEED_THREE("3x Game Speed"),
     MONEY("Money Mode"),
-    INCREASE_TAX("Increase Tax");
+    INCREASE_TAX("Increase Tax"),
+    DECREASE_TAX("Decrease Tax");
 
     private String buttonStr;
     ButtonEnum(String buttonStr) {
