@@ -13,14 +13,26 @@ public class TextMeshData {
 		this.textureCoords = textureCoords;
 	}
 
+	/**
+	 *
+	 * @return the vertex positions of the text
+	 */
 	public float[] getVertexPositions() {
 		return vertexPositions;
 	}
 
+	/**
+	 *
+	 * @return the texture Coordinates of the text
+	 */
 	public float[] getTextureCoords() {
 		return textureCoords;
 	}
 
+	/**
+	 *
+	 * @return the vertex count of the text
+	 */
 	public int getVertexCount() {
 		return vertexPositions.length/2;
 	}
