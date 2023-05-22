@@ -91,20 +91,17 @@ public class Handler implements ICallBack {
         TextMaster.init(loader);
         viewModel = new ViewModel(controller, gameModel);
 
-        frametime = new GUIText("FT (ms): ", 0.9f, new Vector2f(0.025f, 0.025f), 1, false);
+        frametime = new GUIText("FT (ms): ", 0.8f, new Vector2f(0.01f, 0.01f), 1, false);
         frametime.setColour(0, 0, 0);
         TextMaster.loadText(frametime);
 
-        framerate = new GUIText("FPS: ", 0.9f, new Vector2f(0.025f, 0.05f), 1, false);
+        framerate = new GUIText("FPS: ", 0.8f, new Vector2f(0.01f, 0.03f), 1, false);
         framerate.setColour(0, 0, 0);
         TextMaster.loadText(framerate);
 
-        gameStatus = new GUIText("Game Over: " + isGameOver, 0.9f, new Vector2f(0.025f, 0.075f), 1, false);
+        gameStatus = new GUIText("Game Over: " + isGameOver, 0.8f, new Vector2f(0.01f, 0.05f), 1, false);
         gameStatus.setColour(0, 0, 0);
         TextMaster.loadText(gameStatus);
-
-
-        //controller.switchTimeModeRequest(TimeMode.MONTHLY);
 
         setWorldGrid();
     }
@@ -124,7 +121,7 @@ public class Handler implements ICallBack {
             frametime.setTextString("FT (ms): " + DisplayManager.getFrameTimeSeconds() * 1000);
             TextMaster.loadText(frametime);
 
-            framerate.setTextString("FPS: " + 1 / DisplayManager.getFrameTimeSeconds());
+            framerate.setTextString("FPS: " + Math.round(1 / DisplayManager.getFrameTimeSeconds()));
             TextMaster.loadText(framerate);
 
             gameStatus.setTextString("Game Over: " + isGameOver);
@@ -159,6 +156,7 @@ public class Handler implements ICallBack {
             for (UiButton button : viewModel.getButtons()) {
                 if (button.isClicked()) {
                     buttonPressed = true;
+                    viewModel.deleteZoneSelector();
                     switch (button.getButtonEnum()) {
                         case RESIDENTIAL_ZONE -> viewModel.getBottomMenuBar().resZoneButtonAction();
                         case COMMERICAL_ZONE -> viewModel.getBottomMenuBar().comZoneButtonAction();
@@ -315,13 +313,13 @@ public class Handler implements ICallBack {
 
     @Override
     public void updateBudgetPanel(Budget budget) {
-//        System.out.println("________Callback Inform Budget_________");
-//        System.out.println("Tax rate: " + budget.getTaxRate());
-//        System.out.println("Balance: " + budget.getBalance());
-//        System.out.println("Maintenance fee: " + budget.getTotalMaintenanceFee());
-//        System.out.println("Tax revenue: " + budget.getRevenue(gameModel));
-//        System.out.println("Total spend: " + budget.getSpend(gameModel));
-//        System.out.println("---------------------------------------");
+        System.out.println("________Callback Inform Budget_________");
+        System.out.println("Tax rate: " + budget.getTaxRate());
+        System.out.println("Balance: " + budget.getBalance());
+        System.out.println("Maintenance fee: " + budget.getTotalMaintenanceFee());
+        System.out.println("Tax revenue: " + budget.getRevenue(gameModel));
+        System.out.println("Total spend: " + budget.getSpend(gameModel));
+        System.out.println("---------------------------------------");
     }
 
     @Override
@@ -342,21 +340,22 @@ public class Handler implements ICallBack {
             System.out.println("Citizen Satisfaction: " + c.getSatisfaction(gameModel));
         }
         System.out.println("-----------------------------------------------");
+        viewModel.createZoneSelector(gameModel, zone);
     }
 
     @Override
     public void updateDatePanel(Date date) {
-//        System.out.println("________Callback Inform City Date_________");
-//        System.out.println("City Date: " + date);
-//        System.out.println("------------------------------------------");
+        System.out.println("________Callback Inform City Date_________");
+        System.out.println("City Date: " + date);
+        System.out.println("------------------------------------------");
     }
 
     @Override
     public void updateCityStatisticPanel(CityStatistics cityStatistics) {
-//        System.out.println("________Callback Inform City Statistic_________");
-//        System.out.println("City population: " + cityStatistics.getPopulation(gameModel.getCityRegistry()));
-//        System.out.println("City satisfaction: " + cityStatistics.getCitySatisfaction());
-//        System.out.println("-----------------------------------------------");
+        System.out.println("________Callback Inform City Statistic_________");
+        System.out.println("City population: " + cityStatistics.getPopulation(gameModel.getCityRegistry()));
+        System.out.println("City satisfaction: " + cityStatistics.getCitySatisfaction());
+        System.out.println("-----------------------------------------------");
     }
 
     @Override

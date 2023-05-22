@@ -38,7 +38,7 @@ public class StatisticsMenu extends Menu {
         TextMaster.loadText(cityPopulation);
         super.texts.add(cityPopulation);
 
-        citizenSatisfaction = new GUIText("Satifaction: "+ String.valueOf(super.gameModel.getCityStatistics().getCitySatisfaction()),
+        citizenSatisfaction = new GUIText("Satifaction: "+ String.valueOf(Math.round(super.gameModel.getCityStatistics().getCitySatisfaction()*100)/100.0),
                 1,new Vector2f(0.83f,0.04f),1f,false);
         citizenSatisfaction.setColour(0, 0, 0);
         TextMaster.loadText(citizenSatisfaction);
@@ -59,7 +59,7 @@ public class StatisticsMenu extends Menu {
         cityPopulation.setTextString("Population: "+ String.valueOf(super.gameModel.getCityStatistics().getPopulation(gameModel.getCityRegistry())));
         TextMaster.loadText(cityPopulation);
 
-        citizenSatisfaction.setTextString("Satifaction: "+ String.valueOf(super.gameModel.getCityStatistics().getCitySatisfaction()));
+        citizenSatisfaction.setTextString("Satifaction: "+ String.valueOf(Math.round(super.gameModel.getCityStatistics().getCitySatisfaction()*100)/100.0));
         TextMaster.loadText(citizenSatisfaction);
 
         money.setTextString(String.valueOf(super.gameModel.getCityStatistics().getBudget().getBalance()));
