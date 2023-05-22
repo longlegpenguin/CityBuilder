@@ -10,6 +10,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * the Class  of the Text rendering
+ */
+
 public class TextMaster {
     private static Loader loader;
     private static Map<FontType, List<GUIText>> texts = new HashMap<FontType,List<GUIText>>();

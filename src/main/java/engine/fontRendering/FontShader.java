@@ -5,6 +5,10 @@ import engine.shaders.ShaderProgram;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
 
+/**
+ * Class for the Font Shader extending the Shader Program
+ * used mainly for texts
+ */
 public class FontShader extends ShaderProgram {
 	/**
 	 * files of the vertex and the fragment (glsl files)
