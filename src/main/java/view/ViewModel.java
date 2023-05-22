@@ -48,14 +48,21 @@ public class ViewModel {
             this.buttons.removeAll(moneyStatistic.getButtons());
         }
     }
-    public void taxIncDecButtons(boolean moneyTab)
-    {   if (moneyTab)
+    public void taxIncDecButtons(boolean moneyTab,GameModel gameModel)
+    {   if (moneyTab) {
         this.buttons.addAll(moneyStatistic.getButtons());
+        if (moneyStatistic.getIncreaseTax().isClicked())
+        {
+            gameModel.getCityStatistics().getBudget().setTaxRate(gameModel.getCityStatistics().getBudget().getTaxRate()+0.1);
+
+        }
+
+    }
         else
         this.buttons.removeAll(moneyStatistic.getButtons());
     }
 
-    public void Update() {
+    public void update() {
         statisticsMenu.clearText();
         statisticsMenu.updateText();
 

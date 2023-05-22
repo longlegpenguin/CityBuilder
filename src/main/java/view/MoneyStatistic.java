@@ -19,7 +19,6 @@ public class MoneyStatistic extends Menu{
     private UiTab tab;
     private Loader loader = new Loader();
     private String tabTexture = "Test";
-
     private GUIText moneyBudget;
     private GUIText taxRate;
     private GUIText spend;
@@ -45,9 +44,9 @@ public class MoneyStatistic extends Menu{
         super.texts.add(taxRate);
         super.texts.add(spend);
         super.texts.add(revenue);
-        increaseTax = new UiButton(loader.loadTexture("Button"),new Vector2f(0.0f,0.0f),new Vector2f(0.05f,0.05f),ButtonEnum.INCREASE_TAX );
+        increaseTax = new UiButton(loader.loadTexture("Button"),new Vector2f(-0.2f,0.28f),new Vector2f(0.02f,0.03f),ButtonEnum.INCREASE_TAX );
         super.buttons.add(increaseTax);
-        System.out.println(super.buttons);
+
     }
 
     /**
@@ -70,7 +69,8 @@ public class MoneyStatistic extends Menu{
         TextMaster.loadText(taxRate);
     }
 
-
-
+    public UiButton getIncreaseTax() {
+        return increaseTax;
+    }
 }
 
