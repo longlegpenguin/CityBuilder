@@ -11,7 +11,7 @@ import org.lwjgl.opengl.GL30;
 import java.util.List;
 import java.util.Map;
 /**
- * class for FontRendering 
+ * class for FontRendering
  */
 public class FontRenderer {
 

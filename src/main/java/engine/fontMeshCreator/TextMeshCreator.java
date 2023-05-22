@@ -4,6 +4,9 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Class to create the Text Mesh of a text , character by character
+ */
 public class TextMeshCreator {
 
 	protected static final double LINE_HEIGHT = 0.03f;
