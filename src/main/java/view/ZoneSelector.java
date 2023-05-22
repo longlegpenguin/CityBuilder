@@ -158,15 +158,15 @@ public class ZoneSelector extends Menu{
             TextMaster.loadText(citizenEmployed);
             super.texts.add(citizenEmployed);
 
-            GUIText citizenPension = new GUIText(String.valueOf(Math.round(citizen.getPension()*100)/100) , 1f, new Vector2f(0.56f, finalHeight), 1, false);
+            GUIText citizenPension = new GUIText(String.valueOf(Math.round(citizen.getPension()*100)/100.0) , 1f, new Vector2f(0.56f, finalHeight), 1, false);
             TextMaster.loadText(citizenPension);
             super.texts.add(citizenPension);
 
-            GUIText citizenTax = new GUIText(String.valueOf(Math.round(citizen.getPast20AvgIncome()*100)/100), 1f, new Vector2f(0.67f, finalHeight), 1, false);
+            GUIText citizenTax = new GUIText(String.valueOf(Math.round(citizen.getPast20AvgIncome()*100)/100.0), 1f, new Vector2f(0.67f, finalHeight), 1, false);
             TextMaster.loadText(citizenTax);
             super.texts.add(citizenTax);
 
-            GUIText citizenSatisfaction = new GUIText(String.valueOf(Math.round(citizen.getSatisfaction(gameModel)*100)/100) , 1f, new Vector2f(0.8f, finalHeight), 1, false);
+            GUIText citizenSatisfaction = new GUIText(String.valueOf(Math.round(citizen.getSatisfaction(gameModel)*100)/100.0) , 1f, new Vector2f(0.8f, finalHeight), 1, false);
             TextMaster.loadText(citizenSatisfaction);
             super.texts.add(citizenSatisfaction);
         }

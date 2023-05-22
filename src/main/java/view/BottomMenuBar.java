@@ -49,29 +49,29 @@ public class BottomMenuBar extends Menu{
         dateTab = new UiTab(loader.loadTexture(buttonTexture),new Vector2f(-0.87f, -0.8f), new Vector2f(0.08f, 0.03f));
         super.tabs.add(dateTab);
 
-        resZoneButton = new UiButton(loader.loadTexture("residential"), new Vector2f(-0.9f, -0.92f), new Vector2f(0.05f, 0.05f), ButtonEnum.RESIDENTIAL_ZONE);
+        resZoneButton = new UiButton(loader.loadTexture("button/residential"), new Vector2f(-0.9f, -0.92f), new Vector2f(0.05f, 0.05f), ButtonEnum.RESIDENTIAL_ZONE);
         super.buttons.add(resZoneButton);
-        comZoneButton = new UiButton(loader.loadTexture("commercial"), new Vector2f(-0.75f, -0.92f), new Vector2f(0.05f, 0.05f), ButtonEnum.COMMERICAL_ZONE);
+        comZoneButton = new UiButton(loader.loadTexture("button/commercial"), new Vector2f(-0.75f, -0.92f), new Vector2f(0.05f, 0.05f), ButtonEnum.COMMERICAL_ZONE);
         super.buttons.add(comZoneButton);
-        indZoneButton = new UiButton(loader.loadTexture("Industrial"), new Vector2f(-0.60f, -0.92f), new Vector2f(0.05f, 0.05f), ButtonEnum.INDUSTRIAL_ZONE);
+        indZoneButton = new UiButton(loader.loadTexture("button/industrial"), new Vector2f(-0.60f, -0.92f), new Vector2f(0.05f, 0.05f), ButtonEnum.INDUSTRIAL_ZONE);
         super.buttons.add(indZoneButton);
-        deZoneButton = new UiButton(loader.loadTexture(buttonTexture), new Vector2f(-0.45f, -0.92f), new Vector2f(0.05f, 0.05f), ButtonEnum.DE_ZONE);
+        deZoneButton = new UiButton(loader.loadTexture("button/dezone"), new Vector2f(-0.45f, -0.92f), new Vector2f(0.05f, 0.05f), ButtonEnum.DE_ZONE);
         super.buttons.add(deZoneButton);
 
-        roadButton = new UiButton(loader.loadTexture("road"), new Vector2f(-0.2f, -0.92f), new Vector2f(0.05f, 0.05f), ButtonEnum.ROAD);
+        roadButton = new UiButton(loader.loadTexture("button/road"), new Vector2f(-0.2f, -0.92f), new Vector2f(0.05f, 0.05f), ButtonEnum.ROAD);
         super.buttons.add(roadButton);
-        forestButton = new UiButton(loader.loadTexture("Forest"), new Vector2f(-0.05f, -0.92f), new Vector2f(0.05f, 0.05f), ButtonEnum.FOREST);
+        forestButton = new UiButton(loader.loadTexture("button/forest"), new Vector2f(-0.05f, -0.92f), new Vector2f(0.05f, 0.05f), ButtonEnum.FOREST);
         super.buttons.add(forestButton);
-        policeButton = new UiButton(loader.loadTexture("Police"), new Vector2f(0.1f, -0.92f), new Vector2f(0.05f, 0.05f), ButtonEnum.POLICE);
+        policeButton = new UiButton(loader.loadTexture("button/police"), new Vector2f(0.1f, -0.92f), new Vector2f(0.05f, 0.05f), ButtonEnum.POLICE);
         super.buttons.add(policeButton);
-        stadiumButton = new UiButton(loader.loadTexture("Stadium"), new Vector2f(0.25f, -0.92f), new Vector2f(0.05f, 0.05f), ButtonEnum.STADIUM);
+        stadiumButton = new UiButton(loader.loadTexture("button/stadium"), new Vector2f(0.25f, -0.92f), new Vector2f(0.05f, 0.05f), ButtonEnum.STADIUM);
         super.buttons.add(stadiumButton);
-        schoolButton = new UiButton(loader.loadTexture("School"), new Vector2f(0.4f, -0.92f), new Vector2f(0.05f, 0.05f), ButtonEnum.SCHOOL);
+        schoolButton = new UiButton(loader.loadTexture("button/school"), new Vector2f(0.4f, -0.92f), new Vector2f(0.05f, 0.05f), ButtonEnum.SCHOOL);
         super.buttons.add(schoolButton);
-        universityButton = new UiButton(loader.loadTexture("University"), new Vector2f(0.55f, -0.92f), new Vector2f(0.05f, 0.05f), ButtonEnum.UNIVERSITY);
+        universityButton = new UiButton(loader.loadTexture("button/university"), new Vector2f(0.55f, -0.92f), new Vector2f(0.05f, 0.05f), ButtonEnum.UNIVERSITY);
         super.buttons.add(universityButton);
 
-        selectZoneButton = new UiButton(loader.loadTexture(buttonTexture), new Vector2f(0.9f, -0.92f), new Vector2f(0.05f, 0.05f), ButtonEnum.SELECT);
+        selectZoneButton = new UiButton(loader.loadTexture("button/select"), new Vector2f(0.9f, -0.92f), new Vector2f(0.05f, 0.05f), ButtonEnum.SELECT);
         super.buttons.add(selectZoneButton);
 
         speedPauseButton = new UiButton(loader.loadTexture(buttonTexture), new Vector2f(-0.74f, -0.8f), new Vector2f(0.03f, 0.03f), ButtonEnum.SPEED_PAUSE);
