@@ -45,9 +45,9 @@ public class MoneyStatistic extends Menu{
         super.texts.add(taxRate);
         super.texts.add(spend);
         super.texts.add(revenue);
-        increaseTax = new UiButton(loader.loadTexture("Button"),new Vector2f(-0.2f,0.28f),new Vector2f(0.02f,0.03f),ButtonEnum.INCREASE_TAX );
+        increaseTax = new UiButton(loader.loadTexture("Arrow Right"),new Vector2f(-0.2f,0.28f),new Vector2f(0.02f,0.03f),ButtonEnum.INCREASE_TAX );
         super.buttons.add(increaseTax);
-        decreaseTax = new UiButton(loader.loadTexture("Button"),new Vector2f(-0.25f,0.28f),new Vector2f(0.02f,0.03f),ButtonEnum.DECREASE_TAX );
+        decreaseTax = new UiButton(loader.loadTexture("Arrow Left"),new Vector2f(-0.25f,0.28f),new Vector2f(0.02f,0.03f),ButtonEnum.DECREASE_TAX );
         super.buttons.add(decreaseTax);
     }
     /**
@@ -70,7 +70,7 @@ public class MoneyStatistic extends Menu{
         spend.setColour(0,0,0);
         revenue = new GUIText("Revenue: " + String.valueOf((super.gameModel.calculateRevenue())),1,new Vector2f(0.25f,0.45f),1f,false);
         moneyBudget.setTextString("The Money Budget: "+String.valueOf(super.gameModel.getCityStatistics().getBudget().getBalance()));
-        taxRate.setTextString("Tax Rate: " +String.valueOf(super.gameModel.getCityStatistics().getBudget().getTaxRate()));
+        taxRate.setTextString("Tax Rate: " +String.valueOf(Math.round(super.gameModel.getCityStatistics().getBudget().getTaxRate()*100)/100.0));
         TextMaster.loadText(moneyBudget);
         TextMaster.loadText(taxRate);
         TextMaster.loadText(spend);
