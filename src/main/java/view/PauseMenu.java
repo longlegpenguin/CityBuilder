@@ -11,6 +11,7 @@ import org.joml.Vector2f;
 public class PauseMenu extends Menu{
     private Loader loader = new Loader();
     private UiTab tab;
+    private GUIText menuTitle;
     private GUIText resume;
     private GUIText leaveGame;
     private GUIText exitGame;
@@ -19,6 +20,7 @@ public class PauseMenu extends Menu{
     public PauseMenu(Controller controller, GameModel gameModel) {
         super(controller, gameModel);
         loadComponents();
+
     }
 
     @Override
@@ -27,7 +29,7 @@ public class PauseMenu extends Menu{
         super.tabs.add(tab);
 
     }
-    
+
 
     @Override
     public void updateText() {
