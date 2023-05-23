@@ -233,7 +233,7 @@ public class Handler implements ICallBack {
 
 
         for (ZoneTile zone : worldGrid.getZoneList()) {
-            masterRenderer.processEntities(zone);
+            masterRenderer.processZoneTiles(zone);
         }
 
 

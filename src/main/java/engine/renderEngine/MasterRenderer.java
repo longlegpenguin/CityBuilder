@@ -10,6 +10,7 @@ import engine.shaders.SelectorShader;
 import engine.shaders.TerrainShader;
 import engine.terrain.Selector;
 import engine.terrain.Terrain;
+import engine.terrain.ZoneTile;
 import engine.textures.TextureAttribute;
 import engine.world.Tile;
 import org.joml.Matrix4f;
@@ -46,6 +47,8 @@ public class MasterRenderer {
     private SelectorShader selectorShader = new SelectorShader();
     private SelectorRenderer selectorRenderer;
 
+    private ZoneRenderer zoneRenderer;
+    private Map<TextureAttribute, List<ZoneTile>> zoneTiles = new HashMap<TextureAttribute, List<ZoneTile>>();
 
     /**
      * Sets OPENGL Properties and starts all the renderers.
@@ -57,6 +60,7 @@ public class MasterRenderer {
         entityRenderer = new EntityRenderer(entityShader, projectionMatrix);
         terrainRenderer = new TerrainRenderer(terrainShader, projectionMatrix);
         selectorRenderer = new SelectorRenderer(selectorShader, projectionMatrix);
+        zoneRenderer = new ZoneRenderer(selectorShader, projectionMatrix);
     }
 
     /**
@@ -87,6 +91,12 @@ public class MasterRenderer {
         selectorShader.loadViewMatrix(camera);
         selectorRenderer.render(selector);
         selectorShader.stop();
+
+        selectorShader.start();
+        selectorShader.loadViewMatrix(camera);
+        zoneRenderer.render(zoneTiles);
+        selectorShader.stop();
+        zoneTiles.clear();
     }
 
     /**
@@ -118,6 +128,18 @@ public class MasterRenderer {
             List<Terrain> newBatch = new ArrayList<Terrain>();
             newBatch.add(terrain);
             terrains.put(texture, newBatch);
+        }
+    }
+
+    public void processZoneTiles(ZoneTile zoneTile) {
+        TextureAttribute texture = zoneTile.getTexture();
+        List<ZoneTile> batch = zoneTiles.get(texture);
+        if (batch != null) {
+            batch.add(zoneTile);
+        } else {
+            List<ZoneTile> newBatch = new ArrayList<ZoneTile>();
+            newBatch.add(zoneTile);
+            zoneTiles.put(texture, newBatch);
         }
     }
 
