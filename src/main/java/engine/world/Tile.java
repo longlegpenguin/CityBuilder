@@ -16,6 +16,7 @@ public class Tile {
     private Terrain terrain;
     private ZoneTile zone;
     private Entity buildable;
+    private Entity zoneBuildable;
 
     boolean isSelected = false;
     public Tile(int gridX, int gridZ, Loader loader, TextureAttribute texture) {
@@ -40,5 +41,13 @@ public class Tile {
 
     public void setBuildable(Entity buildable) {
         this.buildable = buildable;
+    }
+
+    public Entity getZoneBuildable() {
+        return zoneBuildable;
+    }
+
+    public void setZoneBuildable(Entity zoneBuildable) {
+        this.zoneBuildable = zoneBuildable;
     }
 }

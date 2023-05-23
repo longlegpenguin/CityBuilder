@@ -20,6 +20,7 @@ public class WorldGrid {
     private List<Terrain> terrains = new ArrayList<Terrain>();
     private List<ZoneTile> zones = new ArrayList<ZoneTile>();
     private List<Entity> buildables = new ArrayList<Entity>();
+    private List<Entity> zoneBuildables = new ArrayList<Entity>();
 
     /**
      * Generates the complete grid of all terrains.
@@ -72,17 +73,32 @@ public class WorldGrid {
         return buildables;
     }
 
+    public List<Entity> getZoneBuildableList() {
+        zoneBuildables.clear();
+        for (int i = 0; i < WORLD_SIZE; i++) {
+            for (int j = 0; j < WORLD_SIZE; j++) {
+                if (worldmatrix[i][j].getZoneBuildable() != null) {
+                    buildables.add(worldmatrix[i][j].getZoneBuildable());
+                }
+            }
+        }
+        return zoneBuildables;
+    }
+
     public void addBuildable(int x, int z, Entity buildable) {
         worldmatrix[x][z].setBuildable(buildable);
     }
 
     public void addZone(int x, int z, ZoneTile zoneTile) {worldmatrix[x][z].setZone(zoneTile);}
 
+    public void addZoneBuildable(int x, int z, Entity zoneBuildable) {worldmatrix[x][z].setZoneBuildable(zoneBuildable);}
+
     public void clearGrid() {
         for (int i = 0; i < WORLD_SIZE; i++) {
             for (int j = 0; j < WORLD_SIZE; j++) {
                 worldmatrix[i][j].setZone(null);
                 worldmatrix[i][j].setBuildable(null);
+                worldmatrix[i][j].setZoneBuildable(null);
             }
         }
     }
