@@ -34,11 +34,17 @@ public class Citizen implements java.io.Serializable {
         }
         double distanceEffect = new PathFinder(gm.getMap()).manhattanDistance(workplace, livingPlace);
         return (workplace.getZoneSatisfaction(gm) +
-                livingPlace.getZoneSatisfaction(gm))/2.0 -
+                livingPlace.getZoneSatisfaction(gm)) / 2.0 -
                 distanceEffect;
     }
+
+    public double getTax(double taxRate) {
+        return Constants.BASE_TAX * taxRate + levelOfEducation.getAdditionalValue();
+    }
+
     /**
      * Pays the tax and records the pay
+     *
      * @param taxRate the current tax rate
      * @return the tax to be paid by the person
      */
@@ -51,9 +57,9 @@ public class Citizen implements java.io.Serializable {
     /**
      * Getting distance between living place and working place.
      *
-     * @param gm gameModel
+     * @param gm          gameModel
      * @param livingPlace living place of the citizen
-     * @param workplace work place of the citizen
+     * @param workplace   work place of the citizen
      * @return distance from living place to working place
      */
     public static int getDistanceLiveWork(GameModel gm, Zone livingPlace, Zone workplace) {
@@ -104,7 +110,7 @@ public class Citizen implements java.io.Serializable {
     }
 
     public void retire() {
-        pension = (int)getPast20AvgIncome();
+        pension = (int) getPast20AvgIncome();
     }
 
     public void addPaidTax(double newTax) {

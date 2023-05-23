@@ -554,7 +554,9 @@ public class GameModel implements java.io.Serializable {
 
     private void citizenshipEducationUpdate() {
         for (Citizen citizen : getCityRegistry().getAllCitizens()) {
-            citizen.setLevelOfEducation(HumanManufacture.getEducationLevel(this, citizen.getLivingPlace()));
+            if (citizen.getLevelOfEducation() == LevelOfEducation.PRIMARY) {
+                citizen.setLevelOfEducation(HumanManufacture.getEducationLevel(this, citizen.getLivingPlace()));
+            }
         }
     }
 
