@@ -42,7 +42,7 @@ public class ViewModel {
         } else {
             this.moneyStatistic.clearText();
             this.tabs.removeAll(this.moneyStatistic.getTabs());
-            this.buttons.removeAll(moneyStatistic.getButtons());
+
         }
     }
     public void taxIncDecButtons(boolean moneyTab,GameModel gameModel)
