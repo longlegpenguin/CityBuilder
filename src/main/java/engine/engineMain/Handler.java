@@ -211,9 +211,16 @@ public class Handler implements ICallBack {
             }
         }
 
+        if (!paused) {
+            paused = viewModel.pause(controller, gameModel);
+            
+            }
+            if (paused) {
+                paused = viewModel.unpause();
+            }
+
 
         Mouse.update();
-
         processAllAssets();
 
         masterRenderer.render(selector, camera, light);
