@@ -76,6 +76,8 @@ public class WorldGrid {
         worldmatrix[x][z].setBuildable(buildable);
     }
 
+    public void addZone(int x, int z, ZoneTile zoneTile) {worldmatrix[x][z].setZone(zoneTile);}
+
     public void clearGrid() {
         for (int i = 0; i < WORLD_SIZE; i++) {
             for (int j = 0; j < WORLD_SIZE; j++) {
