@@ -69,18 +69,23 @@ public class ViewModel {
         }else return true;
     }
     public void taxIncDecButtons(boolean moneyTab,GameModel gameModel)
-    {   if (moneyTab) {
-        this.buttons.addAll(moneyStatistic.getButtons());
-        if (moneyStatistic.getIncreaseTax().isClicked())
-        {
-            gameModel.getCityStatistics().getBudget().setTaxRate(gameModel.getCityStatistics().getBudget().getTaxRate()+0.1);
+    {
+        if (moneyTab) {
+            this.buttons.addAll(moneyStatistic.getButtons());
+            if (moneyStatistic.getIncreaseTax().isClicked())
+            {
+                gameModel.getCityStatistics().getBudget().setTaxRate(gameModel.getCityStatistics().getBudget().getTaxRate()+0.1);
+                moneyStatistic.clearText();
+                moneyStatistic.updateText();
+            }
+            if (moneyStatistic.getDecreaseTax().isClicked()){
+                gameModel.getCityStatistics().getBudget().setTaxRate(gameModel.getCityStatistics().getBudget().getTaxRate()-0.1);
+                moneyStatistic.clearText();
+                moneyStatistic.updateText();
+            }
         }
-        if (moneyStatistic.getDecreaseTax().isClicked()){
-            gameModel.getCityStatistics().getBudget().setTaxRate(gameModel.getCityStatistics().getBudget().getTaxRate()-0.1);
-        }
-    }
-        else if (moneyStatistic != null)
-        this.buttons.removeAll(moneyStatistic.getButtons());
+        else
+            this.buttons.removeAll(moneyStatistic.getButtons());
     }
 
     public void update() {

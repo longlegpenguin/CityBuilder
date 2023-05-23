@@ -10,11 +10,13 @@ import engine.entities.Light;
 import engine.fontMeshCreator.GUIText;
 import engine.fontRendering.TextMaster;
 import engine.guis.UiButton;
+import engine.models.TexturedModel;
 import engine.renderEngine.GuiRenderer;
 import engine.renderEngine.Loader;
 import engine.renderEngine.MasterRenderer;
 import engine.terrain.Selector;
 import engine.terrain.Terrain;
+import engine.terrain.ZoneTile;
 import engine.textures.TextureAttribute;
 import engine.tools.Mouse;
 import engine.tools.MousePicker;
@@ -62,6 +64,7 @@ public class Handler implements ICallBack {
     private GUIText framerate;
     private GUIText frametime;
     private GUIText gameStatus;
+    private boolean zoneState = false;
     private boolean moneyTab = false;
     private boolean isGameOver = false;
 
@@ -130,6 +133,7 @@ public class Handler implements ICallBack {
 
         if (timer >= baseTime / timeMultiplier) {
             controller.regularUpdateRequest(1, this);
+            setWorldGrid();
             viewModel.update();
             timer -= baseTime / timeMultiplier;
         }
@@ -154,12 +158,13 @@ public class Handler implements ICallBack {
         if (Mouse.isLeftButtonClicked()) {
             for (UiButton button : viewModel.getButtons()) {
                 if (button.isClicked()) {
+                    zoneState = false;
                     buttonPressed = true;
                     viewModel.deleteZoneSelector();
                     switch (button.getButtonEnum()) {
-                        case RESIDENTIAL_ZONE -> viewModel.getBottomMenuBar().resZoneButtonAction();
-                        case COMMERICAL_ZONE -> viewModel.getBottomMenuBar().comZoneButtonAction();
-                        case INDUSTRIAL_ZONE -> viewModel.getBottomMenuBar().indZoneButtonAction();
+                        case RESIDENTIAL_ZONE -> {viewModel.getBottomMenuBar().resZoneButtonAction();zoneState = true;}
+                        case COMMERICAL_ZONE -> {viewModel.getBottomMenuBar().comZoneButtonAction();zoneState = true;}
+                        case INDUSTRIAL_ZONE -> {viewModel.getBottomMenuBar().indZoneButtonAction();zoneState = true;}
                         case DE_ZONE -> viewModel.getBottomMenuBar().deZoneButtonAction();
                         case ROAD -> viewModel.getBottomMenuBar().roadButtonAction();
                         case FOREST -> viewModel.getBottomMenuBar().forestButtonAction();
@@ -197,7 +202,9 @@ public class Handler implements ICallBack {
                     }
                 }
             }
-            viewModel.taxIncDecButtons(moneyTab,gameModel);
+            if (moneyTab) {
+                viewModel.taxIncDecButtons(moneyTab,gameModel);
+            }
 
             if (buttonPressed == false && coordsX < worldGrid.getWorldSize() && coordsX >= 0 && coordsY < worldGrid.getWorldSize() && coordsY >= 0) {
                 controller.mouseClickRequest(new Coordinate(coordsX, coordsY), this);
@@ -234,11 +241,15 @@ public class Handler implements ICallBack {
             masterRenderer.processTerrain(terrain);
         }
 
-
-        for (Entity zone : worldGrid.getZoneList()) {
-            masterRenderer.processEntities(zone);
+        if(zoneState) {
+            for (ZoneTile zone : worldGrid.getZoneList()) {
+                masterRenderer.processZoneTiles(zone);
+            }
+        } else {
+            for (Entity zoneBuildable: worldGrid.getZoneBuildableList()) {
+                masterRenderer.processEntities(zoneBuildable);
+            }
         }
-
 
         for (Entity buildable : worldGrid.getBuildableList()) {
             masterRenderer.processEntities(buildable);
@@ -266,51 +277,43 @@ public class Handler implements ICallBack {
 
     private void addZonesWorldGrid(List<Buildable> gameModelZones) {
         for (Buildable b : gameModelZones) {
-            worldGrid.addBuildable(b.getCoordinate().getRow(), b.getCoordinate().getCol(), getGridEntity(b));
+            worldGrid.addZone(b.getCoordinate().getRow(), b.getCoordinate().getCol(), getZoneTile(b));
         }
     }
 
     private Entity getGridEntity(Buildable buildable) {
         Entity entity = null;
         switch (buildable.getBuildableType()) {
-            case RESIDENTIAL -> {
-                entity = new Entity(assets.getResidentialBuilding(), new Vector3f(buildable.getCoordinate().getRow() * Terrain.getSize(), 0, (buildable.getCoordinate().getCol() + 1) * Terrain.getSize()), 0, 0, 0, 5);
-                break;
-            }
-            case COMMERCIAL -> {
-                entity = new Entity(assets.getCommercialBuilding(), new Vector3f(buildable.getCoordinate().getRow() * Terrain.getSize(), 0, (buildable.getCoordinate().getCol() + 1) * Terrain.getSize()), 0, 0, 0, 5);
-                break;
-            }
-            case INDUSTRIAL -> {
-                entity = new Entity(assets.getIndustrialBuilding(), new Vector3f(buildable.getCoordinate().getRow() * Terrain.getSize(), 0, (buildable.getCoordinate().getCol() + 1) * Terrain.getSize()), 0, 0, 0, 5);
-                break;
-            }
-            case ROAD -> {
-                entity = new Entity(assets.getRoad(), new Vector3f(buildable.getCoordinate().getRow() * Terrain.getSize(), 0, (buildable.getCoordinate().getCol() + 1) * Terrain.getSize()), 0, 0, 0, 5);
-                break;
-            }
-            case FOREST -> {
-                entity = new Entity(assets.getForest(), new Vector3f(buildable.getCoordinate().getRow() * Terrain.getSize(), 0, (buildable.getCoordinate().getCol() + 1) * Terrain.getSize()), 0, 0, 0, 5);
-                break;
-            }
-            case POLICE -> {
-                entity = new Entity(assets.getPolice(), new Vector3f(buildable.getCoordinate().getRow() * Terrain.getSize(), 0, (buildable.getCoordinate().getCol() + 1) * Terrain.getSize()), 0, 0, 0, 5);
-                break;
-            }
-            case STADIUM -> {
-                entity = new Entity(assets.getStadium(), new Vector3f(buildable.getCoordinate().getRow() * Terrain.getSize(), 0, (buildable.getCoordinate().getCol() + 2) * Terrain.getSize()), 0, 0, 0, 5 * 2);
-                break;
-            }
-            case SCHOOL -> {
-                entity = new Entity(assets.getSchool(), new Vector3f(buildable.getCoordinate().getRow() * Terrain.getSize(), 0, (buildable.getCoordinate().getCol() + 1) * Terrain.getSize()), 0, 0, 0, 5);
-                break;
-            }
-            case UNIVERSITY -> {
-                entity = new Entity(assets.getUniversity(), new Vector3f(buildable.getCoordinate().getRow() * Terrain.getSize(), 0, (buildable.getCoordinate().getCol() + 1) * Terrain.getSize()), 0, 0, 0, 5);
-                break;
-            }
+            case ROAD -> {entity = new Entity(assets.getRoad(), new Vector3f(buildable.getCoordinate().getRow() * Terrain.getSize(), 0, (buildable.getCoordinate().getCol() + 1) * Terrain.getSize()), 0, 0, 0, 5);}
+            case FOREST -> {entity = new Entity(assets.getForest(), new Vector3f(buildable.getCoordinate().getRow() * Terrain.getSize(), 0, (buildable.getCoordinate().getCol() + 1) * Terrain.getSize()), 0, 0, 0, 5);}
+            case POLICE -> {entity = new Entity(assets.getPolice(), new Vector3f(buildable.getCoordinate().getRow() * Terrain.getSize(), 0, (buildable.getCoordinate().getCol() + 1) * Terrain.getSize()), 0, 0, 0, 5);}
+            case STADIUM -> {entity = new Entity(assets.getStadium(), new Vector3f(buildable.getCoordinate().getRow() * Terrain.getSize(), 0, (buildable.getCoordinate().getCol() + 2) * Terrain.getSize()), 0, 0, 0, 5 * 2);}
+            case SCHOOL -> {entity = new Entity(assets.getSchool(), new Vector3f(buildable.getCoordinate().getRow() * Terrain.getSize(), 0, (buildable.getCoordinate().getCol() + 1) * Terrain.getSize()), 0, 0, 0, 5);}
+            case UNIVERSITY -> {entity = new Entity(assets.getUniversity(), new Vector3f(buildable.getCoordinate().getRow() * Terrain.getSize(), 0, (buildable.getCoordinate().getCol() + 1) * Terrain.getSize()), 0, 0, 0, 5);}
         }
         return entity;
+    }
+
+    private ZoneTile getZoneTile(Buildable buildable) {
+        ZoneTile zoneTile = null;
+        switch (buildable.getBuildableType()) {
+            case RESIDENTIAL -> {zoneTile = getZoneTileHelper(buildable, assets.getResidentialBuilding(), "zones/residentialzonetile");}
+            case COMMERCIAL -> {zoneTile = getZoneTileHelper(buildable, assets.getCommercialBuilding(), "zones/commercialzonetile");}
+            case INDUSTRIAL -> {zoneTile = getZoneTileHelper(buildable, assets.getIndustrialBuilding(), "zones/industrialzonetile");}
+        }
+        return  zoneTile;
+    }
+
+    private ZoneTile getZoneTileHelper(Buildable buildable, TexturedModel asset, String filename) {
+        Entity entity = null;
+        ZoneTile zoneTile = new ZoneTile(buildable.getCoordinate().getRow(), buildable.getCoordinate().getCol(), loader, new TextureAttribute(loader.loadTexture(filename)));
+        if (buildable.isUnderConstruction()) {
+            entity = new Entity(assets.getPolice(), new Vector3f(buildable.getCoordinate().getRow() * Terrain.getSize(), 0, (buildable.getCoordinate().getCol() + 1) * Terrain.getSize()), 0, 0, 0, 5);
+        } else {
+            entity = new Entity(asset, new Vector3f(buildable.getCoordinate().getRow() * Terrain.getSize(), 0, (buildable.getCoordinate().getCol() + 1) * Terrain.getSize()), 0, 0, 0, 5);
+        }
+        worldGrid.addZoneBuildable(buildable.getCoordinate().getRow(), buildable.getCoordinate().getCol(), entity);
+        return zoneTile;
     }
 
     @Override
