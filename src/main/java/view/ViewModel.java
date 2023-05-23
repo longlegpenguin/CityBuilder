@@ -52,9 +52,13 @@ public class ViewModel {
             if (moneyStatistic.getIncreaseTax().isClicked())
             {
                 gameModel.getCityStatistics().getBudget().setTaxRate(gameModel.getCityStatistics().getBudget().getTaxRate()+0.1);
+                moneyStatistic.clearText();
+                moneyStatistic.updateText();
             }
             if (moneyStatistic.getDecreaseTax().isClicked()){
                 gameModel.getCityStatistics().getBudget().setTaxRate(gameModel.getCityStatistics().getBudget().getTaxRate()-0.1);
+                moneyStatistic.clearText();
+                moneyStatistic.updateText();
             }
         }
         else
