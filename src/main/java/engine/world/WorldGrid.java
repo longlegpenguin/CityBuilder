@@ -3,6 +3,7 @@ package engine.world;
 import engine.entities.Entity;
 import engine.renderEngine.Loader;
 import engine.terrain.Terrain;
+import engine.terrain.ZoneTile;
 import engine.textures.TextureAttribute;
 
 import java.util.ArrayList;
@@ -17,7 +18,7 @@ public class WorldGrid {
     private Tile[][] worldmatrix = new Tile[WORLD_SIZE][WORLD_SIZE];
 
     private List<Terrain> terrains = new ArrayList<Terrain>();
-    private List<Entity> zones = new ArrayList<Entity>();
+    private List<ZoneTile> zones = new ArrayList<ZoneTile>();
     private List<Entity> buildables = new ArrayList<Entity>();
 
     /**
@@ -47,12 +48,12 @@ public class WorldGrid {
         return terrains;
     }
     
-    public List<Entity> getZoneList() {
+    public List<ZoneTile> getZoneList() {
         zones.clear();
         for (int i = 0; i < WORLD_SIZE; i++) {
             for (int j = 0; j < WORLD_SIZE; j++) {
                 if (worldmatrix[i][j].getZone() != null) {
-                    zones.add(worldmatrix[i][j].getBuildable());
+                    zones.add(worldmatrix[i][j].getZone());
                 }
             }
         }

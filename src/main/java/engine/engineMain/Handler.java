@@ -15,6 +15,7 @@ import engine.renderEngine.Loader;
 import engine.renderEngine.MasterRenderer;
 import engine.terrain.Selector;
 import engine.terrain.Terrain;
+import engine.terrain.ZoneTile;
 import engine.textures.TextureAttribute;
 import engine.tools.Mouse;
 import engine.tools.MousePicker;
@@ -231,7 +232,7 @@ public class Handler implements ICallBack {
         }
 
 
-        for (Entity zone : worldGrid.getZoneList()) {
+        for (ZoneTile zone : worldGrid.getZoneList()) {
             masterRenderer.processEntities(zone);
         }
 

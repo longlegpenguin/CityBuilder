@@ -3,6 +3,7 @@ package engine.world;
 import engine.entities.Entity;
 import engine.renderEngine.Loader;
 import engine.terrain.Terrain;
+import engine.terrain.ZoneTile;
 import engine.textures.TextureAttribute;
 
 /**
@@ -13,7 +14,7 @@ import engine.textures.TextureAttribute;
 public class Tile {
 
     private Terrain terrain;
-    private Entity zone;
+    private ZoneTile zone;
     private Entity buildable;
 
     boolean isSelected = false;
@@ -25,7 +26,7 @@ public class Tile {
         return terrain;
     }
 
-    public Entity getZone() {
+    public ZoneTile getZone() {
         return zone;
     }
 
@@ -33,7 +34,7 @@ public class Tile {
         return buildable;
     }
 
-    public void setZone(Entity zone) {
+    public void setZone(ZoneTile zone) {
         this.zone = zone;
     }
 
