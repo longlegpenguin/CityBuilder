@@ -1,16 +1,19 @@
 package view;
 
 import controller.Controller;
+import engine.display.DisplayManager;
 import engine.guis.UiButton;
 import engine.guis.UiTab;
 import engine.tools.Keyboard;
 import model.GameModel;
 import model.zone.Zone;
 import model.zone.ZoneStatistics;
+import org.lwjgl.glfw.GLFW;
 
 import java.util.ArrayList;
 
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_ESCAPE;
+import static org.lwjgl.glfw.GLFW.GLFW_PRESS;
 
 public class ViewModel {
 
@@ -50,18 +53,20 @@ public class ViewModel {
 
         }
     }
-    public void pauseMoneyDisplay(Controller controller,GameModel gameModel){
-        if (Keyboard.isKeyDown(GLFW_KEY_ESCAPE) && !this.pauseMenuActive){
-            this.pauseMenuActive = true;
-            this.pauseMenu = new PauseMenu(controller,gameModel);
+    public boolean pause(Controller controller,GameModel gameModel){
+        if (Keyboard.isKeyDown(GLFW_KEY_ESCAPE)) {
+            this.pauseMenu = new PauseMenu(controller, gameModel);
             this.tabs.addAll((this.pauseMenu.getTabs()));
+        return true;
+        }else return false;
 
-        }
-        else if (!Keyboard.isKeyDown(GLFW_KEY_ESCAPE) && this.pauseMenuActive) {
-            this.pauseMenuActive = false;
-            this.tabs.removeAll(this.pauseMenu.getTabs());
+    }
+    public boolean  unpause(){
+        if(!Keyboard.isKeyDown(GLFW_KEY_ESCAPE)){
+            this.tabs.removeAll((this.pauseMenu.getTabs()));
             this.pauseMenu.clearText();
-        }
+        return false;
+        }else return true;
     }
     public void taxIncDecButtons(boolean moneyTab,GameModel gameModel)
     {   if (moneyTab) {

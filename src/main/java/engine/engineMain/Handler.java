@@ -63,7 +63,6 @@ public class Handler implements ICallBack {
     private GUIText frametime;
     private GUIText gameStatus;
     private boolean moneyTab = false;
-
     private boolean isGameOver = false;
 
 
@@ -204,9 +203,17 @@ public class Handler implements ICallBack {
                 controller.mouseClickRequest(new Coordinate(coordsX, coordsY), this);
             }
         }
-        viewModel.pauseMoneyDisplay(controller,gameModel);
-        Mouse.update();
 
+        if (!paused) {
+            paused = viewModel.pause(controller, gameModel);
+            
+            }
+            if (paused) {
+                paused = viewModel.unpause();
+            }
+
+
+        Mouse.update();
         processAllAssets();
 
         masterRenderer.render(selector, camera, light);
