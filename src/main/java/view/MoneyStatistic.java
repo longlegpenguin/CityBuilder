@@ -31,7 +31,7 @@ public class MoneyStatistic extends Menu{
         loadComponents();
         moneyBudget = new GUIText("The Money Budget: "+String.valueOf(super.gameModel.getCityStatistics().getBudget().getBalance()), 1, new Vector2f(0.25f, 0.3f), 1f, false);
         moneyBudget.setColour(0,0,0);
-        taxRate = new GUIText("Tax Rate: " + String.valueOf((super.gameModel.getCityStatistics().getBudget().getTaxRate())),1,new Vector2f(0.25f,0.35f),1f,false);
+        taxRate = new GUIText("Tax Rate: " + String.valueOf(Math.round(super.gameModel.getCityStatistics().getBudget().getTaxRate()*100)/100.0),1,new Vector2f(0.25f,0.35f),1f,false);
         taxRate.setColour(0,0,0);
         spend = new GUIText("Spend: " + String.valueOf((super.gameModel.calculateSpend())),1,new Vector2f(0.25f,0.40f),1f,false);
         spend.setColour(0,0,0);
