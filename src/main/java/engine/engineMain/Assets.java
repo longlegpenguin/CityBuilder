@@ -6,14 +6,14 @@ package engine.engineMain;
  */
 public enum Assets {
     ROAD ("road", "road", 5),
-    RESIDENTIAL("cube", "residential", 5),
-    COMMERCIAL("cube", "commercial", 5),
-    INDUSTRIAL("cube", "Industrial", 5),
-    POLICE("cube", "Police", 5),
-    STADIUM("cube", "Stadium", 5),
+    RESIDENTIAL("house", "assets/residential", 0.2f),
+    COMMERCIAL("commercial", "assets/commercial", 1f),
+    INDUSTRIAL("industrial", "assets/industrial", 0.7f),
+    POLICE("police", "assets/police", 0.8f),
+    STADIUM("stadium", "assets/stadium", 0.5f),
     FOREST("cube", "Forest", 5),
-    UNIVERSITY("cube", "University", 5),
-    SCHOOL("cube", "School", 5);
+    UNIVERSITY("university", "assets/university", 2f),
+    SCHOOL("school", "assets/school", 1f);
 
     private String OBJFilename;
     private String TextureFileName;

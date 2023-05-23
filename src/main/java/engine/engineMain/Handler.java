@@ -284,12 +284,14 @@ public class Handler implements ICallBack {
     private Entity getGridEntity(Buildable buildable) {
         Entity entity = null;
         switch (buildable.getBuildableType()) {
-            case ROAD -> {entity = new Entity(assets.getRoad(), new Vector3f(buildable.getCoordinate().getRow() * Terrain.getSize(), 0, (buildable.getCoordinate().getCol() + 1) * Terrain.getSize()), 0, 0, 0, 5);}
-            case FOREST -> {entity = new Entity(assets.getForest(), new Vector3f(buildable.getCoordinate().getRow() * Terrain.getSize(), 0, (buildable.getCoordinate().getCol() + 1) * Terrain.getSize()), 0, 0, 0, 5);}
-            case POLICE -> {entity = new Entity(assets.getPolice(), new Vector3f(buildable.getCoordinate().getRow() * Terrain.getSize(), 0, (buildable.getCoordinate().getCol() + 1) * Terrain.getSize()), 0, 0, 0, 5);}
-            case STADIUM -> {entity = new Entity(assets.getStadium(), new Vector3f(buildable.getCoordinate().getRow() * Terrain.getSize(), 0, (buildable.getCoordinate().getCol() + 2) * Terrain.getSize()), 0, 0, 0, 5 * 2);}
-            case SCHOOL -> {entity = new Entity(assets.getSchool(), new Vector3f(buildable.getCoordinate().getRow() * Terrain.getSize(), 0, (buildable.getCoordinate().getCol() + 1) * Terrain.getSize()), 0, 0, 0, 5);}
-            case UNIVERSITY -> {entity = new Entity(assets.getUniversity(), new Vector3f(buildable.getCoordinate().getRow() * Terrain.getSize(), 0, (buildable.getCoordinate().getCol() + 1) * Terrain.getSize()), 0, 0, 0, 5);}
+            case ROAD -> {entity = new Entity(assets.getRoad(), new Vector3f(buildable.getCoordinate().getRow() * Terrain.getSize(), 0, (buildable.getCoordinate().getCol() + 1) * Terrain.getSize()), 0, 0, 0, Assets.ROAD.getScale());}
+            case FOREST -> {
+                entity = new Entity(assets.getForest(), new Vector3f(buildable.getCoordinate().getRow() * Terrain.getSize(), 0, (buildable.getCoordinate().getCol() + 1) * Terrain.getSize()), 0, 0, 0, Assets.FOREST.getScale());
+            }
+            case POLICE -> {entity = new Entity(assets.getPolice(), new Vector3f(buildable.getCoordinate().getRow() * Terrain.getSize(), 0, (buildable.getCoordinate().getCol() + 1) * Terrain.getSize()), 0, 0, 0, Assets.POLICE.getScale());}
+            case STADIUM -> {entity = new Entity(assets.getStadium(), new Vector3f(buildable.getCoordinate().getRow() * Terrain.getSize(), 0, (buildable.getCoordinate().getCol() + 2) * Terrain.getSize()), 0, 0, 0, Assets.STADIUM.getScale()*2);}
+            case SCHOOL -> {entity = new Entity(assets.getSchool(), new Vector3f(buildable.getCoordinate().getRow() * Terrain.getSize(), 0, (buildable.getCoordinate().getCol() + 1) * Terrain.getSize()), 0, 0, 0, Assets.SCHOOL.getScale());}
+            case UNIVERSITY -> {entity = new Entity(assets.getUniversity(), new Vector3f(buildable.getCoordinate().getRow() * Terrain.getSize(), 0, (buildable.getCoordinate().getCol() + 1) * Terrain.getSize()), 0, 0, 0, Assets.UNIVERSITY.getScale());}
         }
         return entity;
     }
@@ -297,20 +299,20 @@ public class Handler implements ICallBack {
     private ZoneTile getZoneTile(Buildable buildable) {
         ZoneTile zoneTile = null;
         switch (buildable.getBuildableType()) {
-            case RESIDENTIAL -> {zoneTile = getZoneTileHelper(buildable, assets.getResidentialBuilding(), "zones/residentialzonetile");}
-            case COMMERCIAL -> {zoneTile = getZoneTileHelper(buildable, assets.getCommercialBuilding(), "zones/commercialzonetile");}
-            case INDUSTRIAL -> {zoneTile = getZoneTileHelper(buildable, assets.getIndustrialBuilding(), "zones/industrialzonetile");}
+            case RESIDENTIAL -> {zoneTile = getZoneTileHelper(buildable, assets.getResidentialBuilding(), "zones/residentialzonetile", Assets.RESIDENTIAL.getScale());}
+            case COMMERCIAL -> {zoneTile = getZoneTileHelper(buildable, assets.getCommercialBuilding(), "zones/commercialzonetile", Assets.COMMERCIAL.getScale());}
+            case INDUSTRIAL -> {zoneTile = getZoneTileHelper(buildable, assets.getIndustrialBuilding(), "zones/industrialzonetile", Assets.INDUSTRIAL.getScale());}
         }
         return  zoneTile;
     }
 
-    private ZoneTile getZoneTileHelper(Buildable buildable, TexturedModel asset, String filename) {
+    private ZoneTile getZoneTileHelper(Buildable buildable, TexturedModel asset, String filename, float scale) {
         Entity entity = null;
         ZoneTile zoneTile = new ZoneTile(buildable.getCoordinate().getRow(), buildable.getCoordinate().getCol(), loader, new TextureAttribute(loader.loadTexture(filename)));
         if (buildable.isUnderConstruction()) {
             entity = new Entity(assets.getPolice(), new Vector3f(buildable.getCoordinate().getRow() * Terrain.getSize(), 0, (buildable.getCoordinate().getCol() + 1) * Terrain.getSize()), 0, 0, 0, 5);
         } else {
-            entity = new Entity(asset, new Vector3f(buildable.getCoordinate().getRow() * Terrain.getSize(), 0, (buildable.getCoordinate().getCol() + 1) * Terrain.getSize()), 0, 0, 0, 5);
+            entity = new Entity(asset, new Vector3f(buildable.getCoordinate().getRow() * Terrain.getSize(), 0, (buildable.getCoordinate().getCol() + 1) * Terrain.getSize()), 0, 0, 0, scale);
         }
         worldGrid.addZoneBuildable(buildable.getCoordinate().getRow(), buildable.getCoordinate().getCol(), entity);
         return zoneTile;
