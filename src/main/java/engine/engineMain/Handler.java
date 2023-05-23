@@ -204,7 +204,7 @@ public class Handler implements ICallBack {
                 controller.mouseClickRequest(new Coordinate(coordsX, coordsY), this);
             }
         }
-
+        viewModel.pauseMoneyDisplay(controller,gameModel);
         Mouse.update();
 
         processAllAssets();
