@@ -198,12 +198,15 @@ public class Handler implements ICallBack {
                     }
                 }
             }
-            viewModel.taxIncDecButtons(moneyTab,gameModel);
+            if (moneyTab) {
+                viewModel.taxIncDecButtons(moneyTab,gameModel);
+            }
 
             if (buttonPressed == false && coordsX < worldGrid.getWorldSize() && coordsX >= 0 && coordsY < worldGrid.getWorldSize() && coordsY >= 0) {
                 controller.mouseClickRequest(new Coordinate(coordsX, coordsY), this);
             }
         }
+
 
         Mouse.update();
 
