@@ -2,6 +2,7 @@ package engine.tools;
 
 import org.lwjgl.glfw.GLFWKeyCallback;
 
+import static org.lwjgl.glfw.GLFW.GLFW_PRESS;
 import static org.lwjgl.glfw.GLFW.GLFW_RELEASE;
 
 /**
@@ -17,6 +18,7 @@ public class Keyboard extends GLFWKeyCallback {
             return;
         }
         keys[key] = action != GLFW_RELEASE;
+
     }
 
     /**
@@ -27,4 +29,7 @@ public class Keyboard extends GLFWKeyCallback {
     public static boolean isKeyDown(int keycode) {
         return keys[keycode];
     }
+
+
 }
+
