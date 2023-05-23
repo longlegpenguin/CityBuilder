@@ -64,8 +64,8 @@ public class Handler implements ICallBack {
     private GUIText framerate;
     private GUIText frametime;
     private GUIText gameStatus;
+    private boolean zoneState = false;
     private boolean moneyTab = false;
-
     private boolean isGameOver = false;
 
 
@@ -158,12 +158,13 @@ public class Handler implements ICallBack {
         if (Mouse.isLeftButtonClicked()) {
             for (UiButton button : viewModel.getButtons()) {
                 if (button.isClicked()) {
+                    zoneState = false;
                     buttonPressed = true;
                     viewModel.deleteZoneSelector();
                     switch (button.getButtonEnum()) {
-                        case RESIDENTIAL_ZONE -> viewModel.getBottomMenuBar().resZoneButtonAction();
-                        case COMMERICAL_ZONE -> viewModel.getBottomMenuBar().comZoneButtonAction();
-                        case INDUSTRIAL_ZONE -> viewModel.getBottomMenuBar().indZoneButtonAction();
+                        case RESIDENTIAL_ZONE -> {viewModel.getBottomMenuBar().resZoneButtonAction();zoneState = true;}
+                        case COMMERICAL_ZONE -> {viewModel.getBottomMenuBar().comZoneButtonAction();zoneState = true;}
+                        case INDUSTRIAL_ZONE -> {viewModel.getBottomMenuBar().indZoneButtonAction();zoneState = true;}
                         case DE_ZONE -> viewModel.getBottomMenuBar().deZoneButtonAction();
                         case ROAD -> viewModel.getBottomMenuBar().roadButtonAction();
                         case FOREST -> viewModel.getBottomMenuBar().forestButtonAction();
@@ -233,11 +234,15 @@ public class Handler implements ICallBack {
             masterRenderer.processTerrain(terrain);
         }
 
-
-        for (ZoneTile zone : worldGrid.getZoneList()) {
-            masterRenderer.processZoneTiles(zone);
+        if(zoneState) {
+            for (ZoneTile zone : worldGrid.getZoneList()) {
+                masterRenderer.processZoneTiles(zone);
+            }
+        } else {
+            for (Entity zoneBuildable: worldGrid.getZoneBuildableList()) {
+                masterRenderer.processEntities(zoneBuildable);
+            }
         }
-
 
         for (Entity buildable : worldGrid.getBuildableList()) {
             masterRenderer.processEntities(buildable);
@@ -300,7 +305,7 @@ public class Handler implements ICallBack {
         } else {
             entity = new Entity(asset, new Vector3f(buildable.getCoordinate().getRow() * Terrain.getSize(), 0, (buildable.getCoordinate().getCol() + 1) * Terrain.getSize()), 0, 0, 0, 5);
         }
-        worldGrid.addBuildable(buildable.getCoordinate().getRow(), buildable.getCoordinate().getCol(), entity);
+        worldGrid.addZoneBuildable(buildable.getCoordinate().getRow(), buildable.getCoordinate().getCol(), entity);
         return zoneTile;
     }
 

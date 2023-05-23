@@ -78,7 +78,7 @@ public class WorldGrid {
         for (int i = 0; i < WORLD_SIZE; i++) {
             for (int j = 0; j < WORLD_SIZE; j++) {
                 if (worldmatrix[i][j].getZoneBuildable() != null) {
-                    buildables.add(worldmatrix[i][j].getZoneBuildable());
+                    zoneBuildables.add(worldmatrix[i][j].getZoneBuildable());
                 }
             }
         }
