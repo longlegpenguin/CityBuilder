@@ -42,7 +42,7 @@ public class ViewModel {
         } else {
             this.moneyStatistic.clearText();
             this.tabs.removeAll(this.moneyStatistic.getTabs());
-            this.buttons.removeAll(moneyStatistic.getButtons());
+
         }
     }
     public void taxIncDecButtons(boolean moneyTab,GameModel gameModel)
@@ -56,7 +56,7 @@ public class ViewModel {
             gameModel.getCityStatistics().getBudget().setTaxRate(gameModel.getCityStatistics().getBudget().getTaxRate()-0.1);
         }
     }
-        else
+        else if (moneyStatistic != null)
         this.buttons.removeAll(moneyStatistic.getButtons());
     }
 
