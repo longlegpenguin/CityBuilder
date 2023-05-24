@@ -20,7 +20,17 @@ public class AssetLoader {
     private final TexturedModel industrialBuilding;
     private final TexturedModel police;
     private final TexturedModel stadium;
-    private final TexturedModel forest;
+    private final TexturedModel forest1;
+    private final TexturedModel forest2;
+    private final TexturedModel forest3;
+    private final TexturedModel forest4;
+    private final TexturedModel forest5;
+    private final TexturedModel forest6;
+    private final TexturedModel forest7;
+    private final TexturedModel forest8;
+    private final TexturedModel forest9;
+    private final TexturedModel forest10;
+
     private final TexturedModel university;
     private final TexturedModel school;
 
@@ -34,7 +44,16 @@ public class AssetLoader {
         this.industrialBuilding = loadAsset(Assets.INDUSTRIAL.getOBJFilename(), Assets.INDUSTRIAL.getTextureFileName());
         this.police = loadAsset(Assets.POLICE.getOBJFilename(), Assets.POLICE.getTextureFileName());
         this.stadium = loadAsset(Assets.STADIUM.getOBJFilename(), Assets.STADIUM.getTextureFileName());
-        this.forest = loadAsset(Assets.FOREST.getOBJFilename(), Assets.FOREST.getTextureFileName());
+        this.forest1 = loadAsset(Assets.FOREST1.getOBJFilename(), Assets.FOREST1.getTextureFileName());
+        this.forest2 = loadAsset(Assets.FOREST2.getOBJFilename(), Assets.FOREST2.getTextureFileName());
+        this.forest3 = loadAsset(Assets.FOREST3.getOBJFilename(), Assets.FOREST3.getTextureFileName());
+        this.forest4 = loadAsset(Assets.FOREST4.getOBJFilename(), Assets.FOREST4.getTextureFileName());
+        this.forest5 = loadAsset(Assets.FOREST5.getOBJFilename(), Assets.FOREST5.getTextureFileName());
+        this.forest6 = loadAsset(Assets.FOREST6.getOBJFilename(), Assets.FOREST6.getTextureFileName());
+        this.forest7 = loadAsset(Assets.FOREST7.getOBJFilename(), Assets.FOREST7.getTextureFileName());
+        this.forest8 = loadAsset(Assets.FOREST8.getOBJFilename(), Assets.FOREST8.getTextureFileName());
+        this.forest9 = loadAsset(Assets.FOREST9.getOBJFilename(), Assets.FOREST9.getTextureFileName());
+        this.forest10 = loadAsset(Assets.FOREST10.getOBJFilename(), Assets.FOREST10.getTextureFileName());
         this.university = loadAsset(Assets.UNIVERSITY.getOBJFilename(), Assets.UNIVERSITY.getTextureFileName());
         this.school = loadAsset(Assets.SCHOOL.getOBJFilename(), Assets.SCHOOL.getTextureFileName());
     }
@@ -78,8 +97,20 @@ public class AssetLoader {
         return stadium;
     }
 
-    public TexturedModel getForest() {
-        return forest;
+    public TexturedModel getForest(int age) {
+        switch (age) {
+            case 1 -> {return forest1;}
+            case 2 -> {return forest2;}
+            case 3 -> {return forest3;}
+            case 4 -> {return forest4;}
+            case 5 -> {return forest5;}
+            case 6 -> {return forest6;}
+            case 7 -> {return forest7;}
+            case 8 -> {return forest8;}
+            case 9 -> {return forest9;}
+            case 10 -> {return forest10;}
+        }
+        return forest10;
     }
 
     public TexturedModel getUniversity() {

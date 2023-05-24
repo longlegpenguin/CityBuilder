@@ -27,6 +27,7 @@ import model.common.Budget;
 import model.common.Buildable;
 import model.common.Citizen;
 import model.common.Coordinate;
+import model.facility.Forest;
 import model.util.Date;
 import model.zone.Zone;
 import model.zone.ZoneStatistics;
@@ -290,7 +291,9 @@ public class Handler implements ICallBack {
         switch (buildable.getBuildableType()) {
             case ROAD -> {entity = new Entity(assets.getRoad(), new Vector3f(buildable.getCoordinate().getRow() * Terrain.getSize(), 0, (buildable.getCoordinate().getCol() + 1) * Terrain.getSize()), 0, 0, 0, Assets.ROAD.getScale());}
             case FOREST -> {
-                entity = new Entity(assets.getForest(), new Vector3f(buildable.getCoordinate().getRow() * Terrain.getSize(), 0, (buildable.getCoordinate().getCol() + 1) * Terrain.getSize()), 0, 0, 0, Assets.FOREST.getScale());
+                Forest forest = (Forest) buildable;
+                System.out.println(forest.getAge());
+                entity = new Entity(assets.getForest(forest.getAge()), new Vector3f(buildable.getCoordinate().getRow() * Terrain.getSize(), 0, (buildable.getCoordinate().getCol() + 1) * Terrain.getSize()), 0, 0, 0, Assets.FOREST1.getScale());
             }
             case POLICE -> {entity = new Entity(assets.getPolice(), new Vector3f(buildable.getCoordinate().getRow() * Terrain.getSize(), 0, (buildable.getCoordinate().getCol() + 1) * Terrain.getSize()), 0, 0, 0, Assets.POLICE.getScale());}
             case STADIUM -> {entity = new Entity(assets.getStadium(), new Vector3f(buildable.getCoordinate().getRow() * Terrain.getSize(), 0, (buildable.getCoordinate().getCol() + 2) * Terrain.getSize()), 0, 0, 0, Assets.STADIUM.getScale()*2);}
