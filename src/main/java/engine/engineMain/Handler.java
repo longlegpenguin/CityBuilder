@@ -210,9 +210,10 @@ public class Handler implements ICallBack {
 
             if(paused)
             {
-                paused = !(viewModel.unpause());
-                exitGame = viewModel.checkExitGame();
-                System.out.println(exitGame);
+                if (viewModel.getPauseMenu() != null) {
+                    paused = !(viewModel.unpause());
+                    exitGame = viewModel.checkExitGame();
+                }
             }
 
             if (buttonPressed == false && coordsX < worldGrid.getWorldSize() && coordsX >= 0 && coordsY < worldGrid.getWorldSize() && coordsY >= 0) {

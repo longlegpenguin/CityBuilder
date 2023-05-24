@@ -74,13 +74,13 @@ public class BottomMenuBar extends Menu{
         selectZoneButton = new UiButton(loader.loadTexture("button/select"), new Vector2f(0.9f, -0.92f), new Vector2f(0.05f, 0.05f), ButtonEnum.SELECT);
         super.buttons.add(selectZoneButton);
 
-        speedPauseButton = new UiButton(loader.loadTexture(buttonTexture), new Vector2f(-0.74f, -0.8f), new Vector2f(0.03f, 0.03f), ButtonEnum.SPEED_PAUSE);
+        speedPauseButton = new UiButton(loader.loadTexture("button/Pause"), new Vector2f(-0.74f, -0.8f), new Vector2f(0.03f, 0.03f), ButtonEnum.SPEED_PAUSE);
         super.buttons.add(speedPauseButton);
-        speedOneButton = new UiButton(loader.loadTexture(buttonTexture), new Vector2f(-0.66f, -0.8f), new Vector2f(0.03f, 0.03f), ButtonEnum.SPEED_ONE);
+        speedOneButton = new UiButton(loader.loadTexture("button/OneArrow"), new Vector2f(-0.66f, -0.8f), new Vector2f(0.03f, 0.03f), ButtonEnum.SPEED_ONE);
         super.buttons.add(speedOneButton);
-        speedTwoButton = new UiButton(loader.loadTexture(buttonTexture), new Vector2f(-0.58f, -0.8f), new Vector2f(0.03f, 0.03f), ButtonEnum.SPEED_TWO);
+        speedTwoButton = new UiButton(loader.loadTexture("button/DoubleArrow"), new Vector2f(-0.58f, -0.8f), new Vector2f(0.03f, 0.03f), ButtonEnum.SPEED_TWO);
         super.buttons.add(speedTwoButton);
-        speedThreeButton = new UiButton(loader.loadTexture(buttonTexture), new Vector2f(-0.50f, -0.8f), new Vector2f(0.03f, 0.03f), ButtonEnum.SPEED_THREE);
+        speedThreeButton = new UiButton(loader.loadTexture("button/TripleArrow"), new Vector2f(-0.50f, -0.8f), new Vector2f(0.03f, 0.03f), ButtonEnum.SPEED_THREE);
         super.buttons.add(speedThreeButton);
 
         moneyButton = new UiButton(loader.loadTexture(buttonTexture), new Vector2f(0.87f, -0.8f), new Vector2f(0.08f, 0.03f), ButtonEnum.MONEY);
