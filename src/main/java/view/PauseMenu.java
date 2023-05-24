@@ -57,4 +57,18 @@ public class PauseMenu extends Menu{
     public void updateText() {
 
     }
+
+
+
+    public UiButton getResumeButton() {
+        return resumeButton;
+    }
+
+    public UiButton getSaveGameButton() {
+        return saveGameButton;
+    }
+
+    public UiButton getExitGameButton() {
+        return exitGameButton;
+    }
 }

@@ -152,7 +152,9 @@ public class Handler implements ICallBack {
             selector.setX(-100);
             selector.setZ(-100);
         }
-
+        if (paused == false) {
+            if (viewModel.pause(controller, gameModel)) paused = true;
+        }
 
         boolean buttonPressed = false;
         if (Mouse.isLeftButtonClicked()) {
@@ -206,15 +208,17 @@ public class Handler implements ICallBack {
                 viewModel.taxIncDecButtons(moneyTab,gameModel);
             }
 
+            if(paused)
+            {
+                paused = !(viewModel.unpause());
+
+            }
+
             if (buttonPressed == false && coordsX < worldGrid.getWorldSize() && coordsX >= 0 && coordsY < worldGrid.getWorldSize() && coordsY >= 0) {
                 controller.mouseClickRequest(new Coordinate(coordsX, coordsY), this);
             }
         }
 
-        if (!paused) {
-            paused = viewModel.pause(controller, gameModel);
-            
-            }
 
 
 
@@ -223,6 +227,7 @@ public class Handler implements ICallBack {
 
         masterRenderer.render(selector, camera, light);
         guiRenderer.render(viewModel.getButtons(), viewModel.getTabs());
+
 
         TextMaster.render();
         loader.clearTextVaos();

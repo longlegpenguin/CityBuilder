@@ -5,6 +5,7 @@ import engine.display.DisplayManager;
 import engine.guis.UiButton;
 import engine.guis.UiTab;
 import engine.tools.Keyboard;
+import engine.tools.Mouse;
 import model.GameModel;
 import model.zone.Zone;
 import model.zone.ZoneStatistics;
@@ -58,9 +59,20 @@ public class ViewModel {
             this.pauseMenu = new PauseMenu(controller, gameModel);
             this.tabs.addAll((this.pauseMenu.getTabs()));
             this.buttons.addAll(this.pauseMenu.getButtons());
+
         return true;
         }else return false;
 
+    }
+    public boolean unpause()
+    {
+        if(this.pauseMenu.getResumeButton().isClicked())
+        {
+            this.tabs.removeAll(this.pauseMenu.getTabs());
+            this.buttons.removeAll((this.pauseMenu.getButtons()));
+            this.pauseMenu.clearText();
+            return true;
+        }else return false;
     }
 
     public void taxIncDecButtons(boolean moneyTab,GameModel gameModel)

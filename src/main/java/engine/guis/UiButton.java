@@ -4,6 +4,8 @@ import engine.display.DisplayManager;
 import engine.tools.Mouse;
 import org.joml.Vector2f;
 
+import javax.imageio.stream.ImageOutputStream;
+
 /**
  * Button component which extends UIComponent.
  * Button is a 2d clickable object on screen for the user to interact with the game.
@@ -54,6 +56,7 @@ public class UiButton extends UiComponent {
      * @return boolean value
      */
     public boolean isClicked() {
+
         double mouseX =  (2f * Mouse.getX()) / DisplayManager.getWindowWidth() - 1f;
         double mouseY = (2f * Mouse.getY() ) / DisplayManager.getWindowHeight() - 1f;
         if (mouseX >= position.x - scale.x && mouseX <= position.x  + scale.x && mouseY >=  position.y - scale.y && mouseY <= position.y + scale.y) {
