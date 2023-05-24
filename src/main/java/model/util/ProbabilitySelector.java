@@ -16,7 +16,7 @@ public class ProbabilitySelector {
      */
     public static boolean decision(double prob) {
         if (prob > 1 || prob < 0) {
-            throw new IllegalArgumentException("Probability out of bounds");
+            throw new IllegalArgumentException("Probability out of bounds: " + prob);
         }
         int luck = random.nextInt(100);
         return luck < prob * 100;

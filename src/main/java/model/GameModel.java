@@ -491,9 +491,9 @@ public class GameModel implements java.io.Serializable {
     private void updateUnemployedStatusForCitizens() {
         for (Citizen citizen : cityRegistry.getAllCitizens()) {
             if (citizen.isUnemployed()) {
-                Zone newWorkPlace =  HumanManufacture.getWorkingPlace(this, citizen.getLivingPlace());
+                Zone newWorkPlace = HumanManufacture.getWorkingPlace(this, citizen.getLivingPlace());
                 if (newWorkPlace != null) {
-                    citizen.setWorkplace(this,newWorkPlace);
+                    citizen.setWorkplace(this, newWorkPlace);
                 }
             }
         }
@@ -542,14 +542,14 @@ public class GameModel implements java.io.Serializable {
             } else {
                 Zone possibleLivingZone = HumanManufacture.getLivingPlace(this);
                 Zone possibleWorkingZone = HumanManufacture.getWorkingPlace(this, possibleLivingZone);
-                if (possibleLivingZone != null &&
-                        ProbabilitySelector.decision(
-                                (cityStatistics.getCitySatisfaction() +
-                                        possibleLivingZone.getFreeWorkSpaceEffect() +
-                                        possibleLivingZone.getIndustrialEffect())
-                                        / 100)
-                ) {
-                    HumanManufacture.createYoungCitizen(this, possibleWorkingZone, possibleLivingZone);
+                if (possibleLivingZone != null) {
+                    double metrics = cityStatistics.getCitySatisfaction() +
+                            possibleLivingZone.getFreeWorkSpaceEffect() +
+                            possibleLivingZone.getIndustrialEffect();
+                    metrics = metrics > 100 ? 100 : metrics;
+                    if (ProbabilitySelector.decision(metrics / 100)) {
+                        HumanManufacture.createYoungCitizen(this, possibleWorkingZone, possibleLivingZone);
+                    }
                 }
             }
         }
