@@ -34,7 +34,11 @@ import model.zone.Zone;
 import model.zone.ZoneStatistics;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
+<<<<<<< HEAD
 import org.lwjgl.glfw.GLFW;
+=======
+import persistence.Database;
+>>>>>>> 02785e55b86a4d540448c6406618c80f53344864
 import view.MoneyStatistic;
 import view.ViewModel;
 
@@ -56,8 +60,8 @@ public class Handler implements ICallBack {
     private GameModel gameModel;
     private Controller controller;
     private ViewModel viewModel;
-    private MoneyStatistic money;
-    private GUIText text;
+
+
 
     private int counter = 0;
     private float baseTime = 3f;
@@ -73,6 +77,7 @@ public class Handler implements ICallBack {
     private boolean isGameOver = false;
     private boolean exitGame = false;
     private boolean HUD = true;
+    private Boolean pausedByMenu = false;
 
 
     public Handler(String saveFile) {
@@ -158,8 +163,12 @@ public class Handler implements ICallBack {
             selector.setX(-1000);
             selector.setZ(-1000);
         }
-        if (paused == false) {
-            if (viewModel.pause(controller, gameModel)) paused = true;
+        if (pausedByMenu == false) {
+            if (viewModel.pause(controller, gameModel)) {
+                    pausedByMenu = true;
+                    paused = pausedByMenu;
+                    controller.switchTimeModeRequest(TimeMode.PAUSE);
+            }
         }
 
         boolean buttonPressed = false;
@@ -223,11 +232,22 @@ public class Handler implements ICallBack {
             viewModel.taxIncDecButtons(moneyTab,gameModel);
 
 
-            if(paused)
+            if(pausedByMenu)
             {
                 if (viewModel.getPauseMenu() != null) {
-                    paused = !(viewModel.unpause());
+                    if (viewModel.getPauseMenu().getSaveGameButton().isClicked())
+                    {
+                        Database.save(gameModel);
+
+                    }
                     exitGame = viewModel.checkExitGame();
+                    pausedByMenu = !(viewModel.unpause());
+                    paused = pausedByMenu;
+                    if (!paused)
+                        controller.switchTimeModeRequest(TimeMode.DAILY);
+
+
+
                 }
             }
 
