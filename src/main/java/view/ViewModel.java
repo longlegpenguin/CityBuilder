@@ -66,14 +66,17 @@ public class ViewModel {
     }
     public boolean unpause()
     {
+
         if(this.pauseMenu.getResumeButton().isClicked())
         {
             this.tabs.removeAll(this.pauseMenu.getTabs());
             this.buttons.removeAll((this.pauseMenu.getButtons()));
 
             return true;
-        }else return false;
-    }
+        }
+        else return false;
+        }
+
 
     public boolean checkExitGame(){
         return this.pauseMenu.getExitGameButton().isClicked();
@@ -157,5 +160,9 @@ public class ViewModel {
 
     public void setMoneyMenuActive(boolean moneyMenuActive) {
         this.moneyMenuActive = moneyMenuActive;
+    }
+
+    public PauseMenu getPauseMenu() {
+        return pauseMenu;
     }
 }
