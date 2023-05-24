@@ -42,9 +42,9 @@ public class HumanManufacture {
     /**
      * Getting the closest working place (zone) from the available ones.
      *
-     * @param availableWorkingZones
-     * @param livingPlace
-     * @param gm
+     * @param availableWorkingZones in list of work zones which still have empty capacity
+     * @param livingPlace           living place of the citizen.
+     * @param gm                    game model
      * @return closest working place (zone) if found, otherwise null.
      */
     public static Zone getClosestWorkingPlace(ArrayList<Zone> availableWorkingZones, Zone livingPlace, GameModel gm) {
@@ -60,6 +60,69 @@ public class HumanManufacture {
         return closestZone;
     }
 
+    /**
+     * Returns a random available level of education.
+     *
+     * @param gm game model
+     * @return the random education level
+     */
+    public static LevelOfEducation getEducationLevel(GameModel gm, Zone livingPlace) {
+        Random rand = new Random();
+        int random = rand.nextInt(3);
+
+        ArrayList<School> availableSchools = getAvailableSchools(gm, livingPlace);
+        ArrayList<University> availableUniversities = getAvailableUniversities(gm, livingPlace);
+
+        if (random == 1 && areEnoughPlacesSecondaryEducation(gm, availableSchools)) {
+            return LevelOfEducation.SCHOOL;
+        }
+
+        if (random == 2 && areEnoughPlacesHigherEducation(gm, availableUniversities)) {
+            return LevelOfEducation.UNIVERSITY;
+        }
+
+        return LevelOfEducation.PRIMARY;
+    }
+
+    /**
+     * Returns a young citizen, assigns it to a random residential zone (if available), and to the closest workPlace
+     * (if available)
+     *
+     * @param gm game model
+     */
+    public static void createYoungCitizen(GameModel gm) {
+        Zone livingPlace = getLivingPlace(gm);
+        if (livingPlace == null) {
+            return;
+        }
+        Zone workPlace = getWorkingPlace(gm, livingPlace);
+        Citizen newCitizen = new Citizen(workPlace, livingPlace, getEducationLevel(gm, livingPlace));
+        livingPlace.addCitizen(newCitizen, gm);
+        if (workPlace != null) {
+            workPlace.addCitizen(newCitizen, gm);
+        }
+    }
+
+    /**
+     * Creates a young citizen with workPlace and livingPlace given.
+     *
+     * @param gm          game model
+     * @param workPlace   working zone for the new citizen
+     * @param livingPlace living zone for the new citizen
+     */
+    public static void createYoungCitizen(GameModel gm, Zone workPlace, Zone livingPlace) {
+        Citizen newCitizen = new Citizen(workPlace, livingPlace, getEducationLevel(gm, livingPlace));
+        livingPlace.addCitizen(newCitizen, gm);
+        if (workPlace != null) workPlace.addCitizen(newCitizen, gm);
+    }
+
+    /**
+     * Gets a working place that is connects to the giving living place.
+     *
+     * @param gm          game model
+     * @param livingPlace living place to the work place
+     * @return a working place which is connected to the living place.
+     */
     public static Zone getWorkingPlace(GameModel gm, Zone livingPlace) {
         ArrayList<Zone> availableWorkingZones = new ArrayList<>();
         for (Buildable buildable : gm.getZoneBuildable()) {
@@ -122,59 +185,4 @@ public class HumanManufacture {
         }
         return capacityAllUniversities;
     }
-
-    /**
-     * Returns a random available level of education.
-     *
-     * @param gm
-     * @return
-     */
-    public static LevelOfEducation getEducationLevel(GameModel gm, Zone livingPlace) {
-        Random rand = new Random();
-        int random = rand.nextInt(3);
-
-        ArrayList<School> availableSchools = getAvailableSchools(gm, livingPlace);
-        ArrayList<University> availableUniversities = getAvailableUniversities(gm, livingPlace);
-
-        if (random == 1 && areEnoughPlacesSecondaryEducation(gm, availableSchools)) {
-            return LevelOfEducation.SCHOOL;
-        }
-
-        if (random == 2 && areEnoughPlacesHigherEducation(gm, availableUniversities)) {
-            return LevelOfEducation.UNIVERSITY;
-        }
-
-        return LevelOfEducation.PRIMARY;
-    }
-
-    /**
-     * Returns a young citizen, assigns it to a random residential zone (if available), and to the closest workPlace
-     * (if available)
-     *
-     * @param gm
-     */
-    public static void createYoungCitizen(GameModel gm) {
-        Zone livingPlace = getLivingPlace(gm);
-        if (livingPlace == null) { return; }
-        Zone workPlace = getWorkingPlace(gm, livingPlace);
-        Citizen newCitizen = new Citizen(workPlace, livingPlace, getEducationLevel(gm, livingPlace));
-        livingPlace.addCitizen(newCitizen, gm);
-        if (workPlace != null) {
-            workPlace.addCitizen(newCitizen, gm);
-        }
-    }
-
-    /**
-     * Creates a young citizen with workPlace and livingPlace given.
-     *
-     * @param gm
-     * @param workPlace
-     * @param livingPlace
-     */
-    public static void createYoungCitizen(GameModel gm, Zone workPlace, Zone livingPlace) {
-        Citizen newCitizen = new Citizen(workPlace, livingPlace, getEducationLevel(gm, livingPlace));
-        livingPlace.addCitizen(newCitizen, gm);
-        if (workPlace != null) workPlace.addCitizen(newCitizen, gm);
-    }
-
 }
