@@ -8,7 +8,7 @@ import model.util.Date;
 import model.util.Level;
 import model.util.PathFinder;
 
-import static model.common.Constants.FREE_WORKPLACE_BASE_EFFECT;
+import static model.common.Constants.*;
 
 public class CommercialZone extends Zone implements SideEffect {
 
@@ -42,5 +42,10 @@ public class CommercialZone extends Zone implements SideEffect {
     public boolean condition(Zone zone, GameModel gm) {
         double manhattanDist = new PathFinder(gm.getMap()).manhattanDistance(zone, gm.getMasterRoads().get(0));
         return manhattanDist != -1 && zone.getCitizens().size() < 10 && manhattanDist < effectRadius;
+    }
+
+    @Override
+    public int getCapacity() {
+        return COMMERCIAL_BASE_CAPACITY;
     }
 }

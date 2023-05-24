@@ -85,7 +85,7 @@ public abstract class Zone implements Buildable, java.io.Serializable {
     public List<Citizen> getCitizens() {
         return citizens;
     }
-    
+
     @Override
     public BuildableType getBuildableType() {
         return buildableType;

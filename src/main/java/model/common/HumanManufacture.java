@@ -18,7 +18,7 @@ public class HumanManufacture {
     /**
      * Getting an available random Residential zone.
      *
-     * @param gm
+     * @param gm game model
      * @return Residential zone if found, otherwise null.
      */
     public static Zone getLivingPlace(GameModel gm) {
@@ -31,8 +31,12 @@ public class HumanManufacture {
             }
         }
         Random rand = new Random();
-        int random = rand.nextInt(availableResidentialZones.size());
-        return availableResidentialZones.get(random);
+        if (availableResidentialZones.size() > 0) {
+            int random = rand.nextInt(availableResidentialZones.size());
+            return availableResidentialZones.get(random);
+        } else {
+            return null;
+        }
     }
 
     /**
@@ -151,6 +155,7 @@ public class HumanManufacture {
      */
     public static void createYoungCitizen(GameModel gm) {
         Zone livingPlace = getLivingPlace(gm);
+        if (livingPlace == null) { return; }
         Zone workPlace = getWorkingPlace(gm, livingPlace);
         Citizen newCitizen = new Citizen(workPlace, livingPlace, getEducationLevel(gm, livingPlace));
         livingPlace.addCitizen(newCitizen, gm);

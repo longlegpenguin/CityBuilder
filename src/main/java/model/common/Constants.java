@@ -4,7 +4,10 @@ public class Constants implements java.io.Serializable {
     public static final int BASE_TAX = 100;
     public static final int INITIAL_CITY_BALANCE = 1000000;
     public static final double RETURN_RATE = 0.9;
-    public static final int DAYS_FOR_CONSTRUCTION = 3;
+    public static final int DAYS_FOR_CONSTRUCTION = 7;
+    public static final int INDUSTRY_BASE_CAPACITY = 2;
+    public static final int COMMERCIAL_BASE_CAPACITY = 2;
+    public static final int RESIDENTIAL_BASE_CAPACITY = 3;
 
     // ONE TIME COSTS
     public static final int ZONE_ONE_TIME_COST = 1000;
@@ -26,7 +29,6 @@ public class Constants implements java.io.Serializable {
     // BASE EFFECTS
     public static final int INDUSTRIAL_ZONE_BASE_EFFECT = 5;
     public static final int FREE_WORKPLACE_BASE_EFFECT = 1;
-    public static final int COMMERCIAL_ZONE_BASE_EFFECT = 1;
     public static final int STADIUM_BASE_EFFECT = 1;
     public static final double FOREST_BASE_EFFECT = 1;
     public static final int POLICE_BASE_EFFECT = 1;
