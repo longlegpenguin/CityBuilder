@@ -215,9 +215,7 @@ public class Handler implements ICallBack {
             paused = viewModel.pause(controller, gameModel);
             
             }
-            if (paused) {
-                paused = viewModel.unpause();
-            }
+
 
 
         Mouse.update();

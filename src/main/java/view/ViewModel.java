@@ -57,17 +57,12 @@ public class ViewModel {
         if (Keyboard.isKeyDown(GLFW_KEY_ESCAPE)) {
             this.pauseMenu = new PauseMenu(controller, gameModel);
             this.tabs.addAll((this.pauseMenu.getTabs()));
+            this.buttons.addAll(this.pauseMenu.getButtons());
         return true;
         }else return false;
 
     }
-    public boolean  unpause(){
-        if(!Keyboard.isKeyDown(GLFW_KEY_ESCAPE)){
-            this.tabs.removeAll((this.pauseMenu.getTabs()));
-            this.pauseMenu.clearText();
-        return false;
-        }else return true;
-    }
+
     public void taxIncDecButtons(boolean moneyTab,GameModel gameModel)
     {
         if (moneyTab) {
