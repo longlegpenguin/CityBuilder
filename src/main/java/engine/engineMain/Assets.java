@@ -5,7 +5,7 @@ package engine.engineMain;
  * Stores the scale of each object, as well as the .obj filename and .png texture filename.
  */
 public enum Assets {
-    ROAD ("road", "road", 5),
+    ROAD ("road", "road", 1),
     RESIDENTIAL("house", "assets/residential", 0.2f),
     COMMERCIAL("commercial", "assets/commercial", 1f),
     INDUSTRIAL("industrial", "assets/industrial", 0.7f),

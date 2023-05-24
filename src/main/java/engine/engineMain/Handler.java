@@ -76,7 +76,7 @@ public class Handler implements ICallBack {
         this.saveFile = saveFile;
         this.loader = new Loader();
         this.assets = new AssetLoader();
-        this.worldGrid = new WorldGrid(loader, new TextureAttribute(loader.loadTexture("grass")));
+        this.worldGrid = new WorldGrid(loader, new TextureAttribute(loader.loadTexture("zones/grass")));
         this.selector = new Selector(0, 0, loader, new TextureAttribute(loader.loadTexture("selector")));
 
         this.camera = new Camera(new Vector3f(0, 100, 0));
@@ -293,7 +293,6 @@ public class Handler implements ICallBack {
             case ROAD -> {entity = new Entity(assets.getRoad(), new Vector3f(buildable.getCoordinate().getRow() * Terrain.getSize(), 0, (buildable.getCoordinate().getCol() + 1) * Terrain.getSize()), 0, 0, 0, Assets.ROAD.getScale());}
             case FOREST -> {
                 Forest forest = (Forest) buildable;
-                System.out.println(forest.getAge());
                 entity = new Entity(assets.getForest(forest.getAge()), new Vector3f(buildable.getCoordinate().getRow() * Terrain.getSize(), 0, (buildable.getCoordinate().getCol() + 1) * Terrain.getSize()), 0, 0, 0, Assets.FOREST1.getScale());
             }
             case POLICE -> {entity = new Entity(assets.getPolice(), new Vector3f(buildable.getCoordinate().getRow() * Terrain.getSize(), 0, (buildable.getCoordinate().getCol() + 1) * Terrain.getSize()), 0, 0, 0, Assets.POLICE.getScale());}
