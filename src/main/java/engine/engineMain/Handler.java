@@ -171,7 +171,7 @@ public class Handler implements ICallBack {
             selector.setX(-1000);
             selector.setZ(-1000);
         }
-        
+
         if (viewModel.pause(controller, gameModel)) {
                 pausedByMenu = true;
                 paused = pausedByMenu;
