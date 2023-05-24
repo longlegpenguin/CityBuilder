@@ -1,14 +1,17 @@
+package persistence;
+
 import model.GameModel;
 import model.common.Coordinate;
 import model.exceptions.OperationException;
 import model.zone.ResidentialZoneFactory;
-import persistence.Database;
+import org.junit.jupiter.api.Test;
 
-public class Main {
-    public static void main(String[] args) throws OperationException {
+public class DatabaseTest {
+
+    @Test
+    public void runDatabaseMethods() throws OperationException {
         GameModel gm = new GameModel(10,10);
         gm.initialize();
-        gm.addZone(new ResidentialZoneFactory(gm).createZone(new Coordinate(1,1)));
         gm.regularUpdate(2, null);
         Database.save(gm);
         Database.save(gm, "hello.ser");
