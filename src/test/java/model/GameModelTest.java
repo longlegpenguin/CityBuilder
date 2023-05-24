@@ -209,7 +209,7 @@ class GameModelTest {
         gm.addFacility(new ForestFactory(gm).createFacility(new Coordinate(2, 3)));
         double afterSatis = z.getZonRelatedSatisfaction();
         System.out.println(gm.printMap());
-        assertEquals((int) FOREST_BASE_EFFECT, (int) (afterSatis - beforeSatis));
+        assertEquals((int) FOREST_BASE_EFFECT + INDUSTRIAL_ZONE_BASE_EFFECT, (int) (afterSatis - beforeSatis));
     }
 
     // school

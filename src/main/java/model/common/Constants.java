@@ -24,7 +24,8 @@ public class Constants implements java.io.Serializable {
     public static final int UNIVERSITY_MAINTENANCE_FEE = 2500;
 
     // BASE EFFECTS
-    public static final int INDUSTRIAL_ZONE_BASE_EFFECT = 1;
+    public static final int INDUSTRIAL_ZONE_BASE_EFFECT = 5;
+    public static final int FREE_WORKPLACE_BASE_EFFECT = 1;
     public static final int COMMERCIAL_ZONE_BASE_EFFECT = 1;
     public static final int STADIUM_BASE_EFFECT = 1;
     public static final double FOREST_BASE_EFFECT = 1;

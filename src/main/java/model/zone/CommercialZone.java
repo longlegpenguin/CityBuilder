@@ -8,7 +8,7 @@ import model.util.Date;
 import model.util.Level;
 import model.util.PathFinder;
 
-import static model.common.Constants.COMMERCIAL_ZONE_BASE_EFFECT;
+import static model.common.Constants.FREE_WORKPLACE_BASE_EFFECT;
 
 public class CommercialZone extends Zone implements SideEffect {
 
@@ -26,7 +26,7 @@ public class CommercialZone extends Zone implements SideEffect {
     public void effect(Zone zone, GameModel gm) {
         if (condition(zone, gm)) {
             zone.getStatistics().getSatisfaction().setFreeWorkplaceEffect(
-                    zone.getStatistics().getSatisfaction().getFreeWorkplaceEffect() + COMMERCIAL_ZONE_BASE_EFFECT);
+                    zone.getStatistics().getSatisfaction().getFreeWorkplaceEffect() + FREE_WORKPLACE_BASE_EFFECT);
         }
     }
 
@@ -34,7 +34,7 @@ public class CommercialZone extends Zone implements SideEffect {
     public void reverseEffect(Zone zone, GameModel gm) {
         if (condition(zone, gm)) {
             zone.getStatistics().getSatisfaction().setFreeWorkplaceEffect(
-                    zone.getStatistics().getSatisfaction().getFreeWorkplaceEffect() - COMMERCIAL_ZONE_BASE_EFFECT);
+                    zone.getStatistics().getSatisfaction().getFreeWorkplaceEffect() - FREE_WORKPLACE_BASE_EFFECT);
         }
     }
 

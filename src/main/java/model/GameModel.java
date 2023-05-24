@@ -126,7 +126,7 @@ public class GameModel implements java.io.Serializable {
     }
 
     /**
-     * If the new buildable blocks the forest view, reverses the effect of the blocked.
+     * If the new buildable blocks the forest view, reverses the effect of the forest.
      *
      * @param buildable the new buildable to check.
      */
@@ -491,7 +491,10 @@ public class GameModel implements java.io.Serializable {
     private void updateUnemployedStatusForCitizens() {
         for (Citizen citizen : cityRegistry.getAllCitizens()) {
             if (citizen.isUnemployed()) {
-                citizen.setWorkplace(this, HumanManufacture.getWorkingPlace(this, citizen.getLivingPlace()));
+                Zone newWorkPlace =  HumanManufacture.getWorkingPlace(this, citizen.getLivingPlace());
+                if (newWorkPlace != null) {
+                    citizen.setWorkplace(this,newWorkPlace);
+                }
             }
         }
     }
