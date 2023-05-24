@@ -21,7 +21,10 @@ public enum ButtonEnum {
     SPEED_THREE("3x Game Speed"),
     MONEY("Money Mode"),
     INCREASE_TAX("Increase Tax"),
-    DECREASE_TAX("Decrease Tax");
+    DECREASE_TAX("Decrease Tax"),
+    RESUME_GAME("Resuming a Game"),
+    SAVE_GAME("Saving a game"),
+    EXIT_GAME("Exiting a game");
 
     private String buttonStr;
     ButtonEnum(String buttonStr) {

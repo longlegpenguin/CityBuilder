@@ -67,6 +67,7 @@ public class Handler implements ICallBack {
     private boolean zoneState = false;
     private boolean moneyTab = false;
     private boolean isGameOver = false;
+    private boolean exitGame = false;
 
 
     public Handler(String saveFile) {
@@ -152,7 +153,9 @@ public class Handler implements ICallBack {
             selector.setX(-100);
             selector.setZ(-100);
         }
-
+        if (paused == false) {
+            if (viewModel.pause(controller, gameModel)) paused = true;
+        }
 
         boolean buttonPressed = false;
         if (Mouse.isLeftButtonClicked()) {
@@ -202,8 +205,14 @@ public class Handler implements ICallBack {
                     }
                 }
             }
-            if (moneyTab) {
                 viewModel.taxIncDecButtons(moneyTab,gameModel);
+
+
+            if(paused)
+            {
+                paused = !(viewModel.unpause());
+                exitGame = viewModel.checkExitGame();
+                System.out.println(exitGame);
             }
 
             if (buttonPressed == false && coordsX < worldGrid.getWorldSize() && coordsX >= 0 && coordsY < worldGrid.getWorldSize() && coordsY >= 0) {
@@ -211,13 +220,7 @@ public class Handler implements ICallBack {
             }
         }
 
-        if (!paused) {
-            paused = viewModel.pause(controller, gameModel);
-            
-            }
-            if (paused) {
-                paused = viewModel.unpause();
-            }
+
 
 
         Mouse.update();
@@ -225,6 +228,7 @@ public class Handler implements ICallBack {
 
         masterRenderer.render(selector, camera, light);
         guiRenderer.render(viewModel.getButtons(), viewModel.getTabs());
+
 
         TextMaster.render();
         loader.clearTextVaos();
