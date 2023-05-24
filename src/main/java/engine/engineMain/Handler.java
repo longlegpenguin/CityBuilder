@@ -136,7 +136,7 @@ public class Handler implements ICallBack {
 
         if (timer >= baseTime / timeMultiplier) {
             controller.regularUpdateRequest(1, this);
-            isGameOver = true;
+
 
             setWorldGrid();
             viewModel.update();
