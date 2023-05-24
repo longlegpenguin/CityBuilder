@@ -42,6 +42,10 @@ import view.ViewModel;
 import java.util.List;
 import static org.lwjgl.glfw.GLFW.*;
 
+/**
+ * Handler class is responsible for the communication between the Game Model, Controller, View Model and Game Engine
+ * Main Render function located in this class and delegates to other renderers.
+ */
 public class Handler implements ICallBack {
 
     private String saveFile;
@@ -57,9 +61,6 @@ public class Handler implements ICallBack {
     private GameModel gameModel;
     private Controller controller;
     private ViewModel viewModel;
-
-
-
     private int counter = 0;
     private float baseTime = 3f;
     private float timeMultiplier = 1;
@@ -76,7 +77,10 @@ public class Handler implements ICallBack {
     private boolean HUD = true;
     private Boolean pausedByMenu = false;
 
-
+    /**
+     * Constructor initializes all renderers, calls asset load functions and initializes the game model, view model and controller.
+     * @param saveFile
+     */
     public Handler(String saveFile) {
 
         this.saveFile = saveFile;
@@ -116,6 +120,11 @@ public class Handler implements ICallBack {
         setWorldGrid();
     }
 
+    /**
+     * Main Render function
+     * Everything that needs to be updated in the game is called from this function in some form or another.
+     * Controller updates, Text, GUI and asset rendering is done here as well as input handeling.
+     */
     public void render() {
         if (DisplayManager.isRESIZED()) {
             DisplayManager.resize();
@@ -275,7 +284,10 @@ public class Handler implements ICallBack {
         timer2 += DisplayManager.getFrameTimeSeconds();
     }
 
-    public void processAllAssets() {
+    /**
+     * Helper function which does the preprocessing for all assets and terrains before it is rendered.
+     */
+    private void processAllAssets() {
         for (Terrain terrain : worldGrid.getTerrainList()) {
             masterRenderer.processTerrain(terrain);
         }
@@ -295,31 +307,51 @@ public class Handler implements ICallBack {
         }
     }
 
+    /**
+     * Clean up function which deletes the Objects from GPU memory.
+     */
     public void cleanUp() {
         masterRenderer.cleanUp();
         TextMaster.cleanUp();
         loader.cleanUp();
-
+        guiRenderer.cleanUp();
     }
 
-    public void setWorldGrid() {
+    /**
+     * Clears the grid of assets and gets the list of new updated assets that need to be used.
+     * Calls 2 helper functions
+     */
+    private void setWorldGrid() {
         worldGrid.clearGrid();
         addBuildablesWorldGrid(gameModel.getFacilityBuildable());
         addZonesWorldGrid(gameModel.getZoneBuildable());
     }
 
+    /**
+     * Helper function which loads the buildables to the world grid.
+     * @param gameModelBuildables
+     */
     private void addBuildablesWorldGrid(List<Buildable> gameModelBuildables) {
         for (Buildable b : gameModelBuildables) {
             worldGrid.addBuildable(b.getCoordinate().getRow(), b.getCoordinate().getCol(), getGridEntity(b));
         }
     }
 
+    /**
+     * Helper function which loads the Zones to the world grid.
+     * @param gameModelZones
+     */
     private void addZonesWorldGrid(List<Buildable> gameModelZones) {
         for (Buildable b : gameModelZones) {
             worldGrid.addZone(b.getCoordinate().getRow(), b.getCoordinate().getCol(), getZoneTile(b));
         }
     }
 
+    /**
+     * Helper function for choosing the correct entity.
+     * @param buildable
+     * @return
+     */
     private Entity getGridEntity(Buildable buildable) {
         Entity entity = null;
         switch (buildable.getBuildableType()) {
@@ -336,6 +368,11 @@ public class Handler implements ICallBack {
         return entity;
     }
 
+    /**
+     * Helper function for choosing the correct zone type.
+     * @param buildable
+     * @return
+     */
     private ZoneTile getZoneTile(Buildable buildable) {
         ZoneTile zoneTile = null;
         switch (buildable.getBuildableType()) {
@@ -346,6 +383,14 @@ public class Handler implements ICallBack {
         return  zoneTile;
     }
 
+    /**
+     * Helper function to the GetZoneTile which is used to set the asset if it is under construction or not
+     * @param buildable
+     * @param asset
+     * @param filename
+     * @param scale
+     * @return
+     */
     private ZoneTile getZoneTileHelper(Buildable buildable, TexturedModel asset, String filename, float scale) {
         Entity entity = null;
         ZoneTile zoneTile = new ZoneTile(buildable.getCoordinate().getRow(), buildable.getCoordinate().getCol(), loader, new TextureAttribute(loader.loadTexture(filename)));
@@ -365,13 +410,13 @@ public class Handler implements ICallBack {
 
     @Override
     public void updateBudgetPanel(Budget budget) {
-//        System.out.println("________Callback Inform Budget_________");
-//        System.out.println("Tax rate: " + budget.getTaxRate());
-//        System.out.println("Balance: " + budget.getBalance());
-//        System.out.println("Maintenance fee: " + budget.getTotalMaintenanceFee());
-//        System.out.println("Tax revenue: " + budget.getRevenue(gameModel));
-//        System.out.println("Total spend: " + budget.getSpend(gameModel));
-//        System.out.println("---------------------------------------");
+        /*System.out.println("________Callback Inform Budget_________");
+        System.out.println("Tax rate: " + budget.getTaxRate());
+        System.out.println("Balance: " + budget.getBalance());
+        System.out.println("Maintenance fee: " + budget.getTotalMaintenanceFee());
+        System.out.println("Tax revenue: " + budget.getRevenue(gameModel));
+        System.out.println("Total spend: " + budget.getSpend(gameModel));
+        System.out.println("---------------------------------------");*/
     }
 
     @Override
@@ -397,18 +442,18 @@ public class Handler implements ICallBack {
 
     @Override
     public void updateDatePanel(Date date) {
-//        System.out.println("________Callback Inform City Date_________");
-//        System.out.println("City Date: " + date);
-//        System.out.println("------------------------------------------");
+        /*System.out.println("________Callback Inform City Date_________");
+        System.out.println("City Date: " + date);
+        System.out.println("------------------------------------------");*/
     }
 
     @Override
     public void updateCityStatisticPanel(CityStatistics cityStatistics) {
         viewModel.update();
-//        System.out.println("________Callback Inform City Statistic_________");
-//        System.out.println("City population: " + cityStatistics.getPopulation(gameModel.getCityRegistry()));
-//        System.out.println("City satisfaction: " + cityStatistics.getCitySatisfaction());
-//        System.out.println("-----------------------------------------------");
+        /*System.out.println("________Callback Inform City Statistic_________");
+        System.out.println("City population: " + cityStatistics.getPopulation(gameModel.getCityRegistry()));
+        System.out.println("City satisfaction: " + cityStatistics.getCitySatisfaction());
+        System.out.println("-----------------------------------------------");*/
     }
 
     @Override
