@@ -75,6 +75,10 @@ public class ViewModel {
         }else return false;
     }
 
+    public boolean checkExitGame(){
+        return this.pauseMenu.getExitGameButton().isClicked();
+    }
+
     public void taxIncDecButtons(boolean moneyTab,GameModel gameModel)
     {
             if (moneyTab){
@@ -93,7 +97,7 @@ public class ViewModel {
             }
         else if (moneyStatistic != null) {
             this.buttons.removeAll(moneyStatistic.getButtons());
-            
+
             }
         }
 

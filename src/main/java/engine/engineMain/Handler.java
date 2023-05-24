@@ -67,6 +67,7 @@ public class Handler implements ICallBack {
     private boolean zoneState = false;
     private boolean moneyTab = false;
     private boolean isGameOver = false;
+    private boolean exitGame = false;
 
 
     public Handler(String saveFile) {
@@ -210,7 +211,8 @@ public class Handler implements ICallBack {
             if(paused)
             {
                 paused = !(viewModel.unpause());
-
+                exitGame = viewModel.checkExitGame();
+                System.out.println(exitGame);
             }
 
             if (buttonPressed == false && coordsX < worldGrid.getWorldSize() && coordsX >= 0 && coordsY < worldGrid.getWorldSize() && coordsY >= 0) {
