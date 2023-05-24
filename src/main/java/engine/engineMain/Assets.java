@@ -5,15 +5,25 @@ package engine.engineMain;
  * Stores the scale of each object, as well as the .obj filename and .png texture filename.
  */
 public enum Assets {
-    ROAD ("road", "road", 5),
+    ROAD ("road", "road", 1),
     RESIDENTIAL("house", "assets/residential", 0.2f),
     COMMERCIAL("commercial", "assets/commercial", 1f),
     INDUSTRIAL("industrial", "assets/industrial", 0.7f),
     POLICE("police", "assets/police", 0.8f),
     STADIUM("stadium", "assets/stadium", 0.5f),
-    FOREST("cube", "Forest", 5),
+    FOREST1("forest1", "assets/forest", 1f),
+    FOREST2("forest2", "assets/forest", 1f),
+    FOREST3("forest3", "assets/forest", 1f),
+    FOREST4("forest4", "assets/forest", 1f),
+    FOREST5("forest5", "assets/forest", 1f),
+    FOREST6("forest6", "assets/forest", 1f),
+    FOREST7("forest7", "assets/forest", 1f),
+    FOREST8("forest8", "assets/forest", 1f),
+    FOREST9("forest9", "assets/forest", 1f),
+    FOREST10("forest10", "assets/forest", 1f),
     UNIVERSITY("university", "assets/university", 2f),
-    SCHOOL("school", "assets/school", 1f);
+    SCHOOL("school", "assets/school", 1f),
+    CONSTRUCTION("construction", "assets/construction", 1f);
 
     private String OBJFilename;
     private String TextureFileName;

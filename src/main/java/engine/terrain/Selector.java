@@ -9,7 +9,8 @@ import engine.textures.TextureAttribute;
  * Selector Object which is the square which appears when hovering over a cell.
  */
 public class Selector {
-    private static final float SIZE = 10;
+    private float xsize;
+    private float zsize;
     private static final int VERTEX_COUNT = 4;
 
     private float x;
@@ -25,23 +26,25 @@ public class Selector {
      * @param loader
      * @param texture
      */
-    public Selector(int gridX, int gridZ, Loader loader, TextureAttribute texture) {
+    public Selector(float xsize, float zsize, int gridX, int gridZ, Loader loader, TextureAttribute texture) {
+        this.xsize = xsize;
+        this.zsize = zsize;
         this.texture = texture;
-        this.x = gridX * SIZE;
-        this.z = gridZ * SIZE;
+        this.x = gridX * xsize;
+        this.z = gridZ * zsize;
         this.model = generateSelector(loader);
     }
 
-    public static float getSize() {
-        return SIZE;
+    public float getSize() {
+        return xsize;
     }
 
     public void setX(float x) {
-        this.x = x * SIZE;
+        this.x = x * Terrain.getSize();
     }
 
     public void setZ(float z) {
-        this.z = z * SIZE;
+        this.z = z * Terrain.getSize();
     }
 
     public float getX() {
@@ -74,9 +77,9 @@ public class Selector {
         int vertexPointer = 0;
         for(int i=0;i<VERTEX_COUNT;i++){
             for(int j=0;j<VERTEX_COUNT;j++){
-                vertices[vertexPointer*3] = (float)j/((float)VERTEX_COUNT - 1) * SIZE;
+                vertices[vertexPointer*3] = (float)j/((float)VERTEX_COUNT - 1) * xsize;
                 vertices[vertexPointer*3+1] = y;
-                vertices[vertexPointer*3+2] = (float)i/((float)VERTEX_COUNT - 1) * SIZE;
+                vertices[vertexPointer*3+2] = (float)i/((float)VERTEX_COUNT - 1) * zsize;
                 normals[vertexPointer*3] = 0;
                 normals[vertexPointer*3+1] = 1;
                 normals[vertexPointer*3+2] = 0;

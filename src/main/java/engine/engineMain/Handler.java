@@ -18,6 +18,7 @@ import engine.terrain.Selector;
 import engine.terrain.Terrain;
 import engine.terrain.ZoneTile;
 import engine.textures.TextureAttribute;
+import engine.tools.Keyboard;
 import engine.tools.Mouse;
 import engine.tools.MousePicker;
 import engine.world.WorldGrid;
@@ -27,17 +28,24 @@ import model.common.Budget;
 import model.common.Buildable;
 import model.common.Citizen;
 import model.common.Coordinate;
+import model.facility.Forest;
 import model.util.Date;
 import model.zone.Zone;
 import model.zone.ZoneStatistics;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
+import org.lwjgl.glfw.GLFW;
 import persistence.Database;
 import view.MoneyStatistic;
 import view.ViewModel;
 
 import java.util.List;
+import static org.lwjgl.glfw.GLFW.*;
 
+/**
+ * Handler class is responsible for the communication between the Game Model, Controller, View Model and Game Engine
+ * Main Render function located in this class and delegates to other renderers.
+ */
 public class Handler implements ICallBack {
 
     private String saveFile;
@@ -53,9 +61,6 @@ public class Handler implements ICallBack {
     private GameModel gameModel;
     private Controller controller;
     private ViewModel viewModel;
-
-
-
     private int counter = 0;
     private float baseTime = 3f;
     private float timeMultiplier = 1;
@@ -69,18 +74,22 @@ public class Handler implements ICallBack {
     private boolean moneyTab = false;
     private boolean isGameOver = false;
     private boolean exitGame = false;
-    private boolean pausedByMenu = false;
+    private boolean HUD = true;
+    private Boolean pausedByMenu = false;
 
-
+    /**
+     * Constructor initializes all renderers, calls asset load functions and initializes the game model, view model and controller.
+     * @param saveFile
+     */
     public Handler(String saveFile) {
 
         this.saveFile = saveFile;
         this.loader = new Loader();
         this.assets = new AssetLoader();
-        this.worldGrid = new WorldGrid(loader, new TextureAttribute(loader.loadTexture("grass")));
-        this.selector = new Selector(0, 0, loader, new TextureAttribute(loader.loadTexture("selector")));
+        this.worldGrid = new WorldGrid(loader, new TextureAttribute(loader.loadTexture("zones/grass")));
+        this.selector = new Selector(Terrain.getSize(), Terrain.getSize(),0, 0, loader, new TextureAttribute(loader.loadTexture("selector")));
 
-        this.camera = new Camera(new Vector3f(0, 100, 0));
+        this.camera = new Camera(new Vector3f(Terrain.getSize() * worldGrid.getWorldSize() / 2, 40, Terrain.getSize() * worldGrid.getWorldSize() / 2 + 5));
         this.light = new Light(new Vector3f(50, 1000, 50), new Vector3f(1, 1, 1));
 
         this.guiRenderer = new GuiRenderer(loader);
@@ -90,7 +99,7 @@ public class Handler implements ICallBack {
 
         this.gameModel = new GameModel(worldGrid.getWorldSize(), worldGrid.getWorldSize());
         this.gameModel.initialize();
-//        gameModel = Database.read();
+        gameModel = Database.read();
         this.controller = new Controller(gameModel);
 
         TextMaster.init(loader);
@@ -111,6 +120,11 @@ public class Handler implements ICallBack {
         setWorldGrid();
     }
 
+    /**
+     * Main Render function
+     * Everything that needs to be updated in the game is called from this function in some form or another.
+     * Controller updates, Text, GUI and asset rendering is done here as well as input handeling.
+     */
     public boolean render() {
         if (DisplayManager.isRESIZED()) {
             DisplayManager.resize();
@@ -154,21 +168,21 @@ public class Handler implements ICallBack {
             selector.setX(coordsX);
             selector.setZ(coordsY);
         } else {
-            selector.setX(-100);
-            selector.setZ(-100);
+            selector.setX(-1000);
+            selector.setZ(-1000);
         }
-        if (pausedByMenu == false) {
-            if (viewModel.pause(controller, gameModel)) {
-                    pausedByMenu = true;
-                    paused = pausedByMenu;
-                    controller.switchTimeModeRequest(TimeMode.PAUSE);
-            }
+
+        if (viewModel.pause(controller, gameModel)) {
+                pausedByMenu = true;
+                paused = pausedByMenu;
+                controller.switchTimeModeRequest(TimeMode.PAUSE);
         }
 
         boolean buttonPressed = false;
         if (Mouse.isLeftButtonClicked()) {
             for (UiButton button : viewModel.getButtons()) {
                 if (button.isClicked()) {
+                    selector = new Selector(Terrain.getSize(), Terrain.getSize(),0, 0, loader, new TextureAttribute(loader.loadTexture("selector")));
                     zoneState = false;
                     buttonPressed = true;
                     viewModel.deleteZoneSelector();
@@ -179,10 +193,19 @@ public class Handler implements ICallBack {
                         case DE_ZONE -> viewModel.getBottomMenuBar().deZoneButtonAction();
                         case ROAD -> viewModel.getBottomMenuBar().roadButtonAction();
                         case FOREST -> viewModel.getBottomMenuBar().forestButtonAction();
-                        case STADIUM -> viewModel.getBottomMenuBar().stadiumButtonAction();
+                        case STADIUM -> {
+                            viewModel.getBottomMenuBar().stadiumButtonAction();
+                            selector = new Selector(Terrain.getSize() * 2, Terrain.getSize() * 2,0, 0, loader, new TextureAttribute(loader.loadTexture("selector")));
+                        }
                         case POLICE -> viewModel.getBottomMenuBar().policeButtonAction();
-                        case SCHOOL -> viewModel.getBottomMenuBar().schoolButtonAction();
-                        case UNIVERSITY -> viewModel.getBottomMenuBar().universityButton();
+                        case SCHOOL -> {
+                            viewModel.getBottomMenuBar().schoolButtonAction();
+                            selector = new Selector(Terrain.getSize() * 2, Terrain.getSize(),0, 0, loader, new TextureAttribute(loader.loadTexture("selector")));
+                        }
+                        case UNIVERSITY -> {
+                            viewModel.getBottomMenuBar().universityButton();
+                            selector = new Selector(Terrain.getSize() * 2, Terrain.getSize() * 2,0, 0, loader, new TextureAttribute(loader.loadTexture("selector")));
+                        }
                         case MONEY -> {
                             viewModel.moneyDisplayManagement(controller, gameModel, moneyTab);
                             if (moneyTab) {
@@ -213,7 +236,7 @@ public class Handler implements ICallBack {
                     }
                 }
             }
-                viewModel.taxIncDecButtons(moneyTab,gameModel);
+            viewModel.taxIncDecButtons(moneyTab,gameModel);
 
 
             if(pausedByMenu)
@@ -243,6 +266,10 @@ public class Handler implements ICallBack {
             }
         }
 
+        if (Keyboard.isClicked(GLFW_KEY_F3)) {
+            if (HUD) {HUD = false;}
+            else {HUD = true;}
+        }
 
         if (isGameOver && viewModel.getExit() == null)
         {
@@ -258,27 +285,30 @@ public class Handler implements ICallBack {
             }
         }
 
-
         Mouse.update();
         processAllAssets();
 
         masterRenderer.render(selector, camera, light);
-        guiRenderer.render(viewModel.getButtons(), viewModel.getTabs());
 
+        if (HUD) {
+            guiRenderer.render(viewModel.getButtons(), viewModel.getTabs());
+            TextMaster.render();
+        }
 
-        TextMaster.render();
         loader.clearTextVaos();
-
-
         if (paused == false) {
             timer += DisplayManager.getFrameTimeSeconds();
         }
         timer2 += DisplayManager.getFrameTimeSeconds();
 
 
-    return false;}
+        return false;
+    }
 
-    public void processAllAssets() {
+    /**
+     * Helper function which does the preprocessing for all assets and terrains before it is rendered.
+     */
+    private void processAllAssets() {
         for (Terrain terrain : worldGrid.getTerrainList()) {
             masterRenderer.processTerrain(terrain);
         }
@@ -298,37 +328,58 @@ public class Handler implements ICallBack {
         }
     }
 
+    /**
+     * Clean up function which deletes the Objects from GPU memory.
+     */
     public void cleanUp() {
         masterRenderer.cleanUp();
         TextMaster.cleanUp();
         loader.cleanUp();
-
+        guiRenderer.cleanUp();
     }
 
-    public void setWorldGrid() {
+    /**
+     * Clears the grid of assets and gets the list of new updated assets that need to be used.
+     * Calls 2 helper functions
+     */
+    private void setWorldGrid() {
         worldGrid.clearGrid();
         addBuildablesWorldGrid(gameModel.getFacilityBuildable());
         addZonesWorldGrid(gameModel.getZoneBuildable());
     }
 
+    /**
+     * Helper function which loads the buildables to the world grid.
+     * @param gameModelBuildables
+     */
     private void addBuildablesWorldGrid(List<Buildable> gameModelBuildables) {
         for (Buildable b : gameModelBuildables) {
             worldGrid.addBuildable(b.getCoordinate().getRow(), b.getCoordinate().getCol(), getGridEntity(b));
         }
     }
 
+    /**
+     * Helper function which loads the Zones to the world grid.
+     * @param gameModelZones
+     */
     private void addZonesWorldGrid(List<Buildable> gameModelZones) {
         for (Buildable b : gameModelZones) {
             worldGrid.addZone(b.getCoordinate().getRow(), b.getCoordinate().getCol(), getZoneTile(b));
         }
     }
 
+    /**
+     * Helper function for choosing the correct entity.
+     * @param buildable
+     * @return
+     */
     private Entity getGridEntity(Buildable buildable) {
         Entity entity = null;
         switch (buildable.getBuildableType()) {
             case ROAD -> {entity = new Entity(assets.getRoad(), new Vector3f(buildable.getCoordinate().getRow() * Terrain.getSize(), 0, (buildable.getCoordinate().getCol() + 1) * Terrain.getSize()), 0, 0, 0, Assets.ROAD.getScale());}
             case FOREST -> {
-                entity = new Entity(assets.getForest(), new Vector3f(buildable.getCoordinate().getRow() * Terrain.getSize(), 0, (buildable.getCoordinate().getCol() + 1) * Terrain.getSize()), 0, 0, 0, Assets.FOREST.getScale());
+                Forest forest = (Forest) buildable;
+                entity = new Entity(assets.getForest(forest.getAge()), new Vector3f(buildable.getCoordinate().getRow() * Terrain.getSize(), 0, (buildable.getCoordinate().getCol() + 1) * Terrain.getSize()), 0, 0, 0, Assets.FOREST1.getScale());
             }
             case POLICE -> {entity = new Entity(assets.getPolice(), new Vector3f(buildable.getCoordinate().getRow() * Terrain.getSize(), 0, (buildable.getCoordinate().getCol() + 1) * Terrain.getSize()), 0, 0, 0, Assets.POLICE.getScale());}
             case STADIUM -> {entity = new Entity(assets.getStadium(), new Vector3f(buildable.getCoordinate().getRow() * Terrain.getSize(), 0, (buildable.getCoordinate().getCol() + 2) * Terrain.getSize()), 0, 0, 0, Assets.STADIUM.getScale()*2);}
@@ -338,6 +389,11 @@ public class Handler implements ICallBack {
         return entity;
     }
 
+    /**
+     * Helper function for choosing the correct zone type.
+     * @param buildable
+     * @return
+     */
     private ZoneTile getZoneTile(Buildable buildable) {
         ZoneTile zoneTile = null;
         switch (buildable.getBuildableType()) {
@@ -348,11 +404,19 @@ public class Handler implements ICallBack {
         return  zoneTile;
     }
 
+    /**
+     * Helper function to the GetZoneTile which is used to set the asset if it is under construction or not
+     * @param buildable
+     * @param asset
+     * @param filename
+     * @param scale
+     * @return
+     */
     private ZoneTile getZoneTileHelper(Buildable buildable, TexturedModel asset, String filename, float scale) {
         Entity entity = null;
         ZoneTile zoneTile = new ZoneTile(buildable.getCoordinate().getRow(), buildable.getCoordinate().getCol(), loader, new TextureAttribute(loader.loadTexture(filename)));
         if (buildable.isUnderConstruction()) {
-            entity = new Entity(assets.getPolice(), new Vector3f(buildable.getCoordinate().getRow() * Terrain.getSize(), 0, (buildable.getCoordinate().getCol() + 1) * Terrain.getSize()), 0, 0, 0, 5);
+            entity = new Entity(assets.getConstruction(), new Vector3f(buildable.getCoordinate().getRow() * Terrain.getSize(), 0, (buildable.getCoordinate().getCol() + 1) * Terrain.getSize()), 0, 0, 0, Assets.CONSTRUCTION.getScale());
         } else {
             entity = new Entity(asset, new Vector3f(buildable.getCoordinate().getRow() * Terrain.getSize(), 0, (buildable.getCoordinate().getCol() + 1) * Terrain.getSize()), 0, 0, 0, scale);
         }
@@ -367,13 +431,13 @@ public class Handler implements ICallBack {
 
     @Override
     public void updateBudgetPanel(Budget budget) {
-//        System.out.println("________Callback Inform Budget_________");
-//        System.out.println("Tax rate: " + budget.getTaxRate());
-//        System.out.println("Balance: " + budget.getBalance());
-//        System.out.println("Maintenance fee: " + budget.getTotalMaintenanceFee());
-//        System.out.println("Tax revenue: " + budget.getRevenue(gameModel));
-//        System.out.println("Total spend: " + budget.getSpend(gameModel));
-//        System.out.println("---------------------------------------");
+        /*System.out.println("________Callback Inform Budget_________");
+        System.out.println("Tax rate: " + budget.getTaxRate());
+        System.out.println("Balance: " + budget.getBalance());
+        System.out.println("Maintenance fee: " + budget.getTotalMaintenanceFee());
+        System.out.println("Tax revenue: " + budget.getRevenue(gameModel));
+        System.out.println("Total spend: " + budget.getSpend(gameModel));
+        System.out.println("---------------------------------------");*/
     }
 
     @Override
@@ -399,18 +463,18 @@ public class Handler implements ICallBack {
 
     @Override
     public void updateDatePanel(Date date) {
-//        System.out.println("________Callback Inform City Date_________");
-//        System.out.println("City Date: " + date);
-//        System.out.println("------------------------------------------");
+        /*System.out.println("________Callback Inform City Date_________");
+        System.out.println("City Date: " + date);
+        System.out.println("------------------------------------------");*/
     }
 
     @Override
     public void updateCityStatisticPanel(CityStatistics cityStatistics) {
         viewModel.update();
-//        System.out.println("________Callback Inform City Statistic_________");
-//        System.out.println("City population: " + cityStatistics.getPopulation(gameModel.getCityRegistry()));
-//        System.out.println("City satisfaction: " + cityStatistics.getCitySatisfaction());
-//        System.out.println("-----------------------------------------------");
+        /*System.out.println("________Callback Inform City Statistic_________");
+        System.out.println("City population: " + cityStatistics.getPopulation(gameModel.getCityRegistry()));
+        System.out.println("City satisfaction: " + cityStatistics.getCitySatisfaction());
+        System.out.println("-----------------------------------------------");*/
     }
 
     @Override
