@@ -8,8 +8,7 @@ import model.util.Date;
 import model.util.Level;
 import model.util.PathFinder;
 
-import static model.common.Constants.FREE_WORKPLACE_BASE_EFFECT;
-import static model.common.Constants.INDUSTRIAL_ZONE_BASE_EFFECT;
+import static model.common.Constants.*;
 
 public class IndustrialZone extends Zone implements SideEffect {
 
@@ -47,7 +46,7 @@ public class IndustrialZone extends Zone implements SideEffect {
 
     @Override
     public int getCapacity() {
-        return super.getCapacity() - 5;
+        return INDUSTRY_BASE_CAPACITY;
     }
 
     /**
