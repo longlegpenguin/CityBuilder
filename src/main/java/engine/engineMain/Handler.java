@@ -77,7 +77,7 @@ public class Handler implements ICallBack {
         this.loader = new Loader();
         this.assets = new AssetLoader();
         this.worldGrid = new WorldGrid(loader, new TextureAttribute(loader.loadTexture("zones/grass")));
-        this.selector = new Selector(0, 0, loader, new TextureAttribute(loader.loadTexture("selector")));
+        this.selector = new Selector(Terrain.getSize(), Terrain.getSize(),0, 0, loader, new TextureAttribute(loader.loadTexture("selector")));
 
         this.camera = new Camera(new Vector3f(0, 100, 0));
         this.light = new Light(new Vector3f(50, 1000, 50), new Vector3f(1, 1, 1));
@@ -151,8 +151,8 @@ public class Handler implements ICallBack {
             selector.setX(coordsX);
             selector.setZ(coordsY);
         } else {
-            selector.setX(-100);
-            selector.setZ(-100);
+            selector.setX(-1000);
+            selector.setZ(-1000);
         }
         if (paused == false) {
             if (viewModel.pause(controller, gameModel)) paused = true;
@@ -162,6 +162,7 @@ public class Handler implements ICallBack {
         if (Mouse.isLeftButtonClicked()) {
             for (UiButton button : viewModel.getButtons()) {
                 if (button.isClicked()) {
+                    selector = new Selector(Terrain.getSize(), Terrain.getSize(),0, 0, loader, new TextureAttribute(loader.loadTexture("selector")));
                     zoneState = false;
                     buttonPressed = true;
                     viewModel.deleteZoneSelector();
@@ -172,10 +173,19 @@ public class Handler implements ICallBack {
                         case DE_ZONE -> viewModel.getBottomMenuBar().deZoneButtonAction();
                         case ROAD -> viewModel.getBottomMenuBar().roadButtonAction();
                         case FOREST -> viewModel.getBottomMenuBar().forestButtonAction();
-                        case STADIUM -> viewModel.getBottomMenuBar().stadiumButtonAction();
+                        case STADIUM -> {
+                            viewModel.getBottomMenuBar().stadiumButtonAction();
+                            selector = new Selector(Terrain.getSize() * 2, Terrain.getSize() * 2,0, 0, loader, new TextureAttribute(loader.loadTexture("selector")));
+                        }
                         case POLICE -> viewModel.getBottomMenuBar().policeButtonAction();
-                        case SCHOOL -> viewModel.getBottomMenuBar().schoolButtonAction();
-                        case UNIVERSITY -> viewModel.getBottomMenuBar().universityButton();
+                        case SCHOOL -> {
+                            viewModel.getBottomMenuBar().schoolButtonAction();
+                            selector = new Selector(Terrain.getSize() * 2, Terrain.getSize(),0, 0, loader, new TextureAttribute(loader.loadTexture("selector")));
+                        }
+                        case UNIVERSITY -> {
+                            viewModel.getBottomMenuBar().universityButton();
+                            selector = new Selector(Terrain.getSize() * 2, Terrain.getSize() * 2,0, 0, loader, new TextureAttribute(loader.loadTexture("selector")));
+                        }
                         case MONEY -> {
                             viewModel.moneyDisplayManagement(controller, gameModel, moneyTab);
                             if (moneyTab) {
