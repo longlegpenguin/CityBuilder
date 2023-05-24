@@ -317,7 +317,7 @@ public class Handler implements ICallBack {
         Entity entity = null;
         ZoneTile zoneTile = new ZoneTile(buildable.getCoordinate().getRow(), buildable.getCoordinate().getCol(), loader, new TextureAttribute(loader.loadTexture(filename)));
         if (buildable.isUnderConstruction()) {
-            entity = new Entity(assets.getPolice(), new Vector3f(buildable.getCoordinate().getRow() * Terrain.getSize(), 0, (buildable.getCoordinate().getCol() + 1) * Terrain.getSize()), 0, 0, 0, 5);
+            entity = new Entity(assets.getConstruction(), new Vector3f(buildable.getCoordinate().getRow() * Terrain.getSize(), 0, (buildable.getCoordinate().getCol() + 1) * Terrain.getSize()), 0, 0, 0, Assets.CONSTRUCTION.getScale());
         } else {
             entity = new Entity(asset, new Vector3f(buildable.getCoordinate().getRow() * Terrain.getSize(), 0, (buildable.getCoordinate().getCol() + 1) * Terrain.getSize()), 0, 0, 0, scale);
         }

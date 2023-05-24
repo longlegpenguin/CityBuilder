@@ -22,7 +22,8 @@ public enum Assets {
     FOREST9("forest9", "assets/forest", 1f),
     FOREST10("forest10", "assets/forest", 1f),
     UNIVERSITY("university", "assets/university", 2f),
-    SCHOOL("school", "assets/school", 1f);
+    SCHOOL("school", "assets/school", 1f),
+    CONSTRUCTION("construction", "assets/construction", 1f);
 
     private String OBJFilename;
     private String TextureFileName;

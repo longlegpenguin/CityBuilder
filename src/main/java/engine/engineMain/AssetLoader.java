@@ -33,6 +33,7 @@ public class AssetLoader {
 
     private final TexturedModel university;
     private final TexturedModel school;
+    private final TexturedModel construction;
 
     /**
      * Constructor which initializes each Textured Model attribute by calling the loadAsset() method.
@@ -56,6 +57,7 @@ public class AssetLoader {
         this.forest10 = loadAsset(Assets.FOREST10.getOBJFilename(), Assets.FOREST10.getTextureFileName());
         this.university = loadAsset(Assets.UNIVERSITY.getOBJFilename(), Assets.UNIVERSITY.getTextureFileName());
         this.school = loadAsset(Assets.SCHOOL.getOBJFilename(), Assets.SCHOOL.getTextureFileName());
+        this.construction = loadAsset(Assets.CONSTRUCTION.getOBJFilename(), Assets.CONSTRUCTION.getTextureFileName());
     }
 
     /**
@@ -119,5 +121,9 @@ public class AssetLoader {
 
     public TexturedModel getSchool() {
         return school;
+    }
+
+    public TexturedModel getConstruction() {
+        return construction;
     }
 }
