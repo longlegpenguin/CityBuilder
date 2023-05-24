@@ -171,12 +171,11 @@ public class Handler implements ICallBack {
             selector.setX(-1000);
             selector.setZ(-1000);
         }
-        if (pausedByMenu == false) {
-            if (viewModel.pause(controller, gameModel)) {
-                    pausedByMenu = true;
-                    paused = pausedByMenu;
-                    controller.switchTimeModeRequest(TimeMode.PAUSE);
-            }
+        
+        if (viewModel.pause(controller, gameModel)) {
+                pausedByMenu = true;
+                paused = pausedByMenu;
+                controller.switchTimeModeRequest(TimeMode.PAUSE);
         }
 
         boolean buttonPressed = false;

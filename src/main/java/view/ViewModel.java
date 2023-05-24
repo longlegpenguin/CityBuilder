@@ -60,14 +60,21 @@ public class ViewModel {
         }
     }
     public boolean pause(Controller controller,GameModel gameModel){
-        if (Keyboard.isKeyDown(GLFW_KEY_ESCAPE)) {
-            this.pauseMenu = new PauseMenu(controller, gameModel);
-            this.tabs.addAll((this.pauseMenu.getTabs()));
-            this.buttons.addAll(this.pauseMenu.getButtons());
-
-        return true;
-        }else return false;
-
+        if (Keyboard.isClicked(GLFW_KEY_ESCAPE)) {
+            if (pauseMenuActive == false) {
+                this.pauseMenu = new PauseMenu(controller, gameModel);
+                this.tabs.addAll((this.pauseMenu.getTabs()));
+                this.buttons.addAll(this.pauseMenu.getButtons());
+                pauseMenuActive = true;
+            } else {
+                pauseMenuActive = false;
+                this.tabs.removeAll(this.pauseMenu.getTabs());
+                this.buttons.removeAll(this.pauseMenu.getButtons());
+            }
+            return true;
+        }else {
+            return false;
+        }
     }
     public boolean unpause()
     {
@@ -76,7 +83,7 @@ public class ViewModel {
         {
             this.tabs.removeAll(this.pauseMenu.getTabs());
             this.buttons.removeAll((this.pauseMenu.getButtons()));
-
+            pauseMenuActive = false;
             return true;
         }
         else return false;
