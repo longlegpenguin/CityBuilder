@@ -5,6 +5,7 @@ import model.common.*;
 import model.util.BuildableType;
 import model.util.Date;
 import model.util.PathFinder;
+import model.zone.IndustrialZone;
 import model.zone.Zone;
 
 import java.util.LinkedList;
@@ -63,21 +64,26 @@ public class Forest extends EffectualFacility {
      * @param gm   gme model
      * @return the list of bad zones
      */
-    public LinkedList<SideEffect> getBadEffectIndustrial(Zone zone, GameModel gm) {
-        LinkedList<SideEffect> iz = new LinkedList<>();
+    public LinkedList<IndustrialZone> getBadEffectIndustrial(Zone zone, GameModel gm) {
+        LinkedList<IndustrialZone> iz = new LinkedList<>();
         for (Buildable buildable :
                 gm.getZoneBuildable()) {
             if (buildable.getBuildableType() == BuildableType.INDUSTRIAL &&
                     isInBetween(zone.getCoordinate(), this.getCoordinate(), buildable.getCoordinate())) {
                 SideEffect z = (SideEffect) buildable;
                 if (z.condition(zone, gm)) {
-                    iz.add(z);
+                    iz.add((IndustrialZone) z);
                 }
             }
         }
         return iz;
     }
 
+    /**
+     * The appending effect along the growth of the forest.
+     * @param zone the zone be further effected
+     * @param gm game model
+     */
     public void grewEffect(Zone zone, GameModel gm) {
         if (condition(zone, gm)) {
             zone.updateForestEffect(zone.getStatistics().getSatisfaction().getForestEffect() - totalEffectCnt);
@@ -90,8 +96,8 @@ public class Forest extends EffectualFacility {
     public void effect(Zone zone, GameModel gm) {
         if (condition(zone, gm)) {
             zone.updateForestEffect(zone.getStatistics().getSatisfaction().getForestEffect() + totalEffectCnt);
-            for (SideEffect s : getBadEffectIndustrial(zone, gm)) {
-                s.reverseEffect(zone, gm);
+            for (IndustrialZone s : getBadEffectIndustrial(zone, gm)) {
+                s.reversePollute(zone, gm);
                 System.out.println("Bad effects removed by Forest...");
             }
         }
@@ -101,8 +107,8 @@ public class Forest extends EffectualFacility {
     public void reverseEffect(Zone zone, GameModel gm) {
         if (condition(zone, gm)) {
             zone.updateForestEffect(zone.getStatistics().getSatisfaction().getForestEffect() - totalEffectCnt);
-            for (SideEffect s : getBadEffectIndustrial(zone, gm)) {
-                s.effect(zone, gm);
+            for (IndustrialZone s : getBadEffectIndustrial(zone, gm)) {
+                s.pollute(zone, gm);
                 System.out.println("Bad effects back...");
                 System.out.println(s);
             }
