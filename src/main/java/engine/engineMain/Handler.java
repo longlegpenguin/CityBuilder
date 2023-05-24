@@ -99,7 +99,7 @@ public class Handler implements ICallBack {
 
         this.gameModel = new GameModel(worldGrid.getWorldSize(), worldGrid.getWorldSize());
         this.gameModel.initialize();
-//        gameModel = Database.read();
+        gameModel = Database.read();
         this.controller = new Controller(gameModel);
 
         TextMaster.init(loader);
