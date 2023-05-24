@@ -155,6 +155,7 @@ public class HumanManufacture {
      */
     public static void createYoungCitizen(GameModel gm) {
         Zone livingPlace = getLivingPlace(gm);
+        if (livingPlace == null) { return; }
         Zone workPlace = getWorkingPlace(gm, livingPlace);
         Citizen newCitizen = new Citizen(workPlace, livingPlace, getEducationLevel(gm, livingPlace));
         livingPlace.addCitizen(newCitizen, gm);
