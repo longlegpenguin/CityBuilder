@@ -2,6 +2,9 @@ package engine.tools;
 
 import org.lwjgl.glfw.GLFWKeyCallback;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.lwjgl.glfw.GLFW.GLFW_PRESS;
 import static org.lwjgl.glfw.GLFW.GLFW_RELEASE;
 
@@ -11,6 +14,8 @@ import static org.lwjgl.glfw.GLFW.GLFW_RELEASE;
  */
 public class Keyboard extends GLFWKeyCallback {
     private static boolean[] keys = new boolean[65536];
+    private static boolean[] keys2 = new boolean[65536];
+    private static List<Integer> pressed = new ArrayList<Integer>();
 
     @Override
     public void invoke(long window, int key, int scancode, int action, int mods) {
@@ -18,7 +23,7 @@ public class Keyboard extends GLFWKeyCallback {
             return;
         }
         keys[key] = action != GLFW_RELEASE;
-
+        keys2[key] = action == GLFW_RELEASE;
     }
 
     /**
@@ -30,6 +35,12 @@ public class Keyboard extends GLFWKeyCallback {
         return keys[keycode];
     }
 
-
+    public static boolean isClicked(int keycode) {
+        if (keys2[keycode]) {
+            keys2[keycode] =false;
+            return true;
+        }
+        return false;
+    }
 }
 

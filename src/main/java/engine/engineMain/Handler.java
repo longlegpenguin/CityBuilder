@@ -18,6 +18,7 @@ import engine.terrain.Selector;
 import engine.terrain.Terrain;
 import engine.terrain.ZoneTile;
 import engine.textures.TextureAttribute;
+import engine.tools.Keyboard;
 import engine.tools.Mouse;
 import engine.tools.MousePicker;
 import engine.world.WorldGrid;
@@ -33,10 +34,12 @@ import model.zone.Zone;
 import model.zone.ZoneStatistics;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
+import org.lwjgl.glfw.GLFW;
 import view.MoneyStatistic;
 import view.ViewModel;
 
 import java.util.List;
+import static org.lwjgl.glfw.GLFW.*;
 
 public class Handler implements ICallBack {
 
@@ -69,6 +72,7 @@ public class Handler implements ICallBack {
     private boolean moneyTab = false;
     private boolean isGameOver = false;
     private boolean exitGame = false;
+    private boolean HUD = true;
 
 
     public Handler(String saveFile) {
@@ -79,7 +83,7 @@ public class Handler implements ICallBack {
         this.worldGrid = new WorldGrid(loader, new TextureAttribute(loader.loadTexture("zones/grass")));
         this.selector = new Selector(Terrain.getSize(), Terrain.getSize(),0, 0, loader, new TextureAttribute(loader.loadTexture("selector")));
 
-        this.camera = new Camera(new Vector3f(0, 100, 0));
+        this.camera = new Camera(new Vector3f(Terrain.getSize() * worldGrid.getWorldSize() / 2, 40, Terrain.getSize() * worldGrid.getWorldSize() / 2 + 5));
         this.light = new Light(new Vector3f(50, 1000, 50), new Vector3f(1, 1, 1));
 
         this.guiRenderer = new GuiRenderer(loader);
@@ -216,7 +220,7 @@ public class Handler implements ICallBack {
                     }
                 }
             }
-                viewModel.taxIncDecButtons(moneyTab,gameModel);
+            viewModel.taxIncDecButtons(moneyTab,gameModel);
 
 
             if(paused)
@@ -232,20 +236,22 @@ public class Handler implements ICallBack {
             }
         }
 
-
-
+        if (Keyboard.isClicked(GLFW_KEY_F3)) {
+            if (HUD) {HUD = false;}
+            else {HUD = true;}
+        }
 
         Mouse.update();
         processAllAssets();
 
         masterRenderer.render(selector, camera, light);
-        guiRenderer.render(viewModel.getButtons(), viewModel.getTabs());
 
+        if (HUD) {
+            guiRenderer.render(viewModel.getButtons(), viewModel.getTabs());
+            TextMaster.render();
+        }
 
-        TextMaster.render();
         loader.clearTextVaos();
-
-
         if (paused == false) {
             timer += DisplayManager.getFrameTimeSeconds();
         }

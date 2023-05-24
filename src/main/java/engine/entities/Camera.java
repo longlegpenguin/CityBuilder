@@ -31,7 +31,7 @@ public class Camera extends Entity{
      */
     public Camera(Vector3f position) {
         super(position);
-        super.increaseRotation(0, 225, 0);
+        super.increaseRotation(0, -90, 0);
     }
 
     /**
