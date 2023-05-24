@@ -32,6 +32,7 @@ import model.zone.Zone;
 import model.zone.ZoneStatistics;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
+import persistence.Database;
 import view.MoneyStatistic;
 import view.ViewModel;
 
@@ -52,8 +53,8 @@ public class Handler implements ICallBack {
     private GameModel gameModel;
     private Controller controller;
     private ViewModel viewModel;
-    private MoneyStatistic money;
-    private GUIText text;
+
+
 
     private int counter = 0;
     private float baseTime = 3f;
@@ -213,6 +214,11 @@ public class Handler implements ICallBack {
                 if (viewModel.getPauseMenu() != null) {
                     paused = !(viewModel.unpause());
                     exitGame = viewModel.checkExitGame();
+                    if (viewModel.getPauseMenu().getSaveGameButton().isClicked())
+                    {
+                        Database.save(gameModel);
+                        
+                    }
                 }
             }
 
