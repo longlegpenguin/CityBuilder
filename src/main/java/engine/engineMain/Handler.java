@@ -69,6 +69,7 @@ public class Handler implements ICallBack {
     private boolean moneyTab = false;
     private boolean isGameOver = false;
     private boolean exitGame = false;
+    private Boolean pausedByMenu = false;
 
 
     public Handler(String saveFile) {
@@ -154,8 +155,12 @@ public class Handler implements ICallBack {
             selector.setX(-100);
             selector.setZ(-100);
         }
-        if (paused == false) {
-            if (viewModel.pause(controller, gameModel)) paused = true;
+        if (pausedByMenu == false) {
+            if (viewModel.pause(controller, gameModel)) {
+                    pausedByMenu = true;
+                    paused = pausedByMenu;
+                    controller.switchTimeModeRequest(TimeMode.PAUSE);
+            }
         }
 
         boolean buttonPressed = false;
@@ -209,16 +214,22 @@ public class Handler implements ICallBack {
                 viewModel.taxIncDecButtons(moneyTab,gameModel);
 
 
-            if(paused)
+            if(pausedByMenu)
             {
                 if (viewModel.getPauseMenu() != null) {
-                    paused = !(viewModel.unpause());
-                    exitGame = viewModel.checkExitGame();
                     if (viewModel.getPauseMenu().getSaveGameButton().isClicked())
                     {
                         Database.save(gameModel);
-                        
+
                     }
+                    exitGame = viewModel.checkExitGame();
+                    pausedByMenu = !(viewModel.unpause());
+                    paused = pausedByMenu;
+                    if (!paused)
+                        controller.switchTimeModeRequest(TimeMode.DAILY);
+
+
+
                 }
             }
 
