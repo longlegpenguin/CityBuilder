@@ -34,11 +34,8 @@ import model.zone.Zone;
 import model.zone.ZoneStatistics;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
-<<<<<<< HEAD
 import org.lwjgl.glfw.GLFW;
-=======
 import persistence.Database;
->>>>>>> 02785e55b86a4d540448c6406618c80f53344864
 import view.MoneyStatistic;
 import view.ViewModel;
 
