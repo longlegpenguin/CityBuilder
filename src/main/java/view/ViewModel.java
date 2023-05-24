@@ -2,13 +2,16 @@ package view;
 
 import controller.Controller;
 import engine.display.DisplayManager;
+import engine.guis.ButtonEnum;
 import engine.guis.UiButton;
 import engine.guis.UiTab;
+import engine.renderEngine.Loader;
 import engine.tools.Keyboard;
 import engine.tools.Mouse;
 import model.GameModel;
 import model.zone.Zone;
 import model.zone.ZoneStatistics;
+import org.joml.Vector2f;
 import org.lwjgl.glfw.GLFW;
 
 import java.util.ArrayList;
@@ -29,6 +32,8 @@ public class ViewModel {
     private boolean selectionMenuActive = false;
     private boolean moneyMenuActive = false;
     private boolean pauseMenuActive = false;
+    private UiButton exit;
+    private UiTab go;
 
     public ViewModel(Controller controller, GameModel gameModel) {
         this.controller = controller;
@@ -103,6 +108,21 @@ public class ViewModel {
 
             }
         }
+
+        public void gameOverScreen(Loader loader)
+        {
+            go = new UiTab(loader.loadTexture("Messages/GameOver"),new Vector2f(0,0),new Vector2f(1,1));
+            this.tabs.add(go);
+             exit = new UiButton(loader.loadTexture("button/ExitGame"),
+                    new Vector2f(0f,-0.5f),new Vector2f(0.25f,0.25f), ButtonEnum.EXIT_GAME);
+            this.buttons.add(exit);
+
+
+        }
+
+    public UiButton getExit() {
+        return exit;
+    }
 
     public void update() {
         statisticsMenu.clearText();
