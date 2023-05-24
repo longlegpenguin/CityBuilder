@@ -204,9 +204,8 @@ public class Handler implements ICallBack {
                     }
                 }
             }
-            if (moneyTab) {
                 viewModel.taxIncDecButtons(moneyTab,gameModel);
-            }
+
 
             if(paused)
             {
