@@ -1,0 +1,24 @@
+-classpath
+'C:/Users/I570050/.m2/repository/org/lwjgl/lwjgl/3.3.1/lwjgl-3.3.1.jar;C:/Users/I570050/.m2/repository/org/lwjgl/lwjgl-assimp/3.3.1/lwjgl-assimp-3.3.1.jar;C:/Users/I570050/.m2/repository/org/lwjgl/lwjgl-glfw/3.3.1/lwjgl-glfw-3.3.1.jar;C:/Users/I570050/.m2/repository/org/lwjgl/lwjgl-openal/3.3.1/lwjgl-openal-3.3.1.jar;C:/Users/I570050/.m2/repository/org/lwjgl/lwjgl-opengl/3.3.1/lwjgl-opengl-3.3.1.jar;C:/Users/I570050/.m2/repository/org/lwjgl/lwjgl-stb/3.3.1/lwjgl-stb-3.3.1.jar;C:/Users/I570050/.m2/repository/org/lwjgl/lwjgl/3.3.1/lwjgl-3.3.1-natives-windows.jar;C:/Users/I570050/.m2/repository/org/lwjgl/lwjgl-assimp/3.3.1/lwjgl-assimp-3.3.1-natives-windows.jar;C:/Users/I570050/.m2/repository/org/lwjgl/lwjgl-glfw/3.3.1/lwjgl-glfw-3.3.1-natives-windows.jar;C:/Users/I570050/.m2/repository/org/lwjgl/lwjgl-openal/3.3.1/lwjgl-openal-3.3.1-natives-windows.jar;C:/Users/I570050/.m2/repository/org/lwjgl/lwjgl-opengl/3.3.1/lwjgl-opengl-3.3.1-natives-windows.jar;C:/Users/I570050/.m2/repository/org/lwjgl/lwjgl-stb/3.3.1/lwjgl-stb-3.3.1-natives-windows.jar;C:/Users/I570050/.m2/repository/org/joml/joml/1.10.5/joml-1.10.5.jar'
+-encoding
+'UTF-8'
+-protected
+-source
+'17'
+-sourcepath
+'C:/Users/I570050/Desktop/private/Uni/ELTE5/ST/proj/utopia/src/main/java'
+-author
+-bottom
+'Copyright &#169; 2023. All rights reserved.'
+-charset
+'UTF-8'
+-d
+'C:/Users/I570050/Desktop/private/Uni/ELTE5/ST/proj/utopia/target/site/apidocs'
+-docencoding
+'UTF-8'
+-doctitle
+'Utopia 1.0-SNAPSHOT API'
+-use
+-version
+-windowtitle
+'Utopia 1.0-SNAPSHOT API'
