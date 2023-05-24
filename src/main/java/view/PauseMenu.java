@@ -30,26 +30,21 @@ public class PauseMenu extends Menu{
 
     @Override
     protected void loadComponents() {
-        tab = new UiTab(loader.loadTexture(tabTexture),new Vector2f(0f,0f),new Vector2f(0.5f,0.5f));
+        tab = new UiTab(loader.loadTexture(tabTexture),new Vector2f(0f,0f),new Vector2f(0.3f,0.5f));
         super.tabs.add(tab);
-        resumeButton = new UiButton(loader.loadTexture("Button"),
-                new Vector2f(0f,0.17f),new Vector2f(0.1f,0.05f), ButtonEnum.RESUME_GAME);
+        resumeButton = new UiButton(loader.loadTexture("button/resume"),
+                new Vector2f(0f,0.27f),new Vector2f(0.1f,0.1f), ButtonEnum.RESUME_GAME);
         super.buttons.add(resumeButton);
-        resume   = new GUIText("Resume Game",1,new Vector2f(0f,0.4f),1,true);
-        saveGameButton = new UiButton(loader.loadTexture("Button"),
-                new Vector2f(0f,-0.04f),new Vector2f(0.1f,0.05f), ButtonEnum.SAVE_GAME);
+
+        saveGameButton = new UiButton(loader.loadTexture("button/saveGame"),
+                new Vector2f(0f,0.03f),new Vector2f(0.1f,0.1f), ButtonEnum.SAVE_GAME);
         super.buttons.add(saveGameButton);
-        saveGame = new GUIText("Save Game",1,new Vector2f(0f,0.5f),1,true);
-        exitGameButton = new UiButton(loader.loadTexture("Button"),
-                new Vector2f(0f,-0.23f),new Vector2f(0.1f,0.05f), ButtonEnum.EXIT_GAME);
+
+        exitGameButton = new UiButton(loader.loadTexture("button/ExitGame"),
+                new Vector2f(0f,-0.23f),new Vector2f(0.1f,0.1f), ButtonEnum.EXIT_GAME);
         super.buttons.add(exitGameButton);
-        exitGame = new GUIText("Exit",1,new Vector2f(0f,0.6f),1,true);
-        TextMaster.loadText(resume);
-        TextMaster.loadText(saveGame);
-        TextMaster.loadText(exitGame);
-        super.texts.add(resume);
-        super.texts.add(saveGame);
-        super.texts.add(exitGame);
+
+
     }
 
 

@@ -70,7 +70,7 @@ public class ViewModel {
         {
             this.tabs.removeAll(this.pauseMenu.getTabs());
             this.buttons.removeAll((this.pauseMenu.getButtons()));
-            this.pauseMenu.clearText();
+
             return true;
         }else return false;
     }
