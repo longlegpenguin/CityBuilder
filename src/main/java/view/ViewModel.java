@@ -5,6 +5,7 @@ import engine.display.DisplayManager;
 import engine.guis.UiButton;
 import engine.guis.UiTab;
 import engine.tools.Keyboard;
+import engine.tools.Mouse;
 import model.GameModel;
 import model.zone.Zone;
 import model.zone.ZoneStatistics;
@@ -57,36 +58,48 @@ public class ViewModel {
         if (Keyboard.isKeyDown(GLFW_KEY_ESCAPE)) {
             this.pauseMenu = new PauseMenu(controller, gameModel);
             this.tabs.addAll((this.pauseMenu.getTabs()));
+            this.buttons.addAll(this.pauseMenu.getButtons());
+
         return true;
         }else return false;
 
     }
-    public boolean  unpause(){
-        if(!Keyboard.isKeyDown(GLFW_KEY_ESCAPE)){
-            this.tabs.removeAll((this.pauseMenu.getTabs()));
+    public boolean unpause()
+    {
+        if(this.pauseMenu.getResumeButton().isClicked())
+        {
+            this.tabs.removeAll(this.pauseMenu.getTabs());
+            this.buttons.removeAll((this.pauseMenu.getButtons()));
             this.pauseMenu.clearText();
-        return false;
-        }else return true;
+            return true;
+        }else return false;
     }
+
+    public boolean checkExitGame(){
+        return this.pauseMenu.getExitGameButton().isClicked();
+    }
+
     public void taxIncDecButtons(boolean moneyTab,GameModel gameModel)
     {
-        if (moneyTab) {
+            if (moneyTab){
             this.buttons.addAll(moneyStatistic.getButtons());
+            this.moneyMenuActive = true;
             if (moneyStatistic.getIncreaseTax().isClicked())
             {
                 gameModel.getCityStatistics().getBudget().setTaxRate(gameModel.getCityStatistics().getBudget().getTaxRate()+0.1);
-                moneyStatistic.clearText();
-                moneyStatistic.updateText();
+
             }
             if (moneyStatistic.getDecreaseTax().isClicked()){
                 gameModel.getCityStatistics().getBudget().setTaxRate(gameModel.getCityStatistics().getBudget().getTaxRate()-0.1);
-                moneyStatistic.clearText();
-                moneyStatistic.updateText();
+
+
+        }
+            }
+        else if (moneyStatistic != null) {
+            this.buttons.removeAll(moneyStatistic.getButtons());
+
             }
         }
-        else
-            this.buttons.removeAll(moneyStatistic.getButtons());
-    }
 
     public void update() {
         statisticsMenu.clearText();
