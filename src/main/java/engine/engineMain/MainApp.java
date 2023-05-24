@@ -9,14 +9,13 @@ public class MainApp {
     public static void main(String[] args) {
         DisplayManager.createDisplay();
         Handler handler = new Handler("Savefile");
-
+        Boolean ended;
         while(!glfwWindowShouldClose(DisplayManager.window)) {
 
-            handler.render();
+            ended = handler.render();
             DisplayManager.updateDisplay();
 
-
-
+            if (ended == true) break;
         }
 
 

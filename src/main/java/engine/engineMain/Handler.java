@@ -125,7 +125,7 @@ public class Handler implements ICallBack {
      * Everything that needs to be updated in the game is called from this function in some form or another.
      * Controller updates, Text, GUI and asset rendering is done here as well as input handeling.
      */
-    public void render() {
+    public boolean render() {
         if (DisplayManager.isRESIZED()) {
             DisplayManager.resize();
             masterRenderer = new MasterRenderer();
@@ -150,6 +150,8 @@ public class Handler implements ICallBack {
 
         if (timer >= baseTime / timeMultiplier) {
             controller.regularUpdateRequest(1, this);
+
+
             setWorldGrid();
             viewModel.update();
             timer -= baseTime / timeMultiplier;
@@ -247,6 +249,9 @@ public class Handler implements ICallBack {
 
                     }
                     exitGame = viewModel.checkExitGame();
+                    if (exitGame == true)
+                        return true;
+
                     pausedByMenu = !(viewModel.unpause());
                     paused = pausedByMenu;
                     if (!paused)
@@ -267,6 +272,20 @@ public class Handler implements ICallBack {
             else {HUD = true;}
         }
 
+        if (isGameOver && viewModel.getExit() == null)
+        {
+            viewModel.gameOverScreen(loader);
+            controller.switchTimeModeRequest(TimeMode.PAUSE);
+
+        }
+        if (viewModel.getExit() !=null )
+        {
+            if(viewModel.getExit().isClicked() && Mouse.isLeftButtonPressed())
+            {
+                return true;
+            }
+        }
+
         Mouse.update();
         processAllAssets();
 
@@ -282,6 +301,9 @@ public class Handler implements ICallBack {
             timer += DisplayManager.getFrameTimeSeconds();
         }
         timer2 += DisplayManager.getFrameTimeSeconds();
+
+
+        return false;
     }
 
     /**
