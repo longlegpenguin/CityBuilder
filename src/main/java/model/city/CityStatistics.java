@@ -45,6 +45,8 @@ public class CityStatistics implements java.io.Serializable {
     public double getCitySatisfaction() {
         if (citySatisfaction > 100) {
             return 100;
+        } else if (citySatisfaction < 0) {
+            return 0;
         }
         return citySatisfaction < 0 ? 0 : citySatisfaction;
     }
