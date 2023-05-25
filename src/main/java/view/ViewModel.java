@@ -93,6 +93,7 @@ public class ViewModel {
     public boolean checkExitGame(){
         return this.pauseMenu.getExitGameButton().isClicked();
     }
+    public boolean checkNewGame(){return  this.pauseMenu.getNewGame().isClicked();}
 
     public void taxIncDecButtons(boolean moneyTab,GameModel gameModel)
     {
