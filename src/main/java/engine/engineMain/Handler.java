@@ -97,9 +97,12 @@ public class Handler implements ICallBack {
         this.masterRenderer = new MasterRenderer();
         this.mousePicker = new MousePicker(camera, masterRenderer.getProjectionMatrix(), worldGrid);
 
-        this.gameModel = new GameModel(worldGrid.getWorldSize(), worldGrid.getWorldSize());
-        this.gameModel.initialize();
-        //gameModel = Database.read();
+
+        if ((gameModel = Database.read()) == null) {
+            this.gameModel = new GameModel(worldGrid.getWorldSize(), worldGrid.getWorldSize());
+            this.gameModel.initialize();
+        }
+
         this.controller = new Controller(gameModel);
 
         TextMaster.init(loader);
@@ -250,6 +253,14 @@ public class Handler implements ICallBack {
                     exitGame = viewModel.checkExitGame();
                     if (exitGame == true)
                         return true;
+
+                    if (viewModel.checkNewGame())
+                    {
+                        this.gameModel = new GameModel(worldGrid.getWorldSize(), worldGrid.getWorldSize());
+                        this.gameModel.initialize();
+                        this.controller = new Controller(gameModel);
+                        setWorldGrid();
+                    }
 
                     pausedByMenu = !(viewModel.unpause());
                     paused = pausedByMenu;

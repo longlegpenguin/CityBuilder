@@ -20,6 +20,7 @@ public class PauseMenu extends Menu{
     private UiButton resumeButton;
     private UiButton saveGameButton;
     private UiButton exitGameButton;
+    private UiButton newGame;
     private String tabTexture = "Test";
 
     public PauseMenu(Controller controller, GameModel gameModel) {
@@ -43,6 +44,9 @@ public class PauseMenu extends Menu{
         exitGameButton = new UiButton(loader.loadTexture("button/ExitGame"),
                 new Vector2f(0f,-0.23f),new Vector2f(0.1f,0.1f), ButtonEnum.EXIT_GAME);
         super.buttons.add(exitGameButton);
+        newGame = new UiButton(loader.loadTexture("button/NewGame"),
+                new Vector2f(0f,-0.4f),new Vector2f(0.1f,0.1f), ButtonEnum.EXIT_GAME);
+        super.buttons.add(newGame);
 
 
     }
@@ -54,7 +58,7 @@ public class PauseMenu extends Menu{
     }
 
 
-
+    public UiButton getNewGame(){return newGame;}
     public UiButton getResumeButton() {
         return resumeButton;
     }
