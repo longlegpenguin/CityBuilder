@@ -24,7 +24,7 @@ to play the game in 3 different speeds, as well as to pause it.
 ___
 
 ## In Game Images
-
+![alt text](src/main/resources/textures/background.png "Full City - No HUD")
 ___
 ## Support
 For more details, check out the [Wiki page](https://szofttech.inf.elte.hu/software-technology-2023/group-1/utopia/-/wikis/Utopia). 
