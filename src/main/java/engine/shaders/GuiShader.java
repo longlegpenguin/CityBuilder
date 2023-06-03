@@ -6,8 +6,8 @@ import org.joml.Matrix4f;
  * Extends the ShaderProgram and is responsible for handling the shaders for all 2D UI components.
  */
 public class GuiShader extends ShaderProgram {
-    private static final String VERTEX_FILE ="src/main/java/engine/shaders/guiVertexShader.glsl";
-    private static final String FRAGMENT_FILE="src/main/java/engine/shaders/guiFragmentShader.glsl";
+    private static final String VERTEX_FILE = "/shader/guiVertexShader.glsl";
+    private static final String FRAGMENT_FILE= "/shader/guiFragmentShader.glsl";
 
     private int location_transformationMatrix;
 

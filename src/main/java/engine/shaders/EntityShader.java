@@ -11,8 +11,8 @@ import org.joml.Vector3f;
  */
 public class EntityShader extends ShaderProgram{
 
-    private static final String VERTEX_FILE = "src/main/java/engine/shaders/EntityVertexShader.glsl";
-    private static final String FRAGMENT_FILE = "src/main/java/engine/shaders/EntityFragmentShader.glsl";
+    private static final String VERTEX_FILE = "/shader/EntityVertexShader.glsl";
+    private static final String FRAGMENT_FILE = "/shader/EntityFragmentShader.glsl";
 
     private int location_transformationMatrix;
     private int location_projectionMatrix;

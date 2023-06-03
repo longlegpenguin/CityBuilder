@@ -78,7 +78,7 @@ public class Loader {
      * @return ID of the loaded texture
      */
     public int loadTexture(String fileName) {
-        Texture texture = Texture.loadTexture("src/main/resources/textures/" + fileName + ".png");
+        Texture texture = Texture.loadTexture("/textures/" + fileName + ".png");
 
         int textureID = texture.getTextureID();
         textures.add(textureID);
@@ -91,7 +91,7 @@ public class Loader {
      * @return
      */
     public int loadFontTexture(String fileName) {
-        Texture texture = Texture.loadTexture("src/main/resources/textures/" + fileName + ".png");
+        Texture texture = Texture.loadTexture("/textures/" + fileName + ".png");
         GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL14.GL_TEXTURE_LOD_BIAS,0);
         int textureID = texture.getTextureID();
         textures.add(textureID);

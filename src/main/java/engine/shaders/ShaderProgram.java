@@ -7,9 +7,7 @@ import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL20;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.nio.FloatBuffer;
 
 /**
@@ -50,16 +48,22 @@ public abstract class ShaderProgram {
      */
     private static int loadShader(String file, int type) {
         StringBuilder shaderSource = new StringBuilder();
+        InputStream is = ShaderProgram.class.getResourceAsStream(file);
+        BufferedReader reader = null;
+        if (is != null) {
+            reader = new BufferedReader(new InputStreamReader(is));
+        } else {
+            System.out.println(file + "Baddddddddddddd");
+        }
 
         try {
-            BufferedReader reader = new BufferedReader(new FileReader(file));
             String line;
             while ((line = reader.readLine()) != null) {
                 shaderSource.append(line).append("\n");
             }
             reader.close();
-        } catch (IOException e) {
-            System.err.println("Could not read file!");
+        } catch (Exception e) {
+            System.err.println("Could not read file!" + file);
             e.printStackTrace();
             System.exit(-1);
         }

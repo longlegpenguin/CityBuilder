@@ -11,8 +11,8 @@ import org.joml.Vector3f;
  */
 public class TerrainShader extends ShaderProgram {
 
-    private static final String VERTEX_FILE = "src/main/java/engine/shaders/terrainVertexShader.glsl";
-    private static final String FRAGMENT_FILE = "src/main/java/engine/shaders/terrainFragmentShader.glsl";
+    private static final String VERTEX_FILE = "/shader/TerrainVertexShader.glsl";
+    private static final String FRAGMENT_FILE = "/shader/TerrainFragmentShader.glsl";
 
     private int location_transformationMatrix;
     private int location_projectionMatrix;

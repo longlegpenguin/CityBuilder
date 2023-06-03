@@ -25,7 +25,7 @@ public class GUIText {
 	private float lineMaxSize;
 	private int numberOfLines;
 
-	private FontType font = new FontType(loader.loadFontTexture("tahoma"),new File("src/main/resources/textures/tahoma.fnt"));
+	private FontType font = new FontType(loader.loadFontTexture("tahoma"),"/textures/tahoma.fnt");
 
 	private boolean centerText = false;
 

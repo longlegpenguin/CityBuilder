@@ -158,7 +158,9 @@
             <directory>src/main/resources</directory>
             <includes>
                 <include>**/*.obj</include>
+                <include>**/*.glsl</include>
                 <include>**/*.png</include>
+                <include>**/*.fnt</include>
             </includes>
         </resource>
         </resources>

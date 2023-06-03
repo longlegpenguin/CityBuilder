@@ -9,8 +9,8 @@ import org.joml.Matrix4f;
  */
 public class SelectorShader extends ShaderProgram {
 
-    private static final String VERTEX_FILE = "src/main/java/engine/shaders/SelectorVertexShader.glsl";
-    private static final String FRAGMENT_FILE = "src/main/java/engine/shaders/SelectorFragmentShader.glsl";
+    private static final String VERTEX_FILE = "/shader/SelectorVertexShader.glsl";
+    private static final String FRAGMENT_FILE = "/shader/SelectorFragmentShader.glsl";
 
     private int location_transformationMatrix;
     private int location_projectionMatrix;

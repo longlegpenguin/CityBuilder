@@ -25,7 +25,6 @@ public class OBJFileLoader {
      */
     public static ModelData loadOBJ(String objFileName) {
 
-//        InputStream is = OBJFileLoader.class.getResourceAsStream(RES_LOC + objFileName + ".obj");
         InputStream is = Vertex.class.getResourceAsStream(RES_LOC + objFileName + ".obj");
         BufferedReader reader;
         reader = new BufferedReader(new InputStreamReader(is));

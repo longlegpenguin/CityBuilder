@@ -1,13 +1,11 @@
 package engine.fontMeshCreator;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
 
 import engine.display.DisplayManager;
+import engine.shaders.ShaderProgram;
 
 
 /**
@@ -45,7 +43,7 @@ public class MetaFile {
 	 * @param file
 	 *            - the font file.
 	 */
-	protected MetaFile(File file) {
+	protected MetaFile(String file) {
 		this.aspectRatio = (double) DisplayManager.getWindowWidth() / (double) DisplayManager.getWindowHeight();
 		openFile(file);
 		loadPaddingData();
@@ -131,9 +129,14 @@ public class MetaFile {
 	 * @param file
 	 *            - the font file.
 	 */
-	private void openFile(File file) {
+	private void openFile(String file) {
 		try {
-			reader = new BufferedReader(new FileReader(file));
+			InputStream is = ShaderProgram.class.getResourceAsStream(file);
+			if (is != null) {
+				reader = new BufferedReader(new InputStreamReader(is));
+			} else {
+				System.out.println(file + "fails");
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.err.println("Couldn't read font meta file!");

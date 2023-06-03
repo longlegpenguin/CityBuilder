@@ -13,8 +13,8 @@ public class FontShader extends ShaderProgram {
 	/**
 	 * files of the vertex and the fragment (glsl files)
 	 */
-	private static final String VERTEX_FILE = "src/main/java/engine/fontRendering/fontVertex.glsl";
-	private static final String FRAGMENT_FILE = "src/main/java/engine/fontRendering/fontFragment.glsl";
+	private static final String VERTEX_FILE = "/fontRendering/fontVertex.glsl";
+	private static final String FRAGMENT_FILE = "/fontRendering/fontFragment.glsl";
 
 	private int location_colour;
 	private int location_translation;

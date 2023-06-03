@@ -1,10 +1,25 @@
 package engine.textures;
 
+import java.awt.image.*;
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.nio.ByteBuffer;
 import java.nio.IntBuffer;
+import java.nio.ShortBuffer;
+import java.nio.file.FileSystemNotFoundException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.spi.FileSystemProvider;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.lwjgl.stb.STBImage;
 import org.lwjgl.system.MemoryStack;
+
+import javax.imageio.ImageIO;
 
 import static org.lwjgl.opengl.GL11.*;
 
@@ -72,13 +87,36 @@ public class Texture {
             IntBuffer w = stack.mallocInt(1);
             IntBuffer h = stack.mallocInt(1);
 
+            URL resource = Texture.class.getResource(path);
+            URI uri  = resource.toURI();
+            if("jar".equals(uri.getScheme())){
+                for (FileSystemProvider provider: FileSystemProvider.installedProviders()) {
+                    if (provider.getScheme().equalsIgnoreCase("jar")) {
+                        try {
+                            provider.getFileSystem(uri);
+                        } catch (FileSystemNotFoundException e) {
+                            // in this case we need to initialize it first:
+                            provider.newFileSystem(uri, Collections.emptyMap());
+                        }
+                    }
+                }
+            }
+            Path source = Paths.get(uri);
+            path = source.toString();
+            if (path.startsWith("/")) {
+                path = path.substring(1);
+                path = "./classes/" + path;
+            }
             image = STBImage.stbi_load(path, w, h, comp, STBImage.STBI_rgb_alpha );
             if (image == null) {
                 System.err.println("Couldn't load " + path);
             }
             width = w.get();
             heigh = h.get();
+        } catch (URISyntaxException | IOException e) {
+            throw new RuntimeException(e);
         }
+
         return new Texture(width, heigh, image);
     }
 }
