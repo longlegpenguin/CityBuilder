@@ -4,15 +4,18 @@ import org.joml.Vector2f;
 import org.joml.Vector3f;
 
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * The OBJFileLoader class is responsible for reading in the .obj file for an asset and converting the data in the file
  * to usable arrays of vertices, indices, normals and texture coordinates.
  */
 public class OBJFileLoader {
-    private static final String RES_LOC = "src/main/resources/objects/";
+//    private static final String RES_LOC = "src/main/resources/objects/";
+    private static final String RES_LOC = "/objects/";
 
     /**
      * This method takes in the filename of the asset and reads through every line of the file.
@@ -21,14 +24,12 @@ public class OBJFileLoader {
      * @return ModelData object containing all necessary data in arrays.
      */
     public static ModelData loadOBJ(String objFileName) {
-        FileReader isr = null;
-        File objFile = new File(RES_LOC + objFileName + ".obj");
-        try {
-            isr = new FileReader(objFile);
-        } catch (FileNotFoundException e) {
-            System.err.println("File not found in res; don't use any extension");
-        }
-        BufferedReader reader = new BufferedReader(isr);
+
+//        InputStream is = OBJFileLoader.class.getResourceAsStream(RES_LOC + objFileName + ".obj");
+        InputStream is = Vertex.class.getResourceAsStream(RES_LOC + objFileName + ".obj");
+        BufferedReader reader;
+        reader = new BufferedReader(new InputStreamReader(is));
+
         String line;
         List<Vertex> vertices = new ArrayList<Vertex>();
         List<Vector2f> textures = new ArrayList<Vector2f>();
